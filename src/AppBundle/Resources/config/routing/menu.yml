@@ -1,0 +1,12 @@
+menu_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Menu:index" }
+    methods:  GET
+
+menu_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Menu:show" }
+    methods:  GET
+
+
+

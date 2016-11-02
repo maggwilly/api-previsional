@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plat</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ plat.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ plat.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ plat.prix }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ plat.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_plat_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_plat_edit', { 'id': plat.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
