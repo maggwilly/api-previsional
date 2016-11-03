@@ -12,7 +12,7 @@
         "symfony/symfony": "2.8.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
-        "doctrine/doctrine-fixtures-bundle":"~",
+        "doctrine/doctrine-fixtures-bundle":".*",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~5.0",
