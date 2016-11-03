@@ -39,24 +39,24 @@ class PlatController extends Controller
     {
         $plat = new Plat();
        $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="POST" ) {
-         $data = $request->query->all();  
+       $content = $request->getContent();
+        if (!empty($content)){
+         $data = json_decode($content, true); 
          $em = $this->getDoctrine()->getManager();                  
           $plat= $normalizer->denormalize($data, 'AppBundle\Entity\Plat');
           $dateObject = new \DateTime();
-          $date = $dateObject->format('d-m-Y');          
+          $date = $dateObject->format('Y-m-d');          
            $menu= $em->getRepository('AppBundle:Menu')->findTodayMenu();
           if (is_null($menu)) {
             $menu= new Menu();
-            $menu->addPlat( $plat)->setDateSave(\DateTime::createFromFormat('d-m-Y',$date));
-            $em->persist($menu);
+            $menu->setDateSave(\DateTime::createFromFormat('Y-m-d',$date));
            }
-          $plat->setMenu($menu->setDateSave(\DateTime::createFromFormat('d-m-Y',$date)));
-          $em->persist($plat);
-          $em->flush($plat);
+            $menu->addPlat( $plat);  
+          $em->persist($menu);
+          $em->flush($menu);
            $response = new JsonResponse(['success' => true], 200);
            $response->headers->set('Content-Type', 'application/json');
-        return $response;         
+         return $response;         
         }
    
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
@@ -82,18 +82,15 @@ class PlatController extends Controller
         //));
     }
 
-    /**
-     * Displays a form to edit an existing plat entity.
-     *
-     */
      /**
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Plat $plat)
     {
-          $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="PUT" ) {
-         $data = $request->query->all(); 
+        $normalizer = new ObjectNormalizer();       
+         $content = $request->getContent();
+        if (!empty($content)){
+         $data = json_decode($content, true); 
          $file = $this->getRequest()->files->get('image');                   
          $plat= $normalizer->denormalize($data, 'AppBundle\Entity\Plat');
          $image= $plat->getImage();

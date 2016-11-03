@@ -9,4 +9,9 @@ menu_show:
     methods:  GET
 
 
+menu_show:
+    path:     /{id}/remettre
+    defaults: { _controller: "AppBundle:Menu:remettre" }
+    methods:  GET
+
 

@@ -9,19 +9,19 @@ commande_show:
     methods:  GET
 
 commande_new:
-    path:     /new/
+    path:     /new
     defaults: { _controller: "AppBundle:Commande:new" }
-    methods:  [GET, POST]
+    methods:  [GET,POST]
 
 commande_new_super:
     path:     /new/super/{plat}/{user}
     defaults: { _controller: "AppBundle:Commande:newSuper"}
-    methods:  [GET, POST]
+    methods:  [ POST]
 
 commande_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Commande:edit" }
-    methods:  [GET, POST]
+    methods:  [POST,PUT]
 
 commande_delete:
     path:     /{id}/delete

@@ -16,10 +16,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class ClientController extends Controller
 {
-    /**
-     * Lists all client entities.
-     *
-     */
+
     /**
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -29,21 +26,21 @@ class ClientController extends Controller
         $clients = $em->getRepository('AppBundle:Client')->findUsers();
         $response = new JsonResponse($clients, 200);
         $response->headers->set('Content-Type', 'application/json');
-        return $response;
-        
-       
+        return $response;     
     }
 
     /**
      * Creates a new client entity.
      *
      */
+
     public function newAction(Request $request)
     {
         $client = new Client();     
         $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="POST" ) {
-        $data = $request->query->all();                    
+        $content = $request->getContent();
+        if (!empty($content)){
+         $data = json_decode($content, true);               
          $client= $normalizer->denormalize($data, 'AppBundle\Entity\Client');
          $em = $this->getDoctrine()->getManager();
 
@@ -54,8 +51,7 @@ class ClientController extends Controller
            $response->headers->set('Content-Type', 'application/json');
         return $response;         
         }
-
-        $response = new JsonResponse(array('action' => 'goToNewPage','client'=>$client ), 200);
+        $response = new JsonResponse(array('action' => 'goToNewPage','client'=>$content ), 200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -68,8 +64,9 @@ class ClientController extends Controller
     {
         $client = new Client();     
         $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="POST" ) {
-        $data = $request->query->all();                    
+       $content = $request->getContent();
+        if (!empty($content)){
+          $data = json_decode($content, true);                    
           $client= $normalizer->denormalize($data, 'AppBundle\Entity\Client');
            $client->setEnabled(true)->setRoles(array("ROLE_RESTAURATEUR"));
            $em = $this->getDoctrine()->getManager();
@@ -96,17 +93,14 @@ class ClientController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing client entity.
-     *
-     */
-    /**
      * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, Client $client)
     {   
         $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="POST" ) {
-         $data = $request->query->all();
+       $content = $request->getContent();
+        if (!empty($content)){
+         $data = json_decode($content, true); 
          $file = $this->getRequest()->files->get('image');                    
          $client= $normalizer->denormalize($data, 'AppBundle\Entity\Client');
           $image= $client->getImage();
@@ -130,15 +124,16 @@ class ClientController extends Controller
     public function changePasswordAction(Request $request, Client $client)
     {   
         $normalizer = new ObjectNormalizer();       
-      if ( $request->getMethod()=="POST" ) {
-         $data = $request->query->all();           
+        $content = $request->getContent();
+        if (!empty($content)){
+         $data = json_decode($content, true);     
          $client= $normalizer->denormalize($data, 'AppBundle\Entity\Client');
          $client->setNom("Serveur")->setPsasseword("restomobile");
           $em = $this->getDoctrine()->getManager();
           $em->persist($client);
           $em->flush($client);
-           $response = new JsonResponse(['success' => true, array('id' => $client->getId())], 200);
-           $response->headers->set('Content-Type', 'application/json');
+          $response = new JsonResponse(['success' => true, array('id' => $client->getId())], 200);
+          $response->headers->set('Content-Type', 'application/json');
           return $response;         
         }    
         $response = new JsonResponse(array('action' => 'goToChangePassewordPage','client' => $client), 200);

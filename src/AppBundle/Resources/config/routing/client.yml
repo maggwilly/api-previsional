@@ -16,12 +16,12 @@ client_new:
 client_new_super:
     path:     /new/super
     defaults: { _controller: "AppBundle:Client:newSuper" }
-    methods:  [GET, POST]
+    methods:  [ POST]
 
 client_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Client:edit" }
-    methods:  [GET, POST,PUT]
+    methods:  [POST,PUT]
 
 client_changePasswordAction:
     path:     /{id}/change/passeword

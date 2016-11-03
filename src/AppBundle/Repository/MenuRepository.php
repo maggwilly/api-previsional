@@ -28,11 +28,12 @@ class MenuRepository extends EntityRepository
 
 public function findTodayMenu()
   {
-    $dateObject = new \DateTime();
-  	$date = $dateObject->format('d-m-Y');
+    $dateObject = new \DateTime('now');
+    $dateObject->setTime(0, 0, 0); // Modify to 2013-06-10 00:00:00, beginning of the day   
+    $yesteDay=$dateObject->modify('-1 day'); // Have 2013-06-11 00:00:00   
   $qb = $this->createQueryBuilder('m')
-  ->where('m.dateSave >= :toDay')
-       ->setParameter('toDay', \DateTime::createFromFormat('d-m-Y',$date)); 
+  ->where('m.dateSave > :yesteDay')
+       ->setParameter('yesteDay',$yesteDay); 
      $qb->orderBy('m.dateSave', 'DESC');
   return $qb
      ->getQuery()

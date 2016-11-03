@@ -47,4 +47,34 @@ class MenuController extends Controller
          $response->headers->set('Content-Type', 'application/json');
         return $response;  
     }
+
+  
+      /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function remettreAction(Menu $menu)
+    {
+       $em = $this->getDoctrine()->getManager();
+       $dateObject = new \DateTime();
+       $date = $dateObject->format('Y-m-d');  
+       $newMenu= new Menu();
+      $newMenu ->setDateSave(\DateTime::createFromFormat('Y-m-d',$date));
+       try{  
+        foreach ($menu->getPlats() as $plat) {
+               $copy = clone $plat;
+               $newMenu->addPlat( $copy);
+         }        
+         $em->persist($newMenu);
+         $em->flush($newMenu);
+         $plats = $em->getRepository('AppBundle:Plat')->findAllPlats($newMenu);
+         $response = new JsonResponse(array('menu' => $newMenu ,'menus'=>$plats), 200);
+         $response->headers->set('Content-Type', 'application/json');
+          return $response;  
+         } catch(Exception $e){
+            $response = new JsonResponse(['success' => false], 500);
+            $response->headers->set('Content-Type', 'application/json');
+        return $response;     
+      }  
+       
+    }
 }

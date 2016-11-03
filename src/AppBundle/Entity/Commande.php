@@ -23,13 +23,13 @@ class Commande
 
    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client",inversedBy="commandes")
-   * @ORM\JoinColumn(nullable=false)
+   * @ORM\JoinColumn(nullable=true)
    */
     private $client;
 
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client",inversedBy="commandePrises")
-   * @ORM\JoinColumn(nullable=false)
+   * @ORM\JoinColumn(nullable=true)
    */
     private $user;
 	
@@ -39,6 +39,8 @@ class Commande
    */
   
     private $plat;
+
+    private $platId;
     /**
      * @var \DateTime
      *
@@ -86,7 +88,7 @@ class Commande
       /**
      * @var string
      *
-     * @ORM\Column(name="place", type="string", length=255)
+     * @ORM\Column(name="place", type="string", length=255,nullable=true)
      */
     private $place;
 
@@ -197,6 +199,19 @@ class Commande
     public function getPlat()
     {
         return $this->plat;
+    }
+
+  
+    public function setPlatId($plat)
+    {
+        $this->platId = $plat;
+
+        return $this;
+    }
+
+    public function getPlatId()
+    {
+        return $this->platId;
     }
 
     /**

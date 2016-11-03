@@ -168,9 +168,13 @@ class Plat
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($estSpecial=true,$estPret=true,$estFini=false)
+
     {
         $this->commandes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->estSpecial=$estSpecial;
+        $this->estPret=$estPret;
+        $this->estFini=$estFini;
     }
 
     /**
@@ -332,6 +336,7 @@ class Plat
     public function setMenu(\AppBundle\Entity\Menu $menu)
     {
         $this->menu = $menu;
+        $this->dateSave = $menu->getDateSave();
 
         return $this;
     }

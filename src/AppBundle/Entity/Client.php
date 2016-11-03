@@ -1,16 +1,16 @@
 <?php
 
 namespace AppBundle\Entity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+
 
 /**
- * Client
- *
- * @ORM\Table(name="client")
+ * /**
+ * @ORM\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
  */
-class Client implements AdvancedUserInterface
+class Client extends BaseUser
 {
     /**
      * @var int
@@ -19,7 +19,7 @@ class Client implements AdvancedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 	
    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="client")
@@ -41,16 +41,11 @@ class Client implements AdvancedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255,nullable=true)
      */
     private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="telephone", type="string", length=255, nullable=false, unique=true)
-     */
-    private $username;
+
 
     /**
      * @var string
@@ -59,19 +54,7 @@ class Client implements AdvancedUserInterface
      */
     private $adresse;
 
-  /**
 
-   * @ORM\Column(name="roles", type="array")
-
-   */
-
-    private $roles = array();
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
 
     /**
      * @var string
@@ -90,36 +73,11 @@ class Client implements AdvancedUserInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="piment", type="boolean",nullable=true)
+     * @ORM\Column(name="piment", type="boolean",nullable=true,nullable=true)
      */
     private $piment;
 	
-	 /**
-     * @var bool
-     *
-     * @ORM\Column(name="enabled", type="boolean",nullable=true)
-     */
-    private $enabled;
-
- /**
-     * @var bool
-     *
-     * @ORM\Column(name="accountNonExpired", type="boolean",nullable=true)
-     */
-    private $accountNonExpired;
-     /**
-     * @var bool
-     *
-     * @ORM\Column(name="credentialsNonExpired", type="boolean",nullable=true)
-     */
-    private $credentialsNonExpired;
-     /**
-     * @var bool
-     *
-     * @ORM\Column(name="accountNonLocked", type="boolean",nullable=true)
-     */
-    private $accountNonLocked;
-
+	
     /**
      * @var string
      *
@@ -131,9 +89,131 @@ class Client implements AdvancedUserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateSave", type="date")
+     * @ORM\Column(name="dateSave", type="date",nullable=true)
      */
     private $dateSave;
+
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255)
+     */
+    protected $username;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="usernameCanonical", type="string", length=180, unique=true, nullable=false)
+     */
+    protected $usernameCanonical;
+
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=180)
+     */
+    protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="emailCanonical", type="string", length=180, unique=true)
+     */
+    protected $emailCanonical;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="enabled", type="boolean",nullable=true)
+     */
+    protected $enabled;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string")
+     */
+    protected $salt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string")
+     */
+    protected $password;
+
+    /**
+     * Plain password. Used for model validation. Must not be persisted.
+     *
+     * @var string
+     */
+    protected $plainPassword;
+
+   /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastLogin", type="datetime", nullable=true)
+     */
+    protected $lastLogin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="confirmationToken", type="string", length=180,unique=true ,nullable=true)
+     */
+    protected $confirmationToken;
+
+   /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="passwordRequestedAt", type="datetime" , nullable=true)
+     */
+    protected $passwordRequestedAt;
+
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="locked", type="boolean",nullable=true)
+     */
+    protected $locked;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="expired", type="boolean",nullable=true)
+     */
+    protected $expired;
+
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="expiresAt", type="datetime",nullable=true)
+     */
+    protected $expiresAt;
+
+   
+     /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="array")
+     */
+    protected $roles;
+
+     /**
+     * @var bool
+     *
+     * @ORM\Column(name="credentialsExpired", type="boolean",nullable=true)
+     */
+    protected $credentialsExpired;
+
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="credentialsExpireAt", type="datetime",nullable=true)
+     */
+    protected $credentialsExpireAt;
 
     /**
      * Get id
@@ -193,18 +273,7 @@ class Client implements AdvancedUserInterface
         return $this->adresse;
     }
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return Client
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
 
-        return $this;
-    }
 
     /**
      * Get password
@@ -308,84 +377,19 @@ class Client implements AdvancedUserInterface
         return $this->place;
     }
 	
-	// Les getters et setters
 
-
-  public function eraseCredentials()
-
-  {
-
-  }
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return Client
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string 
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    
-    /**
-     * Get salt
-     *
-     * @return string 
-     */
-    public function getSalt()
-    {
-       
-    }
-
-    /**
-     * Set roles
-     *
-     * @param array $roles
-     * @return Client
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * Get roles
-     *
-     * @return array 
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
+  
     /**
      * Constructor
      */
  
-
- public function __construct( array $roles = array(), $enabled = true, $userNonExpired = true, $credentialsNonExpired = true, $userNonLocked = true)
-    {   
-        $this->enabled = $enabled;
-        $this->accountNonExpired = $userNonExpired;
-        $this->credentialsNonExpired = $credentialsNonExpired;
-        $this->accountNonLocked = $userNonLocked;
-        $this->roles = $roles;
+ public function __construct()
+    {
+        parent::__construct();
+        // your own logic
     }
+
+ 
 
     public function __toString()
     {
@@ -449,28 +453,7 @@ class Client implements AdvancedUserInterface
         return $this->image;
     }
 
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return Client
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
 
-        return $this;
-    }
-
-    /**
-     * Get enabled
-     *
-     * @return boolean 
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
 
     /**
      * Get piment
@@ -515,74 +498,7 @@ class Client implements AdvancedUserInterface
         return $this->commandePrises;
     }
 
-    /**
-     * Set accountNonExpired
-     *
-     * @param boolean $accountNonExpired
-     * @return Client
-     */
-    public function setAccountNonExpired($accountNonExpired)
-    {
-        $this->accountNonExpired = $accountNonExpired;
 
-        return $this;
-    }
-
-    /**
-     * Get accountNonExpired
-     *
-     * @return boolean 
-     */
-    public function isAccountNonExpired()
-    {
-        return $this->accountNonExpired;
-    }
-
-    /**
-     * Set credentialsNonExpired
-     *
-     * @param boolean $credentialsNonExpired
-     * @return Client
-     */
-    public function setCredentialsNonExpired($credentialsNonExpired)
-    {
-        $this->credentialsNonExpired = $credentialsNonExpired;
-
-        return $this;
-    }
-
-    /**
-     * Get credentialsNonExpired
-     *
-     * @return boolean 
-     */
-    public function isCredentialsNonExpired()
-    {
-        return $this->credentialsNonExpired;
-    }
-
-    /**
-     * Set accountNonLocked
-     *
-     * @param boolean $accountNonLocked
-     * @return Client
-     */
-    public function setAccountNonLocked($accountNonLocked)
-    {
-        $this->accountNonLocked = $accountNonLocked;
-
-        return $this;
-    }
-
-    /**
-     * Get accountNonLocked
-     *
-     * @return boolean 
-     */
-    public function isAccountNonLocked()
-    {
-        return $this->accountNonLocked;
-    }
 
     /**
      * Set dateSave
@@ -607,6 +523,7 @@ class Client implements AdvancedUserInterface
         return $this->dateSave;
     }
 
+
     /**
      * Get enabled
      *
@@ -618,32 +535,65 @@ class Client implements AdvancedUserInterface
     }
 
     /**
-     * Get accountNonExpired
+     * Set salt
      *
-     * @return boolean 
+     * @param string $salt
+     * @return Client
      */
-    public function getAccountNonExpired()
+    public function setSalt($salt)
     {
-        return $this->accountNonExpired;
+        $this->salt = $salt;
+
+        return $this;
     }
 
     /**
-     * Get credentialsNonExpired
+     * Get locked
      *
      * @return boolean 
      */
-    public function getCredentialsNonExpired()
+    public function getLocked()
     {
-        return $this->credentialsNonExpired;
+        return $this->locked;
     }
 
     /**
-     * Get accountNonLocked
+     * Get expired
      *
      * @return boolean 
      */
-    public function getAccountNonLocked()
+    public function getExpired()
     {
-        return $this->accountNonLocked;
+        return $this->expired;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return \DateTime 
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    /**
+     * Get credentialsExpired
+     *
+     * @return boolean 
+     */
+    public function getCredentialsExpired()
+    {
+        return $this->credentialsExpired;
+    }
+
+    /**
+     * Get credentialsExpireAt
+     *
+     * @return \DateTime 
+     */
+    public function getCredentialsExpireAt()
+    {
+        return $this->credentialsExpireAt;
     }
 }
