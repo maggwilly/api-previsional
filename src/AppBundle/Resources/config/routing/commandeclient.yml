@@ -1,0 +1,28 @@
+commandeclient_index:
+    path:     /{user}/{date}
+    defaults: { _controller: "AppBundle:CommandeClient:index" }
+    methods:  GET
+
+commandeclient_index_all:
+    path:     /{user}
+    defaults: { _controller: "AppBundle:CommandeClient:index" }
+    methods:  GET
+commandeclient_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:CommandeClient:show" }
+    methods:  GET
+
+commandeclient_new:
+    path:     /new/{point}/{user}
+    defaults: { _controller: "AppBundle:CommandeClient:new" }
+    methods:  [GET, POST]
+
+commandeclient_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:CommandeClient:edit" }
+    methods:  [GET, POST]
+
+commandeclient_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:CommandeClient:delete" }
+    methods:  DELETE

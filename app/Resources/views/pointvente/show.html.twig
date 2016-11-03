@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pointvente</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pointVente.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ pointVente.nom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ pointVente.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ pointVente.type }}</td>
+            </tr>
+            <tr>
+                <th>Quartier</th>
+                <td>{{ pointVente.quartier }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ pointVente.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ pointVente.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ pointVente.latitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pointvente_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('pointvente_edit', { 'id': pointVente.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

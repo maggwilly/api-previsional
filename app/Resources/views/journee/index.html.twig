@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Journees list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Debut</th>
+                <th>Longdebut</th>
+                <th>Latdebut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for journee in journees %}
+            <tr>
+                <td><a href="{{ path('journee_show', { 'id': journee.id }) }}">{{ journee.id }}</a></td>
+                <td>{% if journee.date %}{{ journee.date|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if journee.debut %}{{ journee.debut|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ journee.longDebut }}</td>
+                <td>{{ journee.latDebut }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('journee_show', { 'id': journee.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('journee_edit', { 'id': journee.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('journee_new') }}">Create a new journee</a>
+        </li>
+    </ul>
+{% endblock %}

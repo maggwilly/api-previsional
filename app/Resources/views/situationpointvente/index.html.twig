@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Situationpointventes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datesave</th>
+                <th>Visibilite</th>
+                <th>Respectprix</th>
+                <th>Stockactuel</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for situationPointVente in situationPointVentes %}
+            <tr>
+                <td><a href="{{ path('situationpointvente_show', { 'id': situationPointVente.id }) }}">{{ situationPointVente.id }}</a></td>
+                <td>{% if situationPointVente.dateSave %}{{ situationPointVente.dateSave|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ situationPointVente.visibilite }}</td>
+                <td>{% if situationPointVente.respectPrix %}Yes{% else %}No{% endif %}</td>
+                <td>{{ situationPointVente.stockActuel }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('situationpointvente_show', { 'id': situationPointVente.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('situationpointvente_edit', { 'id': situationPointVente.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('situationpointvente_new') }}">Create a new situationPointVente</a>
+        </li>
+    </ul>
+{% endblock %}

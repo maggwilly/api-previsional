@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Commandeclients list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commandeClient in commandeClients %}
+            <tr>
+                <td><a href="{{ path('commandeclient_show', { 'id': commandeClient.id }) }}">{{ commandeClient.id }}</a></td>
+                <td>{% if commandeClient.date %}{{ commandeClient.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('commandeclient_show', { 'id': commandeClient.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('commandeclient_edit', { 'id': commandeClient.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('commandeclient_new') }}">Create a new commandeClient</a>
+        </li>
+    </ul>
+{% endblock %}

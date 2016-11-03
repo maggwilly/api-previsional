@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Chargements list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datesave</th>
+                <th>Quantite</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for chargement in chargements %}
+            <tr>
+                <td><a href="{{ path('chargement_show', { 'id': chargement.id }) }}">{{ chargement.id }}</a></td>
+                <td>{% if chargement.dateSave %}{{ chargement.dateSave|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ chargement.quantite }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('chargement_show', { 'id': chargement.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('chargement_edit', { 'id': chargement.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('chargement_new') }}">Create a new chargement</a>
+        </li>
+    </ul>
+{% endblock %}

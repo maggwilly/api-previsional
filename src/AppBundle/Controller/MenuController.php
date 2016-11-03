@@ -65,16 +65,15 @@ class MenuController extends Controller
                $newMenu->addPlat( $copy);
          }        
          $em->persist($newMenu);
-         $em->flush($newMenu);
-         $plats = $em->getRepository('AppBundle:Plat')->findAllPlats($newMenu);
-         $response = new JsonResponse(array('menu' => $newMenu ,'menus'=>$plats), 200);
-         $response->headers->set('Content-Type', 'application/json');
-          return $response;  
+         $em->flush($newMenu);        
          } catch(Exception $e){
             $response = new JsonResponse(['success' => false], 500);
             $response->headers->set('Content-Type', 'application/json');
         return $response;     
       }  
-       
+         $plats = $em->getRepository('AppBundle:Plat')->findAllPlats($newMenu);
+         $response = new JsonResponse(array('menu' => $newMenu ,'menus'=>$plats), 200);
+         $response->headers->set('Content-Type', 'application/json');
+          return $response;    
     }
 }
