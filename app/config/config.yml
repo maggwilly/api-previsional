@@ -6,7 +6,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-
+    database_driver: pdo_pgsql
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
