@@ -25,7 +25,7 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $nom=$request->query->get("nom");
         $produits = $em->getRepository('AppBundle:Produit')->findByNom($nom=null);     
-        $response = new JsonResponse($produits, 200);
+        $response = new JsonResponse(['data'=>$produits], 200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;  
     }
