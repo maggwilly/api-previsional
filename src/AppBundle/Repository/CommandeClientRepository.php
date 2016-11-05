@@ -40,7 +40,7 @@ public function findCommendeOuverte($user, $pointVente)
   ->andWhere('c.pointVente=:pointVente')
   ->andWhere('c.status=:status')
   ->setParameter('user',$user)
-  ->setParameter('pointVente',$pointVente); 
+  ->setParameter('pointVente',$pointVente) 
   ->setParameter('status',"ouverte"); 
        $qb->orderBy('m.date', 'DESC');
   return $qb
