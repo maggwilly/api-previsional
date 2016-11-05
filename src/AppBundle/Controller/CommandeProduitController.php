@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use AppBundle\Entity\PointVente;
+use AppBundle\Entity\Produit;
 
 /**
  * Commandeproduit controller.
@@ -37,7 +38,7 @@ class CommandeProduitController extends Controller
      * Creates a new commandeProduit entity.
      *
      */
-    public function newAction(Request $request, Client $user ,PointVente $pointVente)
+    public function newAction(Request $request, Client $user ,PointVente $pointVente,Produit $produit)
     {
         $commandeProduit = new Commandeproduit();
         $normalizer = new ObjectNormalizer();      
@@ -47,7 +48,7 @@ class CommandeProduitController extends Controller
            $em = $this->getDoctrine()->getManager();                  
             $commandeProduit= $normalizer->denormalize($data, 'AppBundle\Entity\CommandeProduit');
             $dateObject = new \DateTime();
-            $commandeProduit->setDateSave($dateObject);
+            $commandeProduit->setDateSave($dateObject)->setProduit($produit);
             $em = $this->getDoctrine()->getManager();
             $commandeOuverte = $em->getRepository('AppBundle:CommandeClientt')->findCommandeOuverte($user,$pointVente);
             if (is_null($commandeOuverte)) {

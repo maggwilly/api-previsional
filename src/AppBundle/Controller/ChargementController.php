@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Chargement;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\Produit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +34,7 @@ class ChargementController extends Controller
          return $response;   
     }
   
-    public function newAction(Request $request, Client $user)
+    public function newAction(Request $request, Client $user, Produit $produit)
     {     
         $chargement = new Chargement();
         $normalizer = new ObjectNormalizer(); 
@@ -44,7 +45,7 @@ class ChargementController extends Controller
            $em = $this->getDoctrine()->getManager();                  
             $chargement= $normalizer->denormalize($data, 'AppBundle\Entity\Chargement');
             $dateObject = new \DateTime();
-            $chargement->setDateSave($dateObject)->setUser($user);   
+            $chargement->setDateSave($dateObject)->setUser($user)->setProduit($produit);   
             $em->persist($chargement);
             $em->flush();
             $response = new JsonResponse(['success' => true,'data' => $data], 200);

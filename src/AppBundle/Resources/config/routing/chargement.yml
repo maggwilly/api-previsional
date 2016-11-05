@@ -14,7 +14,7 @@ chargement_show:
     methods:  GET
 
 chargement_new:
-    path:     /new/{id}
+    path:     /new/{id}/{prod}
     defaults: { _controller: "AppBundle:Chargement:new" }
     methods:  [GET, POST]
 
