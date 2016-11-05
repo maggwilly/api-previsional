@@ -34,6 +34,7 @@ class ChargementController extends Controller
          return $response;   
     }
   
+
     public function newAction(Request $request, Client $user, Produit $produit)
     {     
         $chargement = new Chargement();
@@ -90,6 +91,7 @@ class ChargementController extends Controller
          $em->flush($chargement);
            $response = new JsonResponse(['success' => true,'chargement' => $chargement], 200);
            $response->headers->set('Content-Type', 'application/json');
+           $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;         
         }    
         $response = new JsonResponse(array('action' => 'goToEditPage','chargement' => $chargement), 200);
