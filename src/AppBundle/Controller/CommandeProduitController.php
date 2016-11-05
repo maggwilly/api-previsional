@@ -47,7 +47,7 @@ class CommandeProduitController extends Controller
            $em = $this->getDoctrine()->getManager();                  
             $commandeProduit= $normalizer->denormalize($data, 'AppBundle\Entity\CommandeProduit');
             $dateObject = new \DateTime();
-            commandeProduit->setDateSave($dateObject);
+            $commandeProduit->setDateSave($dateObject);
             $em = $this->getDoctrine()->getManager();
             $commandeOuverte = $em->getRepository('AppBundle:CommandeClientt')->findCommandeOuverte($user,$pointVente);
             if (is_null($commandeOuverte)) {
