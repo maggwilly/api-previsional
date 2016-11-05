@@ -37,14 +37,13 @@ class CommandeProduitController extends Controller
      * Creates a new commandeProduit entity.
      *
      */
-    public function newAction(Request $request,PointVente $pointVente, Client $user )
+    public function newAction(Request $request, Client $user ,PointVente $pointVente)
     {
         $commandeProduit = new Commandeproduit();
-        $normalizer = new ObjectNormalizer(); 
-         $dateObject = new \DateTime();      
+        $normalizer = new ObjectNormalizer();      
         $content = $request->getContent();
          if (!empty($content)){
-         $data = json_decode($content, true); 
+           $data = json_decode($content, true); 
            $em = $this->getDoctrine()->getManager();                  
             $commandeProduit= $normalizer->denormalize($data, 'AppBundle\Entity\CommandeProduit');
             $dateObject = new \DateTime();

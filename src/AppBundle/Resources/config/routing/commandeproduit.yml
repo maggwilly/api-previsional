@@ -9,7 +9,7 @@ commandeproduit_show:
     methods:  GET
 
 commandeproduit_new:
-    path:     /new
+    path:     /new/{id}/{point}
     defaults: { _controller: "AppBundle:CommandeProduit:new" }
     methods:  [GET, POST]
 
