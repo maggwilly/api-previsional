@@ -26,6 +26,7 @@ class ClientController extends Controller
         $clients = $em->getRepository('AppBundle:Client')->findUsers();
         $response = new JsonResponse($clients, 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;     
     }
 
@@ -49,10 +50,12 @@ class ClientController extends Controller
          $em->flush($client);
            $response = new JsonResponse(['success' => true], 200);
            $response->headers->set('Content-Type', 'application/json');
+		   $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;         
         }
         $response = new JsonResponse(array('action' => 'goToNewPage','client'=>$content ), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
@@ -74,11 +77,13 @@ class ClientController extends Controller
            $em->flush($client);
            $response = new JsonResponse(['success' => true], 200);
            $response->headers->set('Content-Type', 'application/json');
+		   $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;         
         }
 
         $response = new JsonResponse(array('action' => 'goToNewPage','client'=>$client ), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
     /**
@@ -89,6 +94,7 @@ class ClientController extends Controller
         $deleteForm = $this->createDeleteForm($client);
         $response = new JsonResponse($client, 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;            
     }
 
@@ -110,10 +116,12 @@ class ClientController extends Controller
           $em->flush($client);
            $response = new JsonResponse(['success' => true, array('id' => $client->getId())], 200);
            $response->headers->set('Content-Type', 'application/json');
+		   $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;         
         }    
         $response = new JsonResponse(array('action' => 'goToEditPage','client' => $client), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;          
     }
 
@@ -134,10 +142,12 @@ class ClientController extends Controller
           $em->flush($client);
           $response = new JsonResponse(['success' => true, array('id' => $client->getId())], 200);
           $response->headers->set('Content-Type', 'application/json');
+		  $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;         
         }    
         $response = new JsonResponse(array('action' => 'goToChangePassewordPage','client' => $client), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;          
     }
     
@@ -154,10 +164,12 @@ class ClientController extends Controller
             $em->flush($client);
             $response = new JsonResponse(['success' => true], 200);
             $response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;     
          }
         $response = new JsonResponse(['success' => false], 401);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
        
     }

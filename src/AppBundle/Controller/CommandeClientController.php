@@ -31,6 +31,7 @@ class CommandeClientController extends Controller
         $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client,$dateSave, $nomPointVente);
         $response = new JsonResponse($commandeClients, 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response; 
     }
 
@@ -83,6 +84,7 @@ class CommandeClientController extends Controller
       $commandeProduits = $em->getRepository('AppBundle:CommandeProduit')->findByCommande($commandeClient);
         $response = new JsonResponse(array("commandeClient"=>$commandeClient,"commandesProduit"=>$commandeProduits), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;   
     }
     /**
@@ -122,10 +124,12 @@ class CommandeClientController extends Controller
              } catch(Exception $e){
                $response = new JsonResponse(['success' => false], 500);
                $response->headers->set('Content-Type', 'application/json');
+			   $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;     
       } 
           $response = new JsonResponse(['success' => true], 200);
           $response->headers->set('Content-Type', 'application/json');
+		  $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response; 
     }
 

@@ -31,6 +31,22 @@ public function findCommandeByDate($user=null,$dateSave=null,$pointVente=null)
      ->getQuery()
     ->getArrayResult();
   ;
+}
+
+public function findCommendeOuverte($user, $pointVente)
+  {
+    $qb = $this->createQueryBuilder('c')
+  ->where('c.user =:user')
+  ->andWhere('c.pointVente=:pointVente')
+  ->andWhere('c.status=:status')
+  ->setParameter('user',$user)
+  ->setParameter('pointVente',$pointVente); 
+  ->setParameter('status',"ouverte"); 
+       $qb->orderBy('m.date', 'DESC');
+  return $qb
+     ->getQuery()
+     ->getOneOrNullResult();
+  ;
 
 }
 }

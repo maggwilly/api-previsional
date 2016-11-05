@@ -32,6 +32,7 @@ class PointVenteController extends Controller
         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByNom($nom);
         $response = new JsonResponse($pointVentes, 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;  
     }
 
@@ -58,10 +59,11 @@ class PointVenteController extends Controller
          } catch(UniqueConstraintViolationException $e) {
              $response = new JsonResponse(['success' => false], 500);
          $response->headers->set('Content-Type', 'application/json');
+		 $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;
          }        
         }
-   
+       $response->headers->set('Access-Control-Allow-Origin', '*');
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -97,8 +99,10 @@ class PointVenteController extends Controller
          $em->flush($pointVente);
            $response = new JsonResponse(['success' => true,'pointVente' => $pointVente], 200);
            $response->headers->set('Content-Type', 'application/json');
+		   $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;         
-        }    
+        } 
+          $response->headers->set('Access-Control-Allow-Origin', '*');		
         $response = new JsonResponse(array('action' => 'goToEditPage','pointVente' => $pointVente), 200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;  
@@ -118,9 +122,10 @@ class PointVenteController extends Controller
              } catch(Exception $e){
                $response = new JsonResponse(['success' => false], 500);
                $response->headers->set('Content-Type', 'application/json');
+			   $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;     
       } 
-
+          $response->headers->set('Access-Control-Allow-Origin', '*');
           $response = new JsonResponse(['success' => true], 200);
           $response->headers->set('Content-Type', 'application/json');
           return $response;  

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -29,40 +29,31 @@ class ChargementController extends Controller
         $chargements = $em->getRepository('AppBundle:Chargement')->findByUser($client,$dateSave); // a terminer
          $response = new JsonResponse($chargements, 200);
          $response->headers->set('Content-Type', 'application/json');
+		 $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;   
     }
   
     public function newAction(Request $request, Client $user)
-    {
-       
-        $serializer = new Serializer(
-         array(new GetSetMethodNormalizer(), new ArrayDenormalizer()),
-         array(new JsonEncoder())
-       ); 
+    {     
+        $chargement = new Chargement();
+        $normalizer = new ObjectNormalizer(); 
+         $dateObject = new \DateTime();
          $content = $request->getContent();
         if (!empty($content)){
-            $em = $this->getDoctrine()->getManager();
-            try{                       
-           $data =json_decode($content, true); // 2nd param to get as array  
-           $chargements = $serializer->deserialize($content, 'AppBundle\Entity\Chargement[]', 'json');   
-
-            foreach ($chargements as $chargement) {           
-             $produit = $em->getRepository('AppBundle:Produit')->find(array('id' => $chargement->getProduitId()));
-             $chargement->setUser($user)->setDateSave(new \DateTime())->setProduit($produit);
-             $em->persist($chargement);
-            }
-           $em->flush();
-           $response = new JsonResponse(['success' => true,'data' => $data], 200);
-           $response->headers->set('Content-Type', 'application/json');
-           return $response;
-            } catch(Exception $e){
-             $response = new JsonResponse(['success' => false], 500);
-             $response->headers->set('Content-Type', 'application/json');
-            return $response;     
-           }  
+           $data = json_decode($content, true); 
+           $em = $this->getDoctrine()->getManager();                  
+            $chargement= $normalizer->denormalize($data, 'AppBundle\Entity\Chargement');
+            $dateObject = new \DateTime();
+            $chargement->setDateSave($dateObject)->setUser($user);   
+            $em->persist($chargement);
+            $em->flush();
+            $response = new JsonResponse(['success' => true,'data' => $data], 200);
+            $response->headers->set('Content-Type', 'application/json');
+		    $response->headers->set('Access-Control-Allow-Origin', '*');
           }
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
 
     }
@@ -101,6 +92,7 @@ class ChargementController extends Controller
         }    
         $response = new JsonResponse(array('action' => 'goToEditPage','chargement' => $chargement), 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;  
     }
 
@@ -118,6 +110,7 @@ class ChargementController extends Controller
              } catch(Exception $e){
                $response = new JsonResponse(['success' => false], 500);
                $response->headers->set('Content-Type', 'application/json');
+			   $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;     
       } 
 

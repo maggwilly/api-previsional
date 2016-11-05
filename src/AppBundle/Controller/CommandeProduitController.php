@@ -4,12 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CommandeProduit;
 use AppBundle\Entity\CommandeClient;
+use AppBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use AppBundle\Entity\PointVente;
 
 /**
  * Commandeproduit controller.
@@ -27,6 +29,7 @@ class CommandeProduitController extends Controller
         $commandeProduits = $em->getRepository('AppBundle:CommandeProduit')->findByCommande($commandeClient);
         $response = new JsonResponse($commandeProduits, 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response; 
     }
 
@@ -34,24 +37,37 @@ class CommandeProduitController extends Controller
      * Creates a new commandeProduit entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request,PointVente $pointVente, Client $user )
     {
         $commandeProduit = new Commandeproduit();
-        $form = $this->createForm('AppBundle\Form\CommandeProduitType', $commandeProduit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        $normalizer = new ObjectNormalizer(); 
+         $dateObject = new \DateTime();      
+        $content = $request->getContent();
+         if (!empty($content)){
+         $data = json_decode($content, true); 
+           $em = $this->getDoctrine()->getManager();                  
+            $commandeProduit= $normalizer->denormalize($data, 'AppBundle\Entity\CommandeProduit');
+            $dateObject = new \DateTime();
+            commandeProduit->setDateSave($dateObject);
             $em = $this->getDoctrine()->getManager();
-            $em->persist($commandeProduit);
-            $em->flush($commandeProduit);
-
-            return $this->redirectToRoute('commandeproduit_show', array('id' => $commandeProduit->getId()));
+            $commandeOuverte = $em->getRepository('AppBundle:CommandeClientt')->findCommandeOuverte($user,$pointVente);
+            if (is_null($commandeOuverte)) {
+               $commandeClient = new CommandeClient();
+               $commandeClient->setPointVente($pointVente)->setDate($dateObject)->setUser($user); 
+              }
+            $commandeClient->addCommandesProduit( $commandeProduit);    
+            $em->persist($commandeClient);
+            $em->flush();
+             $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+           return $response;
         }
 
-        return $this->render('commandeproduit/new.html.twig', array(
-            'commandeProduit' => $commandeProduit,
-            'form' => $form->createView(),
-        ));
+          $response = new JsonResponse(['success' => false], 500);
+             $response->headers->set('Content-Type', 'application/json');
+             $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response; 
     }
 
     /**
@@ -105,10 +121,12 @@ class CommandeProduitController extends Controller
              } catch(Exception $e){
                $response = new JsonResponse(['success' => false], 500);
                $response->headers->set('Content-Type', 'application/json');
+			   $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;     
       } 
           $response = new JsonResponse(['success' => true], 200);
           $response->headers->set('Content-Type', 'application/json');
+		  $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;  
     }
 
