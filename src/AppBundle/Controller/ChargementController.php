@@ -51,6 +51,7 @@ class ChargementController extends Controller
             $response = new JsonResponse(['success' => true,'data' => $data], 200);
             $response->headers->set('Content-Type', 'application/json');
 		    $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response;
           }
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
         $response->headers->set('Content-Type', 'application/json');
