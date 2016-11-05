@@ -27,6 +27,7 @@ class ProduitController extends Controller
         $produits = $em->getRepository('AppBundle:Produit')->findByNom($nom=null);     
         $response = new JsonResponse(['data'=>$produits], 200);
         $response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;  
     }
 
