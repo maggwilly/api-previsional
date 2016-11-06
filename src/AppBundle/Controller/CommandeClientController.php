@@ -8,11 +8,12 @@ use AppBundle\Entity\Client;
 use AppBundle\Entity\PointVente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 /**
  * Commandeclient controller.
@@ -29,7 +30,16 @@ class CommandeClientController extends Controller
         $nomPointVente=$request->query->get("nom");
         $em = $this->getDoctrine()->getManager();
         $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client, $nomPointVente);
-        $response = new JsonResponse($commandeClients, 200);
+        
+        $data=array();
+        foreach ($commandeClients as $key=> $commandeClient) {
+              
+               $data[]=$commandeClient->jsonSerialize();
+                
+          }
+
+         $response = new JsonResponse($data, 200);
+
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response; 

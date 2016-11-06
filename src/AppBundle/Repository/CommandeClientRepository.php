@@ -29,7 +29,7 @@ public function findCommandeByDate($user=null,$pointVente=null)
      $qb->orderBy('c.date', 'DESC');
   return $qb
      ->getQuery()
-    ->getArrayResult();
+    ->getResult();
   ;
 }
 

@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * CommandeClient
  *
  * @ORM\Table(name="commande_client")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommandeClientRepository")
  */
-class CommandeClient
+class CommandeClient implements JsonSerializable
 {
     /**
      * @var int
@@ -41,6 +41,8 @@ class CommandeClient
   
     private $pointVente;
 
+     private $nomPointVente;
+
    
 
     /**
@@ -48,6 +50,19 @@ class CommandeClient
    * @ORM\JoinColumn(nullable=false)
    */
   
+
+
+ public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'date' => $this->getDate()->format(\DateTime::ISO8601),
+            'status' => $this->getStatus(),
+            'pointVente' => $this->pointVente->jsonSerialize()
+            
+        ];
+    }
+
     private $user;
 
         /**
@@ -108,6 +123,7 @@ class CommandeClient
 
         return $this;
     }
+
 
     /**
      * Get status
@@ -176,6 +192,20 @@ class CommandeClient
         return $this->pointVente;
     }
 
+
+
+    public function setNomPointVente($pointVente)
+    {
+        $this->nomPointVente = $pointVente;
+
+        return $this;
+    }
+
+ 
+    public function getNomPointVente()
+    {
+        return $this->nomPointVente;
+    }
     /**
      * Set journee
      *
