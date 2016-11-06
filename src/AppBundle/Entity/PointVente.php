@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * PointVente
  *
  * @ORM\Table(name="point_vente")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
  */
-class PointVente
+class PointVente implements JsonSerializable
 {
     /**
      * @var int
@@ -82,6 +82,17 @@ class PointVente
     private $latitude;
 
 
+ public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'telephone' => $this->getTelephone(),
+            'adresse' => $this->getAdresse(),
+            'type' => $this->getType(),
+            'quartier' => $this->getQuartier()
+        ];
+    }
 
    
     /**

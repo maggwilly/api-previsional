@@ -51,8 +51,7 @@ class CommandeClientController extends Controller
            $em = $this->getDoctrine()->getManager();                   
            $data =json_decode($content, true); // 2nd param to get as array  
            $commandesProduit = $serializer->deserialize($content, 'AppBundle\Entity\CommandeProduit[]', 'json'); 
-           $dateObject = new \DateTime();
-             
+           $dateObject = new \DateTime();             
             foreach ($commandesProduit as $commandeProduit) {           
              $produit = $em->getRepository('AppBundle:Produit')->find(array('id' => $commandeProduit->getProduitId()));
              $commandeProduit->setDateSave($dateObject)->setProduit($produit);
@@ -66,7 +65,7 @@ class CommandeClientController extends Controller
          return $response;
           } catch(Exception $e) {
              $response = new JsonResponse(['success' => false], 500);
-         $response->headers->set('Content-Type', 'application/json');
+             $response->headers->set('Content-Type', 'application/json');
          return $response;
          }                 
         }   

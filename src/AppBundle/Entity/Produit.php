@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JsonSerializable;
 /**
  * Produit
  *
  * @ORM\Table(name="produit")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProduitRepository")
  */
-class Produit
+class Produit implements JsonSerializable
 {
     /**
      * @var int
@@ -48,6 +48,15 @@ class Produit
     private $commandesProduit;
 
 
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'prix' => $this->getPrix(),
+            'nom' => $this->getNom(),
+            'conditionement' => $this->getConditionement(),          
+        ];
+    }
     /**
      * Get id
      *
