@@ -94,7 +94,6 @@ class PointVente implements JsonSerializable
         ];
     }
 
-   
     /**
      * Get id
      *
