@@ -1,0 +1,51 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    role_hierarchy:
+        # Un admin hérite des droits d'auteur et de modérateur
+         ROLE_RESTAURATEUR:   [ROLE_USER]
+         ROLE_ADMIN:   [ ROLE_RESTAURATEUR]
+        
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }   
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+
+    encoders:
+        AppBundle\Entity\Client: sha512
+    providers:
+         main:
+            id: fos_user.user_provider.username
+           
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        
+        public:
+      # since anonymous is allowed users will not be forced to login
+            pattern:   ^/(client/new|plat)
+            security: false
+           
+        main_pf:
+            pattern:        ^/
+            anonymous:      true
+            stateless:  true
+            provider:       main
+            form_login:
+                 login_path: fos_user_security_login
+                 check_path: fos_user_security_check
+            logout:  
+                path:      fos_user_security_logout
+                target:    /login
+            remember_me:
+                key:        %secret% # %secret% est un paramètre de parameters.yml
+                always_remember_me: true
+
+               
+            # activate different ways to authenticate
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
