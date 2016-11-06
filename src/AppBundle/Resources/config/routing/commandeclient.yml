@@ -1,12 +1,8 @@
 commandeclient_index:
-    path:     /{user}/{date}
-    defaults: { _controller: "AppBundle:CommandeClient:index" }
-    methods:  GET
-
-commandeclient_index_all:
     path:     /{user}
     defaults: { _controller: "AppBundle:CommandeClient:index" }
     methods:  GET
+
 commandeclient_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:CommandeClient:show" }

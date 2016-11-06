@@ -24,11 +24,11 @@ class CommandeClientController extends Controller
      * Lists all commandeClient entities.
      *
      */
-    public function indexAction(Request $request, Client $client=null,$dateSave=null)
+    public function indexAction(Request $request, Client $client=null)
     {
         $nomPointVente=$request->query->get("nom");
         $em = $this->getDoctrine()->getManager();
-        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client,$dateSave, $nomPointVente);
+        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client, $nomPointVente);
         $response = new JsonResponse($commandeClients, 200);
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
@@ -56,7 +56,7 @@ class CommandeClientController extends Controller
             foreach ($commandesProduit as $commandeProduit) {           
              $produit = $em->getRepository('AppBundle:Produit')->find(array('id' => $commandeProduit->getProduitId()));
              $commandeProduit->setDateSave($dateObject)->setProduit($produit);
-             $commandeClient->addCommandesProduit( $commandeProduit);           
+             $commandeClient->addCommandesProduit( $commandeProduit)->setStatus('ouverte');           
             }
          $commandeClient->setPointVente($pointVente)->setDate($dateObject)->setUser($user); ;  
          $em->persist($commandeClient);

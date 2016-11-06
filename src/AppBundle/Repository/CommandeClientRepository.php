@@ -12,13 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommandeClientRepository extends EntityRepository
 {
-public function findCommandeByDate($user=null,$dateSave=null,$pointVente=null)
+public function findCommandeByDate($user=null,$pointVente=null)
 {
   $qb = $this->createQueryBuilder('c')->join('c.pointVente','p');
-  if(!is_null($dateSave)){
-      $qb->where('c.date=:dateSave')
-       ->setParameter('dateSave', new \DateTime($dateSave));
-        }    
+  
+      $qb->where('c.date>:dateSave')
+       ->setParameter('dateSave', new \DateTime('-30 day'));
+ 
 	 if(!is_null($user)){
 		$qb->andWhere('c.user= :user')->setParameter('user', $user);
 	  }  
