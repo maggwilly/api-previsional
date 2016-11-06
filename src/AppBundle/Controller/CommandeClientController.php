@@ -38,7 +38,7 @@ class CommandeClientController extends Controller
                 
           }
 
-         $response = new JsonResponse($data, 200);
+         $response = new JsonResponse(['data'=>$data], 200);
 
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
