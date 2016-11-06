@@ -55,6 +55,7 @@ class PointVenteController extends Controller
         $em->flush($pointvente);
          $response = new JsonResponse(['success' => true], 200);
          $response->headers->set('Content-Type', 'application/json');
+		 $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response; 
          } catch(UniqueConstraintViolationException $e) {
           $response = new JsonResponse(['success' => false], 500);
