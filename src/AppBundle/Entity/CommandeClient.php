@@ -50,7 +50,12 @@ class CommandeClient
   
     private $user;
 
-
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     */
+    private $status; //canceled, sended, payed, initialized
     /**
      * Get id
      *
@@ -89,6 +94,29 @@ class CommandeClient
     public function __construct()
     {
         $this->commandesProduit = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+	 /**
+     * Set status
+     *
+     * @param string $status
+     * @return Commande
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

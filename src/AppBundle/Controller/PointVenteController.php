@@ -40,7 +40,7 @@ class PointVenteController extends Controller
      * Creates a new pointVente entity.
      *
      */
-    public function newAction(Request $request, Client $user)
+    public function newAction(Request $request, Client $client)
     {
          $pointvente = new Pointvente();
        $normalizer = new ObjectNormalizer();       
@@ -50,21 +50,22 @@ class PointVenteController extends Controller
          $data = json_decode($content, true); 
          $em = $this->getDoctrine()->getManager();                  
         $pointvente= $normalizer->denormalize($data, 'AppBundle\Entity\Pointvente'); 
-         $pointvente->setUser($user)  ;      
+         $pointvente->setUser($client)  ;      
         $em->persist($pointvente);
         $em->flush($pointvente);
          $response = new JsonResponse(['success' => true], 200);
          $response->headers->set('Content-Type', 'application/json');
          return $response; 
          } catch(UniqueConstraintViolationException $e) {
-             $response = new JsonResponse(['success' => false], 500);
+          $response = new JsonResponse(['success' => false], 500);
          $response->headers->set('Content-Type', 'application/json');
 		 $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;
          }        
         }
-       $response->headers->set('Access-Control-Allow-Origin', '*');
+       
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
+		$response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
