@@ -24,7 +24,7 @@ class ProduitController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $nom=$request->query->get("nom");
-        $produits = $em->getRepository('AppBundle:Produit')->findByNom($nom=null);     
+        $produits = $em->getRepository('AppBundle:Produit')->findByNom($nom);     
         $response = new JsonResponse(['data'=>$produits], 200);
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
