@@ -59,7 +59,7 @@ class CommandeClient implements JsonSerializable
             'date' => $this->getDate()->format(\DateTime::ISO8601),
             'status' => $this->getStatus(),
             'pointVente' => $this->pointVente->jsonSerialize(),
-            'commandes' => $this->getCommandesProduit();
+            'commandes' => $this->getCommandesProduit(),
             
         ];
     }
