@@ -58,13 +58,21 @@ class CommandeClient implements JsonSerializable
             'id' => $this->getId(),
             'date' => $this->getDate()->format(\DateTime::ISO8601),
             'status' => $this->getStatus(),
-            'pointVente' => $this->pointVente->jsonSerialize()
+            'pointVente' => $this->pointVente->jsonSerialize(),
+            'commandes' => $this->getCommandesProduit();
             
         ];
     }
 
     private $user;
 
+	
+	private function getTotal(){
+		
+		$total=0;
+		foreach ($this->commandesProduit as $commandeProduit)
+		   $total+=$commandeProduit->getPrix()*$commandeProduit->getQuantite();
+	}
         /**
      * @var string
      *

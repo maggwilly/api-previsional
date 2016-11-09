@@ -30,7 +30,7 @@ class PointVenteController extends Controller
          $nom=$request->query->all()["nom"];
         $em = $this->getDoctrine()->getManager();
         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByNom($nom);
-        $response = new JsonResponse($pointVentes, 200);
+        $response = new JsonResponse(['data'=>$pointVentes], 200);
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;  
