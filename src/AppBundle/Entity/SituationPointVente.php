@@ -45,7 +45,7 @@ class SituationPointVente
     /**
      * @var string
      *
-     * @ORM\Column(name="stockActuel", type="string", length=255)
+     * @ORM\Column(name="stockActuel", type="integer", length=255)
      */
     private $stockActuel;
 
@@ -55,6 +55,14 @@ class SituationPointVente
    */
   
     private $PointVente;
+
+
+      /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $user;
+
     /**
      * Get id
      *
@@ -178,5 +186,28 @@ class SituationPointVente
     public function getPointVente()
     {
         return $this->PointVente;
+    }
+
+      /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\Client $user
+     * @return PointVente
+     */
+    public function setUser(\AppBundle\Entity\Client $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\Client 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

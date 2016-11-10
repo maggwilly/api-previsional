@@ -9,7 +9,7 @@ situationpointvente_show:
     methods:  GET
 
 situationpointvente_new:
-    path:     /new/{id}
+    path:     /new/{point}/{user}
     defaults: { _controller: "AppBundle:SituationPointVente:new" }
     methods:  [GET, POST]
 

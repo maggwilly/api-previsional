@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\SituationPointVente;
+use AppBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -31,7 +32,7 @@ class SituationPointVenteController extends Controller
      * Creates a new situationPointVente entity.
      *
      */
-    public function newAction(Request $request, PointVente $pointVente)
+    public function newAction(Request $request, PointVente $pointVente,Client $user)
     {
         $situationPointVente = new Situationpointvente();        
        $normalizer = new ObjectNormalizer();       
@@ -40,7 +41,7 @@ class SituationPointVenteController extends Controller
          $data = json_decode($content, true); 
          $em = $this->getDoctrine()->getManager();                  
         $situationPointVente= $normalizer->denormalize($data, 'AppBundle\Entity\Situationpointvente'); 
-        $situationPointVente->setPointVente(pointVente)->setDateSave(new \DateTime())  ;      
+        $situationPointVente->setPointVente(pointVente)->setDateSave(new \DateTime())->setUser($user)  ;      
         $em->persist($situationPointVente);
          $em->flush($situationPointVente);
          $response = new JsonResponse(['success' => true], 200);

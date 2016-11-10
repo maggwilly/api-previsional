@@ -72,15 +72,18 @@ class CommandeClientController extends Controller
          $em->flush();
          $response = new JsonResponse(['success' => true], 200);
          $response->headers->set('Content-Type', 'application/json');
+         $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;
           } catch(Exception $e) {
              $response = new JsonResponse(['success' => false], 500);
              $response->headers->set('Content-Type', 'application/json');
+              $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;
          }                 
         }   
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
@@ -90,7 +93,7 @@ class CommandeClientController extends Controller
      */
     public function showAction(CommandeClient $commandeClient)
     {
-      $commandeProduits = $em->getRepository('AppBundle:CommandeProduit')->findByCommande($commandeClient);
+        $commandeProduits = $em->getRepository('AppBundle:CommandeProduit')->findByCommande($commandeClient);
         $response = new JsonResponse(array("commandeClient"=>$commandeClient,"commandesProduit"=>$commandeProduits), 200);
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
@@ -100,30 +103,31 @@ class CommandeClientController extends Controller
      * Displays a form to edit an existing commandeClient entity.
      *
      */
-    public function editAction(Request $request, CommandeClient $commandeClient)
+    public function editAction(CommandeClient $commandeClient)
     {
-        $deleteForm = $this->createDeleteForm($commandeClient);
-        $editForm = $this->createForm('AppBundle\Form\CommandeClientType', $commandeClient);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('commandeclient_edit', array('id' => $commandeClient->getId()));
-        }
-
-        return $this->render('commandeclient/edit.html.twig', array(
-            'commandeClient' => $commandeClient,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+          try{
+         $commandeClient->setStatus('terminee');
+         $em = $this->getDoctrine()->getManager();  
+         $em->persist($commandeClient);
+         $em->flush();
+          } catch(Exception $e) {
+             $response = new JsonResponse(['success' => false], 500);
+             $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+         return $response;
+         }                 
+        }   
+        $response = new JsonResponse(['success' => true], 200);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**
      * Deletes a commandeClient entity.
      *
      */
-    public function deleteAction(Request $request, CommandeClient $commandeClient)
+    public function deleteAction( CommandeClient $commandeClient)
     {
         try{  
             $em = $this->getDoctrine()->getManager();
