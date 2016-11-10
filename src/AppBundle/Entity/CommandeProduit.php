@@ -31,7 +31,7 @@ class CommandeProduit
     /**
      * @var int
      *
-     * @ORM\Column(name="prix", type="integer")
+     * @ORM\Column(name="prix", type="integer", nullable=true)
      */
     private $prix;
 
