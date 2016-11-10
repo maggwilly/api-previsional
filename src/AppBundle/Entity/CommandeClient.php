@@ -29,7 +29,7 @@ class CommandeClient implements JsonSerializable
     private $date;
 
    /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommandeProduit", mappedBy="commandeClient", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommandeProduit", mappedBy="CommandeClient", cascade={"persist","remove"})
    */
     private $commandesProduit;
 
@@ -56,17 +56,28 @@ class CommandeClient implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'date' => $this->getDate()->format(\DateTime::ISO8601),
+            'date' => $this->getDate()->format('m/d/Y h:i'),
             'status' => $this->getStatus(),
             'pointVente' => $this->pointVente->jsonSerialize(),
-            'commandes' => [],
+            'commandes' => $this->commandesJsonSerialize(),
             
         ];
+    }
+
+
+   public function commandesJsonSerialize(){
+         $data=array();
+        foreach ($this->commandesProduit as $commandeProduit) {             
+                $data[]=$commandeProduit->jsonSerialize();               
+          }
+   return $data;
     }
 
     private $user;
 
 	
+
+ 
 	private function getTotal(){
 		
 		$total=0;
@@ -117,6 +128,8 @@ class CommandeClient implements JsonSerializable
     public function __construct()
     {
         $this->commandesProduit = new \Doctrine\Common\Collections\ArrayCollection();
+
+
     }
 
 	 /**

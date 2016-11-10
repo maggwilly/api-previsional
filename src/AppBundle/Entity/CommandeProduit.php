@@ -29,6 +29,14 @@ class CommandeProduit
     private $quantite;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="prix", type="integer")
+     */
+    private $prix;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateSave", type="datetime")
@@ -63,6 +71,18 @@ class CommandeProduit
         return $this->id;
     }
 
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'quantite' => $this->getQuantite(),
+            'produit' => $this->produit->jsonSerialize(),
+            'prix' => $this->getPrix(),
+            
+        ];
+    }
+
     /**
      * Set quantite
      *
@@ -84,6 +104,29 @@ class CommandeProduit
     public function getQuantite()
     {
         return $this->quantite;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param integer $prix
+     * @return Produit
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return integer 
+     */
+    public function getPrix()
+    {
+        return $this->prix;
     }
 
 /**
