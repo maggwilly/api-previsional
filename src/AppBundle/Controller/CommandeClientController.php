@@ -129,8 +129,9 @@ class CommandeClientController extends Controller
     {
         try{  
             $em = $this->getDoctrine()->getManager();
-            $em->remove($commandeClient);
-            $em->flush($commandeClient);
+           $commandeClient->setStatus('terminee');
+           $em->persist($commandeClient)
+            $em->flush();
 
              } catch(Exception $e){
                $response = new JsonResponse(['success' => false], 500);
