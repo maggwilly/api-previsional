@@ -77,7 +77,7 @@ class CommandeProduit
         return [
             'id' => $this->getId(),
             'quantite' => $this->getQuantite(),
-            'produit' => $this->produit->jsonSerialize(),
+            'prod' => $this->produit->jsonSerialize(),
             'prix' => $this->getPrix(),
             
         ];
@@ -185,6 +185,9 @@ class CommandeProduit
 
         return $this;
     }
+
+
+
 
     /**
      * Get produit
