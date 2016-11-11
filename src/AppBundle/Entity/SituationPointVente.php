@@ -24,7 +24,7 @@ class SituationPointVente
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateSave", type="datetime")
+     * @ORM\Column(name="date_save", type="datetime")
      */
     private $dateSave;
 
@@ -38,14 +38,14 @@ class SituationPointVente
     /**
      * @var bool
      *
-     * @ORM\Column(name="respectPrix", type="boolean")
+     * @ORM\Column(name="respect_prix", type="boolean")
      */
     private $respectPrix;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stockActuel", type="integer", length=255)
+     * @ORM\Column(name="stock_actuel", type="integer", length=255)
      */
     private $stockActuel;
 
