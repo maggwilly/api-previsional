@@ -129,7 +129,7 @@ class CommandeClientController extends Controller
     {
         try{  
             $em = $this->getDoctrine()->getManager();
-           $commandeClient->setStatus('terminee');
+           $commandeClient->setStatus('annulee');
            $em->persist($commandeClient);
             $em->flush();
 
