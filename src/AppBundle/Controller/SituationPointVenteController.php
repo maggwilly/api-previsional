@@ -89,12 +89,14 @@ class SituationPointVenteController extends Controller
          $em = $this->getDoctrine()->getManager();
          $em->persist($situationPoint);
          $em->flush($situationPoint);
-           $response = new JsonResponse(['success' => true,'situationPointVente' => $situationPointVente], 200);
+           $response = new JsonResponse(['success' => true], 200);
            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
           return $response;         
         }    
         $response = new JsonResponse(array('action' => 'goToEditPage','pointVente' => $pointVente), 200);
         $response->headers->set('Content-Type', 'application/json');
+         $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;  
     }
 

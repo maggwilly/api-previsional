@@ -14,7 +14,7 @@ commandeclient_new:
     methods:  [GET, POST]
 
 commandeclient_edit:
-    path:     /{id}/edit
+    path:     /edit/{id}
     defaults: { _controller: "AppBundle:CommandeClient:edit" }
     methods:  [GET, POST]
 
