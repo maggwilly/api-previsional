@@ -48,7 +48,7 @@ class CommandeClient implements JsonSerializable
 
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
-   * @ORM\JoinColumn(nullable=true)
+   * @ORM\JoinColumn(nullable=false)
    */
   
     private $user;
