@@ -63,6 +63,19 @@ class SituationPointVente
    */
     private $user;
 
+
+public function getDataColums()
+    {
+        return [
+            'pointVente' =>  $this->getPointVente()->getNom(),
+            'date' => $this->getDate()->format('m/d/Y h:i'),           
+            'user' => $this->getUser()->getNom(), 
+            'respectPrix' => $this->getRespectPrix(), 
+            'visibilite' =>$this->getVisibilite(),  
+            'stockActuel' =>$this->getStockActuel(),                   
+            ];
+    }
+    
     /**
      * Get id
      *

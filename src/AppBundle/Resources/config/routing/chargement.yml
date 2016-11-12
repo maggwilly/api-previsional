@@ -27,3 +27,15 @@ chargement_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Chargement:delete" }
     methods:  DELETE
+
+
+
+chargement_all_page:
+    path:     /web/all/page
+    defaults: { _controller: "AppBundle:Chargement:allPage" }
+    methods:  GET
+
+chargement_all_json:
+    path:     /web/all/json
+    defaults: { _controller: "AppBundle:Chargement:allJson" }
+    methods:  GET

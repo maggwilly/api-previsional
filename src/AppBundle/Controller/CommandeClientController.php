@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Commandeclient controller.
  *
@@ -29,17 +30,41 @@ class CommandeClientController extends Controller
     {
         $nomPointVente=$request->query->get("nom");
         $em = $this->getDoctrine()->getManager();
-        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client, $nomPointVente);
-        
+        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findCommandeByDate($client, $nomPointVente);     
         $data=array();
         foreach ($commandeClients as $key=> $commandeClient) {
-              
-               $data[]=$commandeClient->jsonSerialize();
-                
+                $data[]=$commandeClient->jsonSerialize();          
           }
-         $response = new JsonResponse(['data'=>$data], 200);
+        $response = new JsonResponse(['data'=>$data], 200);
         $response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response; 
+    }
+
+
+ /**
+     * @Security("has_role('ROLE_USER')")
+     */
+public function allPageAction()
+    {
+         $em = $this->getDoctrine()->getManager();
+
+        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findAll();
+      
+        return $this->render('commandeclient/index.html.twig', array ('commandeClients'=>$commandeClients));
+    }
+
+
+  public function allJsonAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandeClients = $em->getRepository('AppBundle:CommandeClient')->findAll();     
+        $data=array();
+        foreach ($commandeClients as $key=> $commandeClient) {
+                $data[]=$commandeClient->getDataColums();          
+          }
+        $response = new JsonResponse(array('data'=>$data), 200);
+        $response->headers->set('Content-Type', 'application/json');
         return $response; 
     }
 
@@ -67,17 +92,18 @@ class CommandeClientController extends Controller
             }
          $commandeClient->setPointVente($pointVente)->setDate($dateObject)->setUser($user); ;  
          $em->persist($commandeClient);
-         $em->flush();
-         $response = new JsonResponse(['success' => true], 200);
-         $response->headers->set('Content-Type', 'application/json');
-         $response->headers->set('Access-Control-Allow-Origin', '*');
+         $em->flush();     
          return $response;
           } catch(Exception $e) {
              $response = new JsonResponse(['success' => false], 500);
              $response->headers->set('Content-Type', 'application/json');
               $response->headers->set('Access-Control-Allow-Origin', '*');
-         return $response;
-         }                 
+            return $response;
+         } 
+
+         $response = new JsonResponse(['success' => true], 200);
+         $response->headers->set('Content-Type', 'application/json');
+         $response->headers->set('Access-Control-Allow-Origin', '*');                
         }   
         $response = new JsonResponse(array('action' => 'goToNewPage' ), 200);
         $response->headers->set('Content-Type', 'application/json');

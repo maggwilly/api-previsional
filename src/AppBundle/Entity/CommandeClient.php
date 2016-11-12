@@ -41,6 +41,7 @@ class CommandeClient implements JsonSerializable
   
     private $pointVente;
 
+
      private $nomPointVente;
 
    
@@ -50,6 +51,9 @@ class CommandeClient implements JsonSerializable
    * @ORM\JoinColumn(nullable=false)
    */
   
+    private $user;
+
+    
 
 
  public function jsonSerialize()
@@ -64,6 +68,16 @@ class CommandeClient implements JsonSerializable
         ];
     }
 
+public function getDataColums()
+    {
+        return [
+           'pointVente'=>  $this->getPointVente()->getNom(),
+             'date' =>$this->getDate()->format('m/d/Y h:i'),           
+             'user' =>$this->getUser()->getNom(), 
+            'total' => $this->getTotal(),  
+            'status' => $this->getStatus()  
+            ];
+    }
 
    public function commandesJsonSerialize(){
          $data=array();
@@ -73,16 +87,16 @@ class CommandeClient implements JsonSerializable
    return $data;
     }
 
-    private $user;
-
-	
 
  
-	private function getTotal(){
+	public function getTotal(){
 		
 		$total=0;
-		foreach ($this->commandesProduit as $commandeProduit)
+		foreach ($this->commandesProduit as $commandeProduit){
 		   $total+=$commandeProduit->getPrix()*$commandeProduit->getQuantite();
+        }
+
+        return $total;
 	}
         /**
      * @var string

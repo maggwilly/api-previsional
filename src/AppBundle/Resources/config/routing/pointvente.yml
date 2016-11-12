@@ -22,3 +22,13 @@ pointvente_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:PointVente:delete" }
     methods:  DELETE
+
+pointvente_all_page:
+    path:     /web/all/page
+    defaults: { _controller: "AppBundle:PointVente:allPage" }
+    methods:  GET
+
+pointvente_all_json:
+    path:     /web/all/json
+    defaults: { _controller: "AppBundle:PointVente:allJson" }
+    methods:  GET

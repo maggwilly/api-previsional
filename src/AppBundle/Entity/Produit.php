@@ -43,7 +43,7 @@ class Produit implements JsonSerializable
     private $conditionement;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="produit")
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommandeProduit", mappedBy="produit")
    */
     private $commandesProduit;
 

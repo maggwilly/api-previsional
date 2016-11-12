@@ -1,3 +1,10 @@
+
+homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:CommandeClient:allPage" }
+    methods:  GET
+
+
 app_admin_plat:
     resource: "@AppBundle/Resources/config/routing/plat.yml"
     prefix:   /plat

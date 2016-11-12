@@ -22,3 +22,13 @@ commandeclient_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:CommandeClient:delete" }
     methods:  DELETE
+
+commandeclient_all_page:
+    path:      /web/all/page
+    defaults: { _controller: "AppBundle:CommandeClient:allPage" }
+    methods:  GET
+
+commandeclient_all_json:
+    path:     /web/all/json
+    defaults: { _controller: "AppBundle:CommandeClient:allJson" }
+    methods:  GET

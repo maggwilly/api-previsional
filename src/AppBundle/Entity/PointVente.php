@@ -94,6 +94,20 @@ class PointVente implements JsonSerializable
         ];
     }
 
+
+public function getDataColums()
+    {
+        return [
+            'nom' => $this->getNom(),
+            'type' => $this->getType(),           
+            'user' => $this->getUser()->getNom(), 
+            'telephone' => $this->getTelephone(), 
+            'quartier' => $this->getQuartier(),  
+            'adresse' => $this->getAdresse() ,
+            'position' => $this-> getLongitude().',' .$this-> getLatitude(),        
+            ];
+    }
+
     /**
      * Get id
      *

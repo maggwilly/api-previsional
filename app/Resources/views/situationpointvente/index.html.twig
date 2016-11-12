@@ -1,45 +1,74 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Situationpointventes list</h1>
 
-    <table>
+                <header id="page-header">
+                    <h1>Les chargements</h1>
+                </header>
+                <div id="content" class="padding-20">
+ 					<div id="panel-1" class="panel panel-default">
+						<div class="panel-heading">
+							<span class="title elipsis">
+								<strong>Les chargements</strong> <!-- panel title -->
+							</span>
+							<!-- right options -->
+							<ul class="options pull-right list-inline">
+								<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="Colapse" data-placement="bottom"></a></li>
+								<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="Fullscreen" data-placement="bottom"><i class="fa fa-expand"></i></a><
+								li>
+								<li><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="Close" data-placement="bottom"><i class="fa fa-times"></i></a></li>
+							</ul>
+							<!-- /right options -->
+						</div>
+						<!-- panel content -->
+						<div class="panel-body">               
+         <table class="table table-striped table-bordered table-hover" id="datatable_sample">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Datesave</th>
-                <th>Visibilite</th>
-                <th>Respectprix</th>
-                <th>Stockactuel</th>
-                <th>Actions</th>
+               <th></th>
+                <th>Point de vente</th>
+                <th>Date</th>
+                <th>respect des prix</th>
+                <th>Visibilite</th>  
+                <th>Autre info</th>             
             </tr>
         </thead>
-        <tbody>
-        {% for situationPointVente in situationPointVentes %}
-            <tr>
-                <td><a href="{{ path('situationpointvente_show', { 'id': situationPointVente.id }) }}">{{ situationPointVente.id }}</a></td>
-                <td>{% if situationPointVente.dateSave %}{{ situationPointVente.dateSave|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ situationPointVente.visibilite }}</td>
-                <td>{% if situationPointVente.respectPrix %}Yes{% else %}No{% endif %}</td>
-                <td>{{ situationPointVente.stockActuel }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('situationpointvente_show', { 'id': situationPointVente.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('situationpointvente_edit', { 'id': situationPointVente.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+       <tbody>
+{%for situationPointVente in situationPointVentes %}
+	<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				{{situationPointVente.pointVente.nom}}
+			</td>
+			<td>
+			{{situationPointVente.dateSave|date('d/m/y')}}
+			</td>
+			<td>
+				{%if situationPointVente.respectPrix==true%} Oui {%else%} Non {%endif%}
+			</td>
+			<td class="center">
+			{%if situationPointVente.visibilite==0%} Aucune visibilite {%elseif situationPointVente.visibilite==1%} Visibilite moyenne {%else%} Visible {%endif%}
+				
+			</td>
+			<td class="center">
+				{{situationPointVente.stockActuel}}
+			</td>
 
-    <ul>
-        <li>
-            <a href="{{ path('situationpointvente_new') }}">Create a new situationPointVente</a>
-        </li>
-    </ul>
+		</tr>
+{%endfor%}
+       </tbody>
+       </table>
+   	</div>
+		<!-- /panel content -->
+
+		<!-- panel footer -->
+<div class="panel-footer"> 
+</div>
+ </div>
+{% endblock %}
+       {% block javascripts %}
+	   <script type="text/javascript"> var plugin_path = 'assets/plugins/';</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
 {% endblock %}

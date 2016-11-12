@@ -59,6 +59,17 @@ class Chargement
         return $this->id;
     }
 
+
+public function getDataColums()
+    {
+        return [
+             "produit"=>$this->getProduit()->getNom(),
+             "date"=>$this->getDateSave()->format('m/d/Y h:i'),
+             "quantite"=>$this->getQuantite(),
+             "user"=> $this->user->getNom(),                 
+            ];
+    }
+
     /**
      * Set dateSave
      *
@@ -116,6 +127,17 @@ class Chargement
         $this->produit = $produit;
 
         return $this;
+    }
+
+
+/**
+     * Get produit
+     *
+     * @return  produitId
+     */
+    public function getProduit()
+    {
+        return $this->produit;
     }
 
 /**

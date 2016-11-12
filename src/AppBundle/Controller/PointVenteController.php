@@ -36,6 +36,31 @@ class PointVenteController extends Controller
         return $response;  
     }
 
+
+ /**
+     * @Security("has_role('ROLE_USER')")
+     */
+public function allPageAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $pointVentes = $em->getRepository('AppBundle:PointVente')->findAll();
+
+        return $this->render('pointvente/index.html.twig',array('pointVentes'=>$pointVentes));
+    }
+
+public function allJsonAction()
+    {
+         $em = $this->getDoctrine()->getManager();
+         $pointVentes = $em->getRepository('AppBundle:PointVente')->findAll(); // a terminer
+         $data=array();
+        foreach ($pointVentes as $key=> $pointVente) {
+                $data[]=$pointVente->getDataColums();          
+          }
+         $response = new JsonResponse(array("data"=>$data), 200);     
+         $response->headers->set('Content-Type', 'application/json');
+         return $response;   
+    }
     /**
      * Creates a new pointVente entity.
      *

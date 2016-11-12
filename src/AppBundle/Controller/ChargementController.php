@@ -28,12 +28,40 @@ class ChargementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $chargements = $em->getRepository('AppBundle:Chargement')->findByUser($client,$dateSave); // a terminer
+
          $response = new JsonResponse($chargements, 200);
          $response->headers->set('Content-Type', 'application/json');
 		 $response->headers->set('Access-Control-Allow-Origin', '*');
          return $response;   
     }
   
+
+   /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function allPageAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $chargements = $em->getRepository('AppBundle:Chargement')->findAll();
+
+        return $this->render('chargement/index.html.twig', array ('chargements'=>$chargements));
+    }
+
+
+  public function allJsonAction()
+    {
+         $em = $this->getDoctrine()->getManager();
+         $chargements = $em->getRepository('AppBundle:Chargement')->findAll(); // a terminer
+         $data=array();
+        foreach ($chargements as $key=> $chargement) {
+                $data[]=$chargement->getDataColums();          
+          }
+         $response = new JsonResponse(array("data"=>$data), 200);
+
+         $response->headers->set('Content-Type', 'application/json');
+         return $response;   
+    }
 
     public function newAction(Request $request, Client $user, Produit $produit)
     {     

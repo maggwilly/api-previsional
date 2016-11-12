@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Situationpointvente controller.
@@ -34,6 +35,34 @@ class SituationPointVenteController extends Controller
             'situationPointVentes' => $situationPointVentes,
         ));
     }
+
+
+/**
+     * @Security("has_role('ROLE_USER')")
+     */
+public function allPageAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $situationPointVentes = $em->getRepository('AppBundle:SituationPointVente')->findAll();
+
+        return $this->render('situationPointVente/index.html.twig',array('situationPointVentes'=>$situationPointVentes));
+    }
+
+
+ public function allJsonAction()
+    {
+         $em = $this->getDoctrine()->getManager();
+         $situationPointVentes = $em->getRepository('AppBundle:Situationpointvente')->findAll(); // a terminer
+         $data=array();
+        foreach ($situationPointVentes as $key=> $situationPointVente) {
+                $data[]=$situationPointVente->getDataColums();          
+          }
+         $response = new JsonResponse(array("data"=>$data), 200);     
+         $response->headers->set('Content-Type', 'application/json');
+         return $response;   
+    }
+
 
     /**
      * Creates a new situationPointVente entity.
