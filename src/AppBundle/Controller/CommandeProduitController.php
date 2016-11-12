@@ -34,6 +34,9 @@ class CommandeProduitController extends Controller
         return $response; 
     }
 
+
+    
+
     /**
      * Creates a new commandeProduit entity.
      *

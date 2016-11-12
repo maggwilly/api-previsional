@@ -10,7 +10,6 @@
 							<span class="title elipsis">
 								<strong>Les point de vente</strong> <!-- panel title -->
 							</span>
-
 							<!-- right options -->
 							<ul class="options pull-right list-inline">
 								<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="Colapse" data-placement="bottom"></a></li>
@@ -30,7 +29,8 @@
                 <th>Quartier</th>
                 <th>Adresse</th>
                 <th>poisition GPS</th>
-                <th>Telephone</th>             
+                <th>Telephone</th>    
+                <th>Alivrer</th>          
             </tr>
         </thead>
        <tbody>
@@ -53,6 +53,10 @@
 			</td>
 			<td class="center">
 				{{pointVente.telephone}}
+			</td>
+
+			<td class="center">
+				{{pointVente.aLivrer}}
 			</td>
 
 		</tr>

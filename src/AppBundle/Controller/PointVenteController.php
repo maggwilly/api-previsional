@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\PointVente;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\Produit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,12 +28,13 @@ class PointVenteController extends Controller
 
     public function indexAction(Request $request)
     {
-         $nom=$request->query->all()["nom"];
+      
         $em = $this->getDoctrine()->getManager();
-        $pointVentes = $em->getRepository('AppBundle:PointVente')->findByNom($nom);
+        $pointVentes = $em->getRepository('AppBundle:PointVente')->findByNom();    
+   
         $response = new JsonResponse(['data'=>$pointVentes], 200);
         $response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->headers->set('Access-Control-Allow-Origin', '*');       
         return $response;  
     }
 
@@ -70,7 +72,7 @@ public function allJsonAction()
          $pointvente = new Pointvente();
        $normalizer = new ObjectNormalizer();       
        $content = $request->getContent();
-        if (!empty($content)){
+       if (!empty($content)){
             try{
          $data = json_decode($content, true); 
          $em = $this->getDoctrine()->getManager();                  
@@ -173,4 +175,40 @@ public function allJsonAction()
             ->getForm()
         ;
     }
+
+
+     public function calculMoyenneVente(PointVente $pointVente, Produit $produit){
+        $em = $this->getDoctrine()->getManager();
+         $commandeProduits = $em->getRepository('AppBundle:CommandeProduit')->findByProduitPointVente($produit,$pointVente);   
+         $commandeProduits = new \Doctrine\Common\Collections\ArrayCollection($commandeProduits); 
+ 
+         if ($commandeProduits->count()<2) {           
+               $produitStatus=clone $produit;
+            return $produitStatus->setNombreJour(1000);
+           } 
+          # calcul du nombre de jours entre le premier et la derniere livraison
+         $first=$commandeProduits->first();
+         $last=$commandeProduits->last();
+         $datetime1 = $first->getDateSave();
+         $datetime2 = $last->getDateSave();
+         $interval = $datetime1->diff($datetime2, true);
+         $nb_jours = $interval->d; 
+        
+         $vente=0;
+         for ($i=0; $i <$commandeProduits->count()-1 ; $i++) { 
+              $vente+=$commandeProduits[$i]->getQuantite();
+             # code...
+          }
+          $moyenne= ($nb_jours<=1)?$first->getQuantite():$vente/$nb_jours; //moyenne des ventes
+         #prevision : nombre jours pour finir le dernier stock
+          $previson=$last->getQuantite()/$moyenne;
+          #nombre jour restant
+          $aujourdhui= new \DateTime();
+          #nombre de jours depuis le dernier stock
+          $depuisDenierstock = $datetime2->diff($aujourdhui);
+          $nb_jours = $depuisDenierstock->d;
+          $nombreJourRestant=$previson-$nb_jours;
+          $produitStatus=clone $produit;
+         return $produitStatus->setNombreJour($nombreJourRestant)->setDernierStock($last->getQuantite());
+       }
 }

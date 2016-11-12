@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
-
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 /**
@@ -35,6 +35,11 @@ class Produit implements JsonSerializable
      */
     private $nom;
 
+
+    private $nombreJour;
+
+     private $dernierStock;
+
     /**
      * @var string
      *
@@ -54,7 +59,7 @@ class Produit implements JsonSerializable
             'id' => $this->getId(),
             'prix' => $this->getPrix(),
             'nom' => $this->getNom(),
-            'conditionement' => $this->getConditionement(),          
+            'conditionement' => $this->getConditionement(),           
         ];
     }
     /**
@@ -67,6 +72,31 @@ class Produit implements JsonSerializable
         return $this->id;
     }
 
+
+ /**
+     * Set prix
+     *
+     * @param integer $dernierStock
+     * @return Produit
+     */
+    public function setDernierStock($dernierStock)
+    {
+        $this->dernierStock = $dernierStock;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return integer 
+     */
+    public function getDernierStock()
+    {
+        return $this->dernierStock;
+    }
+
+    
     /**
      * Set prix
      *
@@ -102,6 +132,31 @@ class Produit implements JsonSerializable
 
         return $this;
     }
+
+/**
+     * Set moyenneVente
+     *
+     * @param string $nombreJour
+     * @return Produit
+     */
+    public function setNombreJour($nombreJour)
+    {
+        $this->nombreJour = $nombreJour;
+
+        return $this;
+    }
+
+
+ /**
+     * Get nombreJour
+     *
+     * @return integer 
+     */
+    public function getNombreJour()
+    {
+        return $this->nombreJour;
+    }
+
 
     /**
      * Get nom
@@ -178,4 +233,6 @@ class Produit implements JsonSerializable
     {
         return $this->commandesProduit;
     }
+
+
 }

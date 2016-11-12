@@ -10,7 +10,7 @@ use JsonSerializable;
  * @ORM\Table(name="point_vente")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
  */
-class PointVente implements JsonSerializable
+class PointVente 
 {
     /**
      * @var int
@@ -81,8 +81,27 @@ class PointVente implements JsonSerializable
      */
     private $latitude;
 
+ 
+    private $produits;
 
- public function jsonSerialize()
+
+    private $aLivrer;
+
+
+
+
+  
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->commandesClient = new \Doctrine\Common\Collections\ArrayCollection();
+       
+    }
+
+    public function jsonSerialize()
     {
         return [
             'id' => $this->getId(),
@@ -90,7 +109,8 @@ class PointVente implements JsonSerializable
             'telephone' => $this->getTelephone(),
             'adresse' => $this->getAdresse(),
             'type' => $this->getType(),
-            'quartier' => $this->getQuartier()
+            'quartier' => $this->getQuartier(),
+          
         ];
     }
 
@@ -108,6 +128,17 @@ public function getDataColums()
             ];
     }
 
+public function produitsJsonSerialize(){
+         $data=array();
+
+         if(is_null($this->getProduits())||$this->getProduits()->isEmpty())
+            return [];
+        foreach ($this->getProduits() as $produit) {             
+                $data[]=$produit->jsonSerialize();               
+          }
+   return $data;
+    }
+
     /**
      * Get id
      *
@@ -119,6 +150,29 @@ public function getDataColums()
     }
 
     /**
+     * Set nom
+     *
+     * @param boolean $nom
+     * @return PointVente
+     */
+    public function setALivrer($aLivrer)
+    {     
+              $this->aLivrer = $aLivrer;
+        return $this;
+    }
+
+    /**
+     * Get aLivrer
+     *
+     * @return boolean 
+     */
+    public function getALivrer()
+    {
+        return $this->aLivrer;
+    }
+
+
+     /**
      * Set nom
      *
      * @param string $nom
@@ -278,13 +332,9 @@ public function getDataColums()
     {
         return $this->latitude;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->commandesClient = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
+
+
 
     /**
      * Add commandesClient
@@ -298,6 +348,35 @@ public function getDataColums()
 
         return $this;
     }
+
+
+     /**
+     * Add commandesClient
+     *
+     * @param \AppBundle\Entity\Produit $produit
+     * @return PointVente
+     */
+    public function addProduit(\AppBundle\Entity\Produit $produit)
+    {     
+        if (is_null($this->produits)) {
+           $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
+        }
+        $this->produits[] = $produit;
+      
+        return $this;
+    }
+
+
+    /**
+     * Get commandesClient
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProduits()
+    {
+        return $this->produits;
+    }
+
 
     /**
      * Remove commandesClient
@@ -341,4 +420,6 @@ public function getDataColums()
     {
         return $this->user;
     }
+
+
 }

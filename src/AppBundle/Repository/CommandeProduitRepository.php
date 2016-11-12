@@ -24,8 +24,21 @@ class CommandeProduitRepository extends EntityRepository
       $qb ->orderBy('c.dateSave', 'DESC');
   return $qb->getQuery()
      ->getArrayResult();
-  ;
 
+
+}
+
+
+public function findByProduitPointVente( $produit, $pointVente )
+{
+  $qb = $this->createQueryBuilder('c')->join('c.CommandeClient','cc');
+  $qb->where('cc.pointVente =:pointVente')
+  ->andWhere('c.produit=:produit')->andWhere($qb->expr()->in('cc.status', ':my_array'))
+      ->setParameter('pointVente', $pointVente )
+      ->setParameter('produit', $produit )
+      ->setParameter('my_array', array('ouverte','terminee') );
+    $qb ->orderBy('c.dateSave', 'DESC');
+      return $qb->getQuery() ->getResult();
 }
 
 }
