@@ -4,7 +4,7 @@ app:
   
 app_admin:
     resource: "@AppBundle/Resources/config/routing.yml"
-    prefix:   /v1/
+    prefix:   /v1
        
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
