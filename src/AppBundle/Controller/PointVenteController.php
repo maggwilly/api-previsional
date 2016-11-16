@@ -39,7 +39,7 @@ class PointVenteController extends Controller
     }
 
 
- /**
+    /**
      * @Security("has_role('ROLE_USER')")
      */
 public function allPageAction()
