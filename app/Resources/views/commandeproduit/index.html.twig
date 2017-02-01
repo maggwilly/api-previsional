@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Commandeproduits list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantite</th>
+                <th>Datesave</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commandeProduit in commandeProduits %}
+            <tr>
+                <td><a href="{{ path('commandeproduit_show', { 'id': commandeProduit.id }) }}">{{ commandeProduit.id }}</a></td>
+                <td>{{ commandeProduit.quantite }}</td>
+                <td>{% if commandeProduit.dateSave %}{{ commandeProduit.dateSave|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('commandeproduit_show', { 'id': commandeProduit.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('commandeproduit_edit', { 'id': commandeProduit.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('commandeproduit_new') }}">Create a new commandeProduit</a>
+        </li>
+    </ul>
+{% endblock %}

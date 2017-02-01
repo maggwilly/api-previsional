@@ -1,0 +1,34 @@
+situationpointvente_index:
+    path:     /
+    defaults: { _controller: "AppBundle:SituationPointVente:index" }
+    methods:  GET
+
+situationpointvente_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:SituationPointVente:show" }
+    methods:  GET
+
+situationpointvente_new:
+    path:     /new/{point}/{user}
+    defaults: { _controller: "AppBundle:SituationPointVente:new" }
+    methods:  [GET, POST]
+
+situationpointvente_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:SituationPointVente:edit" }
+    methods:  [GET, POST]
+
+situationpointvente_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:SituationPointVente:delete" }
+    methods:  DELETE
+    
+situationPointVente_all_page:
+    path:     /web/all/page
+    defaults: { _controller: "AppBundle:SituationPointVente:allPage" }
+    methods:  GET
+
+situationPointVente_all_json:
+    path:     / web/all/json
+    defaults: { _controller: "AppBundle:SituationPointVente:allJson" }
+    methods:  GET

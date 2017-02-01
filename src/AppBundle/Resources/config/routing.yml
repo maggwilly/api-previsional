@@ -1,0 +1,45 @@
+
+homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:CommandeClient:allPage" }
+    methods:  GET
+
+
+app_admin_plat:
+    resource: "@AppBundle/Resources/config/routing/plat.yml"
+    prefix:   /plat
+
+app_admin_client:
+    resource: "@AppBundle/Resources/config/routing/client.yml"
+    prefix:   /client
+
+app_admin_commande:
+    resource: "@AppBundle/Resources/config/routing/commande.yml"
+    prefix:   /commande
+
+app_mobile_chargement:
+    resource: "@AppBundle/Resources/config/routing/chargement.yml"
+    prefix:   /chargement
+
+app_mobile_commande_client:
+    resource: "@AppBundle/Resources/config/routing/commandeclient.yml"
+    prefix:   /commande/client
+
+app_mobile_commande_produit:
+    resource: "@AppBundle/Resources/config/routing/commandeproduit.yml"
+    prefix:   /commande/produit
+
+app_mobile_journee:
+    resource: "@AppBundle/Resources/config/routing/journee.yml"
+    prefix:   /journee
+app_mobile_point_vente:
+    resource: "@AppBundle/Resources/config/routing/pointvente.yml"
+    prefix:   /point/vente
+
+app_mobile_produit:
+    resource: "@AppBundle/Resources/config/routing/produit.yml"
+    prefix:   /produit
+
+app_situation_point_vente:
+    resource: "@AppBundle/Resources/config/routing/situationpointvente.yml"
+    prefix:   /situation/point/vente
