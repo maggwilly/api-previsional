@@ -130,8 +130,9 @@ class Visite
         /**
      * Constructor
      */
-    public function __construct($id=null,$date,$pointVente=null,$aff=null,$sapp=null,$exc=null)
+    public function __construct($user=null,$id=null,$date,$pointVente=null,$aff=null,$sapp=null,$exc=null)
     {
+       $this->user=$user;
       $this->date=$date;
       $this->id=$id;
       $this->pointVente = $pointVente;

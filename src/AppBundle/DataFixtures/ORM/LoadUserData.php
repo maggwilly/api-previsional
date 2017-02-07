@@ -23,6 +23,7 @@ class LoadUserData implements FixtureInterface
         
        $pointVentes = array(
          new PointVente(
+           null,
           "MaTiness SARL",
           uniqid(),
           "Super Marché",
@@ -34,6 +35,7 @@ class LoadUserData implements FixtureInterface
           'BRAZAVILLE'
           ),
           new PointVente(
+            null, 
           "LART INC-TECH",
           uniqid(),
           "Boutique grossiste",
@@ -45,6 +47,7 @@ class LoadUserData implements FixtureInterface
           'BRAZAVILLE'
           ),
          new PointVente(
+           null,
           "Evil ",
           uniqid(),
           "Superette",
@@ -56,6 +59,7 @@ class LoadUserData implements FixtureInterface
           'BRAZAVILLE'
           ),
           new PointVente(
+            null,
           "Chez Aoudou",
           uniqid(),
           "Echope de quartier",
@@ -67,6 +71,7 @@ class LoadUserData implements FixtureInterface
           'Pointe Noir'
           ),
          new PointVente(
+           null,
           "Chez Mama Tannefô",
           uniqid(),
           "Boutique détaillant",
@@ -80,22 +85,22 @@ class LoadUserData implements FixtureInterface
           );
 
       $etapes = array(
-    new Etape(uniqid(),'debut', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 07:30'),328.25641,302.25641,
-     new Etape(uniqid(),'fin', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 16:30'),352.25641,345.25641)),
-    new Etape(uniqid(),'debut', new \DateTime('2017-02-04'),new \DateTime('2017-02-03 07:30'),352.25641,350.25641,
-     new Etape(uniqid(),'fin', new \DateTime('2017-02-04'),new \DateTime('2017-02-03 16:30'),322.25641,325.25641)),
-     new Etape(uniqid(),'debut', new \DateTime('2017-02-06'),new \DateTime('2017-02-06 07:54'),352.25641,325.25641, 
-      new Etape(uniqid(),'fin', new \DateTime('2017-02-06'),new \DateTime('2017-02-06 18:21'),352.25641,314.25641)),
-    new Etape(uniqid(),'debut', new \DateTime('2017-02-05'),new \DateTime('2017-02-03 07:30'),322.25641,325.25641),
-    new Etape(uniqid(),'debut', new \DateTime('2017-02-07'),new \DateTime('2017-02-07 08:11'),333.25641,336.25641),
+    new Etape( null,uniqid(),'debut', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 07:30'),328.25641,302.25641,
+     new Etape( null,uniqid(),'fin', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 16:30'),352.25641,345.25641)),
+    new Etape( null,uniqid(),'debut', new \DateTime('2017-02-04'),new \DateTime('2017-02-03 07:30'),352.25641,350.25641,
+     new Etape( null,uniqid(),'fin', new \DateTime('2017-02-04'),new \DateTime('2017-02-03 16:30'),322.25641,325.25641)),
+     new Etape( null,uniqid(),'debut', new \DateTime('2017-02-06'),new \DateTime('2017-02-06 07:54'),352.25641,325.25641, 
+      new Etape( null,uniqid(),'fin', new \DateTime('2017-02-06'),new \DateTime('2017-02-06 18:21'),352.25641,314.25641)),
+    new Etape( null,uniqid(),'debut', new \DateTime('2017-02-05'),new \DateTime('2017-02-03 07:30'),322.25641,325.25641),
+    new Etape( null,uniqid(),'debut', new \DateTime('2017-02-07'),new \DateTime('2017-02-07 08:11'),333.25641,336.25641),
          );  
    
    $synchros = array(
-         new Synchro(new \DateTime('2017-01-04 07:30')),
-         new Synchro(new \DateTime('2017-01-30 10:05')),
-         new Synchro(new \DateTime('2017-02-03 16:38')),
-         new Synchro(new \DateTime('2017-02-06 20:40')),
-         new Synchro(new \DateTime('2017-02-05 12:36')));
+         new Synchro( null,new \DateTime('2017-01-04 07:30')),
+         new Synchro( null,new \DateTime('2017-01-30 10:05')),
+         new Synchro( null,new \DateTime('2017-02-03 16:38')),
+         new Synchro( null,new \DateTime('2017-02-06 20:40')),
+         new Synchro( null,new \DateTime('2017-02-05 12:36')));
 
      foreach ($etapes as  $value) {
            $manager->persist($value);
@@ -111,7 +116,7 @@ class LoadUserData implements FixtureInterface
        $a=array(true,null,true,null,null,true);
         foreach ($pointVentes as $key => $pointVente) {
            $random_keys=array_rand($a,3);
-            $visite=new Visite(uniqid(),new \DateTime('2017-01-'.rand(10,31)), $pointVente, $a[$random_keys[0]],$a[$random_keys[1]],$a[$random_keys[2]]); //a completer dans la bd
+            $visite=new Visite( null,uniqid(),new \DateTime('2017-01-'.rand(10,31)), $pointVente, $a[$random_keys[0]],$a[$random_keys[1]],$a[$random_keys[2]]); //a completer dans la bd
             foreach ($produits as  $produit) {
                $random_keys=array_rand($a,5);
  $visite->addSituation(

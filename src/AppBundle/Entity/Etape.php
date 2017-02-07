@@ -70,8 +70,9 @@ class Etape
         /**
      * Constructor
      */
-    public function __construct($id=null, $type=null, $date=null,$heure=null,$longitude=null, $latitude=null,\AppBundle\Entity\Etape $suivant = null)
+    public function __construct($user=null,$id=null, $type=null, $date=null,$heure=null,$longitude=null, $latitude=null,\AppBundle\Entity\Etape $suivant = null)
     {
+      $this->user=$user;
       $this->type=$type;
       $this->date=$date;
       $this->heure=$heure;
