@@ -171,7 +171,7 @@ class AppController extends Controller
           new \DateTime('2017-01-30'),
           'Tannefô Marie Louse',
           'Pointe Noir'
-          )
+          ),
           );
 
       $etapes = array(

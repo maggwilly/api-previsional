@@ -28,7 +28,7 @@ class EtapeRepository extends EntityRepository
              $qb->andWhere('e.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
           }
             $qb->select('e.id');
-            $qb->addSelect('max(e.date) as date');
+            $qb->addSelect('e.date');
             $qb->addSelect('u.username');
 
             $qb->addSelect('e.heure as debut');
@@ -40,9 +40,7 @@ class EtapeRepository extends EntityRepository
             $qb->addSelect('s.latitude as latFin');
 
 
-            $qb->orderBy('u.username');
-            $qb->addGroupBy('u.username');
-            $qb->addGroupBy('e.id'); 
+            $qb->orderBy('u.username'); 
             
           return $qb->getQuery()->getArrayResult();
   }

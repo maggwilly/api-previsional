@@ -137,8 +137,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box danger"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-            <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente}} points de vente recensés</a>{% endif%}</h4>
-            <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%}</small>
+            <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recensés</a>{% endif%}</h4>
+            <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite|number_format(0, ',', '.')}} PDV visités{% endif%}</small>
                                     <i class="fa fa-comments"></i>
                                 </div>
 
@@ -157,8 +157,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxExc}}% de taux d'exclusivité</h4>
-                         <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{exc}} P.D.V ont l'exclusivité{% endif%}</small>
+                                    <h4>{{tauxExc|number_format(0, ',', '.')}}% de taux d'exclusivité</h4>
+                         <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{exc|number_format(0, ',', '.')}} P.D.V ont l'exclusivité{% endif%}</small>
                                     <i class="fa fa-bar-chart-o"></i>
                                 </div>
 
@@ -177,8 +177,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxAff}}% de PDV ont des affiches</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff}} P.D.V n'ont pas d'affiches {% endif%}</small>
+                                    <h4>{{tauxAff|number_format(0, ',', '.')}}% de PDV ont des affiches</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'ont pas d'affiches {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -199,8 +199,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box success"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxApp}}% de PDV s'app... chez un A.C.</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nApp}} P.D.V ne s'approvisionnent pas chez un A.C.{% endif%}</small>
+                                    <h4>{{tauxApp|number_format(0, ',', '.')}}% de PDV s'app... chez un A.C.</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nApp|number_format(0, ',', '.')}} P.D.V ne s'approvisionnent pas chez un A.C.{% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -282,7 +282,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                             <td>{{situation.stock}}</td>
                                                             <td>{{situation.stockG}}</td>
                                                             <td>{{situation.mvj}}</td>
-                                                            <td>{{situation.ecl}}</td>
+                                                            <td>{{situation.ecl|number_format(0, '.', ',') }}</td>
                                                         </tr>
                                                         {%endfor%}
 
@@ -336,9 +336,9 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                     {% for visibilite in visibilites %}
                                                         <tr>
                                                             <td><a href="#">{{visibilite.nom}}</a></td>
-                                                            <td>{{visibilite.map}} : {{(visibilite.map*100/nombrePointVenteVisite)}}%</td>
+                                                            <td>{{visibilite.map}} : {{(visibilite.map*100/nombrePointVenteVisite)|number_format(0, '.', ',') }}%</td>
                                                           
-                                                            <td>{{visibilite.pre}} : {{(visibilite.pre*100/nombrePointVenteVisite)}}%</td>
+                                                            <td>{{visibilite.pre}} : {{(visibilite.pre*100/nombrePointVenteVisite)|number_format(0, '.', ',') }}%</td>
                                                         </tr>
                                                         {%endfor%}
 
@@ -393,8 +393,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                     {% for respectPrix in respectPrixs %}
                                                         <tr>
                                                             <td><a href="#">{{respectPrix.nom}}</a></td>
-                                                            <td>{{respectPrix.rpd}} : {{(respectPrix.rpd*100/nombrePointVenteVisite)}}%</td>
-                                                            <td>{{respectPrix.rpp}} : {{(respectPrix.rpp*100/nombrePointVenteVisite)}}%</td>
+                                                            <td>{{respectPrix.rpd}} : {{(respectPrix.rpd*100/nombrePointVenteVisite)|number_format(0, '.', ',')}}%</td>
+                                                            <td>{{respectPrix.rpp}} : {{(respectPrix.rpp*100/nombrePointVenteVisite)|number_format(0, '.', ',') }}%</td>
                                                        
                                                         </tr>
                                                         {%endfor%}
