@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
     <h1>Produit</h1>
@@ -10,16 +10,12 @@
                 <td>{{ produit.id }}</td>
             </tr>
             <tr>
-                <th>Prix</th>
-                <td>{{ produit.prix }}</td>
-            </tr>
-            <tr>
                 <th>Nom</th>
                 <td>{{ produit.nom }}</td>
             </tr>
             <tr>
-                <th>Conditionement</th>
-                <td>{{ produit.conditionement }}</td>
+                <th>Dossier</th>
+                <td>{{ produit.dossier }}</td>
             </tr>
         </tbody>
     </table>
@@ -38,3 +34,8 @@
         </li>
     </ul>
 {% endblock %}
+      {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
+       {% endblock %}

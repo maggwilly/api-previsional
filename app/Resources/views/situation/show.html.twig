@@ -1,0 +1,48 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Situation</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ situation.id }}</td>
+            </tr>
+            <tr>
+                <th>Map</th>
+                <td>{% if situation.map %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pre</th>
+                <td>{% if situation.pre %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Aff</th>
+                <td>{% if situation.aff %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Rpp</th>
+                <td>{% if situation.rpp %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Rpd</th>
+                <td>{% if situation.rpd %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td>{{ situation.stock }}</td>
+            </tr>
+            <tr>
+                <th>Mvj</th>
+                <td>{{ situation.mvj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('situation_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+visite_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Visite:index" }
+    methods:  GET
+
+visite_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Visite:show" }
+    methods:  GET
+
+
+

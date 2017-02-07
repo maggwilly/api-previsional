@@ -5,11 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Produit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * Produit controller.
  *
@@ -20,15 +16,15 @@ class ProduitController extends Controller
      * Lists all produit entities.
      *
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $nom=$request->query->get("nom");
-        $produits = $em->getRepository('AppBundle:Produit')->findByNom($nom);     
-        $response = new JsonResponse(['data'=>$produits], 200);
-        $response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;  
+
+        $produits = $em->getRepository('AppBundle:Produit')->findAll();
+
+        return $this->render('produit/index.html.twig', array(
+            'produits' => $produits,
+        ));
     }
 
     /**
@@ -40,10 +36,12 @@ class ProduitController extends Controller
         $produit = new Produit();
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($produit);
             $em->flush($produit);
+
             return $this->redirectToRoute('produit_show', array('id' => $produit->getId()));
         }
 
@@ -73,7 +71,6 @@ class ProduitController extends Controller
      */
     public function editAction(Request $request, Produit $produit)
     {
-
         $deleteForm = $this->createDeleteForm($produit);
         $editForm = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $editForm->handleRequest($request);

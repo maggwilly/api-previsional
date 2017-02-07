@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
     <h1>Produit edit</h1>
@@ -19,3 +19,8 @@
         </li>
     </ul>
 {% endblock %}
+      {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
+       {% endblock %}

@@ -3,50 +3,77 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
+
 /**
  * PointVente
  *
  * @ORM\Table(name="point_vente")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
  */
-class PointVente 
+class PointVente
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id",  type="string", length=255)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255, )
+     * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telephone", type="string", length=255,unique=true)
+     * @ORM\Column(name="type", type="string", length=255,  nullable=true)
      */
-    private $telephone;
-
-     /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
-   * @ORM\JoinColumn(nullable=false)
-   */
-    private $user;
+    private $type;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomGerant", type="string", length=255, nullable=true)
+     */
+    private $nomGerant;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="telGerant", type="string", length=255, nullable=true)
      */
-    private $type;
+    private $telGerant;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
+     */
+    private $tel;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pays", type="string", length=255, nullable=true)
+     */
+    private $pays;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255, nullable=true)
+     */
+    private $ville;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
+     */
+    private $adresse;
 
     /**
      * @var string
@@ -55,24 +82,12 @@ class PointVente
      */
     private $quartier;
 
-     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommandeClient", mappedBy="pointVente")
-   */
-    private $commandesClient;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=500)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
-    private $adresse;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="longitude", type="string", length=255, nullable=true)
-     */
-    private $longitude;
+    private $description;
 
     /**
      * @var string
@@ -81,69 +96,49 @@ class PointVente
      */
     private $latitude;
 
- 
-    private $produits;
-
-
-    private $aLivrer;
-
-
-
-
-  
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="decimal", precision=10, scale=6, nullable=true)
+     */
+    private $longitude;
 
     /**
-     * Constructor
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\JoinColumn(nullable=true)
      */
-    public function __construct()
-    {
-        $this->commandesClient = new \Doctrine\Common\Collections\ArrayCollection();
-       
-    }
+    protected $user;
 
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->getId(),
-            'nom' => $this->getNom(),
-            'telephone' => $this->getTelephone(),
-            'adresse' => $this->getAdresse(),
-            'type' => $this->getType(),
-            'quartier' => $this->getQuartier(),
-          
-        ];
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date", nullable=true)
+     */
+    private $date;
+
+      /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="date", nullable=true)
+     */
+    private $createdAt;
 
 
-public function getDataColums()
-    {
-        return [
-            'nom' => $this->getNom(),
-            'type' => $this->getType(),           
-            'user' => $this->getUser()->getNom(), 
-            'telephone' => $this->getTelephone(), 
-            'quartier' => $this->getQuartier(),  
-            'adresse' => $this->getAdresse() ,
-            'position' => $this-> getLongitude().',' .$this-> getLatitude(),        
-            ];
-    }
-
-public function produitsJsonSerialize(){
-         $data=array();
-
-         if(is_null($this->getProduits())||$this->getProduits()->isEmpty())
-            return [];
-        foreach ($this->getProduits() as $produit) {             
-                $data[]=$produit->jsonSerialize();               
-          }
-   return $data;
-    }
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="pointVente", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $visites;
 
     /**
      * Get id
      *
      * @return integer 
      */
+
+
+
+
     public function getId()
     {
         return $this->id;
@@ -151,30 +146,6 @@ public function produitsJsonSerialize(){
 
     /**
      * Set nom
-     *
-     * @param boolean $nom
-     * @return PointVente
-     */
-    public function setALivrer($aLivrer)
-    {     
-              $this->aLivrer = $aLivrer;
-        return $this;
-    }
-
-    /**
-     * Get aLivrer
-     *
-     * @return boolean 
-     */
-    public function getALivrer()
-    {
-        return $this->aLivrer;
-    }
-
-
-     /**
-     * Set nom
-     *
      * @param string $nom
      * @return PointVente
      */
@@ -196,33 +167,32 @@ public function produitsJsonSerialize(){
     }
 
     /**
-     * Set telephone
+     * Set nomGerant
      *
-     * @param string $telephone
+     * @param string $nomGerant
      * @return PointVente
      */
-    public function setTelephone($telephone)
+    public function setNomGerant($nomGerant)
     {
-        $this->telephone = $telephone;
+        $this->nomGerant = $nomGerant;
 
         return $this;
     }
 
     /**
-     * Get telephone
+     * Get nomGerant
      *
      * @return string 
      */
-    public function getTelephone()
+    public function getNomGerant()
     {
-        return $this->telephone;
+        return $this->nomGerant;
     }
-
     /**
      * Set type
      *
      * @param string $type
-     * @return PointVente
+     * @return Etape
      */
     public function setType($type)
     {
@@ -240,28 +210,96 @@ public function produitsJsonSerialize(){
     {
         return $this->type;
     }
-
     /**
-     * Set quartier
+     * Set telGerant
      *
-     * @param string $quartier
+     * @param string $telGerant
      * @return PointVente
      */
-    public function setQuartier($quartier)
+    public function setTelGerant($telGerant)
     {
-        $this->quartier = $quartier;
+        $this->telGerant = $telGerant;
 
         return $this;
     }
 
     /**
-     * Get quartier
+     * Get telGerant
      *
      * @return string 
      */
-    public function getQuartier()
+    public function getTelGerant()
     {
-        return $this->quartier;
+        return $this->telGerant;
+    }
+
+    /**
+     * Set tel
+     *
+     * @param string $tel
+     * @return PointVente
+     */
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * Get tel
+     *
+     * @return string 
+     */
+    public function getTel()
+    {
+        return $this->tel;
+    }
+
+    /**
+     * Set pays
+     *
+     * @param string $pays
+     * @return PointVente
+     */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays
+     *
+     * @return string 
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return PointVente
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string 
+     */
+    public function getVille()
+    {
+        return $this->ville;
     }
 
     /**
@@ -288,26 +326,49 @@ public function produitsJsonSerialize(){
     }
 
     /**
-     * Set longitude
+     * Set quartier
      *
-     * @param string $longitude
+     * @param string $quartier
      * @return PointVente
      */
-    public function setLongitude($longitude)
+    public function setQuartier($quartier)
     {
-        $this->longitude = $longitude;
+        $this->quartier = $quartier;
 
         return $this;
     }
 
     /**
-     * Get longitude
+     * Get quartier
      *
      * @return string 
      */
-    public function getLongitude()
+    public function getQuartier()
     {
-        return $this->longitude;
+        return $this->quartier;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return PointVente
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -333,78 +394,72 @@ public function produitsJsonSerialize(){
         return $this->latitude;
     }
 
-
-
-
     /**
-     * Add commandesClient
+     * Set longitude
      *
-     * @param \AppBundle\Entity\CommandeClient $commandesClient
+     * @param string $longitude
      * @return PointVente
      */
-    public function addCommandesClient(\AppBundle\Entity\CommandeClient $commandesClient)
+    public function setLongitude($longitude)
     {
-        $this->commandesClient[] = $commandesClient;
+        $this->longitude = $longitude;
 
         return $this;
     }
 
-
-     /**
-     * Add commandesClient
+    /**
+     * Get longitude
      *
-     * @param \AppBundle\Entity\Produit $produit
+     * @return string 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set id
+     *
+     * @param string $id
      * @return PointVente
      */
-    public function addProduit(\AppBundle\Entity\Produit $produit)
-    {     
-        if (is_null($this->produits)) {
-           $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
-        }
-        $this->produits[] = $produit;
-      
+    public function setId($id)
+    {
+        $this->id = $id;
+
         return $this;
     }
 
-
     /**
-     * Get commandesClient
+     * Set date
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param \DateTime $date
+     * @return PointVente
      */
-    public function getProduits()
+    public function setDate($date)
     {
-        return $this->produits;
-    }
+        $this->date = $date;
 
-
-    /**
-     * Remove commandesClient
-     *
-     * @param \AppBundle\Entity\CommandeClient $commandesClient
-     */
-    public function removeCommandesClient(\AppBundle\Entity\CommandeClient $commandesClient)
-    {
-        $this->commandesClient->removeElement($commandesClient);
+        return $this;
     }
 
     /**
-     * Get commandesClient
+     * Get date
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \DateTime 
      */
-    public function getCommandesClient()
+    public function getDate()
     {
-        return $this->commandesClient;
+        return $this->date;
     }
 
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\Client $user
+     * @param \AppBundle\Entity\User $user
      * @return PointVente
      */
-    public function setUser(\AppBundle\Entity\Client $user)
+    public function setUser(\AppBundle\Entity\Client $user = null)
     {
         $this->user = $user;
 
@@ -414,12 +469,84 @@ public function produitsJsonSerialize(){
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\Client 
+     * @return \AppBundle\Entity\User 
      */
     public function getUser()
     {
         return $this->user;
     }
+    /**
+     * Constructor
+     */
+    public function __construct($nom=null,$id=null, $type=null,$longitude=null, $latitude=null,$description=null,$createdAt=null,$nomGerant=null,$ville=null)
+    {
+    $this->nom=$nom;
+      $this->date=new \DateTime();
+      $this->id=$id;
+      $this->type=$type;
+      $this->longitude=$longitude;
+      $this->latitude=$latitude;
+      $this->description=$description;
+      $this->createdAt=$createdAt;
+      $this->nomGerant=$nomGerant;
+      $this->ville=$ville;
+      $this->visites = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     * @return PointVente
+     */
+    public function addVisite(\AppBundle\Entity\Visite $visite)
+    {
+        $visite->setPointVente($this);
+        $this->visites[] = $visite;
 
+        return $this;
+    }
+
+    /**
+     * Remove visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     */
+    public function removeVisite(\AppBundle\Entity\Visite $visites)
+    {
+        $this->visites->removeElement($visites);
+    }
+
+    /**
+     * Get visites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVisites()
+    {
+        return $this->visites;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return PointVente
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

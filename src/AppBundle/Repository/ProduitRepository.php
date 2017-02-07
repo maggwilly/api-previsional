@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\NoResultException;
 /**
  * ProduitRepository
  *
@@ -12,17 +12,92 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProduitRepository extends EntityRepository
 {
-	public function findByNom($nom=null)
-{
-  $qb = $this->createQueryBuilder('c');
-  if($nom!=null){
-  	$qb->where('c.nom LIKE :nom')
-               ->setParameter('nom', '%'.$nom.'%');
-        }    
-  return $qb
-     ->getQuery()
-    ->getArrayResult();
-  ;
+   /**
+Stock au detail par produit
+stock en gros par produit
+moyenne de vente par jour par produit
+moyenne ecart de livraison par produit
+  */
+	public function stockParProduit ($region=null, $startDate=null, $endDate=null){
 
-}
+        $qb = $this->createQueryBuilder('p')->join('p.situations','s')->join('s.visite','v')->join('v.pointVente','pv');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+          $qb->addGroupBy('p.id');
+           $qb->addSelect('p.nom');
+           $qb->addSelect('sum(s.stock) as stock');
+           $qb->addSelect('sum(s.stockG) as stockG');
+           $qb->addSelect('sum(s.mvj) as mvj');
+           $qb->addSelect('avg(s.ecl) as ecl'); 
+           try {  
+          return $qb->getQuery()->getArrayResult();
+          } catch (NoResultException $e) {
+            return array();
+        }
+     
+  }
+ /**
+A corriger: en cas de plusieur visite par point de vente ca fausse
+  */
+	public function visibilitekParProduit ($region=null, $startDate=null, $endDate=null){
+
+        $qb = $this->createQueryBuilder('p')->join('p.situations','s')->join('s.visite','v')->join('v.pointVente','pv');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+          $qb->addGroupBy('p.id');
+          $qb->addSelect('p.nom');
+          $qb->addSelect('count(s.map) as map');
+          $qb->addSelect('count(s.aff) as aff');
+          $qb->addSelect('count(s.pre)as pre');   
+          try {  
+          return $qb->getQuery()->getArrayResult();
+          } catch (NoResultException $e) {
+            return array();
+        }
+     
+  }	  
+ /**
+  *Nombre de point de vente qui respectent le prix au detail par produit
+  * Nombre de point de vente qui respectent le prix en gros par produit
+  */
+ 	public function respectPrixParProduit ($region=null, $startDate=null, $endDate=null){
+
+        $qb = $this->createQueryBuilder('p')->join('p.situations','s')->join('s.visite','v')->join('v.pointVente','pv');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+          $qb->addGroupBy('p.id');
+           $qb->addSelect('p.nom');
+          $qb->addSelect('count(s.rpd) as rpd');
+          $qb->addSelect('count(s.rpp) as rpp');
+          try {  
+          return $qb->getQuery()->getArrayResult();
+          } catch (NoResultException $e) {
+            return array();
+        }
+     
+  }	 	
 }

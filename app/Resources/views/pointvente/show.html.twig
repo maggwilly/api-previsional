@@ -1,56 +1,224 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1>Pointvente</h1>
 
-    <table>
-        <tbody>
+
+<div id="content" class="dashboard padding-20">
+<div class="panel panel-default">
+                        <div class="panel-body">
+                            <b>{{ pointVente.nom }}</b> - {{ pointVente.type }}<br>
+                            {{ pointVente.description }}
+                        </div>
+                    </div>
+<div class="row">  
+               <div class="col-md-7">
+                    <div id="panel-2" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Détails du point de vente</strong>
+                                    </span>
+
+                                </div>
+
+                                <!-- panel content -->
+                      <div class="panel-body">  
+                            <div class="table-responsive">
+                            <table class="table-vertical-middle">
+
+                             <tbody>
+
             <tr>
-                <th>Id</th>
-                <td>{{ pointVente.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
+                <th>Nom du point de vente </th>
                 <td>{{ pointVente.nom }}</td>
             </tr>
             <tr>
-                <th>Telephone</th>
-                <td>{{ pointVente.telephone }}</td>
+                <th>Nom du gérant</th>
+                <td>{{ pointVente.nomGerant }}</td>
             </tr>
             <tr>
-                <th>Type</th>
-                <td>{{ pointVente.type }}</td>
+                <th>Telephone du gérant</th>
+                <td>{{ pointVente.telGerant }}</td>
+            </tr>
+            <tr>
+                <th>Telelephone fixe</th>
+                <td>{{ pointVente.tel }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ pointVente.pays }}</td>
+            </tr>
+            <tr>
+                <th>Region</th>
+                <td>{{ pointVente.ville }}</td>
+            </tr>
+            <tr>
+                <th>Adresse du point de vente</th>
+                <td>{{ pointVente.adresse }}</td>
             </tr>
             <tr>
                 <th>Quartier</th>
                 <td>{{ pointVente.quartier }}</td>
             </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ pointVente.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Longitude</th>
-                <td>{{ pointVente.longitude }}</td>
-            </tr>
-            <tr>
-                <th>Latitude</th>
-                <td>{{ pointVente.latitude }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('pointvente_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('pointvente_edit', { 'id': pointVente.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <tr>
+                <th>Position géolocale </th>
+                <td>[{{ pointVente.longitude }}, {{ pointVente.latitude }}]</td>
+            </tr>
+
+            </tbody>
+            </table>
+ <div class="height-350 " id="map2"></div>
+            </div>
+
+          </div>
+               <!-- /panel content -->
+
+        </div>
+               <!-- /PANEL -->
+                    
+       </div>
+            <div class="col-md-5">
+                            <div id="panel-2" class="panel panel-default">
+                                 {% set first=pointVente.visites.first() %}
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Derniere visite</strong> ( le {{first.date|date ('d/m/Y')}}, {{first.user.username}})
+                                    </span>
+
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+                                </div>
+
+                                <!-- panel content -->
+                                <div class="panel-body">  
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#Reférence</th>
+                                                            <th>SD</th>
+                                                             <th>SG</th>
+                                                             <th>MVJ</th>
+                                                             <th>MAP</th>
+                                                             <th>RPD</th>
+                                                             <th>RPP</th>
+                                                             <th>PRE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for situation in first.situations %}
+                                                        <tr>
+                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
+                                                            <td>{{situation.stock}}</td>
+                                                            <td>{{situation.stockG}}</td>
+                                                            <td>{{situation.mvj}}</td>
+                                                            <td>{% if situation.map %}OUI{% else %}NON{% endif %}</td>
+                                                            <td>{% if situation.rpd %}OUI{% else %}NON{% endif %}</td>
+                                                            <td>{% if situation.rpp %}OUI{% else %}NON{% endif %}</td>
+                                                            <td>{% if situation.pre %}OUI{% else %}NON{% endif %}</td>
+                                                        </tr>
+                                                        {%endfor%}
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-vertical-middle nomargin">
+                                    <thead>
+                                        <tr>                                    
+                                            <th>Exlusivité</th>
+                                            <th>Affiche</th>
+                                            <th>Source d'approv..</th>                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                        <tr>
+                                           
+                                            <td>{% if first.exc %}OUI{% else %}NON{% endif %}</td>
+                                             <td>{% if first.aff %}OUI{% else %}NON{% endif %}</td>
+                                              <td>{% if first.sapp %}A.C{% else %}Autre{% endif %}</td>
+                                        </tr>
+  
+                                    </tbody>
+                                </table>
+
+                            </div>
+                                </div>
+                                <!-- /panel content -->
+
+                            </div>
+                            <!-- /PANEL -->
+
+                             <div id="panel-2" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Les visites</strong> ({{pointVente.visites|length}} visites)
+                                    </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+
+                                </div>
+
+                                <!-- panel content -->
+                                <div class="panel-body">  
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#Auditeur</th>
+                                                            <th>Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for visite in pointVente.visites %}
+                                                        <tr>
+                                                            <td><a href="#">{{visite.user.username}}</a></td>
+                                                            <td>{{visite.date | date ('d/m/Y')}}</td>
+                                                        </tr>
+                                                        {%endfor%}
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                </div>
+                                <!-- /panel content -->
+
+                            </div>
+                            <!-- /PANEL -->                           
+                    
+        </div>
+</div>
+</div>
+
+
 {% endblock %}
+{% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+<script>
+function myMap() {
+var mapProp= {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom:5,
+};
+var map=new google.maps.Map(document.getElementById("map2"),mapProp);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
+ {% endblock %}

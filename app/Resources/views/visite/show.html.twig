@@ -1,0 +1,56 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Visite</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ visite.id }}</td>
+            </tr>
+            <tr>
+                <th>Map</th>
+                <td>{% if visite.map %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pre</th>
+                <td>{% if visite.pre %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Aff</th>
+                <td>{% if visite.aff %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Exc</th>
+                <td>{% if visite.exc %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Vpt</th>
+                <td>{% if visite.vpt %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sapp</th>
+                <td>{{ visite.sapp }}</td>
+            </tr>
+            <tr>
+                <th>Fp</th>
+                <td>{{ visite.fp }}</td>
+            </tr>
+            <tr>
+                <th>Ecl</th>
+                <td>{{ visite.ecl }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if visite.date %}{{ visite.date|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('visite_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

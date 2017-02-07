@@ -1,16 +1,16 @@
 <?php
 
 namespace AppBundle\Entity;
-use Doctrine\Common\Collections\Criteria;
+
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
+
 /**
  * Produit
  *
  * @ORM\Table(name="produit")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProduitRepository")
  */
-class Produit implements JsonSerializable
+class Produit
 {
     /**
      * @var int
@@ -22,45 +22,29 @@ class Produit implements JsonSerializable
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="prix", type="integer")
-     */
-    private $prix;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
-
-    private $nombreJour;
-
-     private $dernierStock;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="conditionement", type="string", length=255)
+     * @ORM\Column(name="dossier", type="string", length=255)
      */
-    private $conditionement;
+    private $dossier;
 
-    /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommandeProduit", mappedBy="produit")
+        /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Situation", mappedBy="produit", cascade={"persist","remove"})
    */
-    private $commandesProduit;
+    private $situations;
 
 
-    public function jsonSerialize()
+public function __construct($nom=null,$dossier)
     {
-        return [
-            'id' => $this->getId(),
-            'prix' => $this->getPrix(),
-            'nom' => $this->getNom(),
-            'conditionement' => $this->getConditionement(),           
-        ];
+      $this->nom=$nom;
+      $this->dossier=$dossier;
     }
     /**
      * Get id
@@ -70,54 +54,6 @@ class Produit implements JsonSerializable
     public function getId()
     {
         return $this->id;
-    }
-
-
- /**
-     * Set prix
-     *
-     * @param integer $dernierStock
-     * @return Produit
-     */
-    public function setDernierStock($dernierStock)
-    {
-        $this->dernierStock = $dernierStock;
-
-        return $this;
-    }
-
-    /**
-     * Get prix
-     *
-     * @return integer 
-     */
-    public function getDernierStock()
-    {
-        return $this->dernierStock;
-    }
-
-    
-    /**
-     * Set prix
-     *
-     * @param integer $prix
-     * @return Produit
-     */
-    public function setPrix($prix)
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
-    /**
-     * Get prix
-     *
-     * @return integer 
-     */
-    public function getPrix()
-    {
-        return $this->prix;
     }
 
     /**
@@ -133,31 +69,6 @@ class Produit implements JsonSerializable
         return $this;
     }
 
-/**
-     * Set moyenneVente
-     *
-     * @param string $nombreJour
-     * @return Produit
-     */
-    public function setNombreJour($nombreJour)
-    {
-        $this->nombreJour = $nombreJour;
-
-        return $this;
-    }
-
-
- /**
-     * Get nombreJour
-     *
-     * @return integer 
-     */
-    public function getNombreJour()
-    {
-        return $this->nombreJour;
-    }
-
-
     /**
      * Get nom
      *
@@ -169,70 +80,25 @@ class Produit implements JsonSerializable
     }
 
     /**
-     * Set conditionement
+     * Set dossier
      *
-     * @param string $conditionement
+     * @param string $dossier
      * @return Produit
      */
-    public function setConditionement($conditionement)
+    public function setDossier($dossier)
     {
-        $this->conditionement = $conditionement;
+        $this->dossier = $dossier;
 
         return $this;
     }
 
     /**
-     * Get conditionement
+     * Get dossier
      *
      * @return string 
      */
-    public function getConditionement()
+    public function getDossier()
     {
-        return $this->conditionement;
+        return $this->dossier;
     }
-    /**
-     * Constructor
-     */
-    public function __construct($nom=null,$prix=0)
-    {
-        $this->commandesProduit = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->conditionement="unité";
-         $this->nom=$nom;
-         $this->prix=$prix;
-    }
-
-    /**
-     * Add commandesProduit
-     *
-     * @param \AppBundle\Entity\Commande $commandesProduit
-     * @return Produit
-     */
-    public function addCommandesProduit(\AppBundle\Entity\Commande $commandesProduit)
-    {
-        $this->commandesProduit[] = $commandesProduit;
-
-        return $this;
-    }
-
-    /**
-     * Remove commandesProduit
-     *
-     * @param \AppBundle\Entity\Commande $commandesProduit
-     */
-    public function removeCommandesProduit(\AppBundle\Entity\Commande $commandesProduit)
-    {
-        $this->commandesProduit->removeElement($commandesProduit);
-    }
-
-    /**
-     * Get commandesProduit
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCommandesProduit()
-    {
-        return $this->commandesProduit;
-    }
-
-
 }

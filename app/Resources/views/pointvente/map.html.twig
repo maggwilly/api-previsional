@@ -1,0 +1,64 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+
+   <!-- page title -->
+    <header id="page-header">
+    <h1>Les points de ventes</h1>
+    </header>
+<div id="content" class="dashboard padding-20">
+     <div id="panel-2" class="panel panel-default">
+                         <div class="panel-heading">
+                                    <span class="title elipsis">
+                        <strong>Points de vente recencés</strong> ({{nombrePointVente}} points de vente)
+                        </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+                                </div>
+                                <!-- panel content -->
+                                <div class="panel-body">  
+
+            <div class="height-600" id="map2"></div>
+                   
+                                </div>
+                                <!-- /panel content -->
+
+                    </div>
+     <div class="panel panel-default">
+            <div class="panel-body">
+                   <div class="alert alert-bordered-dashed margin-bottom-30"><!-- DASHED -->
+                           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                          <p>
+                                        Les données affichées sur cette page sont fonction de la période et de la région sélectionnées. Veillez vous assurer que vous avez bien défini la période et la région correspondante.
+                                        Par défaut, les données sont celle de toute les régions pour toutes les périodes.
+                             </p>
+               </div>
+            </div>
+     </div> 
+     <!-- /PANEL -->
+
+   </div>
+    
+{% endblock %}
+       {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+<script>
+function myMap() {
+var mapProp= {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom:5,
+};
+var map=new google.maps.Map(document.getElementById("map2"),mapProp);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
+
+       {% endblock %}

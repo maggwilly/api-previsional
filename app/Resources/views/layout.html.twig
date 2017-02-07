@@ -1,134 +1,302 @@
-<!doctype html>
-<html lang="en-US">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>{% block title %}API.LPM Consulting!{% endblock %}</title>		
-		<meta name="description" content="" />
-		<meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
-		<!-- mobile settings -->
-		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-		<!-- WEB FONTS -->
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
-		<!-- CORE CSS -->
-		 {% block stylesheets %}
-		<link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
-        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
+<!DOCTYPE html>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %}L.P.M {% endblock %}</title>       
+        <meta name="description" content="" />
+        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
+        <!-- mobile settings -->
+        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+        <!-- WEB FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
+         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('home/css/essentials.css') }}"  type="text/css" />
+        <link rel="stylesheet" href="{{ asset('home/css/layout.css') }}" type="text/css"  />
+        	<link href="{{ asset('home/css/header-1.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('home/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
         {% endblock %}
-	</head>
-	<!--
-		.boxed = boxed version
-	-->
-	<body>
+    </head>
+	<body class="smoothscroll enable-animation">
 
-
-		<!-- WRAPPER -->
+		<!-- wrapper -->
 		<div id="wrapper">
 
-			<!-- 
-				ASIDE 
-				Keep it outside of #wrapper (responsive purpose)
-			-->
-			<aside id="aside">
+			<div id="header" class="sticky clearfix">
 
-				<nav id="sideNav"><!-- MAIN MENU -->
-					<ul class="nav nav-list">
-						<li><!-- dashboard -->
-							<a class="dashboard" href="{{ path('homepage') }}"><!-- warning - url used by default by ajax (if eneabled) -->
-								<i class="main-icon fa fa-dashboard"></i> <span>Accueil</span>
-							</a>
-						</li>						
-						<li>
-							<a href="#">
-								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-bar-chart-o"></i> <span>Les points de vente</span>
-							</a>
-							<ul><!-- submenus -->
-								<li><a href="{{ path('pointvente_all_page') }}">Les points de vente</a></li>
-								<li><a href="">Geolocalisation</a></li>
-								<li><a href="{{ path('situationPointVente_all_page') }}">Retail audit</a></li>
-								
-							</ul>
-						</li>
-						<li><!-- dashboard -->
-							<a class="dashboard" href="{{ path('chargement_all_page') }}"><!-- warning - url used by default by ajax (if eneabled) -->
-								<i class="main-icon fa fa-cart"></i> <span>Les stocks</span>
-							</a>
-						</li>
-					</ul>
+				<!-- TOP NAV -->
+				<header id="topNav">
+					<div class="container">
 
-				</nav>
+						<!-- Mobile Menu Button -->
+						<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+							<i class="fa fa-bars"></i>
+						</button>
 
-				<span id="asidebg"><!-- aside fixed background --></span>
-			</aside>
-			<!-- /ASIDE -->
+						<!-- Logo -->
+						<a class="logo pull-left" href="#">
+							<img src="" alt="" />
+						</a>
 
+						<!-- 
+							Top Nav 
+							
+							AVAILABLE CLASSES:
+							submenu-dark = dark sub menu
+						-->
+						<div class="navbar-collapse pull-right nav-main-collapse collapse">
+							<nav class="nav-main">
 
-			<!-- HEADER -->
-			<header id="header">
+								<!-- 
+									.nav-onepage
+									Required for onepage navigation links
+									
+									Add .external for an external link!
+								-->
+								<ul id="topMain" class="nav nav-pills nav-main nav-onepage">
+									<li class="active"><!-- HOME -->
+										<a href="#home">
+											ACCUEIL
+										</a>
+									</li>
+									<li><!-- PRICING -->
+										<a href="#about">
+											A PROPOS
+										</a>
+									</li>
+									<li><!-- TESTIMONIALS -->
+										<a href="{{ path('user_homepage') }}">
+								 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}{% else %}Connexion{% endif%}
+										</a>
+									</li>
 
-				<!-- Mobile Button -->
-				<button id="mobileMenuBtn"></button>
+								</ul>
 
-				<nav>
+							</nav>
+						</div>
 
-					<!-- OPTIONS LIST -->
-					<ul class="nav pull-right">
+					</div>
+				</header>
+				<!-- /Top Nav -->
 
-						<!-- USER OPTIONS -->
-						<li class="dropdown pull-left">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-								<img class="user-avatar" alt="" src="assets/images/noavatar.jpg" height="34" /> 
-								<span class="user-name">
-									<span class="hidden-xs">
-										{{  app.user.username }}<i class="fa fa-angle-down"></i>
-									</span>
-								</span>
-							</a>
-							<ul class="dropdown-menu hold-on-click">
-								<li><!-- settings -->
-									<a href="#"><i class="fa fa-cogs"></i> Settings</a>
-								</li>
-
-								<li class="divider"></li>
-                                  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-								<li><!-- logout -->
-									<a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Deconecte</a>
-								</li>
-								 {% endif %}
-							</ul>
-						</li>
-						<!-- /USER OPTIONS -->
-
-					</ul>
-					<!-- /OPTIONS LIST -->
-
-				</nav>
-
-			</header>
-			<!-- /HEADER -->
+			</div>
 
 
-			<!-- 
-				MIDDLE 
-			-->
-			<section id="middle">
-              {% block body %}
+			<!-- HOME -->
+			<section id="home" class="height-450" style="background:url('{{ asset('home/images/wall2.jpg') }}')">
+				<div class="display-table">
+					<div class="display-table-cell vertical-align-middle">
+						
+						<div class="container text-center">
+							
+							<h1 class="nomargin size-50 weight-300 wow fadeInUp" data-wow-delay="0.4s">Marketing inteligent</h1>
+							<p class="lead font-lato size-30 wow fadeInUp" data-wow-delay="0.7s">Une plateforme unique pour suivre et gérer vos forces de vente.</p>
+							
+							<div class="margin-top-30">
+						<a href="{{ path('user_homepage') }}" class="btn btn-3d btn-lg btn-red"><i class="glyphicon glyphicon-user"></i>{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}{% else %}Connexion{% endif%}</a>
+							</div>
 
-              {% endblock %}
+						</div>
 
-
+					</div>
+				</div>
 			</section>
-			<!-- /MIDDLE -->
+			<!-- /HOME -->
+
+			<!-- CALLOUT -->
+			<section class="callout-dark heading-title heading-arrow-bottom">
+				<div class="container">
+
+					<div class="text-center">
+						<h3 class="size-30">Qui sont vos concurrents ?</h3>
+						<p>Nous menons des études marketing de terrain pour vous fournir des données stratégiques sur la concurrence.</p>
+					</div>
+
+				</div>
+			</section>
+			<!-- /CALLOUT -->
+
+
+			
+			<!-- -->
+			<section class="nopadding">
+				
+				<div class="row nomargin">
+				
+					<!-- LEFT -->
+					<div class="col-md-6 col-sm-6 nopadding nomargin">
+
+						<img class="img-responsive" src="https://scontent-frt3-1.xx.fbcdn.net/v/t31.0-8/11705510_580592742092709_8411459539698597693_o.jpg?oh=02915855b1c2997d857f1474123659fe&oe=59083507" alt="image" />
+
+					</div>
+
+					<!-- RIGHT -->
+					<div class="col-md-6 col-sm-6 nopadding nomargin">
+					
+						<div class="padding-40">
+				
+							<h2>Des campagnes marketing sur mesure</h2>
+							<p>A partir des données précieuse de votre marché, nous vous proposons une stratégie taillée pour vous.</p>
+
+							<p class="font-lato size-18">
+							La réussite d'une campagnes marketing est fonction des données que seul les experts maitrisent les contours. De quoi souffre marché ?
+							</p>
+
+
+							<div class="row margin-top-60">
+
+								<div class="col-md-6">
+									<div class="heading-title heading-border-bottom heading-color">
+										<h3>Precision</h3>
+									</div>
+									<p>Une campagne doit être précise afin de se concentrer sur les objectifs. 
+									 Nous le faisons depuis six années.
+
+									</p>
+								</div>
+
+								<div class="col-md-6">
+									<div class="heading-title heading-border-bottom heading-color">
+										<h3>Mésurabilité</h3>
+									</div>
+									<p><b>"Tout ce qui se mesure peut s'amméliorer"</b>. 
+									Nous travaillons avec des chiffres recoltés et disponibles en temps réel.</p>
+
+								</div>
+
+							</div>
+
+
+						</div>
+					</div>
+
+				</div>
+				
+			</section>
+
+
+
+
+
+			<!-- FOOTER -->
+			<footer id="footer">
+				<div class="container">
+
+					<div class="row">
+						
+						<div class="col-md-4">
+							<!-- Footer Logo -->
+				
+							<img class="footer-logo" src="{{ asset('home/images/lpm.png') }}" alt="" />
+								<ul class="list-unstyled">
+									<li class="footer-sprite address">
+										B.P 21132<br>
+										Douala, Cameroun<br>
+										Pont Bonabassem<br>
+									</li>
+									<li class="footer-sprite phone">
+										Tel: 00237 233 410 029
+									</li>
+									<li class="footer-sprite email">
+										<a href="mailto:info@lpmconsulting.fr">info@lpmconsulting.fr</a>
+									</li>
+								</ul>
+							<!-- /Contact Address -->
+
+						</div>
+
+						<div class="col-md-4">
+
+							<!-- Latest Blog Post -->
+							<h4 class="letter-spacing-1">ACTIVITES</h4>
+							<ul class="footer-posts list-unstyled">
+								<li>
+									<a href="#">Etude des forces de vente</a>
+									
+								</li>
+								<li>
+									<a href="#">Gestion des campagnes marketing</a>
+								</li>
+								<li>
+									<a href="#">Fournisseur de solution de marketing intelligent</a>
+									
+								</li>
+							</ul>
+							<!-- /Latest Blog Post -->
+
+						</div>
+
+
+
+						<div class="col-md-4">
+
+							<!-- Newsletter Form -->
+							<h4 class="letter-spacing-1">COMMUNAUTES</h4>
+							<p>Rejoignez notre communauté en ligne</p>
+							<!-- Social Icons -->
+							<div class="margin-top-20">
+							<a href="https://www.facebook.com/LPMConsulting/" target="_blank" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
+
+									<i class="icon-facebook"></i>
+									<i class="icon-facebook"></i>
+								</a>
+
+								<a href="#" class="social-icon social-icon-border social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
+									<i class="icon-twitter"></i>
+									<i class="icon-twitter"></i>
+								</a>
+
+								<a href="#" class="social-icon social-icon-border social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
+									<i class="icon-gplus"></i>
+									<i class="icon-gplus"></i>
+								</a>
+
+								<a href="#" class="social-icon social-icon-border social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
+									<i class="icon-linkedin"></i>
+									<i class="icon-linkedin"></i>
+								</a>
+
+								<a href="#" class="social-icon social-icon-border social-rss pull-left" data-toggle="tooltip" data-placement="top" title="Rss">
+									<i class="icon-rss"></i>
+									<i class="icon-rss"></i>
+								</a>
+					
+							</div>
+							<!-- /Social Icons -->
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="copyright">
+					<div class="container">
+						<ul class="pull-right nomargin list-inline mobile-block">
+							
+							<li>&bull;</li>
+							
+						</ul>
+						&copy; 2016 Tous droits reservés, LPM Consulting.
+					</div>
+				</div>
+			</footer>
+			<!-- /FOOTER -->
 
 		</div>
-       {% block javascripts %}
-	   <script type="text/javascript"> var plugin_path = 'assets/plugins/';</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-       {% endblock %}
+		<!-- /wrapper -->
 
+
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+
+	  {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       		<script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
+       {% endblock %}
 	</body>
 </html>

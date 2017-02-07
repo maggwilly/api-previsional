@@ -21,22 +21,6 @@ class Client extends BaseUser
      */
     protected $id;
 	
-   /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="client")
-   *
-   */
-   private $commandes;
-
-   /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="user")
-   *
-   */
-   private $commandePrises;
-   
-   /**
-   * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist","remove"})
-   */
-   private $image;
 
     /**
      * @var string
@@ -44,54 +28,6 @@ class Client extends BaseUser
      * @ORM\Column(name="nom", type="string", length=255,nullable=true)
      */
     private $nom;
-
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
-     */
-    private $adresse;
-
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="latLocal", type="string", length=255 ,nullable=true)
-     */
-    private $latLocal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="longLocal", type="string", length=255, nullable=true)
-     */
-    private $longLocal;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="piment", type="boolean",nullable=true,nullable=true)
-     */
-    private $piment;
-	
-	
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="place", type="string", length=255, nullable=true)
-     */
-    private $place;
-
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateSave", type="date",nullable=true)
-     */
-    private $dateSave;
 
 
      /**
@@ -216,6 +152,24 @@ class Client extends BaseUser
     protected $credentialsExpireAt;
 
     /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $visites;
+
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Synchro", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $synchros;
+
+
+       /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $etapes;
+    /**
      * Get id
      *
      * @return integer 
@@ -249,135 +203,6 @@ class Client extends BaseUser
     }
 
    
-
-    /**
-     * Set adresse
-     *
-     * @param string $adresse
-     * @return Client
-     */
-    public function setAdresse($adresse)
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    /**
-     * Get adresse
-     *
-     * @return string 
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-
-
-
-    /**
-     * Get password
-     *
-     * @return string 
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set latLocal
-     *
-     * @param string $latLocal
-     * @return Client
-     */
-    public function setLatLocal($latLocal)
-    {
-        $this->latLocal = $latLocal;
-
-        return $this;
-    }
-
-    /**
-     * Get latLocal
-     *
-     * @return string 
-     */
-    public function getLatLocal()
-    {
-        return $this->latLocal;
-    }
-
-    /**
-     * Set longLocal
-     *
-     * @param string $longLocal
-     * @return Client
-     */
-    public function setLongLocal($longLocal)
-    {
-        $this->longLocal = $longLocal;
-
-        return $this;
-    }
-
-    /**
-     * Get longLocal
-     *
-     * @return string 
-     */
-    public function getLongLocal()
-    {
-        return $this->longLocal;
-    }
-
-    /**
-     * Set piment
-     *
-     * @param boolean $piment
-     * @return Client
-     */
-    public function setPiment($piment)
-    {
-        $this->piment = $piment;
-
-        return $this;
-    }
-
-    /**
-     * Get piment
-     *
-     * @return boolean 
-     */
-    public function isPiment()
-    {
-        return $this->piment;
-    }
-
-    /**
-     * Set place
-     *
-     * @param string $place
-     * @return Client
-     */
-    public function setPlace($place)
-    {
-        $this->place = $place;
-
-        return $this;
-    }
-
-    /**
-     * Get place
-     *
-     * @return string 
-     */
-    public function getPlace()
-    {
-        return $this->place;
-    }
-	
-
   
     /**
      * Constructor
@@ -401,128 +226,7 @@ class Client extends BaseUser
      * @param \AppBundle\Entity\Commande $commandes
      * @return Client
      */
-    public function addCommande(\AppBundle\Entity\Commande $commandes)
-    {
-        $this->commandes[] = $commandes;
-
-        return $this;
-    }
-
-    /**
-     * Remove commandes
-     *
-     * @param \AppBundle\Entity\Commande $commandes
-     */
-    public function removeCommande(\AppBundle\Entity\Commande $commandes)
-    {
-        $this->commandes->removeElement($commandes);
-    }
-
-    /**
-     * Get commandes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCommandes()
-    {
-        return $this->commandes;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \AppBundle\Entity\Image $image
-     * @return Client
-     */
-    public function setImage(\AppBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \AppBundle\Entity\Image 
-     */
-    public function getImage()
-    {
-        if(is_null($this->image))
-            return new Image();
-        return $this->image;
-    }
-
-
-
-    /**
-     * Get piment
-     *
-     * @return boolean 
-     */
-    public function getPiment()
-    {
-        return $this->piment;
-    }
-
-    /**
-     * Add commandePrises
-     *
-     * @param \AppBundle\Entity\Commande $commandePrises
-     * @return Client
-     */
-    public function addCommandePrise(\AppBundle\Entity\Commande $commandePrises)
-    {
-        $this->commandePrises[] = $commandePrises;
-
-        return $this;
-    }
-
-    /**
-     * Remove commandePrises
-     *
-     * @param \AppBundle\Entity\Commande $commandePrises
-     */
-    public function removeCommandePrise(\AppBundle\Entity\Commande $commandePrises)
-    {
-        $this->commandePrises->removeElement($commandePrises);
-    }
-
-    /**
-     * Get commandePrises
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCommandePrises()
-    {
-        return $this->commandePrises;
-    }
-
-
-
-    /**
-     * Set dateSave
-     *
-     * @param \DateTime $dateSave
-     * @return Client
-     */
-    public function setDateSave($dateSave)
-    {
-        $this->dateSave = $dateSave;
-
-        return $this;
-    }
-
-    /**
-     * Get dateSave
-     *
-     * @return \DateTime 
-     */
-    public function getDateSave()
-    {
-        return $this->dateSave;
-    }
-
+  
 
     /**
      * Get enabled
@@ -595,5 +299,72 @@ class Client extends BaseUser
     public function getCredentialsExpireAt()
     {
         return $this->credentialsExpireAt;
+    }
+
+        /**
+     * Add visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     * @return PointVente
+     */
+    public function addVisite(\AppBundle\Entity\Visite $visite)
+    {
+        $visite->setPointVente($this);
+        $this->visites[] = $visite;
+
+        return $this;
+    }
+
+    /**
+     * Remove visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     */
+    public function removeVisite(\AppBundle\Entity\Visite $visites)
+    {
+        $this->visites->removeElement($visites);
+    }
+
+    /**
+     * Get visites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVisites()
+    {
+        return $this->visites;
+    }
+
+    /**
+     * Add synchros
+     *
+     * @param \AppBundle\Entity\Visite $synchros
+     * @return Client
+     */
+    public function addSynchro(\AppBundle\Entity\Visite $synchros)
+    {
+        $this->synchros[] = $synchros;
+
+        return $this;
+    }
+
+    /**
+     * Remove synchros
+     *
+     * @param \AppBundle\Entity\Visite $synchros
+     */
+    public function removeSynchro(\AppBundle\Entity\Visite $synchros)
+    {
+        $this->synchros->removeElement($synchros);
+    }
+
+    /**
+     * Get synchros
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSynchros()
+    {
+        return $this->synchros;
     }
 }

@@ -1,0 +1,12 @@
+situation_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Situation:index" }
+    methods:  GET
+
+situation_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Situation:show" }
+    methods:  GET
+
+
+

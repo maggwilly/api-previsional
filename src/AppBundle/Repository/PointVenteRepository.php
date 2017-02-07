@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * PointVenteRepository
@@ -13,17 +14,140 @@ use Doctrine\ORM\EntityRepository;
 class PointVenteRepository extends EntityRepository
 {
 
-	public function findByNom($nom=null)
-{
-  $qb = $this->createQueryBuilder('c');
-  if($nom!=null){
-  	$qb->where('c.nom LIKE :nom')
-               ->setParameter('nom', '%'.$nom.'%');
-        }    
-  return $qb
-     ->getQuery()
-    ->getArrayResult();
-  ;
+/**
+Nombre de point de vente recencés
+ */
+	public function nombrePointVente ($region=null, $startDate=null, $endDate=null){
 
-}
+        $qb = $this->createQueryBuilder('p');
+        if($region!=null){
+           $qb->where('p.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+            if($startDate!=null){
+           $qb->andWhere('p.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('p.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+       
+
+   try {
+		 $qb->select('count(p.id) as nombrePointVente');
+         return $qb->getQuery()->getSingleScalarResult();  
+   } catch (NoResultException $e) {
+        return 0;
+     }
+  }
+
+/**
+Nombre de point de vente visités
+ */
+  public function pointVentes($region=null, $startDate=null, $endDate=null){
+
+        $qb = $this->createQueryBuilder('p');
+        if($region!=null){
+           $qb->where('p.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+    if($startDate!=null){
+           $qb->andWhere('p.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('p.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+       
+
+  
+         return $qb->getQuery()->getResult();  
+   
+  }
+
+/**
+Nombre de point de vente visités
+ */
+  public function nombrePointVenteVisite($region=null, $startDate=null, $endDate=null){
+
+        $qb = $this->createQueryBuilder('p')->join('p.visites','v');
+        if($region!=null){
+           $qb->where('p.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+    if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+       
+
+   try {
+     $qb->select('count(p.id) as nombrePointVenteVisite');
+
+         return $qb->getQuery()->getSingleScalarResult();  
+   } catch (NoResultException $e) {
+        return 0;
+     }
+  }
+
+
+
+  /**
+  *Repartition des visites effectuees par semaine 
+  */
+  public function visitesParSemaine ($region=null, $startDate=null, $endDate=null){
+
+       $qb = $this->createQueryBuilder('pv')->leftJoin('pv.visites','v');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+          $qb->select('v.weekText'); 
+          $qb->addGroupBy('v.weekText');
+          $qb->addSelect('count(v.id) as nombre'); 
+
+
+          return $qb->getQuery()->getArrayResult();
+     
+  }
+
+
+    /**
+  *Nombre total de visite effectue par point de vente 
+  */
+  public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
+
+       $qb = $this->createQueryBuilder('pv')->leftJoin('pv.visites','v');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+ 
+           $qb->select('max(v.date) as date');
+            $qb->addSelect('pv.nom');
+              $qb->addSelect('pv.id');
+           $qb->addGroupBy('pv.id');
+          $qb->addSelect('count(v.id) as nombre'); 
+          return $qb->getQuery()->getArrayResult();
+     
+  }
+
 }

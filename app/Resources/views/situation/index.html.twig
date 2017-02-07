@@ -1,0 +1,44 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Situations list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Map</th>
+                <th>Pre</th>
+                <th>Aff</th>
+                <th>Rpp</th>
+                <th>Rpd</th>
+                <th>Stock</th>
+                <th>Mvj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for situation in situations %}
+            <tr>
+                <td><a href="{{ path('situation_show', { 'id': situation.id }) }}">{{ situation.id }}</a></td>
+                <td>{% if situation.map %}Yes{% else %}No{% endif %}</td>
+                <td>{% if situation.pre %}Yes{% else %}No{% endif %}</td>
+                <td>{% if situation.aff %}Yes{% else %}No{% endif %}</td>
+                <td>{% if situation.rpp %}Yes{% else %}No{% endif %}</td>
+                <td>{% if situation.rpd %}Yes{% else %}No{% endif %}</td>
+                <td>{{ situation.stock }}</td>
+                <td>{{ situation.mvj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('situation_show', { 'id': situation.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

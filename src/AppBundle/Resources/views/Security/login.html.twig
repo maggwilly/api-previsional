@@ -1,56 +1,29 @@
-<!doctype html>
-<html lang="en-US">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>API LPM | CONNEXION</title>
-		<meta name="description" content="" />
-		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
-
-		<!-- mobile settings -->
-		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-
-		<!-- WEB FONTS -->
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
-
-		<!-- CORE CSS -->
-		<!-- CORE CSS -->
-		 {% block stylesheets %}
-		<link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
-        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
-        {% endblock %}
-	</head>
-	<!--
-		.boxed = boxed version
-	-->
-	<body>
-
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block title %}L.P.M:Connexion {% endblock %}
+{% block fos_user_content %}
 
 		<div class="padding-15">
 
+
 			<div class="login-box">
-
-				
-    {# S'il y a une erreur, on l'affiche dans un joli cadre #}
-
-        {% if error %}
-
-       <div class="alert alert-danger">{{ error.message }}</div>
-
-       {% endif %}
-				<form action="{{ path('fos_user_security_check') }}" method="post" class="sky-form boxed">
+				<!-- login form -->
+				<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
 					<header><i class="fa fa-users"></i> Connexion</header>
-
+					{% if error %}
+					<div class="alert alert-danger noborder text-center weight-400 nomargin noradius">
+						
+                    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+                    
+					</div>
+					 {% endif %}
 					<fieldset>	
-					
+
 						<section>
-							<label class="label">Nom</label>
+							<label class="label">Email ou nom d'utilisateur</label>
 							<label class="input">
 								<i class="icon-append fa fa-envelope"></i>
-								<input ype="text" id="username" name="_username" value="{{ last_username }}"  required="required" >
-								<span class="tooltip tooltip-top-right">Nom d'utilisateur</span>
+								<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+								<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
 							</label>
 						</section>
 						
@@ -58,37 +31,36 @@
 							<label class="label">Mot de passe</label>
 							<label class="input">
 								<i class="icon-append fa fa-lock"></i>
-								<input type="password" id="password" name="_password"  required="required" >
-								<b class="tooltip tooltip-top-right">Type your Password</b>
+								<input type="password" id="password" name="_password" required="required"/>
+								<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
 							</label>
-							<label class="checkbox"><input type="checkbox" name="_remember_me" value="on" checked><i></i>se souvenir de moi</label>
+					<label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
 						</section>
 
 					</fieldset>
 
 					<footer>
-						<button type="submit" class="btn btn-primary pull-right">Connecte</button>
+						<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+
+						<div class="forgot-password pull-left">
+							<a href="#">Mot de passe oublié ?</a> <br />
+
+						</div>
 
 					</footer>
 				</form>
 				<!-- /login form -->
 
-				<hr />
 
-				<div class="text-center">
-					Connectez-vous!
-				</div>
-
-
+      <p style="text-align:center;"><a href="{{ path('homepage') }}"><strong>Retour à l'accueil</strong></a></p>
 			</div>
 
 		</div>
 
-		<!-- JAVASCRIPT FILES -->
-     {% block javascripts %}
-	   <script type="text/javascript"> var plugin_path = 'assets/plugins/';</script>
+{% endblock fos_user_content %}
+{% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-{% endblock %}
-	</body>
-</html>
+
+ {% endblock %}

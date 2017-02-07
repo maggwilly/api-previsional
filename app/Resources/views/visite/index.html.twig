@@ -1,0 +1,74 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+   <!-- page title -->
+    <header id="page-header">
+    <h1>Les visites</h1>
+    </header>
+<div id="content" class="dashboard padding-20">
+    
+                <div id="panel-1" class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <strong>Repartition des visites par point de vente</strong> ({{nombreVisite}} visites) <!-- panel title -->
+                            </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+
+                        </div>
+                        <!-- panel content -->
+                        <div class="panel-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-vertical-middle nomargin">
+                                    <thead>
+                                        <tr>                                    
+                                            <th>Point de vente</th>
+                                            <th>Nonbre de visite</th>
+                                            <th>Dernière visite</th>                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for visite in visitesParPDV %}
+                                        <tr>
+                                           
+                                            <td><a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.nom}}</a></td>
+                                            <td>{{visite.nombre}}</td>
+                                             <td>{% if visite.date %}{{visite.date |date('d/m/Y')}} {% else %}--{% endif %}</td>
+                                        </tr>
+                                         {% endfor %}
+                                    </tbody>
+                                </table>
+                                <br>
+                                    <a class="size-12" href="#">
+                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                     Exporter vers (.xls)
+                                    </a> 
+                            </div>
+                        </div>
+                        <!-- /panel content -->
+                    </div>
+     <div class="panel panel-default">
+            <div class="panel-body">
+                   <div class="alert alert-bordered-dashed margin-bottom-30"><!-- DASHED -->
+                           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                          <p>
+                            Les données affichées sur cette page sont fonction de la période et de la région sélectionnées. Veillez vous assurer que vous avez bien défini la période et la région correspondante.
+                            Par défaut, les données sont celle de toute les régions pour toutes les périodes.
+                        </p>
+               </div>
+            </div>
+     </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+
+ {% endblock %}
