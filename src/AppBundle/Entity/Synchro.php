@@ -45,8 +45,9 @@ class Synchro
         /**
      * Constructor
      */
-    public function __construct($date=null)
+    public function __construct($user=null, $date=null)
     {
+       $this->user=$user;
       $this->date=$date;
     
     }

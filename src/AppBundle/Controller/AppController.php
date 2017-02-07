@@ -3,6 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Etape;
+use AppBundle\Entity\Produit;
+use AppBundle\Entity\PointVente;
+use AppBundle\Entity\Synchro;
+use AppBundle\Entity\Visite;
+use AppBundle\Entity\Situation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -93,9 +98,11 @@ class AppController extends Controller
          return new RedirectResponse($referer);
     }
 
-     public function loadDefaultAction(ObjectManager $manager)
+     public function loadDefaultAction()
     {
+        $manager = $this->getDoctrine()->getManager();
         $user= $this->getUser();
+
          $produits = array(
          new Produit("Jadida 4kg g","produit"),
          new Produit("Jadida 1Kg","produit"),
@@ -221,6 +228,8 @@ class AppController extends Controller
          }
 
         $manager->flush();
+
+    return $this->redirectToRoute('user_homepage');
     }
 
 }

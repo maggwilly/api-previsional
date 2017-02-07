@@ -481,7 +481,7 @@ class PointVente
     public function __construct($user=null,$nom=null,$id=null, $type=null,$longitude=null, $latitude=null,$description=null,$createdAt=null,$nomGerant=null,$ville=null)
     {
        $this->user=$user;
-    $this->nom=$nom;
+      $this->nom=$nom;
       $this->date=new \DateTime();
       $this->id=$id;
       $this->type=$type;

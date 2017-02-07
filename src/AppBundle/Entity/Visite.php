@@ -130,9 +130,9 @@ class Visite
         /**
      * Constructor
      */
-    public function __construct($user=null,$id=null,$date,$pointVente=null,$aff=null,$sapp=null,$exc=null)
+    public function __construct($user=null,$id=null,$date=null,$pointVente=null,$aff=null,$sapp=null,$exc=null)
     {
-       $this->user=$user;
+     $this->user=$user;
       $this->date=$date;
       $this->id=$id;
       $this->pointVente = $pointVente;
@@ -156,7 +156,6 @@ class Visite
  public function prePersist(){
      $this->week =$this->date->format("W");
      $year=$this->date->format("Y");
-
     $date = new \DateTime();
     $date->setISODate($year, $this->week);
     $startDate=$date->format('d/m/Y');
