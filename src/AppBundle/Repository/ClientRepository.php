@@ -22,16 +22,16 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('ville', $region);
           }
           if($startDate!=null){
-           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+           $qb->andWhere('v.date is null or v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
           }
           if($endDate!=null){
-           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+           $qb->andWhere('v.date is null or v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
           }
  
-           $qb->select('max(v.date) as date');
+            $qb->select('max(v.date) as date');
             $qb->addSelect('u.username');
-           $qb->addGroupBy('u.username');
-          $qb->addSelect('count(v.id) as nombre'); 
+            $qb->addGroupBy('u.username');
+            $qb->addSelect('count(v.id) as nombre'); 
           return $qb->getQuery()->getArrayResult();
      
   }
@@ -44,13 +44,13 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
        $qb = $this->createQueryBuilder('u')->leftJoin('u.synchros','s');
 
           if($startDate!=null){
-           $qb->andWhere('s.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+           $qb->andWhere('s.date is null or s.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
           }
           if($endDate!=null){
-           $qb->andWhere('s.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+           $qb->andWhere('s.date is null or s.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
           }
  
-           $qb->select('max(s.date) as date');
+            $qb->select('max(s.date) as date');
             $qb->addSelect('u.username');
             $qb->addGroupBy('u.username');
             $qb->addSelect('count(s.id) as nombre'); 
