@@ -277,12 +277,12 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                    {% for situation in situationsComparee %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
                                                             <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
                                                             <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
-                                                            <td>{{situation.nomCon}}</td>
+                                                           
                                                             <td>{{situation.sdCon|number_format(0, '.', ' ')}}</td>
                                                              <td>{{situation.sgCon|number_format(0, '.', ' ')}}</td>
                                                         </tr>
@@ -338,12 +338,12 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                    {% for situation in situationsComparee  %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
                                                             <td>{{situation.rpd}}</td>
                                                             <td>{{situation.rpp}}</td>
-                                                            <td>{{situation.nomCon}}</td>
+                                                          
                                                             <td>{{situation.rpdCon}}</td>
                                                              <td>{{situation.rppCon}}</td>
                                                         </tr>
@@ -400,12 +400,12 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                    {% for situation in situationsComparee  %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
                                                             <td>{{situation.map}}</td>
                                                             <td>{{situation.pre}}</td>
-                                                            <td>{{situation.nomCon}}</td>
+                                                           
                                                             <td>{{situation.mapCon}}</td>
                                                              <td>{{situation.preCon}}</td>
                                                         </tr>
@@ -457,12 +457,12 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                    {% for situation in situationsComparee %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
                                                             <td>{{situation.mvj|number_format(0, '.', ' ')}}</td>
                                                             <td>{{situation.ecl|number_format(0, '.', ',')}}</td>
-                                                            <td>{{situation.nomCon}}</td>
+                                                            
                                                             <td>{{situation.mvjCon|number_format(0, '.', ' ')}}</td>
                                                              <td>{{situation.eclCon|number_format(0, '.', ',')}}</td>
                                                         </tr>
