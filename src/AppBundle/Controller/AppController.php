@@ -51,7 +51,7 @@ class AppController extends Controller
 
       $situationsComparee = $em->getRepository('AppBundle:Produit')->situationsComparee($region,$startDate, $endDate);
        
-      // $concurents=array_column($situationsComparee, 'nomCon', 'id');
+  $concurents=array_column($situationsComparee, 'nomCon', 'id');
         $nombrePointVenteVisite=$excApp[0]['nombre'];
         return $this->render('AppBundle::layout.html.twig',
             array(
@@ -64,7 +64,7 @@ class AppController extends Controller
                  'nApp'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['sapp']:'--',
                 'tauxAff'=>$nombrePointVenteVisite>0?$excApp[0]['aff']*100/$nombrePointVenteVisite:'--',
                   'nAff'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['aff']:'--',
-               // 'concurents'=>$concurents,
+               'concurents'=>$concurents,
                 'visitesParSemaine'=>$visitesParSemaine,
                 'situationsComparee'=>$situationsComparee
                 ));
