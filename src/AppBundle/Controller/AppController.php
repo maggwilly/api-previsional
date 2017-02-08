@@ -51,7 +51,7 @@ class AppController extends Controller
 
       $situationsComparee = $em->getRepository('AppBundle:Produit')->situationsComparee($region,$startDate, $endDate);
        
-  $concurents=array_column($situationsComparee, 'nomCon', 'id');
+  $concurents=array_column($situationsComparee, 'nomcon', 'id');
         $nombrePointVenteVisite=$excApp[0]['nombre'];
         return $this->render('AppBundle::layout.html.twig',
             array(
