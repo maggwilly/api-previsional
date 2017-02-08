@@ -13,13 +13,19 @@ class LoadUserData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+       $concur1=new Produit("Rosa 4Kg","concurrence");
+       $concur2= new Produit("Rosa 1Kg","concurrence");
+       $concur3= new Produit("Rosa 900g","concurrence");
+
     	 $produits = array(
-    	 new Produit("Jadida 4kg g","produit"),
-    	 new Produit("Jadida 1Kg","produit"),
-       new Produit("Jadida 900g","produit"),
-       new Produit("Rosa 900g","concurrence"),
-    	 new Produit("Rosa 4Kg","concurrence"),
-    	 new Produit("Rosa 1Kg","concurence"),);
+        $concur1,
+        $concur2,
+        $concur3,
+        new Produit("Jadida 2kg prestige","produit"),
+    	 new Produit("Jadida 4kg g","produit",$concur1),
+    	 new Produit("Jadida 1Kg","produit",   $concur2),
+       new Produit("Jadida 900g","produit",  $concur3)
+  );
         
        $pointVentes = array(
          new PointVente(
@@ -113,6 +119,7 @@ class LoadUserData implements FixtureInterface
     	 foreach ($produits as  $value) {
     	     $manager->persist($value);
     	 }
+
        $a=array(true,null,true,null,null,true);
         foreach ($pointVentes as $key => $pointVente) {
            $random_keys=array_rand($a,3);

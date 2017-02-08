@@ -20,9 +20,13 @@ class EtapeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
          $session = $this->getRequest()->getSession();
-         $visitesParUser = $em->getRepository('AppBundle:Client')->visitesParUser($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-         $synchrosParUser = $em->getRepository('AppBundle:Client')->synchrosParUser($session->get('startDate'),$session->get('endDate'));
-         $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser($session->get('startDate'),$session->get('endDate'));
+
+            $region=$session->get('region');
+        $startDate=$session->get('startDate',date('Y').'-01-01');
+        $endDate=$session->get('endDate', date('Y').'-12-31');
+         $visitesParUser = $em->getRepository('AppBundle:Client')->visitesParUser($region,$startDate, $endDate);
+         $synchrosParUser = $em->getRepository('AppBundle:Client')->synchrosParUser($startDate, $endDate);
+         $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser($startDate, $endDate);
 
         return $this->render('etape/index.html.twig', array(
             'visitesParUser' => $visitesParUser,

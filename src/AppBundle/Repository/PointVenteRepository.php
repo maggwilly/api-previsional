@@ -17,22 +17,9 @@ class PointVenteRepository extends EntityRepository
 /**
 Nombre de point de vente recencés
  */
-	public function nombrePointVente ($region=null, $startDate=null, $endDate=null){
+	public function nombrePointVente ($region=null){
 
         $qb = $this->createQueryBuilder('p');
-        if($region!=null){
-           $qb->where('p.ville=:ville')
-          ->setParameter('ville', $region);
-          }
-            if($startDate!=null){
-           $qb->andWhere('p.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('p.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
-       
 
    try {
 		 $qb->select('count(p.id) as nombrePointVente');
@@ -88,7 +75,7 @@ Nombre de point de vente visités
        
 
    try {
-     $qb->select('count(p.id) as nombrePointVenteVisite');
+     $qb->select('count( DISTINCT p.id) as nombrePointVenteVisite');
 
          return $qb->getQuery()->getSingleScalarResult();  
    } catch (NoResultException $e) {

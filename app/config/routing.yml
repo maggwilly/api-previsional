@@ -14,6 +14,22 @@ load_default:
     defaults: { _controller: "AppBundle:App:loadDefault" }
     methods:  GET
 
+load_default_visite:
+    path:     /load/default/visite
+    defaults: { _controller: "AppBundle:App:loadDefaultVisite" }
+    methods:  GET
+
+load_default_synchro:
+    path:     /load/default/synchro
+    defaults: { _controller: "AppBundle:App:loadDefaultSynchro" }
+    methods:  GET
+
+load_default_etape:
+    path:     /load/default/etape
+    defaults: { _controller: "AppBundle:App:loadDefaultEtape" }
+    methods:  GET
+
+
 user_homepage:
     path:     /v1/home
     defaults: { _controller: "AppBundle:App:accueil" }

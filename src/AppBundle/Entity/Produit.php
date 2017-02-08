@@ -24,7 +24,7 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
      */
     private $nom;
 
@@ -40,11 +40,18 @@ class Produit
    */
     private $situations;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Produit", cascade={"persist","remove"})
+     * @var User
+     */
+    protected $concurent;
 
-public function __construct($nom=null,$dossier)
+
+public function __construct($nom=null,$dossier, \AppBundle\Entity\Produit $concurent = null)
     {
       $this->nom=$nom;
       $this->dossier=$dossier;
+      $this->concurent=$concurent;
     }
     /**
      * Get id
@@ -100,5 +107,61 @@ public function __construct($nom=null,$dossier)
     public function getDossier()
     {
         return $this->dossier;
+    }
+
+    /**
+     * Add situations
+     *
+     * @param \AppBundle\Entity\Situation $situations
+     * @return Produit
+     */
+    public function addSituation(\AppBundle\Entity\Situation $situations)
+    {
+        $this->situations[] = $situations;
+
+        return $this;
+    }
+
+    /**
+     * Remove situations
+     *
+     * @param \AppBundle\Entity\Situation $situations
+     */
+    public function removeSituation(\AppBundle\Entity\Situation $situations)
+    {
+        $this->situations->removeElement($situations);
+    }
+
+    /**
+     * Get situations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSituations()
+    {
+        return $this->situations;
+    }
+
+    /**
+     * Set concurent
+     *
+     * @param \AppBundle\Entity\Produit $concurent
+     * @return Produit
+     */
+    public function setConcurent(\AppBundle\Entity\Produit $concurent = null)
+    {
+        $this->concurent = $concurent;
+
+        return $this;
+    }
+
+    /**
+     * Get concurent
+     *
+     * @return \AppBundle\Entity\Produit 
+     */
+    public function getConcurent()
+    {
+        return $this->concurent;
     }
 }

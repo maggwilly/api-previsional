@@ -18,10 +18,15 @@ class PointVenteController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+
       $session = $this->getRequest()->getSession();
-      $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($session->get('region'),$session->get('startDate'),$session->get('endDate'));
+       $em = $this->getDoctrine()->getManager();
+        $region=$session->get('region');
+        $startDate=$session->get('startDate',date('Y').'-01-01');
+        $endDate=$session->get('endDate', date('Y').'-12-31');
+          
+      $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($region,$startDate, $endDate);
+     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region,$startDate, $endDate);
         return $this->render('pointvente/index.html.twig', array(
             'pointVentes' => $pointVentes,  'nombrePointVente' => $nombrePointVente,
         ));

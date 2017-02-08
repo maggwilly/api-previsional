@@ -21,9 +21,13 @@ class VisiteController extends Controller
         $session = $this->getRequest()->getSession();
 
         $em = $this->getDoctrine()->getManager();
-
-        $visitesParPDV = $em->getRepository('AppBundle:PointVente')->visitesParPDV($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-        $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($session->get('region'),$session->get('startDate'),$session->get('endDate'));
+         $session = $this->getRequest()->getSession();
+            $region=$session->get('region');
+        $startDate=$session->get('startDate',date('Y').'-01-01');
+        $endDate=$session->get('endDate', date('Y').'-12-31')
+;
+        $visitesParPDV = $em->getRepository('AppBundle:PointVente')->visitesParPDV($region,$startDate, $endDate);
+        $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
         
        
         return $this->render('visite/index.html.twig', array(

@@ -38,21 +38,21 @@ class AppController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
+        $region=$session->get('region');
+        $startDate=$session->get('startDate',date('Y').'-01-01');
+        $endDate=$session->get('endDate', date('Y').'-12-31');
 
-    $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-    $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-    $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-        $excApp = $em->getRepository('AppBundle:Visite')->excApp($session->get('region'),$session->get('startDate'),$session->get('endDate'));
+     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
+     $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
+     $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
+     $excApp = $em->getRepository('AppBundle:Visite')->excApp($region,$startDate, $endDate);
       
+      $visitesParSemaine = $em->getRepository('AppBundle:PointVente')->visitesParSemaine($region,$startDate, $endDate);
 
-        $situations = $em->getRepository('AppBundle:Produit')->stockParProduit($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-
-        $visibilites = $em->getRepository('AppBundle:Produit')->visibilitekParProduit($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-
-        $respectPrixs = $em->getRepository('AppBundle:Produit')->respectPrixParProduit($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-
-        $visitesParSemaine = $em->getRepository('AppBundle:PointVente')->visitesParSemaine($session->get('region'),$session->get('startDate'),$session->get('endDate'));
-
+      $situationsComparee = $em->getRepository('AppBundle:Produit')->situationsComparee($region,$startDate, $endDate);
+       
+       $concurents=array_column($situationsComparee, 'nomCon', 'id');
+        $nombrePointVenteVisite=$excApp[0]['nombre'];
         return $this->render('AppBundle::layout.html.twig',
             array(
                 'nombrePointVente'=>$nombrePointVente ,
@@ -64,10 +64,9 @@ class AppController extends Controller
                  'nApp'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['sapp']:'--',
                 'tauxAff'=>$nombrePointVenteVisite>0?$excApp[0]['aff']*100/$nombrePointVenteVisite:'--',
                   'nAff'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['aff']:'--',
-                'situations'=>$situations,
-                'visibilites'=>$visibilites,
-                'respectPrixs'=>$respectPrixs,
+                'concurents'=>$concurents,
                 'visitesParSemaine'=>$visitesParSemaine,
+                'situationsComparee'=>$situationsComparee
                 ));
     }
     /**
@@ -97,19 +96,100 @@ class AppController extends Controller
        $referer = $this->getRequest()->headers->get('referer');   
          return new RedirectResponse($referer);
     }
+  public function loadDefaultVisiteAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $user= $this->getUser();
+        $pointVentes = $manager->getRepository('AppBundle:PointVente')->findAll();
+        $produits = $manager->getRepository('AppBundle:Produit')->findAll();
+         $a=array(true,null,true,null,null,true);
+      foreach ($pointVentes as $key => $pointVente) {
+           $random_keys=array_rand($a,5);
+            $visite=new Visite( 
+              $user,
+              uniqid(),
+              new \DateTime('2017-01-'.rand(10,31)),
+               $pointVente,
+                $a[$random_keys[0]]
+                ,$a[$random_keys[1]]
+                ,$a[$random_keys[2]]
+                ); 
+            //a completer dans la bd
+            foreach ($produits as  $produit) {
+               $random_keys=array_rand($a,5);
+ $visite->addSituation(
+  new Situation(
+    uniqid(),
+   $produit,
+   $a[$random_keys[0]],
+   $a[$random_keys[1]],
+   $a[$random_keys[3]],
+   rand(10,1000),
+   rand(0,200),
+   rand(7,21),
+   rand(10,500),
+   $a[$random_keys[2]],
+   $a[$random_keys[4]]));
+            }
+          $pointVente->addVisite($visite);
+          $manager->persist($pointVente);
+         }
+     $manager->flush();
+    return $this->redirectToRoute('user_homepage');      
+    }
 
+
+
+  public function loadDefaultSynchroAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+      
+        $users = $manager->getRepository('AppBundle:Client')->findAll();
+       
+      foreach ($users as $key => $user) {
+        $synchro= new Synchro( $user,new \DateTime('2017-01-'.rand(10,31).' '.rand(9,23).':'.rand(9,58)));
+         $manager->persist($synchro);
+         }
+        $manager->flush();
+    return $this->redirectToRoute('user_homepage');      
+    }
+
+  public function loadDefaultEtapeAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+      
+        $users = $manager->getRepository('AppBundle:Client')->findAll();
+       
+      foreach ($users as $key => $user) {
+        $day=rand(10,31);
+        $etape= new Etape( $user,uniqid(),'debut', new \DateTime('2017-02-'.$day),new \DateTime('2017-01-'.$day.' '.rand(5,22).':'.rand(9,58)),328.25641,302.25641,
+           new Etape( $user,uniqid(),'fin', new \DateTime('2017-02-'.$day),new \DateTime('2017-01-'.$day.' '.rand(5,22).':'.rand(9,58)),352.25641,345.25641));
+         $manager->persist($etape);
+         }
+        $manager->flush();
+    return $this->redirectToRoute('user_homepage');      
+    }
+
+
+//load default data
      public function loadDefaultAction()
     {
         $manager = $this->getDoctrine()->getManager();
         $user= $this->getUser();
 
-         $produits = array(
-         new Produit("Jadida 4kg g","produit"),
-         new Produit("Jadida 1Kg","produit"),
-         new Produit("Jadida 900g","produit"),
-         new Produit("Rosa 900g","concurrence"),
-         new Produit("Rosa 4Kg","concurrence"),
-         new Produit("Rosa 1Kg","concurence"),);
+       $concur1=new Produit("Rosa 4Kg","concurrence");
+       $concur2= new Produit("Rosa 1Kg","concurrence");
+       $concur3= new Produit("Rosa 900g","concurrence");
+       
+       $produits = array(
+        $concur1,
+        $concur2,
+        $concur3,
+       new Produit("Jadida 2kg prestige","produit"),
+       new Produit("Jadida 4kg g","produit",$concur1),
+       new Produit("Jadida 1Kg","produit",   $concur2),
+       new Produit("Jadida 900g","produit",  $concur3)
+  );
         
        $pointVentes = array(
          new PointVente(
@@ -174,7 +254,7 @@ class AppController extends Controller
           ),
           );
 
-      $etapes = array(
+    $etapes = array(
     new Etape( $user,uniqid(),'debut', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 07:30'),328.25641,302.25641,
     new Etape( $user,uniqid(),'fin', new \DateTime('2017-02-03'),new \DateTime('2017-02-03 16:30'),352.25641,345.25641)),
     new Etape( $user,uniqid(),'debut', new \DateTime('2017-02-04'),new \DateTime('2017-02-03 07:30'),352.25641,350.25641,
@@ -204,9 +284,18 @@ class AppController extends Controller
              $manager->persist($value);
          }
        $a=array(true,null,true,null,null,true);
-        foreach ($pointVentes as $key => $pointVente) {
-           $random_keys=array_rand($a,3);
-            $visite=new Visite( $user,uniqid(),new \DateTime('2017-01-'.rand(10,31)), $pointVente, $a[$random_keys[0]],$a[$random_keys[1]],$a[$random_keys[2]]); //a completer dans la bd
+       foreach ($pointVentes as $key => $pointVente) {
+           $random_keys=array_rand($a,5);
+            $visite=new Visite( 
+              $user,
+              uniqid(),
+              new \DateTime('2017-01-'.rand(10,31)),
+               $pointVente,
+                $a[$random_keys[0]]
+                ,$a[$random_keys[1]]
+                ,$a[$random_keys[2]]
+                ); 
+            //a completer dans la bd
             foreach ($produits as  $produit) {
                $random_keys=array_rand($a,5);
  $visite->addSituation(
@@ -215,12 +304,12 @@ class AppController extends Controller
    $produit,
    $a[$random_keys[0]],
    $a[$random_keys[1]],
-   $a[$random_keys[2]],
+   $a[$random_keys[3]],
    rand(10,1000),
    rand(0,200),
    rand(7,21),
    rand(10,500),
-   $a[$random_keys[3]],
+   $a[$random_keys[2]],
    $a[$random_keys[4]]));
             }
           $pointVente->addVisite($visite);

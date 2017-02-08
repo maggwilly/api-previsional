@@ -17,33 +17,23 @@ class VisiteRepository extends EntityRepository
   *Nombre de point de vente ayant des affiches
   * Nombre de point de vente qui s'approvisionne chez un agent commercial
   */
-	public function excApp ($region=null, $startDate=null, $endDate=null){
 
-        $qb = $this->createQueryBuilder('v')->join('v.pointVente','p');
+  public function excApp ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+$RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp from (select v.id,v.date,v.aff, v.exc, v.sapp from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp from (select v.id,v.date,v.aff, v.exc, v.sapp from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
+  $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
-           $qb->where('p.ville=:ville')
-          ->setParameter('ville', $region);
+   $statement->bindValue('region', $region);
           }
-          if($startDate!=null){
-           $qb->andWhere('v.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('p.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
-         $qb->select('count(v.sapp) as sapp')->addSelect('count(v.exc) as exc')->addSelect('count(v.aff) as aff');
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
 
-         try {
-       return $qb->getQuery()->getArrayResult();
-     } catch (NoResultException $e) {
-        return array(array('sapp'=>0,'exc'=>0,'aff'=>0));
-     }
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+
+      return  $result = $statement->fetchAll();
   }
-
-
-
-
   /**
   *Nombre total de visite effectue 
   */
@@ -67,5 +57,6 @@ class VisiteRepository extends EntityRepository
         return 0;
      }
   }
+
 
 }
