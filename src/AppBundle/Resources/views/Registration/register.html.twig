@@ -1,10 +1,85 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
+{% block body %}
+   <!-- page title -->
+    <header id="page-header">
+    <h1>Admin</h1>
+    </header>
+<div id="content" class="dashboard padding-20">
+
+<div id="panel-misc-portlet-color-l1" class="panel panel-default">
+
+								<div class="panel-heading">
+
+									<span class="elipsis"><!-- panel title -->
+										<strong>Ceate user</strong>
+									</span>
+
+									<!-- right options -->
+									<ul class="options pull-right list-inline">
+										<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+										<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+										<li><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+									</ul>
+									<!-- /right options -->
+
+								</div>
+
+								<!-- panel content -->
+								<div class="panel-body">
+
 {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-{% endblock fos_user_content %}
-	  {% block javascripts %}
+
+								</div>
+								<!-- /panel content -->
+		</div>
+
+<div id="panel-misc-portlet-color-l1" class="panel panel-default">
+
+								<div class="panel-heading">
+
+									<span class="elipsis"><!-- panel title -->
+										<strong>Charger des données de Test</strong>
+									</span>
+
+									<!-- right options -->
+									<ul class="options pull-right list-inline">
+										<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+										<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+										<li><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+									</ul>
+									<!-- /right options -->
+
+								</div>
+
+								<!-- panel content -->
+								<div class="panel-body">
+                                <h4>Charger des données de Test</h4>
+                                 <a href="{{ path('load_default') }}" class="btn btn-3d btn-xlg btn-purple">
+										CHARGER LES DONNEES 
+										<span class="block font-lato">Enrégistrer 5 lignes de données </span>
+									</a>
+                                  <a href="{{ path('load_default_visite') }}" class="btn btn-3d btn-xlg btn-red">
+										CHARGER LES VISITES
+										<span class="block font-lato">Enrégistrer 5 visites </span>
+									</a>
+                                 <a href="{{ path('load_default_etape') }}" class="btn btn-3d btn-xlg btn-dirtygreen">
+										CHARGER DES JOURNEES
+										<span class="block font-lato">Enrégister des journees </span>
+									</a>
+                                 <a href="{{ path('load_default_synchro') }}" class="btn btn-3d btn-xlg btn-green">
+										CHARGER DES SYNCHROS
+										<span class="block font-lato">Enrégister des synchros </span>
+									</a>
+								</div>
+				<!-- /panel content -->
+		</div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       		<script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
-       {% endblock %}
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+
+ {% endblock %}
