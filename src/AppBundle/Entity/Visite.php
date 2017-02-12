@@ -66,11 +66,15 @@ class Visite
     /**
      * @var string
      *
+     * @ORM\Column(name="commentaire", type="string", length=255, nullable=true)
+     */
+    private $commentaire;
+    /**
+     * @var string
+     *
      * @ORM\Column(name="fp",  type="integer", nullable=true)
      */
     private $fp;
-
-
 
         /**
      * @var bool
@@ -130,7 +134,7 @@ class Visite
         /**
      * Constructor
      */
-    public function __construct($user=null,$id=null,$date=null,$pointVente=null,$aff=null,$sapp=null,$exc=null)
+    public function __construct($user=null,$id=null,$date=null,$pointVente=null,$aff=null,$sapp=null,$exc=null,$map=null,$pre=null,$rpd=null,$rpp=null)
     {
      $this->user=$user;
       $this->date=$date;
@@ -139,6 +143,10 @@ class Visite
       $this->aff=$aff;
       $this->sapp=$sapp;
       $this->exc=$exc;
+       $this->map=$map;
+        $this->pre=$pre;
+         $this->rpd=$rpd;
+          $this->rpp=$rpp;
       $this->situations = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
@@ -534,5 +542,28 @@ class Visite
     public function getWeekText()
     {
         return $this->weekText;
+    }
+
+    /**
+     * Set commentaire
+     *
+     * @param string $commentaire
+     * @return Visite
+     */
+    public function setCommentaire($commentaire)
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return string 
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
     }
 }

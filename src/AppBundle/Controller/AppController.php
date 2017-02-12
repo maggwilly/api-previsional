@@ -41,18 +41,17 @@ class AppController extends Controller
         $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
-
-     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
-     $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
-     $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
-     $excApp = $em->getRepository('AppBundle:Visite')->excApp($region,$startDate, $endDate);
-      
-      $visitesParSemaine = $em->getRepository('AppBundle:PointVente')->visitesParSemaine($region,$startDate, $endDate);
-
-      $situationsComparee = $em->getRepository('AppBundle:Produit')->situationsComparee($region,$startDate, $endDate);
+       $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
+       $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
+       $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
+       $excApp = $em->getRepository('AppBundle:Visite')->excApp($region,$startDate, $endDate);
+        $excAppParSemaine = $em->getRepository('AppBundle:Visite')->excAppParSemaine($region,$startDate, $endDate);
+       $stockSiatParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('produit',$region,$startDate, $endDate);
+       $stockConParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('concurrence',$region,$startDate, $endDate);
+      $situations = $em->getRepository('AppBundle:Produit')->situations($region,$startDate, $endDate);
        
-  $concurents=array_column($situationsComparee, 'nomcon', 'id');
-        $nombrePointVenteVisite=$excApp[0]['nombre'];
+     //$concurents=array_column($situationsComparee, 'nomcon', 'id');
+       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
         return $this->render('AppBundle::layout.html.twig',
             array(
                 'nombrePointVente'=>$nombrePointVente ,
@@ -60,13 +59,20 @@ class AppController extends Controller
                 'nombreVisite'=>$nombreVisite,
                 'tauxExc'=>$nombrePointVenteVisite>0?$excApp[0]['exc']*100/$nombrePointVenteVisite:'--',
                  'exc'=>$excApp[0]['exc'],
+                  'tauxMap'=>$nombrePointVenteVisite>0?$excApp[0]['map']*100/$nombrePointVenteVisite:'--',
+                   'nMap'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['map']:'--',
+                  'tauxRpd'=>$nombrePointVenteVisite>0?$excApp[0]['rpd']*100/$nombrePointVenteVisite:'--',
+                   'nRpd'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['rpd']:'--',
                 'tauxApp'=>$nombrePointVenteVisite>0?$excApp[0]['sapp']*100/$nombrePointVenteVisite:'--',
-                 'nApp'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['sapp']:'--',
+                  'nApp'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['sapp']:'--',
                 'tauxAff'=>$nombrePointVenteVisite>0?$excApp[0]['aff']*100/$nombrePointVenteVisite:'--',
                   'nAff'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['aff']:'--',
-               'concurents'=>$concurents,
-                'visitesParSemaine'=>$visitesParSemaine,
-                'situationsComparee'=>$situationsComparee
+               //'concurents'=>$concurents,
+                'colors'=>$colors,
+                'stockSiatParSemaine'=>$stockSiatParSemaine,
+                 'stockConParSemaine'=>$stockConParSemaine,
+                'excAppParSemaine'=>$excAppParSemaine,
+                'situations'=>$situations
                 ));
     }
     /**
@@ -102,17 +108,21 @@ class AppController extends Controller
         $user= $this->getUser();
         $pointVentes = $manager->getRepository('AppBundle:PointVente')->findAll();
         $produits = $manager->getRepository('AppBundle:Produit')->findAll();
-         $a=array(true,null,true,null,null,true);
+         $a=array(true,null,true,true,null,true,true,true);
       foreach ($pointVentes as $key => $pointVente) {
-           $random_keys=array_rand($a,5);
+           $random_keys=array_rand($a,7);
             $visite=new Visite( 
               $user,
               uniqid(),
-              new \DateTime('2017-01-'.rand(10,31)),
+              new \DateTime('2017-'.rand(1,12).'-'.rand(10,31)),
                $pointVente,
                 $a[$random_keys[0]]
                 ,$a[$random_keys[1]]
                 ,$a[$random_keys[2]]
+                 ,$a[$random_keys[3]]
+                  ,$a[$random_keys[4]]
+                  ,$a[$random_keys[6]]
+                  ,$a[$random_keys[5]]
                 ); 
             //a completer dans la bd
             foreach ($produits as  $produit) {
@@ -289,7 +299,7 @@ class AppController extends Controller
             $visite=new Visite( 
               $user,
               uniqid(),
-              new \DateTime('2017-01-'.rand(10,31)),
+              new \DateTime('2017-'.rand(1,12).'-'.rand(10,31)),
                $pointVente,
                 $a[$random_keys[0]]
                 ,$a[$random_keys[1]]

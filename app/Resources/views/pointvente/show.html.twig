@@ -1,8 +1,23 @@
 {% extends 'AppBundle::layout.html.twig' %}
+{% if visites is not empty %}
+{% set first=visites.first() %}
+ 
+ {% set totalStock=0 %} 
+  {% set totalStockSiat=0 %} 
+   {% set totalStockCon=0 %} 
+   {% for situation in first.situations  %}
+  {% if situation.produit.dossier=='produit' %}
+   {% set totalStockSiat=totalStockSiat+situation.stock %}
+ {% elseif situation.produit.dossier=='concurrence'  %}
+  {% set totalStockCon=totalStockCon+situation.stock %}
+   {% endif %}
+   {% set totalStock=totalStock+situation.stock %}
+
+  {% endfor%}
+  {% endif%}
+
 
 {% block body %}
-
-
 <div id="content" class="dashboard padding-20">
 <div class="panel panel-default">
                         <div class="panel-body">
@@ -79,10 +94,10 @@
        </div>
             <div class="col-md-5">
                             <div id="panel-2" class="panel panel-default">
-                                 {% set first=pointVente.visites.first() %}
+
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Derniere visite</strong> ( le {{first.date|date ('d/m/Y')}}, {{first.user.username}})
+                                        <strong>Derniere visite</strong>{% if visites is not empty %} ( le {{first.date|date ('d/m/Y')}}, {{first.user.username}}){% endif%}
                                     </span>
 
                             <!-- right options -->
@@ -95,46 +110,20 @@
                                 </div>
 
                                 <!-- panel content -->
-                                <div class="panel-body">  
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#Reférence</th>
-                                                            <th>SD</th>
-                                                             <th>SG</th>
-                                                             <th>MVJ</th>
-                                                             <th>MAP</th>
-                                                             <th>RPD</th>
-                                                             <th>RPP</th>
-                                                             <th>PRE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for situation in first.situations %}
-                                                        <tr>
-                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
-                                                            <td>{{situation.stock}}</td>
-                                                            <td>{{situation.stockG}}</td>
-                                                            <td>{{situation.mvj}}</td>
-                                                            <td>{% if situation.map %}OUI{% else %}NON{% endif %}</td>
-                                                            <td>{% if situation.rpd %}OUI{% else %}NON{% endif %}</td>
-                                                            <td>{% if situation.rpp %}OUI{% else %}NON{% endif %}</td>
-                                                            <td>{% if situation.pre %}OUI{% else %}NON{% endif %}</td>
-                                                        </tr>
-                                                        {%endfor%}
-
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
+                                <div class="panel-body"> 
+                                {% if visites is not empty %} 
+        <canvas class="chartjs height-300" id="pieChartCanvas" width="547" height="300"></canvas>
                             <div class="table-responsive">
                                 <table class="table table-vertical-middle nomargin">
                                     <thead>
                                         <tr>                                    
-                                            <th>Exlusivité</th>
-                                            <th>Affiche</th>
-                                            <th>Source d'approv..</th>                                        
+                                            <th>Exc</th>
+                                            <th>Aff</th>
+                                            <th>SAPP</th> 
+                                             <th>MAP</th> 
+                                             <th>PRE</th> 
+                                             <th>RPD</th> 
+                                             <th>RPP</th>                                              
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -142,15 +131,22 @@
                                         <tr>
                                            
                                             <td>{% if first.exc %}OUI{% else %}NON{% endif %}</td>
-                                             <td>{% if first.aff %}OUI{% else %}NON{% endif %}</td>
-                                              <td>{% if first.sapp %}A.C{% else %}Autre{% endif %}</td>
+                                            <td>{% if first.aff %}OUI{% else %}NON{% endif %}</td>
+                                            <td>{% if first.sapp %}AC{% else %}Autre{% endif %}</td>
+                                            <td>{% if first.map %}OUI{% else %}NON{% endif %}</td>
+                                            <td>{% if first.pre %}OUI{% else %}NON{% endif %}</td>
+                                            <td>{% if first.rpd %}OUI{% else %}NON{% endif %}</td> 
+                                            <td>{% if first.rpp %}OUI{% else %}NON{% endif %}</td>                                           
                                         </tr>
   
                                     </tbody>
                                 </table>
 
                             </div>
-                                </div>
+                             {% else%} 
+                               <p> Aucune visite dans la période</p>   
+                            {% endif%}                           
+                        </div>
                                 <!-- /panel content -->
 
                             </div>
@@ -159,7 +155,7 @@
                              <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Les visites</strong> ({{pointVente.visites|length}} visites)
+                                        <strong>Les visites</strong> ({{visites|length}} visites)
                                     </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -172,7 +168,8 @@
                                 </div>
 
                                 <!-- panel content -->
-                                <div class="panel-body">  
+                                <div class="panel-body"> 
+                                  {% if visites is not empty %} 
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
@@ -182,7 +179,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for visite in pointVente.visites %}
+                                                    {% for visite in visites %}
                                                         <tr>
                                                             <td><a href="#">{{visite.user.username}}</a></td>
                                                             <td>{{visite.date | date ('d/m/Y')}}</td>
@@ -193,7 +190,9 @@
                                                 </table>
 
                                             </div>
-
+                                             {% else%} 
+                                             <p> Aucune visite dans la période</p>   
+                                           {% endif%}
                                 </div>
                                 <!-- /panel content -->
 
@@ -220,5 +219,37 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
 }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap">
+</script>
+       <script type="text/javascript">
+            /**
+                Chart.js
+                http://www.chartjs.org/
+            **/
+ 
+
+     loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
+
+         var data = {
+          labels: [
+            "SIAT CONGO",
+        {% for situation in first.situations if situation.produit.dossier=='concurrence' %}
+          "{{situation.produit.nom}}",
+         {%endfor%}
+           ],
+         datasets: [
+             {
+        data: [{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}, {% for situation in first.situations if situation.produit.dossier=='concurrence' %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
+        backgroundColor: ["#F38823",{% for situation in first.situations if situation.produit.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
+        hoverBackgroundColor: ["#F38584",{% for situation in first.situations if situation.produit.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
+        }]
+      };      
+    var ctx = document.getElementById("pieChartCanvas").getContext("2d");
+            new Chart(ctx,{
+                type: 'pie',
+               data: data
+                });
+
+      });
+        </script>
  {% endblock %}

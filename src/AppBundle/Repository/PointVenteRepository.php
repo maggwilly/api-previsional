@@ -39,16 +39,6 @@ Nombre de point de vente visités
            $qb->where('p.ville=:ville')
           ->setParameter('ville', $region);
           }
-    if($startDate!=null){
-           $qb->andWhere('p.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('p.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
-       
-
   
          return $qb->getQuery()->getResult();  
    
@@ -71,11 +61,10 @@ Nombre de point de vente visités
           if($endDate!=null){
            $qb->andWhere('v.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
-          }
-       
+          } 
 
    try {
-     $qb->select('count( DISTINCT p.id) as nombrePointVenteVisite');
+     $qb->select('count( distinct p.id) as nombrePointVenteVisite');
 
          return $qb->getQuery()->getSingleScalarResult();  
    } catch (NoResultException $e) {
@@ -110,11 +99,48 @@ Nombre de point de vente visités
      
   }
 
-
-    /**
-  *Nombre total de visite effectue par point de vente 
+  /**
+  *Repartition des visites effectuees par semaine 
   */
-  public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
+  public function eligibles ($note=0,$region=null, $startDate=null, $endDate=null){
+        $stockMin=30;
+        $conds=array(
+                       array('produit'=>'produit1','cote'=>20/$stockMin,'sg'=>2),
+                       array('produit'=>'produit2','cote'=>80/$stockMin,'sg'=>8),
+                       array('produit'=>'produit3','cote'=>200/$stockMin,'sg'=>20),
+                       );
+       $em = $this->_em;
+       $RAW_QUERY =($region!=null) ?'select * from (select idpv,nompv,(max(notemap) + max(noteexc) + sum(notestock) ) as note from (select pvproduittotal.idpv,nompv,nom, case when exc=1 then 5 else 0 end as noteexc, case when map=1 then 5 else 0 end as notemap,(case when (nom=:produit1 and sg>=:sg1 and pvtotal.totalsg>=:sg ) then :cote1 else 0 end + case when (nom=:produit2 and sg>=:sg2 and pvtotal.totalsg>=:sg) then :cote2 else 0 end + case when (nom=:produit3 and sg>=:sg3 and pvtotal.totalsg>=:sg) then :cote3 else 0 end )as notestock  from (select idpv,nompv, p.id, p.nom,v.id as idv,v.map,v.exc, sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv,v.map,v.exc from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id,v.id,v.map,v.exc) pvproduittotal join (select idpv, sum(sg) as totalsg from (select idpv,nompv, p.id, p.nom,  sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id) pvtotal group by idpv) pvtotal on pvproduittotal.idpv=pvtotal.idpv) pointnote group by idpv,nompv ) eligibilite where note>=:note;
+       ':'select * from (select idpv,nompv,(max(notemap) + max(noteexc) + sum(notestock) ) as note from (select pvproduittotal.idpv,nompv,nom, case when exc=1 then 5 else 0 end as noteexc, case when map=1 then 5 else 0 end as notemap,(case when (nom=:produit1 and sg>=:sg1 and pvtotal.totalsg>=:sg ) then :cote1 else 0 end + case when (nom=:produit2 and sg>=:sg2 and pvtotal.totalsg>=:sg) then :cote2 else 0 end + case when (nom=:produit3 and sg>=:sg3 and pvtotal.totalsg>=:sg) then :cote3 else 0 end )as notestock  from (select idpv,nompv, p.id, p.nom,v.id as idv,v.map,v.exc, sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv,v.map,v.exc from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id,v.id,v.map,v.exc) pvproduittotal join (select idpv, sum(sg) as totalsg from (select idpv,nompv, p.id, p.nom,  sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id) pvtotal group by idpv) pvtotal on pvproduittotal.idpv=pvtotal.idpv) pointnote group by idpv,nompv) eligibilite where note>:note ;
+';
+       $statement = $em->getConnection()->prepare($RAW_QUERY);
+         if($region!=null){
+        $statement->bindValue('region', $region);
+          }
+         $startDate=new \DateTime($startDate);
+       $endDate=new \DateTime($endDate);
+       $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+       $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+       
+       $statement->bindValue('sg', $stockMin);
+        $statement->bindValue('note', $note);
+       $statement->bindValue('produit1', $conds[0]['produit']);
+       $statement->bindValue('sg1', $conds[0]['sg']);
+       $statement->bindValue('cote1', $conds[0]['cote']);
+       $statement->bindValue('produit2', $conds[1]['produit']);
+       $statement->bindValue('sg2',  $conds[1]['sg']);
+       $statement->bindValue('cote2',  $conds[1]['cote']);
+       $statement->bindValue('produit3',  $conds[2]['produit']);
+       $statement->bindValue('sg3',  $conds[2]['sg']);
+       $statement->bindValue('cote3',  $conds[2]['cote']);
+       $statement->execute();
+      return  $result = $statement->fetchAll();
+     
+  }
+  /**
+  *Repartition des visites effectuees par semaine 
+  */
+  public function StockParSemaine ($region=null, $startDate=null, $endDate=null){
 
        $qb = $this->createQueryBuilder('pv')->leftJoin('pv.visites','v');
         if($region!=null){
@@ -127,14 +153,30 @@ Nombre de point de vente visités
           if($endDate!=null){
            $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
           }
- 
-           $qb->select('max(v.date) as date');
-            $qb->addSelect('pv.nom');
-              $qb->addSelect('pv.id');
-           $qb->addGroupBy('pv.id');
+          $qb->select('v.weekText'); 
+          $qb->addGroupBy('v.weekText');
           $qb->addSelect('count(v.id) as nombre'); 
-          return $qb->getQuery()->getArrayResult();
-     
+          return $qb->getQuery()->getArrayResult();  
   }
 
+  
+  /**
+  *Nombre total de visite effectue par point de vente 
+  */
+ 
+
+   public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
+    $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+    $statement->bindValue('region', $region);
+          }
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+      return  $result = $statement->fetchAll();
+  }
 }

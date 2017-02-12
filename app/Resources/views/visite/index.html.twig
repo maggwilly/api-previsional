@@ -25,21 +25,29 @@
                         <div class="panel-body">
 
                             <div class="table-responsive">
-                                <table class="table table-vertical-middle nomargin">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>                                    
                                             <th>Point de vente</th>
-                                            <th>Nonbre de visite</th>
-                                            <th>Dernière visite</th>                                        
+                                            <th> Nombre de visites</th>
+                                            <th>Dernière visite</th>  
+                                             >                                         
                                         </tr>
                                     </thead>
                                     <tbody>
                                      {% for visite in visitesParPDV %}
                                         <tr>
                                            
-                                            <td><a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.nom}}</a></td>
-                                            <td>{{visite.nombre}}</td>
-                                             <td>{% if visite.date %}{{visite.date |date('d/m/Y')}} {% else %}--{% endif %}</td>
+                                            <td class="col-md-4">
+                                            <a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.nom}}</a>
+                                              <p>{{visite.type}}</p>
+                                            </td>
+                                            <td class="col-md-1">{{visite.nombre}}</td>
+                                             <td class="col-md-6">
+                                             {% if visite.date %}<i class="fa fa-calendar-o"></i> {{visite.date |date('d/m/Y')}} {% else %}--{% endif %}
+                                               <p><i class="fa fa-comment-o"></i> <b>{{visite.commentaire}}</b></p>
+                                             </td>
+
                                         </tr>
                                          {% endfor %}
                                     </tbody>

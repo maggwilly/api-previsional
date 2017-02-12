@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
+use AppBundle\Entity\PointVente;
 /**
  * VisiteRepository
  *
@@ -20,7 +21,7 @@ class VisiteRepository extends EntityRepository
 
   public function excApp ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-$RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp from (select v.id,v.date,v.aff, v.exc, v.sapp from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp from (select v.id,v.date,v.aff, v.exc, v.sapp from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
+  $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
    $statement->bindValue('region', $region);
@@ -32,6 +33,21 @@ $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, 
      $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
      $statement->execute();
 
+      return  $result = $statement->fetchAll();
+  }
+
+   public function excAppParSemaine ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;':'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;';
+    $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+    $statement->bindValue('region', $region);
+          }
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
       return  $result = $statement->fetchAll();
   }
   /**
@@ -58,5 +74,23 @@ $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, 
      }
   }
 
+    /**
+  *Nombre total de visite effectue par point de vente 
+  */
+  public function visites( $startDate=null, $endDate=null, PointVente $pointVente=null){
 
+       $qb = $this->createQueryBuilder('v')->leftJoin('v.pointVente','pv');
+
+          if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
+          }
+           if($pointVente!=null){
+           $qb->andWhere('pv=:pointVente')->setParameter('pointVente',$pointVente);
+          }
+           $qb->orderBy('v.date','DESC');
+          return $qb->getQuery()->getResult();
+  }
 }

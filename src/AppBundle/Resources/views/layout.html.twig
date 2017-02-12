@@ -18,6 +18,20 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/layout-datatable.css') }}"  />
         {% endblock %}
     </head>
+       {% if situations is defined %}
+               {% set totalStock=0 %} 
+               {% set totalStockSiat=0 %} 
+               {% set totalStockCon=0 %} 
+               {% for situation in situations  %}
+               {% if situation.dossier=='produit' %}
+               {% set totalStockSiat=totalStockSiat+situation.sd %}
+               {% elseif situation.dossier=='concurrence'  %}
+               {% set totalStockCon=totalStockCon+situation.sd %}
+               {% endif %}
+                {% set totalStock=totalStock+situation.sd %}
+               {%endfor%} 
+
+        {% endif %}         
     <body>
         {% block fos_user_content %}
         <!-- WRAPPER -->
@@ -38,6 +52,7 @@
                             </a>
                             <ul><!-- submenus -->
                                 <li><a href="{{ path('pointvente_index') }}">Les points de vente</a></li>
+                                 <li><a href="{{ path('pointvente_eligibles') }}">Eligibilités</a></li>
                                 <li><a href="{{ path('pointvente_map') }}">Geolocalisation</a></li>
                             </ul>
                         </li>
@@ -75,7 +90,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                 <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
                 <label></label>
                 <select class="" name="region" selected>
-                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toute les regions</option>
+                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>-- Selectionnez--</option>
                    <option value="BRAZAVILLE"  {% if app.session.get('region')=='BRAZAVILLE'  %}selected="true"{% endif %}>BRAZAVILLE</option>
                    <option value="Pointe Noir" {% if  app.session.get('region')=='Pointe Noir'  %}selected="true"{% endif %}>Pointe Noir</option>
               </select>
@@ -124,14 +139,14 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                 MIDDLE 
             -->
             <section id="middle">
-              {% block body %}
+               {% block body %}
 
         <div id="content" class="dashboard padding-20">
                     <!-- BOXES -->
                     <div class="row">
 
                         <!-- Feedback Box -->
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-2 col-sm-6">
 
                             <!-- BOX -->
                             <div class="box danger"><!-- default, danger, warning, info, success -->
@@ -141,17 +156,15 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
             <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%}</small>
                                     <i class="fa fa-comments"></i>
                                 </div>
-
                                 <div class="box-body text-center">
                                 </div>
-
                             </div>
                             <!-- /BOX -->
 
                         </div>
 
                         <!-- Profit Box -->
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-2 col-sm-6">
 
                             <!-- BOX -->
                             <div class="box warning"><!-- default, danger, warning, info, success -->
@@ -171,17 +184,16 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
 
                         </div>
                         <!-- Online Box -->
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-2 col-sm-6">
 
                             <!-- BOX -->
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>{{tauxAff|number_format(0, ',', '.')}}% de PDV ont des affiches</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'ont pas d'affiches {% endif%}</small>
+                    <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'en ont pas.{% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
-
                                 <div class="box-body text-center">
 
                                 </div>
@@ -193,14 +205,14 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
 
 
                         <!-- Online Box -->
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-2 col-sm-6">
 
                             <!-- BOX -->
-                            <div class="box success"><!-- default, danger, warning, info, success -->
+                            <div class="box info"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxApp|number_format(0, ',', '.')}}% de PDV s'app... chez un A.C.</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nApp|number_format(0, ',', '.')}} P.D.V ne s'approvisionnent pas chez un A.C.{% endif%}</small>
+                                    <h4>{{tauxMap|number_format(0, ',', '.')}}% de mise en avant du produit</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nMap |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -212,8 +224,58 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <!-- /BOX -->
 
                         </div>
+                        <!-- Online Box -->
+                        <div class="col-md-2 col-sm-6">
 
+                            <!-- BOX -->
+                            <div class="box warning"><!-- default, danger, warning, info, success -->
 
+                                <div class="box-title"><!-- add .noborder class if box-body is removed -->
+                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respectent le prix de detail</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nRpd |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
+                                    <i class="fa fa-globe"></i>
+                                </div>
+
+                                <div class="box-body text-center">
+
+                                </div>
+
+                            </div>
+                            <!-- /BOX -->
+
+                        </div>
+                        <!-- Online Box -->
+                        <div class="col-md-2 col-sm-6">
+
+                            <!-- BOX -->
+                            <div class="box success"><!-- default, danger, warning, info, success -->
+
+                                <div class="box-title"><!-- add .noborder class if box-body is removed -->
+                                    <h4>
+                                    {% if totalStockSiat>0%}
+                                    {{(totalStockSiat*100/totalStock)|number_format(0, ',', '.')}}% 
+                                     {% else %}
+                                        --
+                                      {% endif %}de part de SIAT CONGO
+                                    </h4>
+                           <small class="block">
+                            {% if totalStockSiat>0%}
+                                {{(totalStockCon*100/totalStock)|number_format(0, ',', '.')}}% part de concurence.
+                                      {% else %}
+                                        --
+                                      {% endif %}                               
+                           </small>
+                                    <i class="fa fa-globe"></i>
+                                </div>
+
+                                <div class="box-body text-center">
+
+                                </div>
+
+                            </div>
+                            <!-- /BOX -->
+
+                        </div>
 
                     </div>
                     <div class="row">
@@ -237,7 +299,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                 <div class="panel-body">    
 
 
-                         <canvas class="chartjs fullwidth height-300" id="barChartCanvas" width="547" height="200"></canvas>
+                         <canvas class="chartjs fullwidth height-450" id="barChartCanvas" ></canvas>
                                 </div>
                                 <!-- /panel content -->
 
@@ -265,92 +327,63 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                 <!-- panel content -->
                                 <div class="panel-body">  
                                             <div class="table-responsive">
+                                             <h3>Stock de SIAT</h3>
+
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>#Produits</th>
                                                             <th>SD</th>
-                                                            <th>SG</th>
-                                                            <th>#Concurrence</th>
-                                                            <th>SD</th>
-                                                            <th>SG</th>
+                                                            <th>Moyenne</th>
+                                                             <th>Taux</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                   
+                                                    {% for situation in situations if situation.dossier=='produit' %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
                                                             <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
-                                                            <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
-                                                             <td>{{situation.nomcon}}</td>
-                                                            <td>{{situation.sdcon|number_format(0, '.', ' ')}}</td>
-                                                             <td>{{situation.sgcon|number_format(0, '.', ' ')}}</td>
+                                                            <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockSiat>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
                                                         </tr>
                                                         {%endfor%}
-
+                                                        <tr>
+                                                            <td>PART SIAT</td>
+                                                            <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
+                                                            <td><b>{{(totalStockSiat/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</b></td>
+                                                            <td><b>{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%</b></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
-
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
-                                                    Exporter vers (.xls)
-                                                </a>
-
-                                            </div>
-
-
-
-                                </div>
-                                <!-- /panel content -->
-
-                            </div>
-                            <!-- /PANEL -->
-                    
-                        </div>
-               <div class="col-md-6">
-                            <div id="panel-2" class="panel panel-default">
-                                <div class="panel-heading">
-                                    <span class="title elipsis">
-                                        <strong>Respect de prix </strong>( pour {{nombrePointVenteVisite}} P.D.V visités)
-                                    </span>
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
-
-                                </div>
-
-                            <!-- panel content -->
-                            <div class="panel-body">  
-                                            <div class="table-responsive">
+                                                <h3>Stock de la concurrence</h3>
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>#Produits</th>
-                                                            <th>RPD</th>
-                                                            <th>RPG</th>
-                                                            <th>#Concurrence</th>
-                                                            <th>RPD</th>
-                                                            <th>RPG</th>
+                                                            <th>SD</th>
+                                                            <th>Moyenne</th>
+                                                             <th>Taux</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
+                                                    {% for situation in situations if situation.dossier=='concurrence' %}
                                                         <tr>
                                                             <td><a href="#">{{situation.nom}}</a></td>
-                                                            <td>{{situation.rpd}}</td>
-                                                            <td>{{situation.rpp}}</td>
-                                                           <td>{{situation.nomcon}}</td>
-                                                            <td>{{situation.rpdcon}}</td>
-                                                             <td>{{situation.rppcon}}</td>
+                                                            <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
+                                                            <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockCon>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
                                                         </tr>
                                                         {%endfor%}
-
+                                                        <tr>
+                                                            <td>PART concurrence</td>
+                                                            <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
+                                                            <td><b>{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</b></td>
+                                                            <td><b>{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%</b></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
+
 
                                                 <a class="size-12" href="#">
                                                     <i class="fa fa-arrow-right text-muted"></i> 
@@ -373,116 +406,23 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Visibilité </strong>( pour {{nombrePointVenteVisite}} P.D.V visités)
+                                        <strong>REPARTITION</strong>
                                     </span>
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
-
                                 </div>
 
-                            <!-- panel content -->
-                            <div class="panel-body">  
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#Produits</th>
-                                                            <th>MAP</th>
-                                                            <th>PRE</th>
-                                                            <th>#Concurrence</th>
-                                                            <th>MAP</th>
-                                                            <th>PRE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
-                                                        <tr>
-                                                            <td><a href="#">{{situation.nom}}</a></td>
-                                                            <td>{{situation.map}}</td>
-                                                            <td>{{situation.pre}}</td>
-                                                           <td>{{situation.nomcon}}</td>
-                                                            <td>{{situation.mapcon}}</td>
-                                                             <td>{{situation.precon}}</td>
-                                                        </tr>
-                                                        {%endfor%}
+                                <!-- panel content -->
+                                <div class="panel-body">   
+                             <canvas class="chartjs height-300" id="pieChartCanvas" width="547" height="300"></canvas>
 
-                                                    </tbody>
-                                                </table>
-
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
-                                                    Exporter vers (.xls)
-                                                </a>
                                 </div>
                                 <!-- /panel content -->
 
                             </div>
                             <!-- /PANEL -->
+                    
                         </div>
 
-               </div>
-               <div class="col-md-6">
-                            <div id="panel-2" class="panel panel-default">
-                                <div class="panel-heading">
-                                    <span class="title elipsis">
-                                        <strong>Moyenne de vente et livraison </strong>( pour {{nombrePointVenteVisite}} P.D.V visités)
-                                    </span>
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
 
-                                </div>
-
-                            <!-- panel content -->
-                            <div class="panel-body">  
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#Produits</th>
-                                                            <th>MVJ</th>
-                                                            <th>ECL</th>
-                                                            <th>#concurrence</th>
-                                                            <th>MVJ</th>
-                                                            <th>ECL</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for situation in situationsComparee if situation.nom not in concurents %}
-                                                        <tr>
-                                                            <td><a href="#">{{situation.nom}}</a></td>
-                                                            <td>{{situation.mvj|number_format(0, '.', ' ')}}</td>
-                                                            <td>{{situation.ecl|number_format(0, '.', ',')}}</td>
-                                                            <td>{{situation.nomcon}}</td>
-                                                            <td>{{situation.mvjcon|number_format(0, '.', ' ')}}</td>
-                                                             <td>{{situation.eclcon|number_format(0, '.', ',')}}</td>
-                                                        </tr>
-                                                        {%endfor%}
-
-                                                    </tbody>
-                                                </table>
-
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
-                                                    Exporter vers (.xls)
-                                                </a>
-                                </div>
-                                <!-- /panel content -->
-
-                            </div>
-                            <!-- /PANEL -->
-                        </div>
-
-               </div>
                <div class="col-md-6">
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
@@ -568,42 +508,109 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
         </div>
     
         {% endblock fos_user_content %}
+
        {% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+
        <script type="text/javascript">
             /**
                 Chart.js
                 http://www.chartjs.org/
             **/
-            loadScript( "{{ asset('assets/plugins/chart.chartjs/Chart.min.js') }}", function() {
+ 
 
-                var barChartCanvas = {
-                    labels : [
-                    {% for visite in visitesParSemaine %}
-                    "{{visite.weekText}}",
-                    {% endfor%}
-                    ],
-                    datasets : [
-                        {
-                            fillColor : "#69D2E7",
-                            strokeColor : "rgba(220,220,220,0.8)",
-                            highlightFill: "rgba(220,220,220,0.75)",
-                            highlightStroke: "rgba(220,220,220,1)",
-                            data : [{% for visite in visitesParSemaine %}{{visite.nombre}}, {% endfor%}]
-                        }
-                    ]
-                };
+     loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
 
-                // barChartCanvas
-                var ctx = document.getElementById("barChartCanvas").getContext("2d");
-                new Chart(ctx).Line(barChartCanvas);
-
+         var data = {
+          labels: [
+            "SIAT CONGO",
+        {% for situation in situations if situation.dossier=='concurrence' %}
+          "{{situation.nom}}",
+         {%endfor%}
+           ],
+         datasets: [
+             {
+        data: [{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}, {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
+        backgroundColor: ["#F38823",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
+        hoverBackgroundColor: ["#F38584",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
+        }]
+      };      
+    var ctx = document.getElementById("pieChartCanvas").getContext("2d");
+            new Chart(ctx,{
+                type: 'pie',
+               data: data
+                });
                 
-            });
-        </script>
 
+
+
+var data = {
+    labels: [{% for stockSiat in stockSiatParSemaine %}"{{stockSiat.weektext}}:{{stockSiat.nombre}}",{% endfor%}],
+    datasets: [
+        {
+            label: "PART stock SIAT CONGO",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(255, 206, 86, 27)",
+            borderColor: "rgba(255, 206, 86, 27)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{% for stockSiat in stockSiatParSemaine %}{{stockSiat.stock}},{% endfor%}],
+            spanGaps: false,
+        },
+         {
+            label: "Part concurrence",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(255, 99, 132, 27)",
+            borderColor: "rgba(255,99,132,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{% for stockCon in stockConParSemaine %}{{stockCon.stock}},{% endfor%}],
+            spanGaps: false,
+        }
+
+       
+    ]
+ };
+
+    var ctx2 = document.getElementById("barChartCanvas").getContext("2d");
+            new Chart(ctx2,{
+                type: 'bar',
+                data: data,
+               options: {
+                       scales: {
+                             xAxes: [{stacked: true}],
+                             yAxes: [{stacked: true}]
+                               }
+                           }
+            });
+      });
+        </script>
        {% endblock %}
 
     </body>

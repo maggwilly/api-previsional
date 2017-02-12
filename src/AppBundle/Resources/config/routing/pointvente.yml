@@ -8,6 +8,11 @@ pointvente_show:
     defaults: { _controller: "AppBundle:PointVente:show" }
     methods:  GET
 
+pointvente_eligibles:
+    path:     /{note}/eligibles
+    defaults: { _controller: "AppBundle:PointVente:eligibles", note:0 }
+    methods:  GET
+
 pointvente_map:
     path:     /geo
     defaults: { _controller: "AppBundle:PointVente:map" }
