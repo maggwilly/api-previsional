@@ -139,18 +139,18 @@ private function getConnectedUser(){
             return $form;
         }
          $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneByEmail($credentials->getLogin());
+        $user = $em->getRepository('AppBundle:Client')->findOneByUsername($credentials->getLogin());
 
         if (!$user) { // L'utilisateur n'existe pas
             return $this->invalidCredentials();
         }
 
-        $encoder = $this->get('security.password_encoder');
+       /** $encoder = $this->get('security.password_encoder');
         $isPasswordValid = $encoder->isPasswordValid($user, $credentials->getPassword());
 
         if (!$isPasswordValid) { // Le mot de passe n'est pas correct
             return $this->invalidCredentials();
-        }
+        }*/
         $authToken=AuthToken::create($user);
         $em->persist($authToken);
         $em->flush();
