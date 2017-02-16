@@ -75,7 +75,7 @@ class AuthToken
         $this->user = $user;
     }
 
-    static function create(User $user)
+    static function create(Client $user)
     {   
         $authToken = new AuthToken();
         $str = uniqid();
