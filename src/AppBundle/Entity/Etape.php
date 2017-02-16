@@ -13,10 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Etape
 {
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="id",  type="string", length=255)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -78,7 +79,7 @@ class Etape
       $this->heure=$heure;
       $this->longitude=$longitude;
       $this->latitude=$latitude;
-      $this->id=$id;
+     // $this->id=$id;
       $this->suivant=$suivant;
     }
     /**

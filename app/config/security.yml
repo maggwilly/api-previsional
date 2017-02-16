@@ -31,7 +31,12 @@ security:
       # since anonymous is allowed users will not be forced to login
            pattern:   ^/$
            anonymous:    true 
-
+        mobile:
+      # since anonymous is allowed users will not be forced to login
+            pattern:   auth-token|produits|points|ventes|visites|etapes
+            anonymous: true
+            security: false
+            stateless: true
         main:
             pattern:        ^/
             anonymous:      false

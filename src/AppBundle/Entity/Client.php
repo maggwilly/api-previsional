@@ -12,31 +12,67 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class Client extends BaseUser
 {
+    
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @var string
+     * @ORM\Column(name="id",  type="string", length=255)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 	
 
     /**
      * @var string
-     *
      * @ORM\Column(name="nom", type="string", length=255,nullable=true)
      */
     private $nom;
 
+   /**
+     * @var string
+     * @ORM\Column(name="ville", type="string", length=255,nullable=true)
+     */
+    private $ville;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255,unique=true)
      */
     protected $username;
 
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string")
+     */
+    protected $password;
+
+    /**
+     * Plain password. Used for model validation. Must not be persisted.
+     *
+     * @var string
+     */
+    protected $plainPassword;
+
+
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $visites;
+
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Synchro", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $synchros;
+
+
+       /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="user", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $etapes;
      /**
      * @var string
      *
@@ -72,19 +108,6 @@ class Client extends BaseUser
      */
     protected $salt;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string")
-     */
-    protected $password;
-
-    /**
-     * Plain password. Used for model validation. Must not be persisted.
-     *
-     * @var string
-     */
-    protected $plainPassword;
 
    /**
      * @var \DateTime
@@ -129,6 +152,7 @@ class Client extends BaseUser
      */
     protected $expiresAt;
 
+
    
      /**
      * @var array
@@ -151,24 +175,7 @@ class Client extends BaseUser
      */
     protected $credentialsExpireAt;
 
-    /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $visites;
 
-   /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Synchro", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $synchros;
-
-
-       /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $etapes;
     /**
      * Get id
      *
@@ -192,6 +199,17 @@ class Client extends BaseUser
         return $this;
     }
 
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Client
+     */
+    public function setId($username)
+    {
+        $this->id = $username;
+        return $this;
+    }
     /**
      * Get nom
      *
@@ -366,5 +384,28 @@ class Client extends BaseUser
     public function getSynchros()
     {
         return $this->synchros;
+    }
+
+        /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return PointVente
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string 
+     */
+    public function getVille()
+    {
+        return $this->ville;
     }
 }

@@ -105,7 +105,7 @@ class PointVente
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true,  referencedColumnName="id")
      */
     protected $user;
 

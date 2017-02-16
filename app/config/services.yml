@@ -9,20 +9,8 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-
-     resto.security.authentication_success_handler:
-           class: AppBundle\Handler\AuthenticationSuccessHandler
-
-     resto.security.authentication_failure_handler:
-           class: AppBundle\Handler\AuthenticationFailureHandler
-
-     resto.security.authentication_entry_point:
-           class: AppBundle\Handler\AuthenticationEntryPoint
-
-     resto.security.remember_me:
-           class: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
-           arguments:  [@doctrine.dbal.default_connection]
-
-     resto.logout_success_handler:
-           class: AppBundle\Handler\LogoutSuccessHandler
-           arguments:  [@doctrine.dbal.default_connection, %logout.target%]
+    
+      app.form.registration:
+                class: AppBundle\Form\RegistrationType
+                tags:
+                    - { name: form.type, alias: app_user_registration }

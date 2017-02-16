@@ -41,7 +41,24 @@ class Synchro
      * @var User
      */
     protected $user;
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="synchro", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $visites;
 
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="synchro", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $pointVentes;
+
+
+      /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="synchro", cascade={"persist","remove"})
+   *@ORM\OrderBy({"date" = "DESC"})
+   */
+    private $etapes;
         /**
      * Constructor
      */
@@ -129,4 +146,103 @@ class Synchro
     {
         return $this->user;
     }
+
+         /**
+     * Add visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     * @return PointVente
+     */
+    public function addVisite(\AppBundle\Entity\Visite $visite)
+    {
+        $visite->setPointVente($this);
+        $this->visites[] = $visite;
+
+        return $this;
+    }
+
+    /**
+     * Remove visites
+     *
+     * @param \AppBundle\Entity\Visite $visites
+     */
+    public function removeVisite(\AppBundle\Entity\Visite $visites)
+    {
+        $this->visites->removeElement($visites);
+    }
+
+    /**
+     * Get visites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVisites()
+    {
+        return $this->visites;
+    }
+      /**
+     * Add etapes
+     *
+     * @param \AppBundle\Entity\Etape $etapes
+     * @return User
+     */
+    public function addEtape(\AppBundle\Entity\Etape $etapes)
+    {
+        $this->etapes[] = $etapes;
+
+        return $this;
+    }
+
+    /**
+     * Remove etapes
+     *
+     * @param \AppBundle\Entity\Etape $etapes
+     */
+    public function removeEtape(\AppBundle\Entity\Etape $etapes)
+    {
+        $this->etapes->removeElement($etapes);
+    }
+
+    /**
+     * Get etapes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEtapes()
+    {
+        return $this->etapes;
+    } 
+
+      /**
+     * Add pointVentes
+     *
+     * @param \AppBundle\Entity\PointVente $pointVentes
+     * @return User
+     */
+    public function addPointVente(\AppBundle\Entity\PointVente $pointVentes)
+    {
+        $this->pointVentes[] = $pointVentes;
+
+        return $this;
+    }
+
+    /**
+     * Remove pointVentes
+     *
+     * @param \AppBundle\Entity\PointVente $pointVentes
+     */
+    public function removePointVente(\AppBundle\Entity\PointVente $pointVentes)
+    {
+        $this->pointVentes->removeElement($pointVentes);
+    }
+
+    /**
+     * Get pointVentes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPointVentes()
+    {
+        return $this->pointVentes;
+    }    
 }

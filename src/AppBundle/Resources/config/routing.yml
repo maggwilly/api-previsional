@@ -17,3 +17,4 @@ app_point_vente:
 app_etape:
     resource: "@AppBundle/Resources/config/routing/etape.yml"
     prefix:   /etape
+

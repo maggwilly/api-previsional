@@ -14,10 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Visite
 {
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="id",  type="string", length=255)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -138,7 +139,7 @@ class Visite
     {
      $this->user=$user;
       $this->date=$date;
-      $this->id=$id;
+      //$this->id=$id;
       $this->pointVente = $pointVente;
       $this->aff=$aff;
       $this->sapp=$sapp;
@@ -358,18 +359,7 @@ class Visite
     }
 
 
-    /**
-     * Set id
-     *
-     * @param string $id
-     * @return Visite
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
 
-        return $this;
-    }
 
     /**
      * Add situations
