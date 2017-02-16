@@ -29,10 +29,6 @@ load_default_etape:
     defaults: { _controller: "AppBundle:App:loadDefaultEtape" }
     methods:  GET
     
-app_mobile:
-    type:     rest
-    resource: "@AppBundle/Resources/config/routing/mobile.yml"
-    prefix:   /mobile
 
 user_homepage:
     path:     /v1/home
@@ -42,7 +38,12 @@ user_homepage:
 app_admin:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /v1
-       
+
+app_mobile:
+    type:     rest
+    resource: "@AppBundle/Resources/config/mobile.yml"
+    prefix:   /mobile
+      
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
