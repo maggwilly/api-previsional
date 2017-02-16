@@ -131,6 +131,12 @@ class Visite
      */
     protected $user;
 
+    /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Synchro",inversedBy="visites")
+   * 
+   */
+  
+    private $synchro;
 
         /**
      * Constructor
@@ -144,10 +150,10 @@ class Visite
       $this->aff=$aff;
       $this->sapp=$sapp;
       $this->exc=$exc;
-       $this->map=$map;
-        $this->pre=$pre;
-         $this->rpd=$rpd;
-          $this->rpp=$rpp;
+      $this->map=$map;
+      $this->pre=$pre;
+      $this->rpd=$rpd;
+      $this->rpp=$rpp;
       $this->situations = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
@@ -555,5 +561,28 @@ class Visite
     public function getCommentaire()
     {
         return $this->commentaire;
+    }
+
+    /**
+     * Set synchro
+     *
+     * @param \AppBundle\Entity\Synchro $synchro
+     * @return Visite
+     */
+    public function setSynchro(\AppBundle\Entity\Synchro $synchro = null)
+    {
+        $this->synchro = $synchro;
+
+        return $this;
+    }
+
+    /**
+     * Get synchro
+     *
+     * @return \AppBundle\Entity\Synchro 
+     */
+    public function getSynchro()
+    {
+        return $this->synchro;
     }
 }

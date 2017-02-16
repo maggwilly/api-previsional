@@ -136,7 +136,11 @@ class PointVente
      * @return integer 
      */
 
-
+    /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Synchro",inversedBy="pointVentes")
+   * 
+   */
+    private $synchro;
 
 
     public function getId()
@@ -549,5 +553,28 @@ class PointVente
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set synchro
+     *
+     * @param \AppBundle\Entity\Synchro $synchro
+     * @return PointVente
+     */
+    public function setSynchro(\AppBundle\Entity\Synchro $synchro = null)
+    {
+        $this->synchro = $synchro;
+
+        return $this;
+    }
+
+    /**
+     * Get synchro
+     *
+     * @return \AppBundle\Entity\Synchro 
+     */
+    public function getSynchro()
+    {
+        return $this->synchro;
     }
 }

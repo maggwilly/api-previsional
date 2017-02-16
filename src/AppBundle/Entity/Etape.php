@@ -62,6 +62,11 @@ class Etape
      */
     protected $user;
 
+    /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Synchro",inversedBy="etapes")
+   * 
+   */
+    private $synchro;
         /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Etape", cascade={"persist","remove"})
      * @var User
@@ -251,5 +256,28 @@ class Etape
     public function getSuivant()
     {
         return $this->suivant;
+    }
+
+    /**
+     * Set synchro
+     *
+     * @param \AppBundle\Entity\Synchro $synchro
+     * @return Etape
+     */
+    public function setSynchro(\AppBundle\Entity\Synchro $synchro = null)
+    {
+        $this->synchro = $synchro;
+
+        return $this;
+    }
+
+    /**
+     * Get synchro
+     *
+     * @return \AppBundle\Entity\Synchro 
+     */
+    public function getSynchro()
+    {
+        return $this->synchro;
     }
 }

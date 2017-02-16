@@ -60,15 +60,32 @@ class MobileController extends Controller
     {
         $entity= new Synchro(null,new \DateTime());
         $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-        $form->submit($request->request->all(),false); // Validation des d
+        $form->submit(
+        array(
+        'pointVentes'=>$request->request->all()['pointVentes'],
+        'id'=>$request->request->all()['id'],
+        'user'=>$request->request->all()['user'],
+        'etapes'=>$request->request->all()['etapes']),false); // Validation des d
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+             $em = $this->getDoctrine()->getManager();
+            $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());
+            if($failedSynchro!=null) {
+              $em->remove($failedSynchro);  
+              $em->flush(); 
+            }         
             $em->persist($entity);
             $em->flush();
-         return ['success'=>true];
+
         }
-        return  $form;
+        $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());
+        $form2 = $this->createCreateForm($failedSynchro);
+        $form2->submit(array('visites'=>$request->request->all()['visites']),false); // 
+         if ($form2->isValid()) {
+            $em->flush();
+             return ['success'=>true];
+        }
+
+        return $request->request->all();
     }
 
      /** Creates a new Produit entity.

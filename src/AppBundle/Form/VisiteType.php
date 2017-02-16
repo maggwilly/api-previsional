@@ -25,7 +25,13 @@ class VisiteType extends AbstractType
         ->add('fp')
         ->add('rpp')
         ->add('rpd')
-        ->add('date')
+         ->add('date','datetime', array(
+              'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'invalid_message' => 'Validation date',
+                'error_bubbling' => true,
+                'input' => 'datetime' # return a Datetime object (*)
+            ))
         ->add('situations',CollectionType::class, array('entry_type'=> SituationType::class,'allow_add' => true))
         ->add('pointVente', EntityType::class, array('class' => 'AppBundle:PointVente'))
         ->add('user', EntityType::class, array('class' => 'AppBundle:Client'))        ;

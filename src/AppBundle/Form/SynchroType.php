@@ -20,7 +20,8 @@ class SynchroType extends AbstractType
         $builder
         ->add('visites', CollectionType::class, array('entry_type'=> VisiteType::class,'allow_add' => true))
         ->add('etapes', CollectionType::class, array('entry_type'=> EtapeType::class,'allow_add' => true))
-                ->add('user', EntityType::class, array('class' => 'AppBundle:Client'))  
+        ->add('user', EntityType::class, array('class' => 'AppBundle:Client'))  
+        ->add('id')
         ->add('pointVentes', CollectionType::class, array('entry_type'=> PointVenteType::class,'allow_add' => true))
            ;
     }

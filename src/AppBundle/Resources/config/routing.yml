@@ -33,7 +33,7 @@ produits:
 create_point_ventes:
     path:      /mobile/create/points/ventes
     defaults: { _controller: "AppBundle:Mobile:createPointVentes" }
-    methods:  POST
+    methods:  [POST,GET]
 
 create_visites:
     path:      /mobile/create/visites

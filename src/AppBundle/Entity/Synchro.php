@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Synchro
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="string", length=255)
+    * @ORM\Id
      */
     private $id;
 
@@ -66,6 +65,7 @@ class Synchro
     {
        $this->user=$user;
       $this->date=$date;
+        $this->id=uniqid();
     
     }
     /**
@@ -78,6 +78,18 @@ class Synchro
         return $this->id;
     }
 
+   /**
+     * Set id
+     *
+     * @param string $id
+     * @return PointVente
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     /**
      * Set date
      *
@@ -155,7 +167,8 @@ class Synchro
      */
     public function addVisite(\AppBundle\Entity\Visite $visite)
     {
-        $visite->setPointVente($this);
+        $visite->setSynchro($this);
+         $visite->setUser($this->user);
         $this->visites[] = $visite;
 
         return $this;
@@ -188,6 +201,8 @@ class Synchro
      */
     public function addEtape(\AppBundle\Entity\Etape $etapes)
     {
+        $etapes->setSynchro($this);
+       $etapes->setUser($this->user);
         $this->etapes[] = $etapes;
 
         return $this;
@@ -221,7 +236,9 @@ class Synchro
      */
     public function addPointVente(\AppBundle\Entity\PointVente $pointVentes)
     {
-        $this->pointVentes[] = $pointVentes;
+          $pointVentes->setSynchro($this);
+         $pointVentes->setUser($this->user);
+          $this->pointVentes[] =$pointVentes;
 
         return $this;
     }
