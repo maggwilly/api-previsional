@@ -70,7 +70,7 @@ class AuthToken
         return $this->user;
     }
 
-    public function setUser(User $user)
+    public function setUser(Client $user)
     {
         $this->user = $user;
     }
