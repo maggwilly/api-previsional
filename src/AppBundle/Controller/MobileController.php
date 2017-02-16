@@ -125,7 +125,7 @@ private function getConnectedUser(){
 }
 
         /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"full"})
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"auth-token"})
      * 
      */
     public function postAuthTokensAction(Request $request)
