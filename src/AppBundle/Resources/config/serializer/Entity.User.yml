@@ -2,6 +2,8 @@ AppBundle\Entity\User:
     exclusion_policy: none
     properties:
         id:
-            groups: ['user','organ' , 'auth-token','pointVente']
+            groups: ['user', 'auth-token']
         nom:
-            groups: ['user']
+            groups: ['user','auth-token']
+        usename:
+            groups: ['user','auth-token']
