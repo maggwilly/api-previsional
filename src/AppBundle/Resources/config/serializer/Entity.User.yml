@@ -1,0 +1,7 @@
+AppBundle\Entity\User:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['user','organ' , 'auth-token','pointVente']
+        nom:
+            groups: ['user']

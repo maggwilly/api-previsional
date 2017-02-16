@@ -1,0 +1,11 @@
+AppBundle\Entity\Produit:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['produit']
+        nom:
+            groups: ['produit']
+        dossier:
+            groups: ['produit'] 
+   
+              
