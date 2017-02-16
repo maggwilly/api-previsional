@@ -29,7 +29,7 @@ class AuthToken
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="Client")
      * @var User
      */
     protected $user;
