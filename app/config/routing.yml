@@ -39,10 +39,6 @@ app_admin:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /v1
 
-app_mobile:
-    type:     rest
-    resource: "@AppBundle/Resources/config/mobile.yml"
-    prefix:   /mobile
       
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

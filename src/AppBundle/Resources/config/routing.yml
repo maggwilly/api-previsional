@@ -18,3 +18,6 @@ app_etape:
     resource: "@AppBundle/Resources/config/routing/etape.yml"
     prefix:   /etape
 
+app_mobile:
+    resource: "@AppBundle/Resources/config/routing/mobile.yml"
+    prefix:   /mobile

@@ -86,7 +86,7 @@ fos_rest:
             html: true
     format_listener:
         rules:
-            - { path: ^/mobile, priorities: [json], fallback_format: 'json'} 
+            - { path: ^/v1/mobile, priorities: [json], fallback_format: 'json'} 
             - { path: ^/, priorities: [html], fallback_format: 'html'}
 
     routing_loader:
