@@ -24,7 +24,7 @@ security:
         
         public:
       # since anonymous is allowed users will not be forced to login
-           pattern:   ^/login$
+           pattern:   ^/(login|register)$
            anonymous:      true
 
         home:
@@ -33,7 +33,7 @@ security:
            anonymous:    true 
         mobile:
       # since anonymous is allowed users will not be forced to login
-            pattern:   auth-token|produits|points|ventes|visites|etapes
+            pattern:   auth-token|produits|points|ventes|visites|etapes|register
             anonymous: true
             security: false
             stateless: true
