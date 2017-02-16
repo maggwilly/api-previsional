@@ -1,4 +1,4 @@
-AppBundle\Entity\User:
+AppBundle\Entity\Client:
     exclusion_policy: none
     properties:
         id:
