@@ -185,7 +185,7 @@ for mobile
 */
   public function pdvs ($region=null){
   $em = $this->_em; //and pv.ville=:region
-  $RAW_QUERY ='select u.id,u.nom, u.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv left join visite v  on pv.id=v.point_vente_id    group by  pv.id, pv.nom,pv.type order by date) u ;';
+  $RAW_QUERY ='select u.id,u.nom, u.date sa lastvisitedate, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv left join visite v  on pv.id=v.point_vente_id    group by  pv.id, pv.nom,pv.type order by date) u ;';
     $statement = $em->getConnection()->prepare($RAW_QUERY);
    // $statement->bindValue('region', $region);
     $statement->execute();
