@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="etape")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EtapeRepository")
+  *@ORM\HasLifecycleCallbacks()
  */
 class Etape
 {
@@ -110,6 +111,13 @@ class Etape
         return $this;
     }
 
+/**
+* @ORM\PrePersist
+*/
+ public function prePersist(){
+    if($this->type!='fin')
+        $this->user=null;
+  }
     /**
      * Get date
      *
@@ -220,7 +228,6 @@ class Etape
      */
     public function setUser(\AppBundle\Entity\Client $user = null)
     {
-        if($this->type!="fin") 
              $this->user = $user;
         return $this;
     }
