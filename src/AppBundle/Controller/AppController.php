@@ -185,17 +185,16 @@ class AppController extends Controller
         $manager = $this->getDoctrine()->getManager();
         $user= $this->getUser();
 
-       $concur1=new Produit("Rosa 4Kg","concurrence");
-       $concur2= new Produit("Rosa 1Kg","concurrence");
-       $concur3= new Produit("Rosa 900g","concurrence");
        $produits = array(
-        $concur1,
-        $concur2,
-        $concur3,
-       new Produit("Jadida 2kg prestige","produit"),
-       new Produit("Jadida 4kg g","produit",$concur1),
-       new Produit("Jadida 1Kg","produit",   $concur2),
-       new Produit("Jadida 900g","produit",  $concur3)
+ 
+       new Produit("FKS","produit"),
+       new Produit("FKM","produit"),
+       new Produit("FKL","produit"),
+       new Produit("FMT","produit"),
+       new Produit("SUPER MATCH","concurrence"),
+       new Produit("L-M","concurrence"),
+       new Produit("DUNHIL","concurrence"),
+       new Produit("MALBORO","concurrence")
   );
         
 

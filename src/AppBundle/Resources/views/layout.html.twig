@@ -350,9 +350,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         {%endfor%}
                                                         <tr>
                                                             <td>PART SIAT</td>
-                                                            <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
-                                                            <td><b>{{(totalStockSiat/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</b></td>
-                                                            <td><b>{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%</b></td>
+                                      <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockSiat/nombrePointVenteVisite)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                                            <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -378,8 +377,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                         <tr>
                                                             <td>PART concurrence</td>
                                                             <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
-                                                            <td><b>{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</b></td>
-                                                            <td><b>{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%</b></td>
+                                                       <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
+                                                            <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -532,7 +531,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
            ],
          datasets: [
              {
-        data: [{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}, {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
+        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%} {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
         backgroundColor: ["#F38823",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
         hoverBackgroundColor: ["#F38584",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
         }]

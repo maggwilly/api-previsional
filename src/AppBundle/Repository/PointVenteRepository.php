@@ -105,9 +105,9 @@ Nombre de point de vente visités
   public function eligibles ($note=0,$region=null, $startDate=null, $endDate=null){
         $stockMin=30;
         $conds=array(
-                       array('produit'=>'produit1','cote'=>0.67,'sg'=>2),
-                       array('produit'=>'produit2','cote'=>2.67,'sg'=>8),
-                       array('produit'=>'produit3','cote'=>6.67,'sg'=>20),
+                       array('produit'=>'FKM','cote'=>0.67,'sg'=>2),
+                       array('produit'=>'FMT','cote'=>2.67,'sg'=>8),
+                       array('produit'=>'FKS','cote'=>6.67,'sg'=>20),
                        );
        $em = $this->_em;
        $RAW_QUERY =($region!=null) ?'select * from (select idpv,nompv,(max(notemap) + max(noteexc) + sum(notestock) ) as note from (select pvproduittotal.idpv,nompv,nom, case when exc is not null then 5 else 0 end as noteexc, case when map is not null then 5 else 0 end as notemap,(case when (nom=:produit1 and sg>=2 and pvtotal.totalsg>=30 ) then 0.67 else 0 end + case when (nom=:produit2 and sg>=8 and pvtotal.totalsg>=30) then 2.67 else 0 end + case when (nom=:produit3 and sg>=20 and pvtotal.totalsg>=30) then 6.67 else 0 end )as notestock  from (select idpv,nompv, p.id, p.nom,v.id as idv,v.map,v.exc, sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv,v.map,v.exc from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id,v.id,v.map,v.exc) pvproduittotal join (select idpv, sum(sg) as totalsg from (select idpv,nompv, p.id, p.nom,  sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id) pvtotal group by idpv) pvtotal on pvproduittotal.idpv=pvtotal.idpv) pointnote group by idpv,nompv ) eligibilite where note>=0;
