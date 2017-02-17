@@ -268,7 +268,7 @@ class Etape
     {
          $this->synchro = $synchro;
         if($this->suivant!=null)
-             $etapes->setUser($this->synchro ->getUser());
+             $this->user=$this->synchro ->getUser();
         return $this;
     }
 
