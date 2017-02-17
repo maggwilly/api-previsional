@@ -28,6 +28,10 @@ load_default_produit:
     path:     /load/default/produit
     defaults: { _controller: "AppBundle:App:loadDefaultProduit" }
     methods:  GET
+load_default_point_vente:
+    path:     /load/default/point/vente
+    defaults: { _controller: "AppBundle:App:loadDefaultPointVente" }
+    methods:  GET
 
 load_default_etape:
     path:     /load/default/etape

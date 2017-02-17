@@ -211,6 +211,85 @@ class AppController extends Controller
     }
 
 //load default data
+     public function loadDefaultPointVenteAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $user= $this->getUser();
+
+        $pointVentes = array(
+         new PointVente(
+          $user,
+          "MaTiness SARL",
+          uniqid(),
+          "Super Marché",
+          352.25641,
+          352.28154,
+          "A côté de la banaue UBC centrale, 300 metres avant le tresor",
+          new \DateTime('2017-01-03'),
+          'M. Noumssi Athanaz',
+          'BRAZAVILLE'
+          ),
+          new PointVente(
+          $user,          
+          "LART INC-TECH",
+          uniqid(),
+          "Boutique grossiste",
+          353.25641,
+          332.28454,
+          "En fâce de la banaue AFBC, 100 metres en venant du marché",
+          new \DateTime('2017-02-03 '),
+          'M. Mikam Roméo Landry',
+          'BRAZAVILLE'
+          ),
+         new PointVente(
+           $user,         
+          "Evil ",
+          uniqid(),
+          "Superette",
+          352.25641,
+          352.28154,
+          "En fâce de la TSARL SA, 100 metres en venant du marché des pagnes",
+          new \DateTime('2017-01-02 '),
+          'Mlle Esso Ingrid Tatiana',
+          'BRAZAVILLE'
+          ),
+          new PointVente(
+           $user,         
+          "Chez Aoudou",
+          uniqid(),
+          "Echope de quartier",
+          352.25641,
+          352.28154,
+          "Carrefour ASSO 2ieme, 20 metres du grand hangard",
+          new \DateTime('2017-02-05'),
+          'Mouamadou Sliou Alassan',
+          'Pointe Noir'
+          ),
+         new PointVente(
+          $user,          
+          "Chez Mama Tannefô",
+          uniqid(),
+          "Boutique détaillant",
+          352.25641,
+          352.28154,
+          "Collé à lq station CRL, fâce un cyber-café Dior-Tech",
+          new \DateTime('2017-01-30'),
+          'Tannefô Marie Louse',
+          'Pointe Noir'
+          ),
+          );
+        
+
+
+         foreach ($pointVentes as  $value) {
+             $manager->persist($value);
+         }
+ 
+        $manager->flush();
+
+    return $this->redirectToRoute('user_homepage');
+    }
+//load default data
      public function loadDefaultAction()
     {
         $manager = $this->getDoctrine()->getManager();
