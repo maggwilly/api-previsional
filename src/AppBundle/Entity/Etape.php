@@ -220,8 +220,8 @@ class Etape
      */
     public function setUser(\AppBundle\Entity\Client $user = null)
     {
-        $this->user = $user;
-         ;
+        if($this->suivant!=null)
+             $this->user = $user;
         return $this;
     }
 
