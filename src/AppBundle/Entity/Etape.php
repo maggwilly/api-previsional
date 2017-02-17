@@ -220,7 +220,7 @@ class Etape
      */
     public function setUser(\AppBundle\Entity\Client $user = null)
     {
-        if($this->suivant!=null)
+        
              $this->user = $user;
         return $this;
     }
@@ -266,8 +266,9 @@ class Etape
      */
     public function setSynchro(\AppBundle\Entity\Synchro $synchro = null)
     {
-        $this->synchro = $synchro;
-  
+         $this->synchro = $synchro;
+        if($this->suivant!=null)
+             $etapes->setUser($this->synchro ->getUser());
         return $this;
     }
 
