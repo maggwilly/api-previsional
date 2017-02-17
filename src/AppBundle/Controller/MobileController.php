@@ -178,13 +178,13 @@ private function getConnectedUser(){
     public function apkAction()
 {
   $request = $this->get('request');
-    $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/mobilereport.apk";
+    $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/mobilereport_v1.0.apk";
     $content = file_get_contents($path);
     $response = new Response();
 
     //set headers
     $response->headers->set('Content-Type', 'mime/type');
-    $response->headers->set('Content-Disposition', 'attachment;filename="mobilereport.apk"');
+    $response->headers->set('Content-Disposition', 'attachment;filename="mobilereport_v1.0.apk"');
 
     $response->setContent($content);
     return $response;
