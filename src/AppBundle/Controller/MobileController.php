@@ -66,26 +66,27 @@ class MobileController extends Controller
         'id'=>$request->request->all()['id'],
         'user'=>$request->request->all()['user'],
         'etapes'=>$request->request->all()['etapes']),false); // Validation des d
+         $em = $this->getDoctrine()->getManager();
+           $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());      
         if ($form->isValid()) {
-             $em = $this->getDoctrine()->getManager();
-            $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());
             if($failedSynchro!=null) {
               $em->remove($failedSynchro);  
               $em->flush(); 
             }         
             $em->persist($entity);
             $em->flush();
-
-        }
+        
         $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());
+
         $form2 = $this->createCreateForm($failedSynchro);
         $form2->submit(array('visites'=>$request->request->all()['visites']),false); // 
          if ($form2->isValid()) {
             $em->flush();
              return ['success'=>true];
-        }
-
-        return $request->request->all();
+        }else
+          return $form2;
+         }
+        return  $form;
     }
 
      /** Creates a new Produit entity.
@@ -173,4 +174,21 @@ private function getConnectedUser(){
         $em->flush();
         return $authToken;
     }
+
+    public function apkAction()
+{
+  $request = $this->get('request');
+    $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/mobilereport.apk";
+    $content = file_get_contents($path);
+    $response = new Response();
+
+    //set headers
+    $response->headers->set('Content-Type', 'mime/type');
+    $response->headers->set('Content-Disposition', 'attachment;filename="mobilereport.apk"');
+
+    $response->setContent($content);
+    return $response;
+
+ 
+}
 }

@@ -40,7 +40,7 @@ class PointVenteType extends AbstractType
             ))
         ->add('createdAt','datetime', array(
               'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
+                'format' => 'yyyy-MM',
                 'invalid_message' => 'Validation date',
                 'error_bubbling' => true,
                 'input' => 'datetime' # return a Datetime object (*)

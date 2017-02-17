@@ -97,7 +97,11 @@
 							<p class="lead font-lato size-30 wow fadeInUp" data-wow-delay="0.7s">Une plateforme unique pour suivre et gérer vos forces de vente.</p>
 							
 							<div class="margin-top-30">
-						<a href="{{ path('user_homepage') }}" class="btn btn-3d btn-lg btn-red"><i class="glyphicon glyphicon-user"></i>{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}{% else %}Connexion{% endif%}</a>
+			  <a href="{{ path('mobileapp') }}" class="btn btn-3d btn-lg btn-teal"><i class="glyphicon glyphicon-th-large"></i>Telécharger sur mobile</a>
+								<span class="size-17 hidden-xs">&nbsp; OU' &nbsp;</span>		
+						<a href="{{ path('user_homepage') }}" class="btn btn-3d btn-lg btn-red"><i class="glyphicon glyphicon-user"></i>{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}{% else %}Se connecter{% endif%}</a>
+							
+
 							</div>
 
 						</div>
@@ -147,7 +151,7 @@
 							</p>
 
 
-							<div class="row margin-top-60">
+							<div class="row margin-top-10">
 
 								<div class="col-md-6">
 									<div class="heading-title heading-border-bottom heading-color">

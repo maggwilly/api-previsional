@@ -45,7 +45,7 @@ class Etape
     /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="decimal", precision=5, scale=2, nullable=true)
+     * @ORM\Column(name="longitude", type="decimal", precision=10, scale=6, nullable=true)
      */
     private $longitude;
 
@@ -68,8 +68,8 @@ class Etape
    */
     private $synchro;
         /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Etape", cascade={"persist","remove"})
-     * @var User
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Etape", cascade={"persist"})
+     * @ORM\JoinColumn( nullable=true, onDelete="SET NULL")
      */
     protected $suivant;
 
@@ -221,7 +221,7 @@ class Etape
     public function setUser(\AppBundle\Entity\Client $user = null)
     {
         $this->user = $user;
-
+         ;
         return $this;
     }
 
@@ -244,7 +244,7 @@ class Etape
     public function setSuivant(\AppBundle\Entity\Etape $suivant = null)
     {
         $this->suivant = $suivant;
-
+       
         return $this;
     }
 
@@ -267,7 +267,7 @@ class Etape
     public function setSynchro(\AppBundle\Entity\Synchro $synchro = null)
     {
         $this->synchro = $synchro;
-
+  
         return $this;
     }
 

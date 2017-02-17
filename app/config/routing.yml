@@ -3,6 +3,10 @@ homepage:
     path:     /
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
+mobileapp:
+    path:     /apk
+    defaults: { _controller: "AppBundle:Mobile:apk" }
+    methods:  GET
 
 set_periode:
     path:     /set/periode
