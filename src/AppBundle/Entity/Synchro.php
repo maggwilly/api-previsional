@@ -204,7 +204,7 @@ class Synchro
         $etapes->setSynchro($this);
         $etapes->setUser($this->user);  
         $this->etapes[] = $etapes;
-             if($etapes->getSuivant()!=null)
+             if($etapes->type!='fin')
               return $this->addEtape($etapes->getSuivant());
 
         return $this;

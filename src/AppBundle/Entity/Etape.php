@@ -115,8 +115,7 @@ class Etape
 * @ORM\PrePersist
 */
  public function prePersist(){
-    if($this->type!='fin')
-        $this->user=null;
+   
   }
     /**
      * Get date
