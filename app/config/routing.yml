@@ -24,6 +24,11 @@ load_default_synchro:
     defaults: { _controller: "AppBundle:App:loadDefaultSynchro" }
     methods:  GET
 
+load_default_produit:
+    path:     /load/default/produit
+    defaults: { _controller: "AppBundle:App:loadDefaultProduit" }
+    methods:  GET
+
 load_default_etape:
     path:     /load/default/etape
     defaults: { _controller: "AppBundle:App:loadDefaultEtape" }

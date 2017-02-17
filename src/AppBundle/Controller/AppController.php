@@ -179,7 +179,36 @@ class AppController extends Controller
         $manager->flush();
     return $this->redirectToRoute('user_homepage');      
     }
+//load default data
+     public function loadDefaultProduitAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $user= $this->getUser();
 
+       $concur1=new Produit("Rosa 4Kg","concurrence");
+       $concur2= new Produit("Rosa 1Kg","concurrence");
+       $concur3= new Produit("Rosa 900g","concurrence");
+       $produits = array(
+        $concur1,
+        $concur2,
+        $concur3,
+       new Produit("Jadida 2kg prestige","produit"),
+       new Produit("Jadida 4kg g","produit",$concur1),
+       new Produit("Jadida 1Kg","produit",   $concur2),
+       new Produit("Jadida 900g","produit",  $concur3)
+  );
+        
+
+
+         foreach ($produits as  $value) {
+             $manager->persist($value);
+         }
+ 
+
+        $manager->flush();
+
+    return $this->redirectToRoute('user_homepage');
+    }
 
 //load default data
      public function loadDefaultAction()
