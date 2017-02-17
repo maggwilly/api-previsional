@@ -201,10 +201,12 @@ class Synchro
      */
     public function addEtape(\AppBundle\Entity\Etape $etapes)
     {
-        $etapes->setSynchro($this);  
+        $etapes->setSynchro($this);
+        $etapes->setUser($this->user);  
         $this->etapes[] = $etapes;
              if($etapes->getSuivant()!=null)
               return $this->addEtape($etapes->getSuivant());
+
         return $this;
     }
 
