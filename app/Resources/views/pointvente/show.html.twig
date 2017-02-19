@@ -222,17 +222,14 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap">
 </script>
        <script type="text/javascript">
-            /**
-                Chart.js
-                http://www.chartjs.org/
-            **/
- 
+    {% if first is defined %}
+
 
      loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
 
          var data = {
           labels: [
-            "SIAT CONGO",
+         "SIAT CONGO",
         {% for situation in first.situations if situation.produit.dossier=='concurrence' %}
           "{{situation.produit.nom}}",
          {%endfor%}
@@ -249,7 +246,7 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
                 type: 'pie',
                data: data
                 });
-
       });
+      {% endif %}
         </script>
  {% endblock %}
