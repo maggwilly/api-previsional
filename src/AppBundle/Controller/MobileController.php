@@ -174,7 +174,7 @@ private function getConnectedUser(){
         $em->flush();
         return $authToken;
     }
-
+//apk
     public function apkAction()
 {
   $request = $this->get('request');
