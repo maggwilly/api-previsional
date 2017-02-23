@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Etape;
+use AppBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
@@ -21,12 +22,12 @@ class EtapeController extends Controller
         $em = $this->getDoctrine()->getManager();
          $session = $this->getRequest()->getSession();
 
-            $region=$session->get('region');
-        $startDate=$session->get('startDate',date('Y').'-01-01');
-        $endDate=$session->get('endDate', date('Y').'-12-31');
+         $region=$session->get('region');
+         $startDate=$session->get('startDate',date('Y').'-01-01');
+         $endDate=$session->get('endDate', date('Y').'-12-31');
          $visitesParUser = $em->getRepository('AppBundle:Client')->visitesParUser($region,$startDate, $endDate);
-         $synchrosParUser = $em->getRepository('AppBundle:Client')->synchrosParUser($startDate, $endDate);
-         $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser($startDate, $endDate);
+         $synchrosParUser = $em->getRepository('AppBundle:Client')->synchrosParUser( $startDate, $endDate);
+         $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser(null, $startDate, $endDate);
 
         return $this->render('etape/index.html.twig', array(
             'visitesParUser' => $visitesParUser,
@@ -35,15 +36,26 @@ class EtapeController extends Controller
         ));
     }
 
+
+
     /**
      * Finds and displays a etape entity.
      *
      */
-    public function showAction(Etape $etape)
+    public function showAction(Client $client)
     {
+        $em = $this->getDoctrine()->getManager();
+         $session = $this->getRequest()->getSession();
 
-        return $this->render('etape/show.html.twig', array(
-            'etape' => $etape,
+         $region=$session->get('region');
+         $startDate=$session->get('startDate',date('Y').'-01-01');
+         $endDate=$session->get('endDate', date('Y').'-12-31');
+        $visitesParUser = $em->getRepository('AppBundle:Visite')->visites($client, $startDate, $endDate);
+         $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser(null, $startDate, $endDate);
+        return $this->render('user/show.html.twig', array(
+            'client' => $client,
+            'visitesParUser' => $visitesParUser,
+            'etapesParUser' => $etapesParUser,
         ));
-    }
+    }    
 }

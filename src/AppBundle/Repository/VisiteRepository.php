@@ -5,6 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use AppBundle\Entity\PointVente;
+use AppBundle\Entity\Client;
 /**
  * VisiteRepository
  *
@@ -21,7 +22,7 @@ class VisiteRepository extends EntityRepository
 
   public function excApp ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
+  $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.vpt) as vpt, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.vpt, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff,count(v.vpt) as vpt, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.vpt, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
    $statement->bindValue('region', $region);
@@ -77,10 +78,13 @@ class VisiteRepository extends EntityRepository
     /**
   *Nombre total de visite effectue par point de vente 
   */
-  public function visites( $startDate=null, $endDate=null, PointVente $pointVente=null){
+  public function visites(Client $user=null, $startDate=null, $endDate=null, PointVente $pointVente=null){
 
        $qb = $this->createQueryBuilder('v')->leftJoin('v.pointVente','pv');
-
+          if($user!=null){
+           $qb->where('v.user=:user')
+          ->setParameter('user', $user);
+          }
           if($startDate!=null){
            $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
           }

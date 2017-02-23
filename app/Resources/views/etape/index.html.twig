@@ -24,7 +24,7 @@
                         <div class="panel-body">
 
                             <div class="table-responsive">
-                                <table class="table  table-vertical-middle nomargin table-bordered">
+                                <table class="table  table-vertical-middle nomargin table-bordered" id="datatable_sample">
                                     <thead>
                                         <tr>                                    
                                             <th>Non de l'auditeur</th>
@@ -37,7 +37,7 @@
                                     <tbody>
 {% for etapeParUser in etapesParUser %}
     <tr>
-  <td><a href="#">{{etapeParUser.username}}</a></td>
+  <td><a href="{{ path('user_show',{'id':etapeParUser.id}) }}">{{etapeParUser.username}}</a></td>
    <td>
    {% if etapeParUser.date %}
    <i class="fa fa-calendar-check-o"> </i> {{etapeParUser.date |date('d/m/Y')}}
@@ -64,7 +64,7 @@
     </td>
 </tr>
  {% endfor %}
-                        </tbody>
+    </tbody>
                                 </table>
                                 <br>
                                     <a class="size-12" href="#">
@@ -107,7 +107,7 @@
                                                     <tbody>
                                                     {% for visiteParUser in visitesParUser %}
                                                         <tr>
-                                                            <td><a href="#">{{visiteParUser.username}}</a></td>
+                                                            <td><a href="{{ path('user_show',{'id':visiteParUser.id}) }}">{{visiteParUser.username}}</a></td>
                                                             <td>{{visiteParUser.nombre}}</td>
                                                             <td>
                                                          {% if visiteParUser.date %}
@@ -152,7 +152,7 @@
                                 <!-- panel content -->
                                 <div class="panel-body">    
                                             <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
+                                                <table class="table table-striped table-hover table-bordered" >
                                                     <thead>
                                                         <tr>
                                                             <th></th>
@@ -164,7 +164,7 @@
                                                     {% for synchroParUser in synchrosParUser %}
                                                         <tr>
                                                              <th><i class="fa fa-upload"></i> </th>
-                                                            <td><a href="#">{{synchroParUser.username}}</a></td>
+                                                            <td><a href="{{ path('user_show',{'id':synchroParUser.id}) }}">{{synchroParUser.username}}</a></td>
                                                             <td>   
                                                         {% if synchroParUser.date %}
                                                         {{synchroParUser.date |date('d/m/Y H:i')}}
@@ -207,9 +207,67 @@
      </div>
      </div>
 {% endblock %}
-{% block javascripts %}
+       {% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+        <script type="text/javascript">
+            /**
+                Chart.js
+                http://www.chartjs.org/
+            **/
+         loadScript( plugin_path + "datatables/js/jquery.dataTables.min.js", function() {
+             loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
+            if (jQuery().dataTable) {
+            var table = jQuery('#datatable_sample');
+            table.dataTable({
+                    "columns": [
+                             {
+                                "orderable": true
+                            },
+                            {
+                                "orderable": true
+                            }, 
+                            {
+                                "orderable": false
+                            },
+                             {
+                                "orderable": false
+                            }],
+                            "lengthMenu": [
+                                [20, 50, 100, -1],
+                                [20, 50, 100, "Tous"] // change per page values here
+                            ],
+                            // set the initial value
+                            "pageLength": 20,            
+                            "pagingType": "bootstrap_full_number",
+                            "language": {
+                                "lengthMenu": "  _MENU_ records",
+                                "paginate": {
+                                    "previous":"Prev",
+                                    "next": "Next",
+                                    "last": "Last",
+                                    "first": "First"
+                                }
+                            },
+                            "columnDefs": [{  // set default column settings
+                                'orderable': false,
+                                'targets': [0]
+                            }, {
+                                "searchable": false,
+                                "targets": [0]
+                            }],
+                            "order": [
+                                [1, "asc"]
+                            ] // set first column as a default sort by asc
+                        });
 
- {% endblock %}
+                        
+               }
+             });
+
+                
+            });
+        </script>
+
+       {% endblock %}

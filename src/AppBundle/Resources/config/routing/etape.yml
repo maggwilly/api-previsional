@@ -3,7 +3,7 @@ etape_index:
     defaults: { _controller: "AppBundle:Etape:index" }
     methods:  GET
 
-etape_show:
+user_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Etape:show" }
     methods:  GET

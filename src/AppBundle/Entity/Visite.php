@@ -186,6 +186,7 @@ class Visite
      */
     public function setMap($map)
     {
+        if($map)
         $this->map = $map;
 
         return $this;
@@ -209,6 +210,7 @@ class Visite
      */
     public function setPre($pre)
     {
+        if($pre)
         $this->pre = $pre;
 
         return $this;
@@ -232,6 +234,7 @@ class Visite
      */
     public function setAff($aff)
     {
+         if($aff)
         $this->aff = $aff;
 
         return $this;
@@ -255,8 +258,8 @@ class Visite
      */
     public function setExc($exc)
     {
-        $this->exc = $exc;
-
+        if($exc)
+         $this->exc = $exc;
         return $this;
     }
 
@@ -278,6 +281,7 @@ class Visite
      */
     public function setVpt($vpt)
     {
+        if($vpt)
         $this->vpt = $vpt;
 
         return $this;
@@ -301,6 +305,7 @@ class Visite
      */
     public function setSapp($sapp)
     {
+         if($sapp)
         $this->sapp = $sapp;
 
         return $this;
@@ -455,7 +460,7 @@ class Visite
      * @return Situation
      */
     public function setRpp($rpp)
-    {
+    {  if($rpp)
         $this->rpp = $rpp;
 
         return $this;
@@ -479,6 +484,7 @@ class Visite
      */
     public function setRpd($rpd)
     {
+        if($rpd)
         $this->rpd = $rpd;
 
         return $this;

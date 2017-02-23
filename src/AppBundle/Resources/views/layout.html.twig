@@ -170,7 +170,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxExc|number_format(0, ',', '.')}}% de taux d'exclusivité</h4>
+                                    <h4>{{tauxExc|number_format(0, ',', '.')}}%: Taux d'exclusivité</h4>
                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{exc|number_format(0, ',', '.')}} P.D.V ont l'exclusivité{% endif%}</small>
                                     <i class="fa fa-bar-chart-o"></i>
                                 </div>
@@ -190,7 +190,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxAff|number_format(0, ',', '.')}}% de PDV ont des affiches</h4>
+                                    <h4>{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</h4>
                     <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'en ont pas.{% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
@@ -211,7 +211,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box info"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxMap|number_format(0, ',', '.')}}% de mise en avant du produit</h4>
+                                    <h4>{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</h4>
                           <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nMap |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
@@ -231,7 +231,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respectent le prix de detail</h4>
+                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Taux de respect de prix</h4>
                           <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nRpd |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
@@ -239,31 +239,21 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                 <div class="box-body text-center">
 
                                 </div>
-
                             </div>
                             <!-- /BOX -->
-
                         </div>
                         <!-- Online Box -->
                         <div class="col-md-2 col-sm-6">
-
                             <!-- BOX -->
                             <div class="box success"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>
-                                    {% if totalStockSiat>0%}
-                                    {{(totalStockSiat*100/totalStock)|number_format(0, ',', '.')}}% 
-                                     {% else %}
-                                        --
-                                      {% endif %}de part de SIAT CONGO
+                                    {{tauxVpt|number_format(0, ',', '.')}}%: Taux de présence
                                     </h4>
                            <small class="block">
-                            {% if totalStockSiat>0%}
-                                {{(totalStockCon*100/totalStock)|number_format(0, ',', '.')}}% part de concurence.
-                                      {% else %}
-                                        --
-                                      {% endif %}                               
+                                {{vpt|number_format(0, ',', '.')}} pdv vendent le produit.
+                             
                            </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
@@ -532,7 +522,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
            ],
          datasets: [
              {
-        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%} {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
+        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%}
+        {%if totalStock>0 %}     {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
         backgroundColor: ["#F38823",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
         hoverBackgroundColor: ["#F38584",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
         }]

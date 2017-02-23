@@ -8,15 +8,12 @@
    {% for situation in first.situations  %}
   {% if situation.produit.dossier=='produit' %}
    {% set totalStockSiat=totalStockSiat+situation.stock %}
- {% elseif situation.produit.dossier=='concurrence'  %}
+  {% elseif situation.produit.dossier=='concurrence'  %}
   {% set totalStockCon=totalStockCon+situation.stock %}
    {% endif %}
    {% set totalStock=totalStock+situation.stock %}
-
   {% endfor%}
   {% endif%}
-
-
 {% block body %}
 <div id="content" class="dashboard padding-20">
 <div class="panel panel-default">
@@ -25,7 +22,7 @@
                             {{ pointVente.description }}
                         </div>
                     </div>
-<div class="row">  
+     <div class="row">  
                <div class="col-md-7">
                     <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
@@ -34,14 +31,11 @@
                                     </span>
 
                                 </div>
-
                                 <!-- panel content -->
                       <div class="panel-body">  
                             <div class="table-responsive">
                             <table class="table-vertical-middle">
-
                              <tbody>
-
             <tr>
                 <th>Nom du point de vente </th>
                 <td>{{ pointVente.nom }}</td>
@@ -236,7 +230,10 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
            ],
          datasets: [
              {
-        data: [{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}, {% for situation in first.situations if situation.produit.dossier=='concurrence' %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}],
+        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%}
+        {%if totalStock>0 %} {% for situation in first.situations if situation.produit.dossier=='concurrence' %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
+
+
         backgroundColor: ["#F38823",{% for situation in first.situations if situation.produit.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
         hoverBackgroundColor: ["#F38584",{% for situation in first.situations if situation.produit.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
         }]

@@ -353,6 +353,16 @@ class Client extends BaseUser
         return $this->visites;
     }
 
+
+    /**
+     * Get visites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEtapes()
+    {
+        return $this->etapes;
+    }
     /**
      * Add synchros
      *

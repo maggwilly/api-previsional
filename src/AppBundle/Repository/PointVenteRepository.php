@@ -167,7 +167,7 @@ Nombre de point de vente visités
 
    public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
+  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date asc) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
     $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
     $statement->bindValue('region', $region);
@@ -185,7 +185,7 @@ for mobile
 */
   public function pdvs ($region=null){
   $em = $this->_em; //and pv.ville=:region
-  $RAW_QUERY ='select u.id,u.nom, u.date as lastvisitedate, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv left join visite v  on pv.id=v.point_vente_id    group by  pv.id, pv.nom,pv.type order by date) u ;';
+  $RAW_QUERY ='select u.id,u.nom, u.date as lastvisitedate, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv left join visite v  on pv.id=v.point_vente_id    group by  pv.id, pv.nom,pv.type order by date asc) u ;';
     $statement = $em->getConnection()->prepare($RAW_QUERY);
    // $statement->bindValue('region', $region);
     $statement->execute();

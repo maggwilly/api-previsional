@@ -25,13 +25,13 @@
                         <div class="panel-body">
 
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-striped table-bordered table-hover"  id="datatable_sample">
                                     <thead>
                                         <tr>                                    
                                             <th>Point de vente</th>
-                                            <th> Nombre de visites</th>
+                                            <th> visites</th>
                                             <th>Dernière visite</th>  
-                                             >                                         
+                                            <th>Commentaire</th>                                         
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -40,14 +40,12 @@
                                            
                                             <td class="col-md-4">
                                             <a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.nom}}</a>
-                                              <p>{{visite.type}}</p>
                                             </td>
                                             <td class="col-md-1">{{visite.nombre}}</td>
-                                             <td class="col-md-6">
+                                             <td class="col-md-3">
                                              {% if visite.date %}<i class="fa fa-calendar-o"></i> {{visite.date |date('d/m/Y')}} {% else %}--{% endif %}
-                                               <p><i class="fa fa-comment-o"></i> <b>{{visite.commentaire}}</b></p>
                                              </td>
-
+                                             <td class="col-md-4"><b>{{visite.commentaire}}</b></td>
                                         </tr>
                                          {% endfor %}
                                     </tbody>
@@ -74,9 +72,68 @@
      </div>
     </div>
 {% endblock %}
-{% block javascripts %}
+       {% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+        <script type="text/javascript">
+            /**
+                Chart.js
+                http://www.chartjs.org/
+            **/
+         loadScript( plugin_path + "datatables/js/jquery.dataTables.min.js", function() {
+             loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
+            if (jQuery().dataTable) {
+            var table = jQuery('#datatable_sample');
+            table.dataTable({
+                    "columns": [
+                             {
+                                "orderable": true
+                            },
+                            {
+                                "orderable": true,
+                                "filter"
+                            }, 
+                            {
+                                "orderable": false
+                            },
+                             {
+                                "orderable": false
+                            }],
+                            "lengthMenu": [
+                                [20, 50, 100, -1],
+                                [20, 50, 100, "Tous"] // change per page values here
+                            ],
+                            // set the initial value
+                            "pageLength": 20,            
+                            "pagingType": "bootstrap_full_number",
+                            "language": {
+                                "lengthMenu": "  _MENU_ records",
+                                "paginate": {
+                                    "previous":"Prev",
+                                    "next": "Next",
+                                    "last": "Last",
+                                    "first": "First"
+                                }
+                            },
+                            "columnDefs": [{  // set default column settings
+                                'orderable': false,
+                                'targets': [0]
+                            }, {
+                                "searchable": false,
+                                "targets": [0]
+                            }],
+                            "order": [
+                                [1, "asc"]
+                            ] // set first column as a default sort by asc
+                        });
 
- {% endblock %}
+                        
+               }
+             });
+
+                
+            });
+        </script>
+
+       {% endblock %}

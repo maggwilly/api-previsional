@@ -14,9 +14,10 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
   /**
   *Nombre total de visite effectue par utilisateur 
   */
-  public function visitesParUser ($region=null, $startDate=null, $endDate=null){
+  public function visitesParUser ( $region=null, $startDate=null, $endDate=null){
 
        $qb = $this->createQueryBuilder('u')->leftJoin('u.visites','v')->leftJoin('v.pointVente','pv');
+  
         if($region!=null){
            $qb->where('pv.ville=:ville')
           ->setParameter('ville', $region);
@@ -29,8 +30,10 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
           }
  
             $qb->select('max(v.date) as date');
+            $qb->addSelect('u.id');
             $qb->addSelect('u.username');
             $qb->addGroupBy('u.username');
+            $qb->addGroupBy('u.id');
             $qb->addSelect('count(v.id) as nombre'); 
           return $qb->getQuery()->getArrayResult();
      
@@ -51,8 +54,10 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
           }
  
             $qb->select('max(s.date) as date');
+            $qb->addSelect('u.id');
             $qb->addSelect('u.username');
             $qb->addGroupBy('u.username');
+            $qb->addGroupBy('u.id');
             $qb->addSelect('count(s.id) as nombre'); 
           return $qb->getQuery()->getArrayResult();
   }
