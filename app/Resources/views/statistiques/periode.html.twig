@@ -109,7 +109,7 @@
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>
-                                    {{(taux.pasclient*100)|number_format(0, ',', '.')}}%: Taux de présence
+                                    {{(100-taux.pasclient*100)|number_format(0, ',', '.')}}%: Taux de présence
                                     </h4>
                            <small class="block"> </small>
                                     <i class="fa fa-globe"></i>
