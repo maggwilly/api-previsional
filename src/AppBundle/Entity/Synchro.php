@@ -47,7 +47,7 @@ class Synchro
     private $visites;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="synchro", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="synchro", cascade={"persist"})
    *@ORM\OrderBy({"date" = "DESC"})
    */
     private $pointVentes;
