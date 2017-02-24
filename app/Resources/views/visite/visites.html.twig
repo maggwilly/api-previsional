@@ -55,7 +55,7 @@
                                             <a href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-sm">Voir+</a>
                                             </td>                                        
                                             <td class="col-md-2">
-                                            <a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.pointVente.nom}}</a>
+                                            <a href="{{ path('pointvente_show',{'id':visite.pointVente.id}) }}">{{visite.pointVente.nom}}</a>
                                     
                                             </td>
                                             <td class="col-md-2">{{visite.user.nom}}</td>
