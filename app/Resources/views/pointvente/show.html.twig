@@ -113,11 +113,11 @@
                                         <tr>                                    
                                             <th>Exc</th>
                                             <th>Aff</th>
-                                            <th>SAPP</th> 
                                              <th>MAP</th> 
                                              <th>PRE</th> 
                                              <th>RPD</th> 
-                                             <th>RPP</th>                                              
+                                             <th>RPP</th> 
+                                             <th>SAPP</th>                                                                                           
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -126,11 +126,12 @@
                                            
                                             <td>{% if first.exc %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.aff %}OUI{% else %}NON{% endif %}</td>
-                                            <td>{% if first.sapp %}AC{% else %}Autre{% endif %}</td>
+                                       
                                             <td>{% if first.map %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.pre %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.rpd %}OUI{% else %}NON{% endif %}</td> 
-                                            <td>{% if first.rpp %}OUI{% else %}NON{% endif %}</td>                                           
+                                            <td>{% if first.rpp %}OUI{% else %}NON{% endif %}</td>   
+                                            <td>{% if first.sapp %}AC{% else %}Autre{% endif %}</td>                                        
                                         </tr>
   
                                     </tbody>

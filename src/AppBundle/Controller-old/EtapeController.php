@@ -50,7 +50,7 @@ class EtapeController extends Controller
          $region=$session->get('region');
          $startDate=$session->get('startDate',date('Y').'-01-01');
          $endDate=$session->get('endDate', date('Y').'-12-31');
-        $visitesParUser = $em->getRepository('AppBundle:Visite')->visites($client,null, $startDate, $endDate);
+        $visitesParUser = $em->getRepository('AppBundle:Visite')->visites($client, $startDate, $endDate);
          $etapesParUser = $em->getRepository('AppBundle:Etape')->etapesParUser(null, $startDate, $endDate);
         return $this->render('user/show.html.twig', array(
             'client' => $client,

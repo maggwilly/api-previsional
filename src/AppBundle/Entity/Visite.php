@@ -57,6 +57,33 @@ class Visite
      */
     private $vpt;
 
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="pas_client", type="boolean",  nullable=true)
+     */
+    private $pasClient;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="raison_pas_client", type="string", length=255, nullable=true)
+     */
+    private $raisonPasClient;
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="pas_ouvert", type="boolean",  nullable=true)
+     */
+    private $pasOuvert;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="raison_pas_ouvert", type="string", length=255, nullable=true)
+     */
+    private $raisonPasOuvert;
     /**
      * @var string
      *
@@ -97,6 +124,20 @@ class Visite
      * @ORM\Column(name="date", type="date")
      */
     private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mvj",  type="integer", nullable=true)
+     */
+    private $mvj;
+
+            /**
+     * @var int
+     *
+     * @ORM\Column(name="ecl", type="integer", nullable=true)
+     */
+    private $ecl;
 
     /**
      * @var int
@@ -333,7 +374,51 @@ class Visite
 
         return $this;
     }
+    /**
+     * Set ecl
+     *
+     * @param integer $ecl
+     * @return Visite
+     */
+    public function setEcl($ecl)
+    {
+        $this->ecl = $ecl;
 
+        return $this;
+    }
+
+    /**
+     * Get ecl
+     *
+     * @return integer 
+     */
+    public function getEcl()
+    {
+        return $this->ecl;
+    }
+
+    /**
+     * Set mvj
+     *
+     * @param integer $mvj
+     * @return Situation
+     */
+    public function setMvj($mvj)
+    {
+        $this->mvj = $mvj;
+
+        return $this;
+    }
+
+    /**
+     * Get mvj
+     *
+     * @return integer 
+     */
+    public function getMvj()
+    {
+        return $this->mvj;
+    }
     /**
      * Get fp
      *
@@ -590,5 +675,97 @@ class Visite
     public function getSynchro()
     {
         return $this->synchro;
+    }
+
+    /**
+     * Set pasClient
+     *
+     * @param boolean $pasClient
+     * @return Visite
+     */
+    public function setPasClient($pasClient)
+    {
+        $this->pasClient = $pasClient;
+
+        return $this;
+    }
+
+    /**
+     * Get pasClient
+     *
+     * @return boolean 
+     */
+    public function getPasClient()
+    {
+        return $this->pasClient;
+    }
+
+    /**
+     * Set raisonPasClient
+     *
+     * @param string $raisonPasClient
+     * @return Visite
+     */
+    public function setRaisonPasClient($raisonPasClient)
+    {
+        $this->raisonPasClient = $raisonPasClient;
+
+        return $this;
+    }
+
+    /**
+     * Get raisonPasClient
+     *
+     * @return string 
+     */
+    public function getRaisonPasClient()
+    {
+        return $this->raisonPasClient;
+    }
+
+    /**
+     * Set pasOuvert
+     *
+     * @param boolean $pasOuvert
+     * @return Visite
+     */
+    public function setPasOuvert($pasOuvert)
+    {
+        $this->pasOuvert = $pasOuvert;
+
+        return $this;
+    }
+
+    /**
+     * Get pasOuvert
+     *
+     * @return boolean 
+     */
+    public function getPasOuvert()
+    {
+        return $this->pasOuvert;
+    }
+
+    /**
+     * Set raisonPasOuvert
+     *
+     * @param string $raisonPasOuvert
+     * @return Visite
+     */
+    public function setRaisonPasOuvert($raisonPasOuvert)
+    {
+        $this->raisonPasOuvert = $raisonPasOuvert;
+
+        return $this;
+    }
+
+    /**
+     * Get raisonPasOuvert
+     *
+     * @return string 
+     */
+    public function getRaisonPasOuvert()
+    {
+        return $this->raisonPasOuvert;
     }
 }

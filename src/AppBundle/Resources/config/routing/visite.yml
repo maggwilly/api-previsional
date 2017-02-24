@@ -1,6 +1,11 @@
-visite_index:
+visite_par_pdv:
+    path:     /pdv
+    defaults: { _controller: "AppBundle:Visite:visitesParPDV" }
+    methods:  GET
+
+visites:
     path:     /
-    defaults: { _controller: "AppBundle:Visite:index" }
+    defaults: { _controller: "AppBundle:Visite:visites" }
     methods:  GET
 
 visite_show:

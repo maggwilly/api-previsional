@@ -16,25 +16,43 @@ class VisiteController extends Controller
      * Lists all visite entities.
      *
      */
-    public function indexAction()
+    public function visitesParPDVAction()
     {
         $session = $this->getRequest()->getSession();
 
         $em = $this->getDoctrine()->getManager();
          $session = $this->getRequest()->getSession();
-            $region=$session->get('region');
+        $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31')
-;
-        $visitesParPDV = $em->getRepository('AppBundle:PointVente')->visitesParPDV($region,$startDate, $endDate);
-        $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
-        
-       
-        return $this->render('visite/index.html.twig', array(
-            'visitesParPDV' => $visitesParPDV,'nombreVisite'=> $nombreVisite
+         ;
+        $visitesParPDV = $em->getRepository('AppBundle:Visite')->visitesParPDV($region,$startDate, $endDate);
+
+        return $this->render('visite/visitespdv.html.twig', array(
+            'visitesParPDV' => $visitesParPDV
         ));
     }
 
+
+    /**
+     * Lists all visite entities.
+     *
+     */
+    public function visitesAction()
+    {
+        $session = $this->getRequest()->getSession();
+
+        $em = $this->getDoctrine()->getManager();
+         $session = $this->getRequest()->getSession();
+        $region=$session->get('region');
+        $startDate=$session->get('startDate',date('Y').'-01-01');
+        $endDate=$session->get('endDate', date('Y').'-12-31')
+         ;
+        $visites = $em->getRepository('AppBundle:Visite')->visites(null,$region,$startDate, $endDate,null);
+        return $this->render('visite/visites.html.twig', array(
+            'visites' => $visites
+        ));
+    }
     /**
      * Finds and displays a visite entity.
      *

@@ -160,7 +160,25 @@ Nombre de point de vente visités
   }
 
   
+  /**
+  *Nombre total de visite effectue par point de vente 
+  */
+ 
 
+   public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date asc) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
+    $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+    $statement->bindValue('region', $region);
+          }
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+      return  $result = $statement->fetchAll();
+  }
 
 /*
 for mobile

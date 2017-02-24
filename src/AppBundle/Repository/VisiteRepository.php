@@ -20,9 +20,9 @@ class VisiteRepository extends EntityRepository
   * Nombre de point de vente qui s'approvisionne chez un agent commercial
   */
 
-  public function excApp ($region=null, $startDate=null, $endDate=null){
+  public function excAppPeriode ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.vpt) as vpt, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.vpt, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff,count(v.vpt) as vpt, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.vpt, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
+  $RAW_QUERY =($region!=null) ?'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.region=:region group by pv.id) pdv;':'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate group by pv.id) pdv;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
    $statement->bindValue('region', $region);
@@ -37,9 +37,34 @@ class VisiteRepository extends EntityRepository
       return  $result = $statement->fetchAll();
   }
 
+
+  /**
+  *Nombre de point de vente ayant des affiches
+  * Nombre de point de vente qui s'approvisionne chez un agent commercial
+  */
+
+  public function excAppDernier ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+   $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.pas_client) as pas_client, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff,count(v.pas_client) as pas_client, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
+  $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+   $statement->bindValue('region', $region);
+          }
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+
+      return  $result = $statement->fetchAll();
+  }
+
+
+
    public function excAppParSemaine ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;':'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;';
+  $RAW_QUERY =($region!=null) ?'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre , count(v.pas_client) as presence,count(distinct pv) as nombre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre,pas_client from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;':'select v.weektext,count(v.map) as map, count(v.aff) as aff, count(v.exc) as exc, count(v.rpd) as rpd ,count(v.pre) as pre ,count(v.pas_client) as presence, count(distinct pv) as nombre from (select pv, weektext,v.date,aff, exc,sapp,map,id, rpd,rpp,pre,pas_client from (select distinct pv.id as pv, v.week_text as weektext, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id,v.week_text order by date) u join visite v on v.point_vente_id=u.pv and u.date=v.date) v group by v.weektext;';
     $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
     $statement->bindValue('region', $region);
@@ -78,9 +103,13 @@ class VisiteRepository extends EntityRepository
     /**
   *Nombre total de visite effectue par point de vente 
   */
-  public function visites(Client $user=null, $startDate=null, $endDate=null, PointVente $pointVente=null){
+  public function visites(Client $user=null,$region=null, $startDate=null, $endDate=null, PointVente $pointVente=null){
 
        $qb = $this->createQueryBuilder('v')->leftJoin('v.pointVente','pv');
+        if($region!=null){
+           $qb->where('pv.ville=:ville')
+          ->setParameter('ville', $region);
+          }
           if($user!=null){
            $qb->where('v.user=:user')
           ->setParameter('user', $user);
@@ -97,4 +126,24 @@ class VisiteRepository extends EntityRepository
            $qb->orderBy('v.date','DESC');
           return $qb->getQuery()->getResult();
   }
+
+   /**
+  *Nombre total de visite effectue par point de vente 
+  */
+ 
+
+   public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date asc) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
+    $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+    $statement->bindValue('region', $region);
+          }
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+      return  $result = $statement->fetchAll();
+  } 
 }

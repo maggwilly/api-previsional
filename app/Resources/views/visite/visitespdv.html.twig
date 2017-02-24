@@ -3,14 +3,15 @@
 {% block body %}
    <!-- page title -->
     <header id="page-header">
-    <h1>Les visites</h1>
+    <h1>Visites par point de vente</h1>
     </header>
 <div id="content" class="dashboard padding-20">
     
                 <div id="panel-1" class="panel panel-default">
                         <div class="panel-heading">
                             <span class="title elipsis">
-                                <strong>Repartition des visites par point de vente</strong> ({{nombreVisite}} visites) <!-- panel title -->
+                                <strong>Repartition des visites par point de vente</strong> ({{visitesParPDV|length}} points de vente visités)
+                                 <!-- panel title -->
                             </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -19,7 +20,6 @@
                                 <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
                             </ul>
                             <!-- /right options -->
-
                         </div>
                         <!-- panel content -->
                         <div class="panel-body">
@@ -29,7 +29,7 @@
                                     <thead>
                                         <tr>                                    
                                             <th>Point de vente</th>
-                                            <th> visites</th>
+                                            <th>Nbre visites</th>
                                             <th>Dernière visite</th>  
                                             <th>Commentaire</th>                                         
                                         </tr>
@@ -91,8 +91,7 @@
                                 "orderable": true
                             },
                             {
-                                "orderable": true,
-                                "filter"
+                                "orderable": true
                             }, 
                             {
                                 "orderable": false
@@ -127,8 +126,6 @@
                                 [1, "asc"]
                             ] // set first column as a default sort by asc
                         });
-
-                        
                }
              });
 

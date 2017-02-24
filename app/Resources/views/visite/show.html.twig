@@ -1,56 +1,193 @@
 {% extends 'AppBundle::layout.html.twig' %}
-
+               {% set totalStock=0 %} 
+               {% set totalStockSiat=0 %} 
+               {% set totalStockCon=0 %} 
+               {% for situation in visite.situations  %}
+               {% if situation.produit.dossier=='produit' %}
+               {% set totalStockSiat=totalStockSiat+situation.stock %}
+               {% elseif situation.produit.dossier=='concurrence'  %}
+               {% set totalStockCon=totalStockCon+situation.stock %}
+               {% endif %}
+                {% set totalStock=totalStock+situation.stock %}
+               {%endfor%} 
 {% block body %}
-    <h1>Visite</h1>
+   <!-- page title -->
+    <header id="page-header">
+    <h1>visite de <a href="{{ path('pointvente_show',{'id':visite.pointVente.id}) }}">{{visite.pointVente.nom}}</a> du {% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}</h1>
+    </header>
+<div id="content" class="dashboard padding-20">
+<div class="row">
+<div class="col-md-7">
+              <div id="panel-2" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Date de la visite </strong>{% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}
+                                    </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
 
-    <table>
+                                </div>
+
+                                <!-- panel content -->
+                                <div class="panel-body">  
+                        <div class="table-responsive">
+                        <h3>STATUT DU POINT DE VENTE</h3>
+    <table class="table table-striped table-hover table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ visite.id }}</td>
+                <th class="col-md-6">Point de ventet</th>
+                <td><a href="{{ path('pointvente_show',{'id':visite.pointVente.id}) }}">{{visite.pointVente.nom}}</a></td> 
+            </tr>        
+            <tr>
+                <th class="col-md-6">Est-il client</th>
+                <td>{% if visite.pasClient %}Non{% else %}Oui{% endif %}</td>
+                {% if visite.pasClient %}<td>{{ visite.raisonPasClient }}</td>{% endif %}
             </tr>
             <tr>
-                <th>Map</th>
-                <td>{% if visite.map %}Yes{% else %}No{% endif %}</td>
+                <th class="col-md-6">Est-il ouvert</th>
+                <td>{% if visite.pasOuvert %}Non{% else %}Oui{% endif %}</td>
+                 {% if visite.pasOuvert %}<td>{{ visite.raisonPasOuvert }}</td>{% endif %}
+            </tr>
+        </tbody>
+    </table> 
+     <h3>VISIBILITE AU POINT DE VENTE</h3>
+        <table class="table table-striped table-hover table-bordered">
+        <tbody>
+                  
+            <tr>
+                <th class="col-md-6">Mise en avant du produit</th>
+                <td>{% if visite.map %}Oui{% else %}Non{% endif %}</td>
             </tr>
             <tr>
-                <th>Pre</th>
-                <td>{% if visite.pre %}Yes{% else %}No{% endif %}</td>
+                <th class="col-md-6">Présence de présentoires</th>
+                <td>{% if visite.pre %}Oui{% else %}Non{% endif %}</td>
             </tr>
             <tr>
-                <th>Aff</th>
-                <td>{% if visite.aff %}Yes{% else %}No{% endif %}</td>
+                <th class="col-md-6">Présence d'affiches</th>
+                <td>{% if visite.aff %}Oui{% else %}Non{% endif %}</td>
             </tr>
             <tr>
-                <th>Exc</th>
-                <td>{% if visite.exc %}Yes{% else %}No{% endif %}</td>
+                <th class="col-md-6">Exclusivité</th>
+                <td>{% if visite.exc %}Oui{% else %}Non{% endif %}</td>
+            </tr>
+        </tbody>
+      </table> 
+         <h3>VENTE</h3>              
+        <table class="table table-striped table-hover table-bordered">
+        <tbody>
+            <tr>
+                <th class="col-md-6">Source d'approvisionnement</th>
+                <td>{% if visite.sapp %}Agent commercial{% else %}Autre{% endif %}</td>
             </tr>
             <tr>
-                <th>Vpt</th>
-                <td>{% if visite.vpt %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Sapp</th>
-                <td>{{ visite.sapp }}</td>
-            </tr>
-            <tr>
-                <th>Fp</th>
+                <th class="col-md-6">Fréauence de passage (en jours)</th>
                 <td>{{ visite.fp }}</td>
             </tr>
             <tr>
-                <th>Ecl</th>
+                <th class="col-md-6">Ecart de livraison (en jours)</th>
                 <td>{{ visite.ecl }}</td>
             </tr>
-            <tr>
-                <th>Date</th>
-                <td>{% if visite.date %}{{ visite.date|date('Y-m-d') }}{% endif %}</td>
-            </tr>
+
         </tbody>
     </table>
+    <h3>Commentaire</h3> 
+    <p>{{ visite.commentaire }}</p> 
+          </div>
+        </div>
+          <!-- /panel content -->
 
-    <ul>
-        <li>
-            <a href="{{ path('visite_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        </div>               
+     </div>
+
+                <div class="col-md-5">
+                            <div id="panel-2" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Stock par produit </strong>
+                                    </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+
+                                </div>
+
+                                <!-- panel content -->
+                                <div class="panel-body">  
+                                            <div class="table-responsive">
+                                             <h3>Stock de SIAT</h3>
+
+                                                <table class="table table-striped table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#Produits</th>
+                                                            <th>Stock</th>
+                                                             <th>Taux</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                   
+                                                    {% for situation in visite.situations if situation.produit.dossier=='produit' %}
+                                                        <tr>
+                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
+                                                            <td>{{situation.stock|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockSiat>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                        <tr>
+                                            <td>PART DE SIAT</td>
+                                      <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
+                                  <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <h3>Stock de la concurrence</h3>
+                                                <table class="table table-striped table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#Produits</th>
+                                                            <th>Stock</th>
+                                                             <th>Taux</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for situation in visite.situations if situation.produit.dossier=='concurrence' %}
+                                                        <tr>
+                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
+                                                            <td>{{situation.stock|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockCon>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                        <tr>
+                <td>PART concurrence</td>
+              <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
+             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                </div>
+                                <!-- /panel content -->
+
+                            </div>
+               <!-- /PANEL --> 
+      </div>    
+</div>
+</div>
 {% endblock %}
+   {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+ 
+
+       {% endblock %}

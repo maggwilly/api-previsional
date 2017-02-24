@@ -1,157 +1,5 @@
-<!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>{% block title %}AllReport {% endblock %}</title>       
-        <meta name="description" content="" />
-        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
-        <!-- mobile settings -->
-        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-        <!-- WEB FONTS -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
-         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
-        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/layout-datatable.css') }}"  />
-        {% endblock %}
-    </head>
-       {% if situations is defined %}
-               {% set totalStock=0 %} 
-               {% set totalStockSiat=0 %} 
-               {% set totalStockCon=0 %} 
-               {% for situation in situations  %}
-               {% if situation.dossier=='produit' %}
-               {% set totalStockSiat=totalStockSiat+situation.sd %}
-               {% elseif situation.dossier=='concurrence'  %}
-               {% set totalStockCon=totalStockCon+situation.sd %}
-               {% endif %}
-                {% set totalStock=totalStock+situation.sd %}
-               {%endfor%} 
-
-        {% endif %}         
-    <body>
-        {% block fos_user_content %}
-        <!-- WRAPPER -->
-        <div id="wrapper">
-            <aside id="aside">
-
-                <nav id="sideNav"><!-- MAIN MENU -->
-                    <ul class="nav nav-list">
-
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                               <i class="main-icon fa fa-bar-chart-o"></i><span>Statistiques</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('statistiques_dernier') }}">Derniere visite</a></li>
-                                 <li><a href="{{ path('statistiques_periode') }}">Toute la période</a></li>
-                            </ul>
-                        </li>                                              
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Points de vente</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('pointvente_index') }}">Les points de vente</a></li>
-                                 <li><a href="{{ path('pointvente_eligibles') }}">Eligibilités</a></li>
-                                <li><a href="{{ path('pointvente_map') }}">Geolocalisation</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                               <i class="main-icon fa fa-check-square"></i><span>Visite</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('visites') }}">Historique des visites</a></li>
-                                 <li><a href="{{ path('visite_par_pdv') }}">Visites par point de vente</a></li>
-                            </ul>
-                        </li>                                               
-                       <li><!-- dashboard -->
-                            <a class="dashboard" href="{{ path('etape_index') }}"><!-- warning - url used by default by ajax (if eneabled) -->
-                                <i class="main-icon fa fa-calendar"></i><span>Activités</span>
-                            </a>
-                        </li>                   
-                    </ul>
-
-                </nav>
-                <span id="asidebg"><!-- aside fixed background --></span>
-            </aside>
-
-            <header id="header">
-                <!-- Mobile Button -->
-                <button id="mobileMenuBtn"></button>
-                <span class="logo pull-left">
-                    <img src="assets/images/logo_light.png" alt="AllReport" height="35">
-                </span>
-                <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
-                 <label></label>
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):'01/01/2017'  %}
-    {% set end_date_formated=app.session.get('end_date_formated') ?app.session.get('end_date_formated'):'31/12/2017'   %}
-<input type="text" class="form-control rangepicker" 
-name="periode" data-format="dd/mm/yyyy" 
-value="{{ start_date_formated }} - {{ end_date_formated }}"
- data-from="{{ start_date_formated }}" data-to="{{ end_date_formated }}">
-
-                <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-                <label></label>
-                <select class="" name="region" selected>
-                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>-- Selectionnez--</option>
-                   <option value="BRAZAVILLE"  {% if app.session.get('region')=='BRAZAVILLE'  %}selected="true"{% endif %}>BRAZAVILLE</option>
-                   <option value="Pointe Noir" {% if  app.session.get('region')=='Pointe Noir'  %}selected="true"{% endif %}>Pointe Noir</option>
-              </select>
-                <button type="submit" class="btn btn-primary btn-sm">Afficher les données</button>
-                </form>
-                <nav>
-
-                    <!-- OPTIONS LIST -->
-                    <ul class="nav pull-right">
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <!-- USER OPTIONS -->
-                        <li class="dropdown pull-left">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img class="user-avatar" alt="" src="{{ asset('assets/images/noavatar.jpg') }}" height="34" /> 
-                                <span class="user-name">
-                                    <span class="hidden-xs">
-                                        {{  app.user.username }}<i class="fa fa-angle-down"></i>
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu hold-on-click">
-                                <li><!-- settings -->
-                                    <a href="#"><i class="fa fa-cogs"></i> Paramètres</a>
-                                </li>
-
-                                <li class="divider"></li>
-                                  
-                                <li><!-- logout -->
-                                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Deconnexion</a>
-                                </li>
-                                 
-                            </ul>
-                        </li>
-                        <!-- /USER OPTIONS -->
-                 {% endif %}
-                    </ul>
-                    <!-- /OPTIONS LIST -->
-
-                </nav>
-
-            </header>
-            <!-- /HEADER -->
-
-
-            <!-- 
-                MIDDLE 
-            -->
-            <section id="middle">
-               {% block body %}
+{% extends 'AppBundle::layout.html.twig' %}
+  {% block body %}
 
         <div id="content" class="dashboard padding-20">
                     <!-- BOXES -->
@@ -159,10 +7,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
 
                         <!-- Feedback Box -->
                         <div class="col-md-2 col-sm-6">
-
                             <!-- BOX -->
                             <div class="box danger"><!-- default, danger, warning, info, success -->
-
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
             <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recensés</a>{% endif%}</h4>
             <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%}</small>
@@ -182,8 +28,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{(taux.exc*100)|number_format(0, ',', '.')}}%: Taux d'exclusivité</h4>
-                                <small class="block"></small>
+                                    <h4>{{tauxExc|number_format(0, ',', '.')}}%: Taux d'exclusivité</h4>
+                         <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{exc|number_format(0, ',', '.')}} P.D.V ont l'exclusivité{% endif%}</small>
                                     <i class="fa fa-bar-chart-o"></i>
                                 </div>
 
@@ -202,8 +48,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{(taux.aff*100)|number_format(0, ',', '.')}}%:Taux de présence d'affiches</h4>
-                               <small class="block"></small>
+                                    <h4>{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</h4>
+                    <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'en ont pas.{% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
                                 <div class="box-body text-center">
@@ -223,14 +69,15 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box info"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{(taux.map*100)|number_format(0, ',', '.')}}%: Taux de mise en avant</h4>
-                          <small class="block"></small>
+                                    <h4>{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nMap |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
                                 <div class="box-body text-center">
 
                                 </div>
+
                             </div>
                             <!-- /BOX -->
 
@@ -242,8 +89,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{(taux.rpd*100)|number_format(0, ',', '.')}}% :Taux de respect de prix</h4>
-                          <small class="block"></small>
+                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix</h4>
+                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nRpd |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -260,9 +107,12 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>
-                                    {{(taux.pasclient*100)|number_format(0, ',', '.')}}%: Taux de présence
+                                    {{tauxpas_client|number_format(0, ',', '.')}}%: Taux de présence
                                     </h4>
-                           <small class="block"> </small>
+                           <small class="block">
+                                {{pas_client|number_format(0, ',', '.')}} pdv vendent le produit.
+                             
+                           </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -281,7 +131,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Part de stock par semaine </strong> ({{nombreVisite}} Visites)
+                                        <strong>Progression par semaine </strong> ({% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%})
                                     </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -310,7 +160,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Stock par produit </strong>( pour {{nombrePointVenteVisite}} P.D.V visités)
+                                        <strong>Stock par produit aux derniere visite </strong>( pour {{nombrePointVenteVisite}} P.D.V visités)
                                     </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -325,48 +175,67 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                 <!-- panel content -->
                                 <div class="panel-body">  
                                             <div class="table-responsive">
-                                             <h3>SIAT</h3>
+                                             <h3>Stock de SIAT</h3>
 
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>#Produits</th>
+                                                            <th>Stock</th>
                                                             <th>Moyenne</th>
+                                                             <th>part</th>
                                                              <th>Présence</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                    
-                                                    {% for situation in situationsCumulee if situation.dossier=='produit' %}
+                                                    {% for situation in situations if situation.dossier=='produit' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.nom}}</a></td>
-                                                            <td>{{(situation.stock)|number_format(0, '.', ' ')}}</td>
-                                                            <td>{{(situation.presence*100)|number_format(0, '.', ' ')}}%</td>
+                                                            <td><a href="#">{{situation.id}}</a></td>
+                                                            <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
+                                                            <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockSiat>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>
+                                                            <td>{%if nombrePointVenteVisite>0 %}{{(situation.presence*100/nombrePointVenteVisite)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>                                                            
                                                         </tr>
                                                         {%endfor%}
                                                         <tr>
+           <td>PART SIAT</td>
+        <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
+        <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockSiat/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
+        <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
-                                                <h3>Concurrence</h3>
+                                                <h3>Stock de la concurrence</h3>
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>#Produits</th>
+                                                            <th>Stock</th>
                                                             <th>Moyenne</th>
-                                                            <th>Présence</th>
+                                                             <th>Part</th>
+                                                             <th>Présence</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for situation in situationsCumulee if situation.dossier=='concurrence' %}
+                                                    {% for situation in situations if situation.dossier=='concurrence' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.nom}}</a></td>
-                                                            <td>{{(situation.stock)|number_format(0, '.', ' ')}}</td>
-                                                            <td>{{(situation.presence*100)|number_format(0, '.', ' ')}}%</td>
+                                                            <td><a href="#">{{situation.id}}</a></td>
+                                                            <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
+                                                            <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
+                                                            <td>{%if totalStockCon>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                            <td>{%if nombrePointVenteVisite>0 %}{{(situation.presence*100/nombrePointVenteVisite)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>                                                             
                                                         </tr>
                                                         {%endfor%}
-
+                                                        <tr>
+                <td>PART concurrence</td>
+              <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
+             <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
+             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
+
 
                                                 <a class="size-12" href="#">
                                                     <i class="fa fa-arrow-right text-muted"></i> 
@@ -374,6 +243,8 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                                                 </a>
 
                                             </div>
+
+
 
                                 </div>
                                 <!-- /panel content -->
@@ -387,7 +258,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>REPARTITION AUX  DERNIERES VISITES</strong>
+                                        <strong>REPARTITION AUX DERNIERES VISITES</strong>
                                     </span>
                                 </div>
 
@@ -481,15 +352,6 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
      </div>
                 </div>
               {% endblock %}
-
-
-            </section>
-            <!-- /MIDDLE -->
-
-        </div>
-    
-        {% endblock fos_user_content %}
-
        {% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
@@ -508,7 +370,7 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
           labels: [
             "SIAT CONGO",
         {% for situation in situations if situation.dossier=='concurrence' %}
-          "{{situation.nom}}",
+          "{{situation.id}}",
          {%endfor%}
            ],
          datasets: [
@@ -527,12 +389,11 @@ value="{{ start_date_formated }} - {{ end_date_formated }}"
                 
 
 
-
 var data = {
-    labels: [{% for stockSiat in stockSiatParSemaine %}"{{stockSiat.weektext}}:{{stockSiat.nombre}}",{% endfor%}],
+    labels: [{% for excApp in excAppParSemaine %}"{{excApp.weektext}}:{{excApp.nombre}}",{% endfor%}],
     datasets: [
         {
-            label: "PART stock SIAT CONGO",
+            label: "Taux d'exclusivité",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(255, 206, 86, 27)",
@@ -550,15 +411,16 @@ var data = {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [{% for stockSiat in stockSiatParSemaine %}{{stockSiat.stock}},{% endfor%}],
+            data: [{% for excApp in excAppParSemaine %}{{(excApp.exc*100/excApp.nombre)|number_format(0, '.', ' ')}},{% endfor%}],
             spanGaps: false,
         },
-         {
-            label: "Part concurrence",
+
+        {
+            label: "Taux de présence",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(255, 99, 132, 27)",
-            borderColor: "rgba(255,99,132,1)",
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
@@ -572,28 +434,40 @@ var data = {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [{% for stockCon in stockConParSemaine %}{{stockCon.stock}},{% endfor%}],
+            data: [{% for excApp in excAppParSemaine %}{{(100-excApp.presence*100/excApp.nombre)|number_format(0, '.', ' ')}},{% endfor%}],
             spanGaps: false,
-        }
+        }, 
 
-       
+        {
+            label: "Taux de respect de prix",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,102,98,10)",
+            borderColor: "rgba(75,102,98,10)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{% for excApp in excAppParSemaine %}{{(excApp.rpd*100/excApp.nombre)|number_format(0, '.', ' ')}},{% endfor%}],
+            spanGaps: false,
+        },              
     ]
  };
 
     var ctx2 = document.getElementById("barChartCanvas").getContext("2d");
             new Chart(ctx2,{
-                type: 'bar',
-                data: data,
-               options: {
-                       scales: {
-                             xAxes: [{stacked: true}],
-                             yAxes: [{stacked: true}]
-                               }
-                           }
-            });
+                type: 'line',
+                data: data
       });
+        });    
         </script>
        {% endblock %}
-
-    </body>
-</html>

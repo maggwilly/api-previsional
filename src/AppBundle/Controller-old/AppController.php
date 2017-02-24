@@ -29,13 +29,14 @@ class AppController extends Controller
         return $this->render('layout.html.twig');
     }
 
-
-   /* * Lists all etape entities.
+    /**
+     * Lists all etape entities.
      *
      */
-    public function dernierAction()
+    public function AccueilAction()
     {
         $em = $this->getDoctrine()->getManager();
+
         $session = $this->getRequest()->getSession();
         $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
@@ -43,15 +44,15 @@ class AppController extends Controller
         $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
         $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
         $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
-        $excApp = $em->getRepository('AppBundle:Visite')->excAppDernier($region,$startDate, $endDate);
+        $excApp = $em->getRepository('AppBundle:Visite')->excApp($region,$startDate, $endDate);
         $excAppParSemaine = $em->getRepository('AppBundle:Visite')->excAppParSemaine($region,$startDate, $endDate);
         $stockSiatParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('produit',$region,$startDate, $endDate);
         $stockConParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('concurrence',$region,$startDate, $endDate);
-        $situations = $em->getRepository('AppBundle:Situation')->stockParProduitDernier($region,$startDate, $endDate);
+        $situations = $em->getRepository('AppBundle:Produit')->situations($region,$startDate, $endDate);
        
      //$concurents=array_column($situationsComparee, 'nomcon', 'id');
        $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
-        return $this->render('statistiques/derniere.html.twig',
+        return $this->render('AppBundle::layout.html.twig',
             array(
                 'nombrePointVente'=>$nombrePointVente ,
                 'nombrePointVenteVisite'=>$nombrePointVenteVisite,
@@ -66,51 +67,14 @@ class AppController extends Controller
                 'nApp'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['sapp']:'--',
                 'tauxAff'=>$nombrePointVenteVisite>0?$excApp[0]['aff']*100/$nombrePointVenteVisite:'--',
                 'nAff'=>$nombrePointVenteVisite>0?$nombrePointVenteVisite-$excApp[0]['aff']:'--',
-                 'tauxpas_client'=>$nombrePointVenteVisite>0?(100-$excApp[0]['pas_client']*100/$nombrePointVenteVisite):'--',
-                'pas_client'=>$excApp[0]['pas_client'],
+                 'tauxVpt'=>$nombrePointVenteVisite>0?$excApp[0]['vpt']*100/$nombrePointVenteVisite:'--',
+                'vpt'=>$excApp[0]['vpt'],
                //'concurents'=>$concurents,
                 'colors'=>$colors,
                 'stockSiatParSemaine'=>$stockSiatParSemaine,
                  'stockConParSemaine'=>$stockConParSemaine,
                 'excAppParSemaine'=>$excAppParSemaine,
                 'situations'=>$situations
-                ));
-    }
-    /**
-     * Lists all etape entities.
-     *
-     */
-    public function periodeAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $session = $this->getRequest()->getSession();
-        $region=$session->get('region');
-        $startDate=$session->get('startDate',date('Y').'-01-01');
-        $endDate=$session->get('endDate', date('Y').'-12-31');
-        $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
-        $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
-        $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
-        $excApp = $em->getRepository('AppBundle:Visite')->excAppPeriode($region,$startDate, $endDate);
-        $excAppParSemaine = $em->getRepository('AppBundle:Visite')->excAppParSemaine($region,$startDate, $endDate);
-        $stockSiatParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('produit',$region,$startDate, $endDate);
-        $stockConParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('concurrence',$region,$startDate, $endDate);
-        $situationsCumulee = $em->getRepository('AppBundle:Produit')->situationsCumulee($region,$startDate, $endDate);
-        $situations = $em->getRepository('AppBundle:Situation')->stockParProduitPeriode($region,$startDate, $endDate);  
-     //$concurents=array_column($situationsComparee, 'nomcon', 'id');
-       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
-        return $this->render('statistiques/periode.html.twig',
-            array(
-                'nombrePointVente'=>$nombrePointVente ,
-                'nombrePointVenteVisite'=>$nombrePointVenteVisite,
-                'nombreVisite'=>$nombreVisite,
-                'taux'=>$excApp[0],
-                'colors'=>$colors,
-                'stockSiatParSemaine'=>$stockSiatParSemaine,
-                'stockConParSemaine'=>$stockConParSemaine,
-                'excAppParSemaine'=>$excAppParSemaine,
-                'situationsCumulee'=>$situationsCumulee,
-                 'situations'=>$situations
                 ));
     }
     /**

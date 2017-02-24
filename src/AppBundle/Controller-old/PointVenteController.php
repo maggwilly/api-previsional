@@ -43,7 +43,7 @@ class PointVenteController extends Controller
         $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
-        $visites  = $em->getRepository('AppBundle:Visite')->visites(null,null,$startDate, $endDate,$pointVente);
+        $visites  = $em->getRepository('AppBundle:Visite')->visites(null,$startDate, $endDate,$pointVente);
           $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
         return $this->render('pointvente/show.html.twig', array(
             'pointVente' => $pointVente,
