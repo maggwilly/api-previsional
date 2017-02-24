@@ -43,7 +43,7 @@ class AppController extends Controller
         $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region);
         $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
         $nombreVisite = $em->getRepository('AppBundle:Visite')->nombreVisite($region,$startDate, $endDate);
-        $excApp = $em->getRepository('AppBundle:Visite')->excAppDernier($region,$startDate, $endDate);
+        $excApp = $em->getRepository('AppBundle:Visite')->excAppDerniere($region,$startDate, $endDate);
         $excAppParSemaine = $em->getRepository('AppBundle:Visite')->excAppParSemaine($region,$startDate, $endDate);
         $stockSiatParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('produit',$region,$startDate, $endDate);
         $stockConParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('concurrence',$region,$startDate, $endDate);

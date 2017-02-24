@@ -40,10 +40,11 @@ class VisiteRepository extends EntityRepository
 
   /**
   *Nombre de point de vente ayant des affiches
+
   * Nombre de point de vente qui s'approvisionne chez un agent commercial
   */
-
-  public function excAppDernier ($region=null, $startDate=null, $endDate=null){
+//doit se voir
+  public function excAppDerniere ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
    $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.pas_client) as pas_client, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff,count(v.pas_client) as pas_client, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
