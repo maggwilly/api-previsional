@@ -37,7 +37,7 @@
                                     <tbody>
 {% for etapeParUser in etapesParUser %}
     <tr>
-  <td><a target="_blank" href="{{ path('user_show',{'id':etapeParUser.id}) }}">{{etapeParUser.username}}</a></td>
+  <td><a target="_blank" href="{{ path('user_show',{'id':etapeParUser.id}) }}">{{etapeParUser.nom}}</a></td>
    <td>
    {% if etapeParUser.date %}
    <i class="fa fa-calendar-check-o"> </i> {{etapeParUser.date |date('d/m/Y')}}
@@ -107,7 +107,7 @@
                                                     <tbody>
                                                     {% for visiteParUser in visitesParUser %}
                                                         <tr>
-                                                            <td><a target="_blank" href="{{ path('user_show',{'id':visiteParUser.id}) }}">{{visiteParUser.username}}</a></td>
+                                                            <td><a target="_blank" href="{{ path('user_show',{'id':visiteParUser.id}) }}">{{visiteParUser.nom}}</a></td>
                                                             <td>{{visiteParUser.nombre}}</td>
                                                             <td>
                                                          {% if visiteParUser.date %}
@@ -164,7 +164,7 @@
                                                     {% for synchroParUser in synchrosParUser %}
                                                         <tr>
                                                              <th><i class="fa fa-upload"></i> </th>
-                                                            <td><a target="_blank" href="{{ path('user_show',{'id':synchroParUser.id}) }}">{{synchroParUser.username}}</a></td>
+                                                            <td><a target="_blank" href="{{ path('user_show',{'id':synchroParUser.id}) }}">{{synchroParUser.nom}}</a></td>
                                                             <td>   
                                                         {% if synchroParUser.date %}
                                                         {{synchroParUser.date |date('d/m/Y H:i')}}
