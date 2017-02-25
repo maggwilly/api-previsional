@@ -34,6 +34,7 @@ class EtapeRepository extends EntityRepository
             $qb->select('u.id');
             $qb->addSelect('e.date');
             $qb->addSelect('u.username');
+             $qb->addSelect('u.nom');
           $qb->addSelect('e.heure as debut');
             $qb->addSelect('e.longitude as longDebut');
             $qb->addSelect('e.latitude as latDebut');
