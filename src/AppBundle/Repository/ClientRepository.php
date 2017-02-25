@@ -31,8 +31,8 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
  
             $qb->select('max(v.date) as date');
             $qb->addSelect('u.id');
-            $qb->addSelect('u.username');
-            $qb->addGroupBy('u.username');
+             $qb->addSelect('u.nom');
+             $qb->addGroupBy('u.nom');
             $qb->addGroupBy('u.id');
             $qb->addSelect('count(v.id) as nombre'); 
           return $qb->getQuery()->getArrayResult();
@@ -55,8 +55,8 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
  
             $qb->select('max(s.date) as date');
             $qb->addSelect('u.id');
-            $qb->addSelect('u.username');
-            $qb->addGroupBy('u.username');
+             $qb->addSelect('u.nom');
+             $qb->addGroupBy('u.nom');
             $qb->addGroupBy('u.id');
             $qb->addSelect('count(s.id) as nombre'); 
           return $qb->getQuery()->getArrayResult();
