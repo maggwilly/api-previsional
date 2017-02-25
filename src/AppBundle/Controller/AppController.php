@@ -50,7 +50,7 @@ class AppController extends Controller
         $situations = $em->getRepository('AppBundle:Situation')->stockParProduitDernier($region,$startDate, $endDate);
        
      //$concurents=array_column($situationsComparee, 'nomcon', 'id');
-       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
+   $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870", "#5AE4D1","#FDB478","#FFD973");
         return $this->render('statistiques/derniere.html.twig',
             array(
                 'nombrePointVente'=>$nombrePointVente ,
@@ -95,10 +95,9 @@ class AppController extends Controller
         $excAppParSemaine = $em->getRepository('AppBundle:Visite')->excAppParSemaine($region,$startDate, $endDate);
         $stockSiatParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('produit',$region,$startDate, $endDate);
         $stockConParSemaine = $em->getRepository('AppBundle:Produit')->stockSemaine('concurrence',$region,$startDate, $endDate);
-        $situationsCumulee = $em->getRepository('AppBundle:Produit')->situationsCumulee($region,$startDate, $endDate);
         $situations = $em->getRepository('AppBundle:Situation')->stockParProduitPeriode($region,$startDate, $endDate);  
      //$concurents=array_column($situationsComparee, 'nomcon', 'id');
-       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
+       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870", "#5AE4D1","#FDB478","#FFD973");
         return $this->render('statistiques/periode.html.twig',
             array(
                 'nombrePointVente'=>$nombrePointVente ,
@@ -109,8 +108,7 @@ class AppController extends Controller
                 'stockSiatParSemaine'=>$stockSiatParSemaine,
                 'stockConParSemaine'=>$stockConParSemaine,
                 'excAppParSemaine'=>$excAppParSemaine,
-                'situationsCumulee'=>$situationsCumulee,
-                 'situations'=>$situations
+                'situations'=>$situations
                 ));
     }
     /**
@@ -121,7 +119,6 @@ class AppController extends Controller
     {
   
         $region=$request->request->get('region');
-
         $periode= $request->request->get('periode');
         $dates = explode(" - ", $periode);
         $startDate=$dates[0];
@@ -133,7 +130,7 @@ class AppController extends Controller
         $session->set('region',$region);
         $session->set('startDate',$startDate->format('Y-m-d'));
         $session->set('endDate',$endDate->format('Y-m-d'));
-
+        $session->set('periode',$periode);
         $session->set('end_date_formated',$endDate->format('d/m/Y'));
         $session->set('start_date_formated',$startDate->format('d/m/Y'));
 

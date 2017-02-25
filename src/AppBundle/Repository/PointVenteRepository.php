@@ -102,37 +102,21 @@ Nombre de point de vente visités
   /**
   *Repartition des visites effectuees par semaine 
   */
-  public function eligibles ($note=0,$region=null, $startDate=null, $endDate=null){
-        $stockMin=30;
-        $conds=array(
-                       array('produit'=>'FKM','cote'=>0.67,'sg'=>2),
-                       array('produit'=>'FMT','cote'=>2.67,'sg'=>8),
-                       array('produit'=>'FKS','cote'=>6.67,'sg'=>20),
-                       );
+  public function eligibles ($region=null, $startDate=null, $endDate=null){
+
        $em = $this->_em;
-       $RAW_QUERY =($region!=null) ?'select * from (select idpv,nompv,(max(notemap) + max(noteexc) + sum(notestock) ) as note from (select pvproduittotal.idpv,nompv,nom, case when exc is not null then 5 else 0 end as noteexc, case when map is not null then 5 else 0 end as notemap,(case when (nom=:produit1 and sg>=2 and pvtotal.totalsg>=30 ) then 0.67 else 0 end + case when (nom=:produit2 and sg>=8 and pvtotal.totalsg>=30) then 2.67 else 0 end + case when (nom=:produit3 and sg>=20 and pvtotal.totalsg>=30) then 6.67 else 0 end )as notestock  from (select idpv,nompv, p.id, p.nom,v.id as idv,v.map,v.exc, sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv,v.map,v.exc from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id,v.id,v.map,v.exc) pvproduittotal join (select idpv, sum(sg) as totalsg from (select idpv,nompv, p.id, p.nom,  sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id) pvtotal group by idpv) pvtotal on pvproduittotal.idpv=pvtotal.idpv) pointnote group by idpv,nompv ) eligibilite where note>=0;
-       ':'select * from (select idpv,nompv,(max(notemap) + max(noteexc) + sum(notestock) ) as note from (select pvproduittotal.idpv,nompv,nom, case when exc is not null then 5 else 0 end as noteexc, case when map is not null then 5 else 0 end as notemap,(case when (nom=:produit1 and sg>=2 and pvtotal.totalsg>=30 ) then 0.67 else 0 end + case when (nom=:produit2 and sg>=8 and pvtotal.totalsg>=30) then 2.67 else 0 end + case when (nom=:produit3 and sg>=20 and pvtotal.totalsg>=30) then 6.67 else 0 end )as notestock  from (select idpv,nompv, p.id, p.nom,v.id as idv,v.map,v.exc, sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv,v.map,v.exc from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id,v.id,v.map,v.exc) pvproduittotal join (select idpv, sum(sg) as totalsg from (select idpv,nompv, p.id, p.nom,  sum(s.stock) as sd, sum(s.stockg) as sg from (select v.id,v.date,idpv,nompv from (select pv.id as idpv ,pv.nom as nompv, max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id , pv.nom order by pv.id) as u  join  visite v on (u.idpv=v.point_vente_id and u.date=v.date)) as v join situation s on v.id=s.visite_id join  produit p  on p.id=s.produit_id group by idpv,nompv,p.nom,p.id) pvtotal group by idpv) pvtotal on pvproduittotal.idpv=pvtotal.idpv) pointnote group by idpv,nompv) eligibilite where note>0 ;
+       $RAW_QUERY =($region!=null) ?'select *,(case when stock>=30 and (fks>=20 and fmt>=8 and fkm+fkl>=2)  then  (case when map then (case when exc then 20 else 15 end) else (case when exc then 15 else 10 end) end) else  (case when map then (case when exc then 10 else 5 end) else (case when exc then 5 else 0 end) end) end) as note from (select id, nom,map,exc, sum(stock) as stock ,sum((case when produit="FKS" then stock else 0 end)) as fks,sum((case when produit="FKL" then stock else 0 end)) as fkl,sum((case when produit="FMT" then stock else 0 end)) as fmt,sum((case when produit="FKM" then stock else 0 end)) as fkm   from (select u.id,u.nom,v.map,v.exc, s.produit_id as produit, sum(s.stock) as stock from (select pv.id, pv.nom as nom , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  and pv.region=:region group by  pv.id,pv.nom ) as u  join  visite v on (u.id=v.point_vente_id and u.date=v.date) join situation s on s.visite_id=v.id join produit p on (s.produit_id=p.id and p.dossier="produit") group by u.id,u.nom,s.produit_id,map,exc) eligibles group by id, nom,map,exc) el;
+ ':'select *,(case when stock>=30 and (fks>=20 and fmt>=8 and fkm+fkl>=2)  then  (case when map then (case when exc then 20 else 15 end) else (case when exc then 15 else 10 end) end) else  (case when map then (case when exc then 10 else 5 end) else (case when exc then 5 else 0 end) end) end) as note from (select id, nom,map,exc, sum(stock) as stock ,sum((case when produit="FKS" then stock else 0 end)) as fks,sum((case when produit="FKL" then stock else 0 end)) as fkl,sum((case when produit="FMT" then stock else 0 end)) as fmt,sum((case when produit="FKM" then stock else 0 end)) as fkm   from (select u.id,u.nom,v.map,v.exc, s.produit_id as produit, sum(s.stock) as stock from (select pv.id, pv.nom as nom , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate   group by  pv.id,pv.nom ) as u  join  visite v on (u.id=v.point_vente_id and u.date=v.date) join situation s on s.visite_id=v.id join produit p on (s.produit_id=p.id and p.dossier="produit") group by u.id,u.nom,s.produit_id,map,exc) eligibles group by id, nom,map,exc) el;
 ';
        $statement = $em->getConnection()->prepare($RAW_QUERY);
          if($region!=null){
         $statement->bindValue('region', $region);
           }
-         $startDate=new \DateTime($startDate);
+        $startDate=new \DateTime($startDate);
        $endDate=new \DateTime($endDate);
        $statement->bindValue('startDate', $startDate->format('Y-m-d'));
        $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
        
-      // $statement->bindValue('sg', $stockMin);
-       // $statement->bindValue('note', $note);
-       $statement->bindValue('produit1', $conds[0]['produit']);
-      // $statement->bindValue('sg1', $conds[0]['sg']);
-      // $statement->bindValue('cote1', $conds[0]['cote']);
-       $statement->bindValue('produit2', $conds[1]['produit']);
-      // $statement->bindValue('sg2',  $conds[1]['sg']);
-      // $statement->bindValue('cote2',  $conds[1]['cote']);
-       $statement->bindValue('produit3',  $conds[2]['produit']);
-      // $statement->bindValue('sg3',  $conds[2]['sg']);
-      // $statement->bindValue('cote3',  $conds[2]['cote']);
        $statement->execute();
       return  $result = $statement->fetchAll();
      

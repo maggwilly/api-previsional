@@ -1,4 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
+{% block title %}{{visite.pointVente.nom}}</a> du {% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}  {% endblock %}
                {% set totalStock=0 %} 
                {% set totalStockSiat=0 %} 
                {% set totalStockCon=0 %} 
@@ -22,6 +23,9 @@
                                 <div class="panel-heading">
                                     <span class="title elipsis">
                                         <strong>Date de la visite </strong>{% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}
+                                    </span>
+                                    <span class="title elipsis">
+                                        <strong>  #Par</strong> {{ visite.user.nom }}
                                     </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -85,7 +89,7 @@
                 <td>{% if visite.sapp %}Agent commercial{% else %}Autre{% endif %}</td>
             </tr>
             <tr>
-                <th class="col-md-6">Fréauence de passage (en jours)</th>
+                <th class="col-md-6">Fréquence de passage (en jours)</th>
                 <td>{{ visite.fp }}</td>
             </tr>
             <tr>
@@ -130,21 +134,24 @@
                                                         <tr>
                                                             <th>#Produits</th>
                                                             <th>Stock</th>
-                                                             <th>Taux</th>
+                                                            <th>Part/SIAT</th>
+                                                             <th>Part/Global</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                    
                                                     {% for situation in visite.situations if situation.produit.dossier=='produit' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
+                                                            <td class="col-md-6"><a href="#">{{situation.produit.nom}}</a></td>
                                                             <td>{{situation.stock|number_format(0, '.', ' ')}}</td>
-                                                            <td>{%if totalStockSiat>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                            <td>{%if totalStockSiat>0 %}{{(situation.stock*100/totalStockSiat)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>                                                            
+                                                            <td>{%if totalStock>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
                                                         </tr>
                                                         {%endfor%}
                                                         <tr>
                                             <td>PART DE SIAT</td>
                                       <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
+                     <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStockSiat)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>                                      
                                   <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
@@ -155,20 +162,23 @@
                                                         <tr>
                                                             <th>#Produits</th>
                                                             <th>Stock</th>
-                                                             <th>Taux</th>
+                                                            <th>Part/Con</th>
+                                                             <th>Part/Global</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for situation in visite.situations if situation.produit.dossier=='concurrence' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.produit.nom}}</a></td>
+                                                            <td class="col-md-6"><a href="#">{{situation.produit.nom}}</a></td>
                                                             <td>{{situation.stock|number_format(0, '.', ' ')}}</td>
-                                                            <td>{%if totalStockCon>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                            <td>{%if totalStockCon>0 %}{{(situation.stock*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>                                                            
+                                                            <td>{%if totalStock>0 %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
                                                         </tr>
                                                         {%endfor%}
                                                         <tr>
                 <td>PART concurrence</td>
               <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
+             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>              
              <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>

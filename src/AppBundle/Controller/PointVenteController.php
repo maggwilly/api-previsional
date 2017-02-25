@@ -44,9 +44,11 @@ class PointVenteController extends Controller
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
         $visites  = $em->getRepository('AppBundle:Visite')->visites(null,null,$startDate, $endDate,$pointVente);
-          $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870");
+         $excAppPeriodePDV  = $em->getRepository('AppBundle:Visite')->excAppPeriodePDV($pointVente,$startDate, $endDate);
+       $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870", "#5AE4D1","#FDB478","#FFD973");
         return $this->render('pointvente/show.html.twig', array(
             'pointVente' => $pointVente,
+             'taux'=>$excAppPeriodePDV[0],
              'colors'=>$colors,
             'visites' => new \Doctrine\Common\Collections\ArrayCollection($visites)
         ));
@@ -64,7 +66,7 @@ class PointVenteController extends Controller
         $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
-      $eligibles = $em->getRepository('AppBundle:PointVente')->eligibles($note,$region,$startDate, $endDate);
+      $eligibles = $em->getRepository('AppBundle:PointVente')->eligibles($region,$startDate, $endDate);
        $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
         return $this->render('pointvente/eligibles.html.twig', array(
             'eligibles' => $eligibles,  'nombrePointVenteVisite' => $nombrePointVenteVisite,

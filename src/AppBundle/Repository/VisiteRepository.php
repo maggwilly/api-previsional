@@ -29,7 +29,6 @@ class VisiteRepository extends EntityRepository
           }
     $startDate=new \DateTime($startDate);
     $endDate=new \DateTime($endDate);
-
      $statement->bindValue('startDate', $startDate->format('Y-m-d'));
      $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
      $statement->execute();
@@ -37,14 +36,30 @@ class VisiteRepository extends EntityRepository
       return  $result = $statement->fetchAll();
   }
 
+  /**
 
+  */
+
+  public function excAppPeriodePDV ( PointVente $pointVente,$startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY ='select avg(exc) as exc, avg(aff) as aff, avg(map) as map, avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient, avg(sapp) as sapp, avg(pre) as pre from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.sapp then 1 else 0 end) as sapp, avg(case when v.map then 1 else 0 end) as map, avg(case when v.pre then 1 else 0 end) as pre, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and v.point_vente_id=:pdv group by pv.id) pdv;';
+  $statement = $em->getConnection()->prepare($RAW_QUERY);
+   $statement->bindValue('pdv', $pointVente->getId());
+    $startDate=new \DateTime($startDate);
+    $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+
+      return  $result = $statement->fetchAll();
+  }
   /**
   *Nombre de point de vente ayant des affiches
 
   * Nombre de point de vente qui s'approvisionne chez un agent commercial
   */
 //doit se voir
-  public function excAppDerniere ($region=null, $startDate=null, $endDate=null){
+  public function excAppDerniere ($region=null, $startDate=null, $endDate=null, PointVente $pointVente=null){
     $em = $this->_em;
    $RAW_QUERY =($region!=null) ?'select count(v.id) as nombre,count(v.aff) as aff, count(v.exc) as exc, count(v.pas_client) as pas_client, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp,v.map,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;':'select count(v.id) as nombre,count(v.aff) as aff,count(v.pas_client) as pas_client, count(v.exc) as exc, count(v.sapp) as sapp, count(v.map) as map, count(v.rpd) as rpd from (select v.id,v.date,v.aff, v.exc,v.pas_client, v.sapp ,v.map ,v.rpd from (select pv.id as pv , max(v.date) as date from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id order by pv.id) as u  join  visite v on (u.pv=v.point_vente_id and u.date=v.date)) v;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
@@ -80,7 +95,7 @@ class VisiteRepository extends EntityRepository
   /**
   *Nombre total de visite effectue 
   */
-    public function nombreVisite ($region=null, $startDate=null, $endDate=null){
+    public function nombreVisite ($region=null, $startDate=null, $endDate=null, PointVente $pointVente=null){
 
         $qb = $this->createQueryBuilder('v')->join('v.pointVente','pv');
         if($region!=null){

@@ -103,23 +103,7 @@ A corriger: en cas de plusieur visite par point de vente ca fausse
   }
 
 //situation comparee
-  public function situationsCumulee ($region=null, $startDate=null, $endDate=null){
-    $em = $this->_em;
-    $RAW_QUERY =($region!=null) ?'select p.nom, p.dossier, stock, presence from (select produit_id, avg(stock) as stock, avg(presence) as presence from( select s.produit_id, avg(s.stock) as stock,avg(case when s.stock>0 then 1 else 0 end) as presence from visite v join situation s on s.visite_id=v.id join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.region=:region group by pv.id, s.produit_id) pdv group by produit_id) situation join produit p on p.id=situation.produit_id;
-'  : 'select p.nom, p.dossier, stock, presence from (select produit_id, avg(stock) as stock, avg(presence) as presence from( select s.produit_id, avg(s.stock) as stock,avg(case when s.stock>0 then 1 else 0 end) as presence from visite v join situation s on s.visite_id=v.id join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate group by pv.id, s.produit_id) pdv group by produit_id) situation join produit p on p.id=situation.produit_id;'; 
-  $statement = $em->getConnection()->prepare($RAW_QUERY);
-        if($region!=null){
-   $statement->bindValue('region', $region);
-          }
-    $startDate=new \DateTime($startDate);
-    $endDate=new \DateTime($endDate);
 
-     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
-     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
-     $statement->execute();
-
-      return  $result = $statement->fetchAll();
-  }  
 
 //situation comparee
   public function situationsComparee ($region=null, $startDate=null, $endDate=null){

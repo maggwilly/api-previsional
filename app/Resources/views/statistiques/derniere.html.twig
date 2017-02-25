@@ -1,4 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
+{% block title %}Dernières visites {% endblock %}
   {% block body %}
 
         <div id="content" class="dashboard padding-20">
@@ -10,7 +11,7 @@
                             <!-- BOX -->
                             <div class="box danger"><!-- default, danger, warning, info, success -->
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-            <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recensés</a>{% endif%}</h4>
+            <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recencés</a>{% endif%}</h4>
             <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%}</small>
                                     <i class="fa fa-comments"></i>
                                 </div>
@@ -28,9 +29,21 @@
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxExc|number_format(0, ',', '.')}}%: Taux d'exclusivité</h4>
-                         <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{exc|number_format(0, ',', '.')}} P.D.V ont l'exclusivité{% endif%}</small>
-                                    <i class="fa fa-bar-chart-o"></i>
+                                    <h4>{{tauxExc|number_format(0, ',', '.')}}%: Exclusivité pour SIAT</h4>
+                         <small class="block">
+                         {% if nombrePointVenteVisite==0%}
+                         --
+                         {% else %}
+                             {% if exc>0%}
+                         {{exc|number_format(0, ',', '.')}} P.D.V ont l'exclusivité
+                           {% else %}
+                          Aucun pdv n'a l'exclusivité. 
+                           {% endif%}                         
+                          
+                           {% endif%}
+
+                           </small>
+                               <i class="fa fa-bar-chart-o"></i>
                                 </div>
 
                                 <div class="box-body text-center">
@@ -49,7 +62,18 @@
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</h4>
-                    <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nAff |number_format(0, ',', '.')}} P.D.V n'en ont pas.{% endif%}</small>
+                    <small class="block">
+                    {% if nombrePointVenteVisite==0%}
+                    --
+                    {% else %} 
+                             {% if nAff>0%}
+                          {{nAff |number_format(0, ',', '.')}} P.D.V n'en ont pas.
+                           {% else %}
+                           Tous les pdv ont des affiches. 
+                           {% endif%}                   
+                    
+                    {% endif%}
+                    </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
                                 <div class="box-body text-center">
@@ -70,7 +94,17 @@
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nMap |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
+                          <small class="block">
+                          {% if nombrePointVenteVisite==0%}
+                          --
+                          {% else %}
+                           {% if nMap>0%}
+                          {{nMap |number_format(0, ',', '.')}} PDV ne respectent pas. 
+                           {% else %}
+                           Tous les pdv respectent. 
+                           {% endif%}
+                            {% endif%}
+                            </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -89,8 +123,19 @@
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix</h4>
-                          <small class="block">{% if nombrePointVenteVisite==0%}--{% else %} {{nRpd |number_format(0, ',', '.')}} PDV ne respectent pas. {% endif%}</small>
+                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix de détail</h4>
+                          <small class="block">
+                          {% if nombrePointVenteVisite==0%}
+                          --
+                          {% else %} 
+                          {% if nRpd>0%}
+                          {{nRpd |number_format(0, ',', '.')}} PDV ne respectent pas. 
+                           {% else %}
+                           Tous les pdv respectent. 
+                           {% endif%}
+
+                          {% endif%}
+                          </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
 
@@ -107,11 +152,15 @@
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
                                     <h4>
-                                    {{tauxpas_client|number_format(0, ',', '.')}}%: Taux de présence
+                                    {{tauxpas_client|number_format(0, ',', '.')}}%: Présence de produits
                                     </h4>
                            <small class="block">
-                                {{pas_client|number_format(0, ',', '.')}} pdv vendent le produit.
-                             
+                            {% if pas_client>0%}
+                          {{pas_client |number_format(0, ',', '.')}} PDV ne vendent pas. 
+                           {% else %}
+                           Tous les pdv vendent. 
+                           {% endif%}
+
                            </small>
                                     <i class="fa fa-globe"></i>
                                 </div>
@@ -131,7 +180,7 @@
                             <div id="panel-2" class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
-                                        <strong>Progression par semaine </strong> ({% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%})
+                                        <strong>Progression des indicateurs par semaine </strong> ({% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%})
                                     </span>
                             <!-- right options -->
                             <ul class="options pull-right list-inline">
@@ -175,7 +224,7 @@
                                 <!-- panel content -->
                                 <div class="panel-body">  
                                             <div class="table-responsive">
-                                             <h3>Stock de SIAT</h3>
+                                             <h3>SIAT</h3>
 
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
@@ -183,7 +232,8 @@
                                                             <th>#Produits</th>
                                                             <th>Stock</th>
                                                             <th>Moyenne</th>
-                                                             <th>part</th>
+                                                             <th>part/SIAT</th>
+                                                             <th>part/Global</th>
                                                              <th>Présence</th>
                                                         </tr>
                                                     </thead>
@@ -191,10 +241,11 @@
                                                    
                                                     {% for situation in situations if situation.dossier=='produit' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.id}}</a></td>
+                                                            <td class="col-md-4"><a href="#">{{situation.id}}</a></td>
                                                             <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
                                                             <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
-                                                            <td>{%if totalStockSiat>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>
+                                                            <td>{%if totalStockSiat>0 %}{{(situation.sd*100/totalStockSiat)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>
+                                                            <td>{%if totalStock>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>
                                                             <td>{%if nombrePointVenteVisite>0 %}{{(situation.presence*100/nombrePointVenteVisite)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>                                                            
                                                         </tr>
                                                         {%endfor%}
@@ -202,28 +253,31 @@
            <td>PART SIAT</td>
         <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
         <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockSiat/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
+         <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStockSiat)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
         <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <h3>Stock de la concurrence</h3>
+                                                <h3>Concurrence</h3>
                                                 <table class="table table-striped table-hover table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>#Produits</th>
                                                             <th>Stock</th>
                                                             <th>Moyenne</th>
-                                                             <th>Part</th>
+                                                             <th>Part/Con</th>
+                                                             <th>Part/Global</th>
                                                              <th>Présence</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for situation in situations if situation.dossier=='concurrence' %}
                                                         <tr>
-                                                            <td><a href="#">{{situation.id}}</a></td>
+                                                            <td class="col-md-4"><a href="#">{{situation.id}}</a></td>
                                                             <td>{{situation.sd|number_format(0, '.', ' ')}}</td>
                                                             <td>{{(situation.sd/nombrePointVenteVisite)|number_format(0, '.', ' ')}}</td>
-                                                            <td>{%if totalStockCon>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
+                                                            <td>{%if totalStockCon>0 %}{{(situation.sd*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>        
+                                                            <td>{%if totalStock>0 %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</td>
                                                             <td>{%if nombrePointVenteVisite>0 %}{{(situation.presence*100/nombrePointVenteVisite)|number_format(0, '.', ' ')}}%{% else  %}--{%endif %}</td>                                                             
                                                         </tr>
                                                         {%endfor%}
@@ -231,14 +285,15 @@
                 <td>PART concurrence</td>
               <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
              <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
-             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                          <td><b>{%if totalStockCon>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+             <td><b>{%if totalStock>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
 
 
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>
 
@@ -260,6 +315,13 @@
                                     <span class="title elipsis">
                                         <strong>REPARTITION AUX DERNIERES VISITES</strong>
                                     </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->   
                                 </div>
 
                                 <!-- panel content -->
@@ -281,6 +343,13 @@
                                     <span class="title elipsis">
                                         <strong>Légende</strong>
                                     </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options --> 
                                 </div>
 
                                 <!-- panel content -->
@@ -331,12 +400,8 @@
                                 <!-- /panel content -->
 
                             </div>
-                            <!-- /PANEL -->
-                    
+                            <!-- /PANEL -->                    
                         </div>
-
-
-
                       </div>
 
      <div class="panel panel-default">
@@ -346,7 +411,7 @@
                           <p>
                                         Les données affichées sur cette page sont fonction de la période et de la région sélectionnées. Veillez vous assurer que vous avez bien défini la période et la région correspondante.
                                         Par défaut, les données sont celle de toute les régions pour toutes les périodes.
-                             </p>
+                      </p>
                </div>
             </div>
      </div>
@@ -362,23 +427,20 @@
                 Chart.js
                 http://www.chartjs.org/
             **/
- 
 
      loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
-
          var data = {
           labels: [
-            "SIAT CONGO",
-        {% for situation in situations if situation.dossier=='concurrence' %}
+        {% for situation in situations %}
           "{{situation.id}}",
          {%endfor%}
            ],
          datasets: [
              {
-        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%}
-        {%if totalStock>0 %}     {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
-        backgroundColor: ["#F38823",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
-        hoverBackgroundColor: ["#F38584",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
+        data: [
+        {%if totalStock>0 %}{% for situation in situations  %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
+        backgroundColor: [{% for color in colors  %}"{{ color}}",{%endfor%}],
+        hoverBackgroundColor: [{% for color in colors  %}"{{ color}}",{%endfor%}]
         }]
       };      
     var ctx = document.getElementById("pieChartCanvas").getContext("2d");

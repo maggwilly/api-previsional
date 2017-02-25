@@ -1,5 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
-
+{% block title %}Activités {% endblock %}
 {% block body %}
 
 <div id="content" class="dashboard padding-20">
@@ -37,7 +37,7 @@
                                     <tbody>
 {% for etapeParUser in etapesParUser %}
     <tr>
-  <td><a href="{{ path('user_show',{'id':etapeParUser.id}) }}">{{etapeParUser.username}}</a></td>
+  <td><a target="_blank" href="{{ path('user_show',{'id':etapeParUser.id}) }}">{{etapeParUser.username}}</a></td>
    <td>
    {% if etapeParUser.date %}
    <i class="fa fa-calendar-check-o"> </i> {{etapeParUser.date |date('d/m/Y')}}
@@ -67,10 +67,10 @@
     </tbody>
                                 </table>
                                 <br>
-                                    <a class="size-12" href="#">
-                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
-                                    </a> 
+                                                </a>
                             </div>
                         </div>
                         <!-- /panel content -->
@@ -107,7 +107,7 @@
                                                     <tbody>
                                                     {% for visiteParUser in visitesParUser %}
                                                         <tr>
-                                                            <td><a href="{{ path('user_show',{'id':visiteParUser.id}) }}">{{visiteParUser.username}}</a></td>
+                                                            <td><a target="_blank" href="{{ path('user_show',{'id':visiteParUser.id}) }}">{{visiteParUser.username}}</a></td>
                                                             <td>{{visiteParUser.nombre}}</td>
                                                             <td>
                                                          {% if visiteParUser.date %}
@@ -121,8 +121,8 @@
 
                                                     </tbody>
                                                 </table>
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>
 
@@ -164,7 +164,7 @@
                                                     {% for synchroParUser in synchrosParUser %}
                                                         <tr>
                                                              <th><i class="fa fa-upload"></i> </th>
-                                                            <td><a href="{{ path('user_show',{'id':synchroParUser.id}) }}">{{synchroParUser.username}}</a></td>
+                                                            <td><a target="_blank" href="{{ path('user_show',{'id':synchroParUser.id}) }}">{{synchroParUser.username}}</a></td>
                                                             <td>   
                                                         {% if synchroParUser.date %}
                                                         {{synchroParUser.date |date('d/m/Y H:i')}}
@@ -179,8 +179,8 @@
                                                     </tbody>
                                                 </table>
 
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>
 

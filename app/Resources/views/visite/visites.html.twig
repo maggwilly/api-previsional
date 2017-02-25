@@ -1,5 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
-
+{% block title %}Historique des visites {% endblock %}
 {% block body %}
    <!-- page title -->
     <header id="page-header">
@@ -29,7 +29,7 @@
                                 <table class="table table-striped table-bordered table-hover"  id="datatable_sample">
                                     <thead>
                                         <tr> 
-                                         <th></th>                                   
+                                         <th><i class="fa fa-eye"></i></th>                                   
                                             <th>Point de vente</th>
                                             <th>Auditeur</th>
                                             <th>Date </th> 
@@ -44,21 +44,20 @@
                                             <th>Est Client</th>
                                             <th>Raison</th>
                                             <th>Est Ouvert</th> 
-                                            <th>Raison</th>     
-                                            <th>Commentaire</th>                                         
+                                            <th>Raison</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                      {% for visite in visites%}
                                         <tr>
                                             <td>
-                                            <a href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-sm">Voir+</a>
+                                            <a target="_blank" href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-xs"> <i class="fa fa-eye"></i></a>
                                             </td>                                        
                                             <td class="col-md-2">
-                                            <a href="{{ path('pointvente_show',{'id':visite.pointVente.id}) }}">{{visite.pointVente.nom}}</a>
+                                            {{visite.pointVente.nom}}
                                     
                                             </td>
-                                            <td class="col-md-2">{{visite.user.nom}}</td>
+                                            <td >{{visite.user.nom}}</td>
                                             <td > {{visite.date |date('d/m/Y')}} </td>
                                             <td >{% if visite.exc %}Oui{% else %}Non{% endif %}</td>                                           
                                             <td >{% if visite.aff %}Oui{% else %}Non{% endif %}</td>
@@ -72,16 +71,15 @@
                                             <td ><b>{{visite.raisonPasClient}}</b></td>
                                             <td >{% if visite.pasOuvert %}Non{% else %}Oui{% endif %}</td>
                                             <td ><b>{{visite.raisonPasOuvert}}</b></td>                                            
-                                            <td ><b>{{visite.commentaire}}</b></td>
                                         </tr>
                                          {% endfor %}
                                     </tbody>
                                 </table>
                                 <br>
-                                    <a class="size-12" href="#">
-                                    <i class="fa fa-arrow-right text-muted"></i> 
-                                     Exporter vers (.xls)
-                                    </a> 
+                                                 <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
+                                                    Exporter vers (.xls)
+                                                </a> 
                             </div>
                         </div>
                         <!-- /panel content -->
@@ -161,9 +159,6 @@
                             }, 
                             {
                                 "orderable": true
-                            },
-                             {
-                                "orderable": false
                             }],
                             "lengthMenu": [
                                 [20, 50, 100, -1],

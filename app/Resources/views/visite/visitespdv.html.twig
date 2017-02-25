@@ -1,5 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
-
+{% block title %}Visites par point de vente{% endblock %}
 {% block body %}
    <!-- page title -->
     <header id="page-header">
@@ -51,10 +51,10 @@
                                     </tbody>
                                 </table>
                                 <br>
-                                    <a class="size-12" href="#">
-                                    <i class="fa fa-arrow-right text-muted"></i> 
-                                     Exporter vers (.xls)
-                                    </a> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
+                                                    Exporter vers (.xls)
+                                                </a>
                             </div>
                         </div>
                         <!-- /panel content -->
@@ -94,7 +94,7 @@
                                 "orderable": true
                             }, 
                             {
-                                "orderable": false
+                                "orderable": true
                             },
                              {
                                 "orderable": false

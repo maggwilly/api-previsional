@@ -1,4 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
+{% block title %}{{ client.nom }} {% endblock %}
 {% block body %}
 <div id="content" class="dashboard padding-20">
 <div class="panel panel-default">
@@ -27,7 +28,7 @@
                         <div class="panel-body">
 
                             <div class="table-responsive">
-                                <table class="table  table-vertical-middle nomargin table-bordered">
+                                <table class="table  table-vertical-middle nomargin table-bordered" id="datatable_sample1">
                                     <thead>
                                         <tr>                                    
                                             <th>Journee du</th>
@@ -68,15 +69,14 @@
     </tbody>
     </table>
       <br>
-     <a class="size-12" href="#">
-       <i class="fa fa-arrow-right text-muted"></i> 
-           Exporter vers (.xls)
-       </a> 
+       <a class="btn btn-xs btn-info"  href="#">
+             <i class="fa fa-arrow-right"></i> 
+                  Exporter vers (.xls)
+        </a> 
 </div>
-                        </div>
-                        <!-- /panel content -->
-                    </div>
-                        </div>
+      </div>                    <!-- /panel content -->
+  </div>
+</div>
 
 
                <div class="col-md-4">
@@ -97,9 +97,10 @@
                                 <!-- panel content -->
                                 <div class="panel-body">  
                                             <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
+                                                <table class="table table-striped table-hover table-bordered" id="datatable_sample2">
                                                     <thead>
                                                         <tr>
+                                                         <th><i class="fa fa-eye"></i></th> 
                                                           <th>Point vente</th>
                                                             <th>Date de visite</th>
                                                         </tr>
@@ -107,7 +108,12 @@
                                                     <tbody>
                                                     {% for visiteParUser in visitesParUser %}
                                                         <tr>
-                       <td><a href="{{ path('pointvente_show',{'id':visiteParUser.pointVente.id}) }}">{{visiteParUser.pointVente.nom}}</a></td>
+                                                            <td class="col-md-1">
+                                                             <a href="{{ path('visite_show',{'id':visiteParUser.id}) }}" class="btn btn-default btn-xs">
+                                                              <i class="fa fa-eye"></i>
+                                                             </a>
+                                                              </td>
+                                                            <td>{{visiteParUser.pointVente.nom}}</td>
                                                             <td>
                                                          {% if visiteParUser.date %}
                                                         {{visiteParUser.date |date('d/m/Y')}}
@@ -120,11 +126,10 @@
 
                                                     </tbody>
                                                 </table>
-                                                <a class="size-12" href="#">
-                                                    <i class="fa fa-arrow-right text-muted"></i> 
+                                                <a class="btn btn-xs btn-info"  href="#">
+                                                    <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>
-
                                             </div>
                                 </div>
                                 <!-- /panel content -->
@@ -152,4 +157,97 @@
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+
+         <script type="text/javascript">
+            /**
+                Chart.js
+                http://www.chartjs.org/
+            **/
+         loadScript( plugin_path + "datatables/js/jquery.dataTables.min.js", function() {
+             loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
+            if (jQuery().dataTable) {
+            var table1 = jQuery('#datatable_sample1');
+            var table2 = jQuery('#datatable_sample2');
+            table1.dataTable({
+                    "columns": [
+
+                            {
+                                "orderable": true
+                            }, 
+                            {
+                                "orderable": false
+                            },
+                             {
+                                "orderable": false
+                            }],
+                            "lengthMenu": [
+                                [5, 20, 50, -1],
+                                [5, 20, 50, "Tous"] // change per page values here
+                            ],
+                            // set the initial value
+                            "pageLength": 5,            
+                            "pagingType": "bootstrap_full_number",
+                            "language": {
+                                "lengthMenu": "  _MENU_ records",
+                                "paginate": {
+                                    "previous":"Prev",
+                                    "next": "Next",
+                                    "last": "Last",
+                                    "first": "First"
+                                }
+                            },
+                            "columnDefs": [{  // set default column settings
+                                'orderable': false,
+                                'targets': [0]
+                            }, {
+                                "searchable": false,
+                                "targets": [0]
+                            }],
+                            "order": [
+                                [1, "asc"]
+                            ] // set first column as a default sort by asc
+                        });
+
+            table2.dataTable({
+                    "columns": [ 
+                            {
+                                "orderable": false
+                            },                    
+                            {
+                                "orderable": false
+                            },
+                             {
+                                "orderable": false
+                            }],
+                            "lengthMenu": [
+                                [5, 20, 50, -1],
+                                [5, 20, 50, "Tous"] // change per page values here
+                            ],
+                            // set the initial value
+                            "pageLength": 5,            
+                            "pagingType": "bootstrap_full_number",
+                            "language": {
+                                "lengthMenu": "  _MENU_ records",
+                                "paginate": {
+                                    "previous":"Prev",
+                                    "next": "Next",
+                                    "last": "Last",
+                                    "first": "First"
+                                }
+                            },
+                            "columnDefs": [{  // set default column settings
+                                'orderable': false,
+                                'targets': [0]
+                            }, {
+                                "searchable": false,
+                                "targets": [0]
+                            }],
+                            "order": [
+                                [1, "asc"]
+                            ] // set first column as a default sort by asc
+                        });                        
+               }
+             }); 
+            });
+        </script>      
  {% endblock %}
