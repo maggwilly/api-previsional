@@ -11,7 +11,7 @@
                             <!-- BOX -->
                             <div class="box danger"><!-- default, danger, warning, info, success -->
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-            <h4>{% if nombrePointVente==0%}<a href="#">Aucun point de vente</a>{% else %}<a href="#">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recencés</a>{% endif%}</h4>
+       <h4>{% if nombrePointVente==0%}<a href="{{ path('pointvente_index') }}">Aucun point de vente</a>{% else %}<a href="{{ path('pointvente_index') }}">{{nombrePointVente|number_format(0, ',', '.')}} points de vente recencés</a>{% endif%}</h4>
             <small class="block">{% if nombrePointVente==0%}Aucun PDV visité{% else %}{{nombrePointVenteVisite}} PDV visités{% endif%}</small>
                                     <i class="fa fa-comments"></i>
                                 </div>
@@ -29,7 +29,7 @@
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxExc|number_format(0, ',', '.')}}%: Exclusivité pour SIAT</h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxExc|number_format(0, ',', '.')}}%: Exclusivité pour SIAT</a></h4>
                          <small class="block">
                          {% if nombrePointVenteVisite==0%}
                          --
@@ -61,7 +61,7 @@
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</a></h4>
                     <small class="block">
                     {% if nombrePointVenteVisite==0%}
                     --
@@ -93,7 +93,7 @@
                             <div class="box info"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</a></h4>
                           <small class="block">
                           {% if nombrePointVenteVisite==0%}
                           --
@@ -123,7 +123,7 @@
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix de détail</h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix de détail</a></h4>
                           <small class="block">
                           {% if nombrePointVenteVisite==0%}
                           --
@@ -151,9 +151,9 @@
                             <div class="box success"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4>
+                                    <h4><a href="{{ path('visites') }}">
                                     {{tauxpas_client|number_format(0, ',', '.')}}%: Présence de produits
-                                    </h4>
+                                    </a></h4>
                            <small class="block">
                             {% if pas_client>0%}
                           {{pas_client |number_format(0, ',', '.')}} PDV ne vendent pas. 
