@@ -234,7 +234,7 @@
            <td>PART CONCURENCE</td>
         <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
         <td><b>{%if nombrePointVenteVisite>0 %}{{(totalStockCon/nombrePointVenteVisite)|number_format(0, '.', ' ')}}{% else %}--{%endif %}</b></td>
-         <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+         <td><b>{%if totalStockCon>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
         <td><b>{%if totalStock>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>                                                  
 
