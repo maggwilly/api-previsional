@@ -1,5 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
-{% block title %}{{visite.pointVente.nom}}</a> du {% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}  {% endblock %}
+{% block title %}{{visite.pointVente.nom}} du {% if visite.date %}{{ visite.date|date('d/m/Y') }}{% endif %}  {% endblock %}
                {% set totalStock=0 %} 
                {% set totalStockSiat=0 %} 
                {% set totalStockCon=0 %} 
