@@ -65,10 +65,10 @@ class VisiteController extends Controller
         ));
     }
 
-public function boleanToString($boolVal,$id=true){
-    if ($boolVal&&$id) 
+public function boleanToString($boolVal,$id=true,$pasClient=false,$pasOuvert=false){
+    if ($boolVal&&$id && !$pasClient && !$pasOuvert) 
      return 'OUI';
-     elseif ($id) 
+     elseif ($id && !$pasClient && !$pasOuvert) 
        return 'NON';
       else
        return '';
@@ -142,12 +142,12 @@ public function numberToString($intVal,$id=true){
                ->setCellValue('I'.($key+2), $value['l_m'])
                ->setCellValue('J'.($key+2), $value['malboro'])
                ->setCellValue('K'.($key+2), $value['super_match'])                
-               ->setCellValue('L'.($key+2), $this->boleanToString($value['exc']))
-               ->setCellValue('M'.($key+2), $this->boleanToString($value['map'])) 
-               ->setCellValue('N'.($key+2), $this->boleanToString($value['pre']))
-               ->setCellValue('O'.($key+2), $this->boleanToString($value['rpd'])) 
-               ->setCellValue('P'.($key+2), $this->boleanToString($value['rpp']))
-               ->setCellValue('Q'.($key+2), $this->boleanToString($value['sapp'])) 
+               ->setCellValue('L'.($key+2), $this->boleanToString($value['exc'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('M'.($key+2), $this->boleanToString($value['map'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
+               ->setCellValue('N'.($key+2), $this->boleanToString($value['pre'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('O'.($key+2), $this->boleanToString($value['rpd'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
+               ->setCellValue('P'.($key+2), $this->boleanToString($value['rpp'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('Q'.($key+2), $this->boleanToString($value['sapp'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
                ->setCellValue('R'.($key+2), $this->boleanToString(!$value['pas_ouvert']))
                ->setCellValue('S'.($key+2), $value['raison_pas_ouvert']) 
                ->setCellValue('T'.($key+2), $this->boleanToString(!$value['pas_client']))
@@ -236,12 +236,12 @@ public function numberToString($intVal,$id=true){
                ->setCellValue('I'.($key+2), $this->numberToString($value['l_m'],$value['id']))
                ->setCellValue('J'.($key+2), $this->numberToString($value['malboro'],$value['id']))
                ->setCellValue('K'.($key+2), $this->numberToString($value['super_match'],$value['id']))                
-               ->setCellValue('L'.($key+2), $this->boleanToString($value['exc'],$value['id']))
-               ->setCellValue('M'.($key+2), $this->boleanToString($value['map'],$value['id'])) 
-               ->setCellValue('N'.($key+2), $this->boleanToString($value['pre'],$value['id']))
-               ->setCellValue('O'.($key+2), $this->boleanToString($value['rpd'],$value['id'])) 
-               ->setCellValue('P'.($key+2), $this->boleanToString($value['rpp'],$value['id']))
-               ->setCellValue('Q'.($key+2), $this->boleanToString($value['sapp'],$value['id'])) 
+               ->setCellValue('L'.($key+2), $this->boleanToString($value['exc'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('M'.($key+2), $this->boleanToString($value['map'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
+               ->setCellValue('N'.($key+2), $this->boleanToString($value['pre'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('O'.($key+2), $this->boleanToString($value['rpd'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
+               ->setCellValue('P'.($key+2), $this->boleanToString($value['rpp'],$value['id'],$value['pas_client'],$value['pas_ouvert']))
+               ->setCellValue('Q'.($key+2), $this->boleanToString($value['sapp'],$value['id'],$value['pas_client'],$value['pas_ouvert'])) 
                ->setCellValue('R'.($key+2), $this->boleanToString(!$value['pas_ouvert'],$value['id']))
                ->setCellValue('S'.($key+2), $value['raison_pas_ouvert']) 
                ->setCellValue('T'.($key+2), $this->boleanToString(!$value['pas_client'],$value['id']))

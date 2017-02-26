@@ -57,12 +57,12 @@
                                             </td>
                                             <td >{{visite.user.nom}}</td>
                                             <td > {{visite.date |date('d/m/Y')}} </td>
-                                            <td >{% if visite.exc %}Oui{% else %}Non{% endif %}</td>                                           
-                                            <td >{% if visite.aff %}Oui{% else %}Non{% endif %}</td>
-                                            <td >{% if visite.map %}Oui{% else %}Non{% endif %}</td>
-                                            <td >{% if visite.rpd %}Oui{% else %}Non{% endif %}</td>
-                                            <td >{% if visite.pre %}Oui{% else %}Non{% endif %}</td>
-                                           <td >{% if visite.sapp %}AC{% else %}Autre{% endif %}</td>
+                                            <td >{% if visite.exc and not visite.pasClient and not visite.pasOuvert%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>                                           
+                                            <td >{% if visite.aff and not visite.pasClient and not visite.pasOuvert% %}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+                                            <td >{% if visite.map and not visite.pasClient and not visite.pasOuvert%%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+                                            <td >{% if visite.rpd and not visite.pasClient and not visite.pasOuvert% %}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+                                            <td >{% if visite.pre and not visite.pasClient and not visite.pasOuvert% %}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+                                           <td >{% if visite.sapp and not visite.pasClient and not visite.pasOuvert% %}AC{% elseif not visite.pasClient and not visite.pasOuvert %}Autre{%else %}--{% endif %}</td>
                                             <td >{% if visite.pasClient %}Non{% else %}Oui{% endif %}</td>
                                             <td ><b>{{visite.raisonPasClient}}</b></td>
                                             <td >{% if visite.pasOuvert %}Non{% else %}Oui{% endif %}</td>
