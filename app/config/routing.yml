@@ -52,10 +52,20 @@ statistiques_periode:
     path:     /v1/statistiques/periode
     defaults: { _controller: "AppBundle:App:periode" }
     methods:  GET
-    
+
+statistiques_periode_excel:
+    path:     /v1/statistiques/periode/excel
+    defaults: { _controller: "AppBundle:App:stockPeriodeExcel" }
+    methods:  GET
+
 statistiques_dernier:
     path:     /v1/statistiques/dernier/visite
     defaults: { _controller: "AppBundle:App:dernier" }
+    methods:  GET
+
+statistiques_dernier_excel:
+    path:     /v1/statistiques/dernier/visite/excel
+    defaults: { _controller: "AppBundle:App:stockDernierExcel" }
     methods:  GET
 
 app_admin:

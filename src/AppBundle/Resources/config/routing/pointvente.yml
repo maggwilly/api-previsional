@@ -9,12 +9,20 @@ pointvente_show:
     methods:  GET
 
 pointvente_eligibles:
-    path:     /{note}/eligibles
-    defaults: { _controller: "AppBundle:PointVente:eligibles", note:0 }
+    path:     /eligibles
+    defaults: { _controller: "AppBundle:PointVente:eligibles"}
     methods:  GET
 
+pointvente_eligibles_excel:
+    path:     /eligibles/excel
+    defaults: { _controller: "AppBundle:PointVente:eligibiliteExcel"}
+    methods:  GET
 pointvente_map:
     path:     /geo
     defaults: { _controller: "AppBundle:PointVente:map" }
     methods:  GET
 
+pointvente_excel:
+    path:     /excel
+    defaults: { _controller: "AppBundle:PointVente:pdvExcel" }
+    methods:  GET

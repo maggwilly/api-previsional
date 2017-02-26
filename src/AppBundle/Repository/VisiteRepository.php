@@ -22,7 +22,7 @@ class VisiteRepository extends EntityRepository
 
   public function excAppPeriode ($region=null, $startDate=null, $endDate=null){
     $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.region=:region group by pv.id) pdv;':'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate group by pv.id) pdv;';
+  $RAW_QUERY =($region!=null) ?'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region group by pv.id) pdv;':'select avg(exc) as exc, avg(aff) as aff, avg(map) as map,avg(rpd) as rpd, avg(rpp) as rpp, avg(pas_client) as pasclient from( select avg( case when v.exc then 1 else 0 end) as exc, avg(case when v.aff then 1 else 0 end) as aff, avg(case when v.map then 1 else 0 end) as map, avg(case when v.rpd then 1 else 0 end) as rpd, avg(case when v.rpp then 1 else 0 end) as rpp, avg(case when v.pas_client then 1 else 0 end) as pas_client from visite v join point_vente pv on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate group by pv.id) pdv;';
   $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
    $statement->bindValue('region', $region);
@@ -143,20 +143,43 @@ class VisiteRepository extends EntityRepository
           return $qb->getQuery()->getResult();
   }
 
-   /**
+
+    /**
   *Nombre total de visite effectue par point de vente 
   */
- 
+  public function visitesDetaillees($region=null, $startDate=null, $endDate=null){
 
-   public function visitesParPDV ($region=null, $startDate=null, $endDate=null){
-    $em = $this->_em;
-  $RAW_QUERY =($region!=null) ?'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region  group by  pv.id, pv.nom,pv.type order by date) u join visite v on v.point_vente_id=u.id and u.date=v.date;':'select u.id,u.nom, v.commentaire,v.date, nombre , type from (select distinct pv.id ,pv.nom,pv.type, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  group by  pv.id, pv.nom,pv.type order by date asc) u join visite v on v.point_vente_id=u.id and u.date=v.date;';
+  $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select v.id,v.auditeur, v.nom,v.date,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm,sum((case when produit=\'DUNHIL\' then stock else 0 end)) as dunhil,sum((case when produit=\'L-M\' then stock else 0 end)) as \'l-m\',sum((case when produit=\'MALBORO\' then stock else 0 end)) as malboro,sum((case when produit=\'SUPER MATCH\' then stock else 0 end)) as \'super match\'  from (select v.id,c.nom as auditeur, pv.nom,v.date, v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire, s.produit_id as produit, s.stock from  point_vente pv   join  visite v on (pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate and pv.ville=:region) join client c on c.id=v.user_id   join situation s on s.visite_id=v.id join produit p on s.produit_id=p.id ) v group by v.id, v.nom,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.date,v.auditeur;
+  ':'select v.id,v.auditeur, v.nom,v.date,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm,sum((case when produit=\'DUNHIL\' then stock else 0 end)) as dunhil,sum((case when produit=\'L-M\' then stock else 0 end)) as \'l-m\',sum((case when produit=\'MALBORO\' then stock else 0 end)) as malboro,sum((case when produit=\'SUPER MATCH\' then stock else 0 end)) as \'super match\'  from (select v.id,c.nom as auditeur, pv.nom,v.date, v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire, s.produit_id as produit, s.stock from  point_vente pv   join  visite v on (pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate) join client c on c.id=v.user_id   join situation s on s.visite_id=v.id join produit p on s.produit_id=p.id ) v group by v.id, v.nom,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.date,v.auditeur;
+';
     $statement = $em->getConnection()->prepare($RAW_QUERY);
         if($region!=null){
     $statement->bindValue('region', $region);
           }
     $startDate=new \DateTime($startDate);
     $endDate=new \DateTime($endDate);
+     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+     $statement->execute();
+      return  $result = $statement->fetchAll();
+    }
+   /**
+  *Nombre total de visite effectue par point de vente 
+  */
+ 
+
+   public function visitesParPDVDetaillees ($region=null, $startDate=null, $endDate=null){
+    $em = $this->_em;
+  $RAW_QUERY =($region!=null) ?'select v.id,v.auditeur, v.nom,v.date,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.nombre,v.aff ,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm,sum((case when produit=\'DUNHIL\' then stock else 0 end)) as dunhil,sum((case when produit=\'L-M\' then stock else 0 end)) as \'l-m\',sum((case when produit=\'MALBORO\' then stock else 0 end)) as malboro,sum((case when produit=\'SUPER MATCH\' then stock else 0 end)) as \'super match\'  from (select v.id,c.nom as auditeur, pv.nom,v.date, v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire, s.produit_id as produit, s.stock, v.nombre,v.aff from  point_vente pv   left  join  (select  v.id,v.date,v.aff,v.map,v.pre,v.pas_ouvert,v.pas_client,v.raison_pas_ouvert,v.raison_pas_client,v.commentaire, v.exc, v.sapp,v.rpd,v.rpp,v.point_vente_id,v.user_id,u.nombre from (select pv.id as pv ,pv.ville, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on (pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate )  group by  pv.id order by pv.id,pv.ville) as u  join   visite v on (u.pv=v.point_vente_id and u.date=v.date  )) v on (pv.id=v.point_vente_id ) left join client c on c.id=v.user_id  left join situation s on s.visite_id=v.id left join produit p on s.produit_id=p.id where pv.ville=:region) v group by v.id, v.nom,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.aff,v.date,v.auditeur,v.nombre;
+':'select v.id,v.auditeur, v.nom,v.date,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.nombre,v.aff ,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm,sum((case when produit=\'DUNHIL\' then stock else 0 end)) as dunhil,sum((case when produit=\'L-M\' then stock else 0 end)) as \'l-m\',sum((case when produit=\'MALBORO\' then stock else 0 end)) as malboro,sum((case when produit=\'SUPER MATCH\' then stock else 0 end)) as \'super match\'  from (select v.id,c.nom as auditeur, pv.nom,v.date, v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire, s.produit_id as produit, s.stock, v.nombre,v.aff from  point_vente pv  left OUTER join  (select  v.id,v.date,v.aff,v.map,v.pre,v.pas_ouvert,v.pas_client,v.raison_pas_ouvert,v.raison_pas_client,v.commentaire, v.exc, v.sapp,v.rpd,v.rpp,v.point_vente_id,v.user_id,u.nombre from (select pv.id as pv ,pv.ville, max(v.date) as date, count(v.id) as nombre from point_vente pv join visite v  on (pv.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate )  group by  pv.id order by pv.id,pv.ville) as u  join   visite v on (u.pv=v.point_vente_id and u.date=v.date )) v on pv.id=v.point_vente_id left join client c on c.id=v.user_id  left join situation s on s.visite_id=v.id left join produit p on s.produit_id=p.id ) v group by v.id, v.nom,v.map,v.exc,v.pre,v.rpd,v.rpp,v.sapp,v.pas_client,v.raison_pas_client,v.pas_ouvert,v.raison_pas_ouvert,v.commentaire,v.aff,v.date,v.auditeur,v.nombre;
+';
+    $statement = $em->getConnection()->prepare($RAW_QUERY);
+        if($region!=null){
+    $statement->bindValue('region', $region);
+          }
+     $startDate=new \DateTime($startDate);
+     $endDate=new \DateTime($endDate);
      $statement->bindValue('startDate', $startDate->format('Y-m-d'));
      $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
      $statement->execute();

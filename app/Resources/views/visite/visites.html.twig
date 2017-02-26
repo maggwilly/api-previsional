@@ -38,8 +38,6 @@
                                             <th>MAP</th>
                                             <th>RPD</th>
                                             <th>PRE</th>
-                                            <th>MVJ</th>
-                                            <th>ECL</th>
                                             <th>SAPP</th>
                                             <th>Est Client</th>
                                             <th>Raison</th>
@@ -64,8 +62,6 @@
                                             <td >{% if visite.map %}Oui{% else %}Non{% endif %}</td>
                                             <td >{% if visite.rpd %}Oui{% else %}Non{% endif %}</td>
                                             <td >{% if visite.pre %}Oui{% else %}Non{% endif %}</td>
-                                            <td ><b>{{visite.mvj}}</b></td>
-                                            <td ><b>{{visite.ecl}}</b></td>
                                            <td >{% if visite.sapp %}AC{% else %}Autre{% endif %}</td>
                                             <td >{% if visite.pasClient %}Non{% else %}Oui{% endif %}</td>
                                             <td ><b>{{visite.raisonPasClient}}</b></td>
@@ -76,7 +72,7 @@
                                     </tbody>
                                 </table>
                                 <br>
-                                                 <a class="btn btn-xs btn-info"  href="#">
+                                                 <a class="btn btn-xs btn-info"  href="{{ path('visites_excel') }}">
                                                     <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a> 

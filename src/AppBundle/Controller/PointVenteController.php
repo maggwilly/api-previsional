@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\PointVente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Pointvente controller.
@@ -23,10 +23,9 @@ class PointVenteController extends Controller
        $em = $this->getDoctrine()->getManager();
         $region=$session->get('region');
         $startDate=$session->get('startDate',date('Y').'-01-01');
-        $endDate=$session->get('endDate', date('Y').'-12-31');
-          
-      $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($region,$startDate, $endDate);
-     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region,$startDate, $endDate);
+        $endDate=$session->get('endDate', date('Y').'-12-31');  
+       $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($region,$startDate, $endDate);
+      $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region,$startDate, $endDate);
         return $this->render('pointvente/index.html.twig', array(
             'pointVentes' => $pointVentes,  'nombrePointVente' => $nombrePointVente,
         ));
@@ -91,5 +90,146 @@ class PointVenteController extends Controller
         return $this->render('pointvente/map.html.twig', array(
             'pointVentes' => $pointVentes,  'nombrePointVente' => $nombrePointVente,
         ));
-    }  
+    } 
+
+    public function pdvExcelAction($name=null)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $session = $this->getRequest()->getSession();
+      $region=$session->get('region');
+      $startDate=$session->get('startDate',date('Y').'-01-01');
+      $endDate=$session->get('endDate', date('Y').'-12-31');
+      $periode= $session->get('periode');
+      $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($region,$startDate, $endDate);
+      
+        // ask the service for a Excel5
+       $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+       $phpExcelObject->getProperties()->setCreator("AllReport")
+           ->setLastModifiedBy("AllReport")
+           ->setTitle("Liste des points de vente")
+           ->setSubject("Liste des points de vente")
+           ->setDescription("Liste des points de vente")
+           ->setKeywords("Liste des points de vente")
+           ->setCategory("Rapports AllReport");
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A1', 'NOM')
+               ->setCellValue('B1', 'CATEGORIE')
+               ->setCellValue('C1', 'REGION')
+               ->setCellValue('D1', 'QUARTIER')
+               ->setCellValue('E1', 'DESCRIPTION')
+               ->setCellValue('F1', 'MOIS DE CREATION')
+               ->setCellValue('G1', 'TELEPHONE');
+             foreach ($pointVentes as $key => $value) {
+                // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A'.($key+2), $value['nom'])
+               ->setCellValue('B'.($key+2), $value['type'])
+               ->setCellValue('C'.($key+2), $value['ville'])
+               ->setCellValue('D'.($key+2), $value['quartier'])
+               ->setCellValue('E'.($key+2), $value['description'])
+               ->setCellValue('F'.($key+2), $value['createdAt']->format('M Y'))
+               ->setCellValue('G'.($key+2), $value['tel']) ;
+           };
+            $format = 'd/m/Y';
+       $phpExcelObject->getActiveSheet()->setTitle('liste-des-points-de-vente');
+       // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+       $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'liste-des-points-de-vente.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;        
+    }
+
+public function boleanToString($boolVal){
+    switch ($boolVal) {
+        case 1:
+            # code...
+           return 'OUI';
+        
+        default:
+            # code...
+           return 'NON';
+    }
+}
+
+
+     public function eligibiliteExcelAction($name=null)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $session = $this->getRequest()->getSession();
+      $region=$session->get('region');
+      $startDate=$session->get('startDate',date('Y').'-01-01');
+      $endDate=$session->get('endDate', date('Y').'-12-31');
+      $periode= $session->get('periode',' 01/01 - 31/12/'.date('Y'));
+      $eligibles = $em->getRepository('AppBundle:PointVente')->eligibles($region,$startDate, $endDate);
+      
+        // ask the service for a Excel5
+       $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+       $phpExcelObject->getProperties()->setCreator("AllReport")
+           ->setLastModifiedBy("AllReport")
+           ->setTitle("Eligibilité ".$region." de ".$periode)
+           ->setSubject("Eligibilité ".$region." de ".$periode)
+           ->setDescription("Eligibilité ".$region." de ".$periode)
+           ->setKeywords("Eligibilité ".$region." de ".$periode)
+           ->setCategory("Rapports AllReport");
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A1', 'NOM')
+               ->setCellValue('B1', 'EXC')
+               ->setCellValue('C1', 'MAP')
+               ->setCellValue('D1', 'FKS')
+               ->setCellValue('E1', 'FKL')
+               ->setCellValue('F1', 'FMT')
+               ->setCellValue('G1', 'FKM')
+               ->setCellValue('H1', 'Stock total')
+               ->setCellValue('I1', 'Points');
+             foreach ($eligibles as $key => $value) {
+                // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A'.($key+2), $value['nom'])
+               ->setCellValue('B'.($key+2), $this->boleanToString($value['exc']))
+               ->setCellValue('C'.($key+2),  $this->boleanToString($value['map']))
+               ->setCellValue('D'.($key+2), $value['fks'])
+               ->setCellValue('E'.($key+2), $value['fkl'])
+               ->setCellValue('F'.($key+2), $value['fmt'])
+               ->setCellValue('G'.($key+2), $value['fkm']) 
+               ->setCellValue('H'.($key+2), $value['stock'])
+               ->setCellValue('I'.($key+2), $value['note'])  ;
+           };
+        $startDate=new \DateTime($startDate);
+        $endDate= new \DateTime($endDate);
+       $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
+       // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+       $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'eligibilites '.$region.' du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y').'.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;        
+    }    
 }

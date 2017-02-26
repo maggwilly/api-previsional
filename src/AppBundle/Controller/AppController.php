@@ -11,6 +11,7 @@ use AppBundle\Entity\Situation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 /**
  * Etape controller.
  *
@@ -24,8 +25,6 @@ class AppController extends Controller
     public function indexAction()
     {
         
-
-
         return $this->render('layout.html.twig');
     }
 
@@ -76,6 +75,66 @@ class AppController extends Controller
                 'situations'=>$situations
                 ));
     }
+
+
+   public function stockDernierExcelAction($name=null)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $session = $this->getRequest()->getSession();
+      $region=$session->get('region');
+      $startDate=$session->get('startDate',date('Y').'-01-01');
+      $endDate=$session->get('endDate', date('Y').'-12-31');
+      $periode= $session->get('periode',' 01/01 - 31/12/'.date('Y'));
+      $situations = $em->getRepository('AppBundle:Situation')->stockParProduitDernier($region,$startDate, $endDate);
+      $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
+        // ask the service for a Excel5
+       $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+       $phpExcelObject->getProperties()->setCreator("AllReport")
+           ->setLastModifiedBy("AllReport")
+           ->setTitle("Derniere statistiques".$region." de ".$periode)
+           ->setSubject("Derniere statistiques".$region." de ".$periode)
+           ->setDescription("Derniere statistiques".$region." de ".$periode)
+           ->setKeywords("Derniere statistiques".$region." de ".$periode)
+           ->setCategory("Rapports AllReport");
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A1', 'Produit')
+               ->setCellValue('B1', 'STOCK')
+               ->setCellValue('C1', 'MOYENNE')
+               ->setCellValue('D1', 'PRESENCE');
+             foreach ($situations as $key => $value) {
+                // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A'.($key+2), $value['id'])
+               ->setCellValue('B'.($key+2), $value['sd'])
+               ->setCellValue('C'.($key+2), $nombrePointVenteVisite>0?$value['sd']/$nombrePointVenteVisite:"--")
+               ->setCellValue('D'.($key+2), $nombrePointVenteVisite>0?$value['presence']*100/$nombrePointVenteVisite:"--");
+               
+           };
+        $startDate=new \DateTime($startDate);
+        $endDate= new \DateTime($endDate);
+       $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
+       // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+       $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'dernieres statistiques '.$region.' du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y').'.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;        
+    }
+
+ 
     /**
      * Lists all etape entities.
      *
@@ -111,6 +170,64 @@ class AppController extends Controller
                 'situations'=>$situations
                 ));
     }
+
+
+       public function stockPeriodeExcelAction($name=null)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $session = $this->getRequest()->getSession();
+      $region=$session->get('region');
+      $startDate=$session->get('startDate',date('Y').'-01-01');
+      $endDate=$session->get('endDate', date('Y').'-12-31');
+      $periode= $session->get('periode',' 01/01 - 31/12/'.date('Y'));
+      $situations = $em->getRepository('AppBundle:Situation')->stockParProduitPeriode($region,$startDate, $endDate);
+      $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
+        // ask the service for a Excel5
+       $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+       $phpExcelObject->getProperties()->setCreator("AllReport")
+           ->setLastModifiedBy("AllReport")
+           ->setTitle("statistiques periode".$region." de ".$periode)
+           ->setSubject("statistiques periode".$region." de ".$periode)
+           ->setDescription("statistiques periode".$region." de ".$periode)
+           ->setKeywords("statistiques periode".$region." de ".$periode)
+           ->setCategory("Rapports AllReport");
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A1', 'Produit')
+               ->setCellValue('B1', 'STOCK')
+               ->setCellValue('C1', 'MOYENNE')
+               ->setCellValue('D1', 'PRESENCE');
+             foreach ($situations as $key => $value) {
+                // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A'.($key+2), $value['nom'])
+               ->setCellValue('B'.($key+2), $value['sd'])
+               ->setCellValue('C'.($key+2), $value['moyenne'])
+               ->setCellValue('D'.($key+2), $value['presence']*100);
+               
+           };
+        $startDate=new \DateTime($startDate);
+        $endDate= new \DateTime($endDate);
+       $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
+       // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+       $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'statistiques periodiques'.$region.' du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y').'.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;        
+    }
     /**
      * Finds and displays a etape entity.
      *
@@ -133,10 +250,11 @@ class AppController extends Controller
         $session->set('periode',$periode);
         $session->set('end_date_formated',$endDate->format('d/m/Y'));
         $session->set('start_date_formated',$startDate->format('d/m/Y'));
-
        $referer = $this->getRequest()->headers->get('referer');   
          return new RedirectResponse($referer);
     }
+
+
   public function loadDefaultVisiteAction()
     {
         $manager = $this->getDoctrine()->getManager();

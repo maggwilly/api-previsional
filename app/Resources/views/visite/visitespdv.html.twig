@@ -1,16 +1,16 @@
 {% extends 'AppBundle::layout.html.twig' %}
-{% block title %}Visites par point de vente{% endblock %}
+{% block title %}Dernières visites{% endblock %}
 {% block body %}
    <!-- page title -->
     <header id="page-header">
-    <h1>Visites par point de vente</h1>
+    <h1>Dernières visites de la période</h1>
     </header>
 <div id="content" class="dashboard padding-20">
     
                 <div id="panel-1" class="panel panel-default">
                         <div class="panel-heading">
                             <span class="title elipsis">
-                                <strong>Repartition des visites par point de vente</strong> ({{visitesParPDV|length}} points de vente visités)
+                                <strong>Dernieres VISITES</strong> ({{visitesParPDV|length}} points de vente)
                                  <!-- panel title -->
                             </span>
                             <!-- right options -->
@@ -27,31 +27,53 @@
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover"  id="datatable_sample">
                                     <thead>
-                                        <tr>                                    
+                                       <tr> 
+                                         <th><i class="fa fa-eye"></i></th>                                   
                                             <th>Point de vente</th>
-                                            <th>Nbre visites</th>
-                                            <th>Dernière visite</th>  
-                                            <th>Commentaire</th>                                         
+                                            <th>Auditeur</th>
+                                            <th>Date </th> 
+                                            <th>Nbre Visite </th> 
+                                            <th>EXC</th>
+                                            <th>AFF</th>
+                                            <th>MAP</th>
+                                            <th>RPD</th>
+                                            <th>PRE</th>
+                                            <th>SAPP</th>
+                                            <th>Est Client</th>
+                                            <th>Raison</th>
+                                            <th>Est Ouvert</th> 
+                                            <th>Raison</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                      {% for visite in visitesParPDV %}
                                         <tr>
-                                           
-                                            <td class="col-md-4">
-                                            <a href="{{ path('pointvente_show',{'id':visite.id}) }}">{{visite.nom}}</a>
+                                            <td>
+                                            <a {% if visite.id %}target="_blank"{% endif %} href="{% if visite.id %}{{ path('visite_show',{'id':visite.id}) }} {% else %}#{% endif %}" class="btn btn-default btn-xs"> 
+                                            <i class="fa fa-eye"></i></a>
                                             </td>
-                                            <td class="col-md-1">{{visite.nombre}}</td>
-                                             <td class="col-md-3">
-                                             {% if visite.date %}<i class="fa fa-calendar-o"></i> {{visite.date |date('d/m/Y')}} {% else %}--{% endif %}
-                                             </td>
-                                             <td class="col-md-4"><b>{{visite.commentaire}}</b></td>
-                                        </tr>
+                                            <td class="col-md-2">
+                                            {{visite.nom}}
+                                    
+                                            </td>                                               
+                                            <td >{% if visite.date %}{{visite.auditeur}}{% else %}Personne n'a visité{% endif %} </td>
+                                            <td >{% if visite.date %} {{visite.date |date('d/m/Y')}}{% else %}Aucune visite{% endif %} </td>
+                                            <td >{% if visite.nombre %} {{visite.nombre }}{% else %}0{% endif %} </td>
+                                            <td >{% if visite.exc and visite.id %}Oui{% elseif  visite.id %}Non {% else %}--{% endif %}</td>                                           
+                                            <td >{% if visite.aff and visite.id %}Oui{% elseif  visite.id %}Non{% else %}--{% endif %}</td>
+                                            <td >{% if visite.map and visite.id%}Oui{% elseif  visite.id %}Non{% else %}--{% endif %}</td>
+                                            <td >{% if visite.rpd and visite.id%}Oui{% elseif  visite.id %}Non{% else %}--{% endif %}</td>
+                                            <td >{% if visite.pre and visite.id %}Oui{% elseif  visite.id %}Non{% else %}--{% endif %}</td>
+                                           <td >{% if visite.sapp and visite.id%}AC{% elseif  visite.id %}Autre{% else %}--{% endif %}</td>
+                                            <td >{% if visite.pas_client and visite.id%}Non{% elseif  visite.id %}Oui{% else %}--{% endif %}</td>
+                                            <td ><b>{{visite.raison_pas_client}}</b></td>
+                                            <td >{% if visite.pas_ouvert and visite.id %}Non{% elseif  visite.id %}Oui{% else %}--{% endif %}</td>
+                                            <td ><b>{{visite.raison_pas_ouvert}}</b></td>
                                          {% endfor %}
                                     </tbody>
                                 </table>
                                 <br>
-                                                <a class="btn btn-xs btn-info"  href="#">
+                                                <a class="btn btn-xs btn-info"  href="{{ path('visite_par_pdv_excel') }}">
                                                     <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>

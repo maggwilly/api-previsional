@@ -70,7 +70,7 @@
                             </a>
                             <ul><!-- submenus -->
                                 <li><a href="{{ path('visites') }}">Historique des visites</a></li>
-                                 <li><a href="{{ path('visite_par_pdv') }}">Visites par point de vente</a></li>
+                                 <li><a href="{{ path('visite_par_pdv') }}">Dernieres vistes</a></li>
                             </ul>
                         </li>                                               
                        <li><!-- dashboard -->
@@ -102,7 +102,7 @@ name="periode" data-format="dd/mm/yyyy"
                 <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
                 <label></label>
                 <select class="" name="region" selected>
-                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>-- Selectionnez--</option>
+                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toutes régions</option>
                    <option value="BRAZAVILLE"  {% if app.session.get('region')=='BRAZAVILLE'  %}selected="true"{% endif %}>BRAZAVILLE</option>
                    <option value="Pointe Noir" {% if  app.session.get('region')=='Pointe Noir'  %}selected="true"{% endif %}>Pointe Noir</option>
               </select>
