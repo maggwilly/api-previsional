@@ -1,0 +1,11 @@
+AppBundle\Entity\Secteur:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['secteur','quartier']
+        numero:
+            groups: ['secteur']
+        ville:
+            groups: ['secteur'] 
+        quartiers:
+            groups: ['secteur'] 

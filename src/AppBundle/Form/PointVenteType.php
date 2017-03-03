@@ -27,8 +27,9 @@ class PointVenteType extends AbstractType
         ->add('adresse')
         ->add('quartier')
         ->add('description')
-       // ->add('latitude')
-        //->add('longitude')
+        ->add('latitude')
+        ->add('longitude')
+        ->add('secteur', EntityType::class, array('class' => 'AppBundle:Secteur')) 
          ->add('visites', CollectionType::class, array('entry_type'=> VisiteType::class,'allow_add' => true))
         ->add('user', EntityType::class, array('class' => 'AppBundle:Client'))
         ->add('date','datetime', array(

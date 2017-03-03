@@ -28,6 +28,7 @@
                                                         <tr>
                                                              <th><i class="fa fa-eye"></i></th> 
                                                             <th>#Nom du PDV</th>
+                                                            <th>Matricule</th>
                                                              <th>Catégorie</th>
                                                             <th>Region</th>
                                                             <th>Quartier</th>
@@ -39,9 +40,10 @@
                                                     <tbody>
                                                     {% for pointVente in pointVentes %}
                                                         <tr class="odd gradeX"> 
-                                                           <td class="col-md-1">
+                                                   <td class="col-md-1">
                                                     <a href="{{ path('pointvente_show',{'id':pointVente.id}) }}" class="btn btn-default btn-xs" target="_blank"> <i class="fa fa-eye"></i></a>
-                                                    </td>                                                                                       
+                                                    </td>   
+                                                          <td>{{pointVente.matricule}}</td>                                                                                    
                                                             <td>{{pointVente.nom}}</td>
                                                             <td>{{pointVente.type}}</td>
                                                             <td>{{pointVente.ville}}</td>
@@ -109,7 +111,11 @@
                             },
                              {
                                 "orderable": true
-                            }, {
+                            },
+                             {
+                                "orderable": true
+                            },
+                             {
                                 "orderable": true
                             }, {
                                 "orderable": false

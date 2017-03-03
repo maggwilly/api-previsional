@@ -31,6 +31,7 @@
                                         <tr> 
                                          <th><i class="fa fa-eye"></i></th>                                   
                                             <th>Point de vente</th>
+                                             <th>Matricule</th>
                                             <th>Auditeur</th>
                                             <th>Date </th> 
                                             <th>EXC</th>
@@ -51,10 +52,8 @@
                                             <td>
                                             <a target="_blank" href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-xs"> <i class="fa fa-eye"></i></a>
                                             </td>                                        
-                                            <td class="col-md-2">
-                                            {{visite.pointVente.nom}}
-                                    
-                                            </td>
+                                            <td class="col-md-2"> {{visite.pointVente.nom}}</td>
+                                             <td > {{visite.pointVente.matricule}}</td>
                                             <td >{{visite.user.nom}}</td>
                                             <td > {{visite.date |date('d/m/Y')}} </td>
                                             <td >{% if visite.exc and not visite.pasClient and not visite.pasOuvert%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>                                           
@@ -113,6 +112,9 @@
                             },
                             {
                                 "orderable": true,
+                            },                            
+                            {
+                                "orderable": true,
                             }, 
                             {
                                 "orderable": true
@@ -148,12 +150,6 @@
                                 "orderable": true
                             },                    
                              {
-                                "orderable": true
-                            },
-                            {
-                                "orderable": true
-                            }, 
-                            {
                                 "orderable": true
                             }],
                             "lengthMenu": [

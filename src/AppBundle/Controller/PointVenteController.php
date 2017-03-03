@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\PointVente;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -114,22 +115,24 @@ class PointVenteController extends Controller
            ->setCategory("Rapports AllReport");
                $phpExcelObject->setActiveSheetIndex(0)
                ->setCellValue('A1', 'NOM')
-               ->setCellValue('B1', 'CATEGORIE')
-               ->setCellValue('C1', 'REGION')
-               ->setCellValue('D1', 'QUARTIER')
-               ->setCellValue('E1', 'DESCRIPTION')
-               ->setCellValue('F1', 'MOIS DE CREATION')
-               ->setCellValue('G1', 'TELEPHONE');
+               ->setCellValue('B1', 'MATRICULE')
+               ->setCellValue('C1', 'CATEGORIE')
+               ->setCellValue('D1', 'REGION')
+               ->setCellValue('E1', 'QUARTIER')
+               ->setCellValue('F1', 'DESCRIPTION')
+               ->setCellValue('G1', 'MOIS DE CREATION')
+               ->setCellValue('H1', 'TELEPHONE');
              foreach ($pointVentes as $key => $value) {
                 // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
                $phpExcelObject->setActiveSheetIndex(0)
                ->setCellValue('A'.($key+2), $value['nom'])
-               ->setCellValue('B'.($key+2), $value['type'])
-               ->setCellValue('C'.($key+2), $value['ville'])
-               ->setCellValue('D'.($key+2), $value['quartier'])
-               ->setCellValue('E'.($key+2), $value['description'])
-               ->setCellValue('F'.($key+2), $value['createdAt']->format('M Y'))
-               ->setCellValue('G'.($key+2), $value['tel']) ;
+               ->setCellValue('B'.($key+2), $value['matricule'])
+               ->setCellValue('C'.($key+2), $value['type'])
+               ->setCellValue('D'.($key+2), $value['ville'])
+               ->setCellValue('E'.($key+2), $value['quartier'])
+               ->setCellValue('F'.($key+2), $value['description'])
+               ->setCellValue('G'.($key+2), $value['createdAt']->format('M Y'))
+               ->setCellValue('H'.($key+2), $value['tel']) ;
            };
             $format = 'd/m/Y';
        $phpExcelObject->getActiveSheet()->setTitle('liste-des-points-de-vente');
@@ -188,26 +191,28 @@ public function boleanToString($boolVal){
            ->setCategory("Rapports AllReport");
                $phpExcelObject->setActiveSheetIndex(0)
                ->setCellValue('A1', 'NOM')
-               ->setCellValue('B1', 'EXC')
-               ->setCellValue('C1', 'MAP')
-               ->setCellValue('D1', 'FKS')
-               ->setCellValue('E1', 'FKL')
-               ->setCellValue('F1', 'FMT')
-               ->setCellValue('G1', 'FKM')
-               ->setCellValue('H1', 'Stock total')
-               ->setCellValue('I1', 'Points');
+               ->setCellValue('B1', 'MATRICULE')
+               ->setCellValue('C1', 'EXC')
+               ->setCellValue('D1', 'MAP')
+               ->setCellValue('E1', 'FKS')
+               ->setCellValue('F1', 'FKL')
+               ->setCellValue('G1', 'FMT')
+               ->setCellValue('H1', 'FKM')
+               ->setCellValue('I1', 'Stock total')
+               ->setCellValue('J1', 'Points');
              foreach ($eligibles as $key => $value) {
                 // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
                $phpExcelObject->setActiveSheetIndex(0)
                ->setCellValue('A'.($key+2), $value['nom'])
-               ->setCellValue('B'.($key+2), $this->boleanToString($value['exc']))
-               ->setCellValue('C'.($key+2),  $this->boleanToString($value['map']))
-               ->setCellValue('D'.($key+2), $value['fks'])
-               ->setCellValue('E'.($key+2), $value['fkl'])
-               ->setCellValue('F'.($key+2), $value['fmt'])
-               ->setCellValue('G'.($key+2), $value['fkm']) 
-               ->setCellValue('H'.($key+2), $value['stock'])
-               ->setCellValue('I'.($key+2), $value['note'])  ;
+               ->setCellValue('B'.($key+2), $value['matricule'])
+               ->setCellValue('C'.($key+2), $this->boleanToString($value['exc']))
+               ->setCellValue('D'.($key+2),  $this->boleanToString($value['map']))
+               ->setCellValue('E'.($key+2), $value['fks'])
+               ->setCellValue('F'.($key+2), $value['fkl'])
+               ->setCellValue('G'.($key+2), $value['fmt'])
+               ->setCellValue('H'.($key+2), $value['fkm']) 
+               ->setCellValue('I'.($key+2), $value['stock'])
+               ->setCellValue('J'.($key+2), $value['note'])  ;
            };
         $startDate=new \DateTime($startDate);
         $endDate= new \DateTime($endDate);
@@ -231,5 +236,37 @@ public function boleanToString($boolVal){
         $response->headers->set('Content-Disposition', $dispositionHeader);
 
         return $response;        
-    }    
+    } 
+
+    //apk
+    public function importAction()
+{
+  $request = $this->get('request');
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/secteurs.xls";
+     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+
+   foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+    $worksheetTitle     = $worksheet->getTitle();
+    $highestRow         = $worksheet->getHighestRow(); // e.g. 10
+    for ($row = 1; $row <= $highestRow; ++ $row) {
+
+
+        for ($col = 0; $col < 2; ++ $col) {
+            $cell = $worksheet->getCellByColumnAndRow($col, $row);
+            $val = $cell->getValue();
+        }
+    }
+
+} 
+    $response = new Response();
+
+    //set headers
+    $response->headers->set('Content-Type', 'mime/type');
+    $response->headers->set('Content-Disposition', 'attachment;filename="allreport_v1.0.8.1.apk"');
+
+    $response->setContent($content);
+    return $response;
+
+ 
+}   
 }

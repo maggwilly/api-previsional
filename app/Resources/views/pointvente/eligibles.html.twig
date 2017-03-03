@@ -27,6 +27,7 @@
                                                         <tr>
                                                          <th><i class="fa fa-eye"></i></th> 
                                                             <th>#Nom du PDV</th>
+                                                            <th>Matricule</th>
                                                              <th>Exclusivité</th>
                                                               <th>Mise en avant</th>
                                                               <th>FKS</th>
@@ -45,7 +46,8 @@
                                                               <i class="fa fa-eye"></i>
                                                              </a>
                                                               </td>                                                                                        
-                                                            <td class="col-md-4">{{pointVente.nom}}</td>
+                                                            <td >{{pointVente.nom}}</td>
+                                                            <td >{{pointVente.matricule}}</td>
                                                             <td >{% if pointVente.exc %}Oui{% else %}Non{% endif %}</td>
                                                             <td >{% if pointVente.map %}Oui{% else %}Non{% endif %}</td>
                                                             <td >{{pointVente.fks}}</td>
@@ -98,6 +100,8 @@
             var table = jQuery('#datatable_sample');
             table.dataTable({
                     "columns": [{
+                                "orderable": false
+                            },{
                                 "orderable": true
                             },{
                                 "orderable": true

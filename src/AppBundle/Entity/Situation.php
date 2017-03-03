@@ -108,10 +108,10 @@ class Situation
       $this->id=$id;
       $this->produit = $produit;
       $this->map=$map;
-       $this->pre=$pre;
-       $this->aff=$aff;
-       $this->stock=$stock;
-        $this->stockG=$stockG;
+      $this->pre=$pre;
+      $this->aff=$aff;
+      $this->stock=$stock;
+      $this->stockG=$stockG;
        $this->ecl=$ecl;
        $this->mvj=$stock;
        $this->rpd=$rpd;

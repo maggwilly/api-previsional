@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use AppBundle\Entity\Secteur;
+use AppBundle\Entity\Quartier;
 /**
  * Etape controller.
  *
@@ -208,10 +210,9 @@ class AppController extends Controller
            };
         $startDate=new \DateTime($startDate);
         $endDate= new \DateTime($endDate);
-       $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
+        $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
        $phpExcelObject->setActiveSheetIndex(0);
-
         // create the writer
         $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
         // create the response
@@ -254,6 +255,48 @@ class AppController extends Controller
          return new RedirectResponse($referer);
     }
 
+
+
+    /*load secteurs from excel*/
+  public function loadSecteursAction()
+    {
+        $manager = $this->getDoctrine()->getManager();
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/segmentation.xlsx";
+     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+    $secteurs= $objPHPExcel->getSheet(0);
+    $highestRow  = $secteurs->getHighestRow(); // e.g. 10
+    for ($row = 2; $row <= $highestRow; ++ $row) {
+            $ville = $secteurs->getCellByColumnAndRow(0, $row);
+             $numero = $secteurs->getCellByColumnAndRow(1, $row);
+            $secteur=new Secteur( $ville->getValue(),$numero->getValue());
+             $manager->persist($secteur);
+    }
+     $manager->flush();
+    return $this->redirectToRoute('user_homepage');      
+    }
+
+    /*load secteurs from excel*/
+  public function loadQuartiersAction()
+    {
+    $manager = $this->getDoctrine()->getManager();
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/segmentation.xlsx";
+     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+    $quartiers= $objPHPExcel->getSheet(1);
+    $highestRow  = $quartiers->getHighestRow(); // e.g. 10
+    for ($row = 2; $row <= $highestRow; ++ $row) {
+            $id = $quartiers->getCellByColumnAndRow(0, $row);
+             $idSecteur = $quartiers->getCellByColumnAndRow(1, $row);       
+            $idSecteur=$idSecteur->getValue();
+   $RAW_QUERY='insert into quartier (id,secteur_id) values (:id,:secteur);' ;
+    $statement = $manager->getConnection()->prepare($RAW_QUERY);
+    $statement->bindValue('id', $id ->getValue());
+    $statement->bindValue('secteur', $idSecteur);  
+    $statement->execute(); 
+    }
+ 
+    return $this->redirectToRoute('user_homepage');      
+    } 
+/*load default visite*/
 
   public function loadDefaultVisiteAction()
     {

@@ -53,11 +53,16 @@ class Synchro
     private $pointVentes;
 
 
-      /**
+    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="synchro", cascade={"persist","remove"})
    *@ORM\OrderBy({"date" = "DESC"})
    */
     private $etapes;
+
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Quartier", mappedBy="synchro", cascade={"persist","remove"})
+   */
+    private $quartiers;
         /**
      * Constructor
      */
@@ -65,8 +70,9 @@ class Synchro
     {
        $this->user=$user;
       $this->date=$date;
-        $this->id=uniqid();
-    
+       $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
+       $this->etapes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->quartiers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
      * Get id
@@ -209,6 +215,38 @@ class Synchro
         return $this;
     }
 
+    /**
+     * Add quartiers
+     *
+     * @param \AppBundle\Entity\Quartier $quartiers
+     * @return Secteur
+     */
+    public function addQuartier(\AppBundle\Entity\Quartier $quartiers)
+    {   
+        $this->quartiers[] = $quartiers;
+
+        return $this;
+    }
+
+    /**
+     * Remove quartiers
+     *
+     * @param \AppBundle\Entity\Quartier $quartiers
+     */
+    public function removeQuartier(\AppBundle\Entity\Quartier $quartiers)
+    {
+        $this->quartiers->removeElement($quartiers);
+    }
+
+    /**
+     * Get quartiers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQuartiers()
+    {
+        return $this->quartiers;
+    }
     /**
      * Remove etapes
      *

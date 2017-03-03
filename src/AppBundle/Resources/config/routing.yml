@@ -18,10 +18,8 @@ app_etape:
     resource: "@AppBundle/Resources/config/routing/etape.yml"
     prefix:   /etape
 
-
-
-poin_ventes:
-    path:      /mobile/points/ventes
+point_ventes:
+    path:      /mobile/points/ventes/{region}
     defaults: { _controller: "AppBundle:Mobile:pointVentes" }
     methods:  GET
 
@@ -45,6 +43,16 @@ create_etatpes:
     defaults: { _controller: "AppBundle:Mobile:createEtapes" }
     methods:  POST 
 
+secteurs:
+    path:      /mobile/secteurs/{region}
+    defaults: { _controller: "AppBundle:Mobile:secteurs" }
+    methods:  GET 
+
+quartiers:
+    path:      /mobile/quartiers
+    defaults: { _controller: "AppBundle:Mobile:quartiers" }
+    methods:  GET 
+    
 create_token:
     path:      /mobile/create/auth-token
     defaults: { _controller: "AppBundle:Mobile:postAuthTokens" }

@@ -7,3 +7,5 @@ AppBundle\Entity\Client:
             groups: ['user','auth-token']
         usename:
             groups: ['user','auth-token']
+        ville:
+            groups: ['user','auth-token']

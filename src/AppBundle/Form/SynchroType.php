@@ -10,6 +10,7 @@ use AppBundle\Form\VisiteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\EtapeType;
 use AppBundle\Form\PointVenteType;
+use AppBundle\Form\QuartierType;
 class SynchroType extends AbstractType
 {
     /**
@@ -18,14 +19,14 @@ class SynchroType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('visites', CollectionType::class, array('entry_type'=> VisiteType::class,'allow_add' => true))
-        ->add('etapes', CollectionType::class, array('entry_type'=> EtapeType::class,'allow_add' => true))
+        ->add('visites',   CollectionType::class, array('entry_type'=> VisiteType::class,'allow_add' => true))
+        ->add('etapes',    CollectionType::class, array('entry_type'=> EtapeType::class,'allow_add' => true))
+        ->add('quartiers', CollectionType::class, array('entry_type'=> QuartierType::class,'allow_add' => true))
+        ->add('pointVentes', CollectionType::class, array('entry_type'=> PointVenteType::class,'allow_add' => true))
         ->add('user', EntityType::class, array('class' => 'AppBundle:Client'))  
         ->add('id')
-        ->add('pointVentes', CollectionType::class, array('entry_type'=> PointVenteType::class,'allow_add' => true))
            ;
     }
-    
     /**
      * {@inheritdoc}
      */

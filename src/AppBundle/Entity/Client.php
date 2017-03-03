@@ -9,6 +9,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * /**
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
+  *@ORM\HasLifecycleCallbacks()
  */
 class Client extends BaseUser
 {
@@ -220,7 +221,13 @@ class Client extends BaseUser
         return $this->nom;
     }
 
-   
+    /**
+  * @ORM\PrePersist
+ */
+ public function prePersist(){
+ 
+    $this->id = $this->username;
+ } 
   
     /**
      * Constructor
@@ -238,12 +245,7 @@ class Client extends BaseUser
     {
         return $this->getUsername();
     }
-    /**
-     * Add commandes
-     *
-     * @param \AppBundle\Entity\Commande $commandes
-     * @return Client
-     */
+
   
 
     /**

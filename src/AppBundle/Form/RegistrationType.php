@@ -8,7 +8,10 @@
     {
         public function buildForm(FormBuilderInterface $builder, array $options)
         {
-            $builder->add('nom')->add('ville')->add('id');
+            $builder->add('nom')->add('ville', 'choice', array(
+                               'required' => true,
+                               'choices'=>array(
+                                          'Brazaville'=>'Brazaville','Pointe Noir'=>'Pointe Noir',)));
         }
   //personnalis2
         public function getParent()

@@ -1,0 +1,12 @@
+secteur_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Secteur:index" }
+    methods:  GET
+
+secteur_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Secteur:show" }
+    methods:  GET
+
+
+

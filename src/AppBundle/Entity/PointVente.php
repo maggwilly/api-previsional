@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * PointVente
  *
  * @ORM\Table(name="point_vente")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
+ *@ORM\HasLifecycleCallbacks()
  */
 class PointVente
 {
@@ -82,6 +83,13 @@ class PointVente
      */
     private $quartier;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="matricule", type="string", length=255, nullable=true)
+     */
+    private $matricule;
     /**
      * @var string
      *
@@ -129,12 +137,15 @@ class PointVente
    *@ORM\OrderBy({"date" = "DESC"})
    */
     private $visites;
+    
 
     /**
-     * Get id
-     *
-     * @return integer 
-     */
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur",inversedBy="pointVentes")
+   * @ORM\JoinColumn(nullable=true)
+   */
+    private $secteur;
+  
+
 
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Synchro",inversedBy="pointVentes")
@@ -236,7 +247,15 @@ class PointVente
     {
         return $this->telGerant;
     }
-
+    /**
+     * Get telGerant
+     *
+     * @return string 
+     */
+    public function getMatricule()
+    {
+        return $this->matricule;
+    }
     /**
      * Set tel
      *
@@ -495,7 +514,7 @@ class PointVente
       $this->createdAt=$createdAt;
       $this->nomGerant=$nomGerant;
       $this->ville=$ville;
-      $this->visites = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->visites = new ArrayCollection();
     }
 
     /**
@@ -512,6 +531,7 @@ class PointVente
         return $this;
     }
 
+ 
     /**
      * Remove visites
      *
@@ -554,10 +574,21 @@ class PointVente
     {
         return $this->createdAt;
     }
+  /**
+  * @ORM\PrePersist
+ */
+ public function prePersist(){
+    if ($this->secteur) {   
+   $number=rand($this->secteur->getPointVentes()->count(),1000);
+     
+   $code= substr($this->getSecteur()->getVille(), 0,2);
+   $number=str_pad((string)$number, 4, "0", STR_PAD_LEFT);
+   $this->matricule=strtoupper($code.$this->getSecteur()->getNumero().$number);
+    }
 
+ }
     /**
      * Set synchro
-     *
      * @param \AppBundle\Entity\Synchro $synchro
      * @return PointVente
      */
@@ -576,5 +607,27 @@ class PointVente
     public function getSynchro()
     {
         return $this->synchro;
+    }
+
+        /**
+     * Set secteur
+     *
+     * @param \AppBundle\Entity\Secteur $secteur
+     * @return Quartier
+     */
+    public function setSecteur(\AppBundle\Entity\Secteur $secteur)
+    {
+        $this->secteur = $secteur;
+        return $this;
+    }
+
+    /**
+     * Get secteur
+     *
+     * @return \AppBundle\Entity\Secteur 
+     */
+    public function getSecteur()
+    {
+        return $this->secteur;
     }
 }

@@ -30,6 +30,7 @@
                                        <tr> 
                                          <th><i class="fa fa-eye"></i></th>                                   
                                             <th>Point de vente</th>
+                                             <th>Matricule</th>
                                             <th>Auditeur</th>
                                             <th>Date </th> 
                                             <th>Nbre Visite </th> 
@@ -53,8 +54,11 @@
                                             <i class="fa fa-eye"></i></a>
                                             </td>
                                             <td class="col-md-2">
+
                                             {{visite.nom}}
-                                    
+                                            </td>
+                                            <td >
+                                             {{visite.matricule}}
                                             </td>                                               
                                             <td >{% if visite.date %}{{visite.auditeur}}{% else %}Personne n'a visité{% endif %} </td>
                                             <td >{% if visite.date %} {{visite.date |date('d/m/Y')}}{% else %}Aucune visite{% endif %} </td>
@@ -110,20 +114,57 @@
             table.dataTable({
                     "columns": [
                              {
+                                "orderable": false,
+                            },
+                            {
+                                "orderable": true,
+                            }, 
+                            {
+                                "orderable": true,
+                            },                            
+                            {
+                                "orderable": true
+                            },                    
+                              {
+                                "orderable": true
+                            },                   
+                            {
                                 "orderable": true
                             },
                             {
-                                "orderable": true
+                                "orderable": false
+                            }, 
+                            {
+                                "orderable": false
+                            },                    
+                              {
+                                "orderable": false
+                            },
+                            {
+                                "orderable": false
+                            }, 
+                            {
+                                "orderable": false
+                            },                   
+                             {
+                                "orderable": false
+                            },
+                            {
+                                "orderable": false
                             }, 
                             {
                                 "orderable": true
-                            },
+                            },                    
                              {
-                                "orderable": false
-                            }],
+                                "orderable": true
+                            },                    
+                             {
+                                "orderable": true
+                            }
+                            ],
                             "lengthMenu": [
-                                [20, 50, 100, -1],
-                                [20, 50, 100, "Tous"] // change per page values here
+                                [5,20, 50, 100, -1],
+                                [5,20, 50, 100, "Tous"] // change per page values here
                             ],
                             // set the initial value
                             "pageLength": 20,            

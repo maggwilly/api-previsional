@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Secteur</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ secteur.id }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ secteur.ville }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ secteur.numero }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('secteur_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

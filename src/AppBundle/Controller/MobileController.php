@@ -36,6 +36,31 @@ class MobileController extends Controller
        return $produits;
     }
    
+       /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"secteur"})
+     */
+      public function secteursAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $secteurs = $em->getRepository('AppBundle:Secteur')->findByVille($request->get('region'));
+
+        return  $secteurs;
+    }
+
+       /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"quartier"})
+     */
+      public function quartiersAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $quartiers = $em->getRepository('AppBundle:Quartier')->findAll();
+
+        return  $quartiers;
+    }
     /**
      * Lists all Produit entities.
      *@Rest\View()
@@ -43,11 +68,8 @@ class MobileController extends Controller
     public function pointVentesAction(Request $request)
     {
           $em = $this->getDoctrine()->getManager();
-         /** $entity = $this->getConnectedUser();
-       if (!$entity) {
-           throw $this->createNotFoundException('Unable to find Organ entity.');
-          }*/
-        $pointVentes= $em->getRepository('AppBundle:PointVente')->pdvs(); 
+//$request->get('region')
+        $pointVentes= $em->getRepository('AppBundle:PointVente')->pdvs('BRAZAVILLE'); 
 
        return $pointVentes;
     }
@@ -65,7 +87,8 @@ class MobileController extends Controller
         'pointVentes'=>$request->request->all()['pointVentes'],
         'id'=>$request->request->all()['id'],
         'user'=>$request->request->all()['user'],
-        'etapes'=>$request->request->all()['etapes']),false); // Validation des d
+        'etapes'=>$request->request->all()['etapes'],
+        'quartiers'=>$request->request->all()['quartiers']),false); // Validation des d
          $em = $this->getDoctrine()->getManager();
            $failedSynchro=$em->getRepository('AppBundle:Synchro')->find($entity->getId());      
         if ($form->isValid()) {
@@ -188,7 +211,5 @@ private function getConnectedUser(){
 
     $response->setContent($content);
     return $response;
-
- 
 }
 }
