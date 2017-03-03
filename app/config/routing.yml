@@ -97,12 +97,12 @@ fos_user_change_password:
     prefix: /profile
 
 
-load_default_secteurs:
-    path:     /load/secteurs/{region}
+load_default_secteur:
+    path:     /load/secteurs
     defaults: { _controller: "AppBundle:App:loadSecteurs" }
     methods:  GET
 
-load_default_quartiers:
+load_default_quartier:
     path:     /load/quartiers
     defaults: { _controller: "AppBundle:App:loadQuartiers" }
     methods:  GET
