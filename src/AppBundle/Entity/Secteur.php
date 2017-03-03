@@ -85,7 +85,7 @@ class Secteur
      */
     public function __construct($ville=null, $numero=null)
     {
-        $this->id=$ville;//.$numero;
+        $this->id=$ville.$numero;
         $this->ville=$ville;
         $this->numero=$numero;
         $this->quartiers = new \Doctrine\Common\Collections\ArrayCollection();
