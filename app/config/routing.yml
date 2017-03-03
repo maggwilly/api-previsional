@@ -102,6 +102,17 @@ load_default_secteur:
     defaults: { _controller: "AppBundle:App:loadSecteurs" }
     methods:  GET
 
+load__point_vente_from_excel:
+    path:     /load/point/vente/from/excel
+    defaults: { _controller: "AppBundle:App:loadPointVentesFromExcel" }
+    methods:  GET
+
+load__point_visite_excel:
+    path:     /load/visite/from/excel
+    defaults: { _controller: "AppBundle:Visite:loadVisitesFromExcel" }
+    methods:  GET
+
+
 load_default_quartier:
     path:     /load/quartiers
     defaults: { _controller: "AppBundle:App:loadQuartiers" }

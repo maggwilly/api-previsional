@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Visite;
+use AppBundle\Entity\Situation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -274,5 +275,56 @@ public function numberToString($intVal,$id=true){
         $response->headers->set('Content-Disposition', $dispositionHeader);
 
         return $response;        
+    }
+
+
+     public function loadVisitesFromExcelAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/visites.xls";
+     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+           $fks=$em->getRepository('AppBundle:Produit')->findOneByNom('FKS');
+           $fkm=$em->getRepository('AppBundle:Produit')->findOneByNom('FKM');
+           $fkl=$em->getRepository('AppBundle:Produit')->findOneByNom('FKL');
+           $fmt=$em->getRepository('AppBundle:Produit')->findOneByNom('FMT');
+           $supermatch=$em->getRepository('AppBundle:Produit')->findOneByNom('SUPER MATCH');
+           $l_m=$em->getRepository('AppBundle:Produit')->findOneByNom('L-M');
+           $dunhil=$em->getRepository('AppBundle:Produit')->findOneByNom('DUNHIL');
+           $malboro=$em->getRepository('AppBundle:Produit')->findOneByNom('MALBORO');
+
+     foreach ($objPHPExcel->getWorksheetIterator() as $feuille) {
+         $highestRow  = $feuille->getHighestRow(); // e.g. 10
+           for ($row = 2; $row <= $highestRow; ++ $row) {
+             $telGerant = $feuille->getCellByColumnAndRow(0, $row)->getValue();
+           $pointVente=$em->getRepository('AppBundle:PointVente')->findOneByTelGerant((string)$telGerant);
+              $userId = $feuille->getCellByColumnAndRow(1, $row)->getFormattedValue();
+           $user=$em->getRepository('AppBundle:Client')->findOneByUsername($userId);
+            $date = $feuille->getCellByColumnAndRow(3, $row)->getFormattedValue();
+            $mvj = $feuille->getCellByColumnAndRow(12, $row)->getFormattedValue();
+            $ecl = $feuille->getCellByColumnAndRow(13, $row)->getFormattedValue();
+            $map = $feuille->getCellByColumnAndRow(14, $row)->getFormattedValue();
+            $pre = $feuille->getCellByColumnAndRow(15, $row)->getFormattedValue();
+            $aff = $feuille->getCellByColumnAndRow(16, $row)->getFormattedValue();
+            $rpd = $feuille->getCellByColumnAndRow(17, $row)->getFormattedValue();
+            $rpp = $feuille->getCellByColumnAndRow(18, $row)->getFormattedValue();
+            $exc = $feuille->getCellByColumnAndRow(19, $row)->getFormattedValue();
+            $sapp = $feuille->getCellByColumnAndRow(20, $row)->getFormattedValue();
+            $commentaire = $feuille->getCellByColumnAndRow(21, $row)->getFormattedValue();
+            $visite=new Visite($user,null, new \DateTime($date),$pointVente,$aff,$sapp,$exc,$map,$pre,$rpd,$rpp,$commentaire,$mvj,$ecl);
+            $visite->addSituation(new Situation($fks,$feuille->getCellByColumnAndRow(4, $row)->getValue()));
+            $visite->addSituation(new Situation($fkm,$feuille->getCellByColumnAndRow(5, $row)->getValue()));
+             $visite->addSituation(new Situation($fkl,$feuille->getCellByColumnAndRow(6, $row)->getValue())); 
+             $visite->addSituation(new Situation($fmt,$feuille->getCellByColumnAndRow(7, $row)->getValue()));  
+             $visite->addSituation(new Situation($supermatch,$feuille->getCellByColumnAndRow(8, $row)->getValue()));
+             $visite->addSituation(new Situation($l_m,$feuille->getCellByColumnAndRow(9, $row)->getValue()));
+             $visite->addSituation(new Situation($dunhil,$feuille->getCellByColumnAndRow(10, $row)->getValue())); 
+             $visite->addSituation(new Situation($malboro,$feuille->getCellByColumnAndRow(11, $row)->getValue())); 
+             $visite->setPointVente($pointVente);                    
+             $em->persist($visite);
+           }
+            $em->flush();
+         }
+    
+    return $this->redirectToRoute('user_homepage');      
     }         
 }

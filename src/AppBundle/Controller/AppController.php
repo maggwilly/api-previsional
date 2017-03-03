@@ -276,6 +276,59 @@ class AppController extends Controller
     }
 
     /*load secteurs from excel*/
+  public function loadPointVentesFromExcelAction()
+    {
+    $manager = $this->getDoctrine()->getManager();
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/point_ventes.xls";
+     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+
+     foreach ($objPHPExcel->getWorksheetIterator() as $pointVente) {
+         $highestRow  = $pointVente->getHighestRow(); // e.g. 10
+    for ($row = 2; $row <= $highestRow; ++ $row) {
+           $matricule = $pointVente->getCellByColumnAndRow(0, $row)->getFormattedValue();
+           $nom = $pointVente->getCellByColumnAndRow(1, $row)->getFormattedValue();
+           $ville = $pointVente->getCellByColumnAndRow(2, $row)->getFormattedValue();
+           $secteur = $pointVente->getCellByColumnAndRow(3, $row)->getFormattedValue();
+           $quartier = $pointVente->getCellByColumnAndRow(4, $row)->getFormattedValue();
+           $user_id = $pointVente->getCellByColumnAndRow(5, $row)->getFormattedValue();
+           $nomgerant = $pointVente->getCellByColumnAndRow(6, $row)->getFormattedValue();
+           $telgerant = $pointVente->getCellByColumnAndRow(7, $row)->getFormattedValue();
+           $type = $pointVente->getCellByColumnAndRow(8, $row)->getFormattedValue();
+           $date = $pointVente->getCellByColumnAndRow(9, $row)->getFormattedValue();
+           $description = $pointVente->getCellByColumnAndRow(10, $row)->getFormattedValue();
+           $latitude = $pointVente->getCellByColumnAndRow(11, $row)->getFormattedValue();
+          $longitude = $pointVente->getCellByColumnAndRow(12, $row)->getFormattedValue();
+          $created_at = $pointVente->getCellByColumnAndRow(13, $row)->getFormattedValue();
+          //insert
+   $RAW_QUERY='insert into point_vente(id, user_id,  nom, type, nomgerant, telgerant,  ville,  quartier, description, latitude, longitude, date, created_at, secteur_id, matricule) values (:id, :user_id,  :nom, :type, :nomgerant, :telgerant,  :ville,  :quartier, :description, :latitude, :longitude, :date, :created_at, :secteur_id, :matricule);' ;
+    $statement = $manager->getConnection()->prepare($RAW_QUERY);
+    $statement->bindValue('id', $matricule);
+    $statement->bindValue('matricule', $matricule);
+    $statement->bindValue('nom', $nom); 
+      $statement->bindValue('ville', $ville);
+    $statement->bindValue('secteur_id', $ville.$secteur);
+      $statement->bindValue('quartier', $quartier);
+    $statement->bindValue('user_id', $user_id);
+    $statement->bindValue('nomgerant', $nomgerant);
+    $statement->bindValue('telgerant', $telgerant);
+    $statement->bindValue('type', $type);
+      $statement->bindValue('description', $description);
+    $statement->bindValue('latitude', $latitude);
+        $statement->bindValue('longitude', $longitude);
+    $statement->bindValue('created_at', $created_at);
+      $statement->bindValue('date', $date);
+
+    $statement->execute(); 
+    }
+ }
+    return $this->redirectToRoute('user_homepage');      
+    } 
+
+
+
+
+
+    /*load secteurs from excel*/
   public function loadQuartiersAction()
     {
     $manager = $this->getDoctrine()->getManager();
@@ -293,9 +346,9 @@ class AppController extends Controller
     $statement->bindValue('secteur', $idSecteur);  
     $statement->execute(); 
     }
- 
     return $this->redirectToRoute('user_homepage');      
     } 
+
 /*load default visite*/
 
   public function loadDefaultVisiteAction()

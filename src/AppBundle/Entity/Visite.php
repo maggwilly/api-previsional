@@ -182,7 +182,7 @@ class Visite
         /**
      * Constructor
      */
-    public function __construct($user=null,$id=null,$date=null,$pointVente=null,$aff=null,$sapp=null,$exc=null,$map=null,$pre=null,$rpd=null,$rpp=null)
+    public function __construct($user=null,$id=null,$date=null,$pointVente=null,$aff=null,$sapp=null,$exc=null,$map=null,$pre=null,$rpd=null,$rpp=null,$commentaire=null,$mvj=null,$ecl=null)
     {
      $this->user=$user;
       $this->date=$date;
@@ -195,6 +195,9 @@ class Visite
       $this->pre=$pre;
       $this->rpd=$rpd;
       $this->rpp=$rpp;
+        $this->mvj=$mvj;
+      $this->ecl=$ecl;
+       $this->commentaire=$commentaire;
       $this->situations = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**

@@ -102,20 +102,11 @@ class Situation
       /**
      * Constructor
      */
-    public function __construct($id=null,$produit=null,$map=null,$pre=null,$aff=null, $stock=0,$stockG=0, $ecl=0,$mvj=0,$rpd=null,$rpp=null)
+    public function __construct(\AppBundle\Entity\Produit $produit,$stock)
     {
-      
-      $this->id=$id;
-      $this->produit = $produit;
-      $this->map=$map;
-      $this->pre=$pre;
-      $this->aff=$aff;
-      $this->stock=$stock;
-      $this->stockG=$stockG;
-       $this->ecl=$ecl;
+      $this->produit = $produit;;
        $this->mvj=$stock;
-       $this->rpd=$rpd;
-       $this->rpp=$rpp;
+
     }
     /**
      * Get id
