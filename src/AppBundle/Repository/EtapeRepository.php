@@ -22,8 +22,7 @@ class EtapeRepository extends EntityRepository
         $qb = $this->createQueryBuilder('e')->join('e.user','u')->leftJoin('e.suivant','s');
            $qb->where('e.type=:type')->setParameter('type', 'debut');
           if($user!=null){
-           $qb->where('e.user=:user')
-          ->setParameter('user', $user);
+           $qb->andWhere('e.user=:user')->setParameter('user', $user);
           }
           if($startDate!=null){
              $qb->andWhere('e.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));

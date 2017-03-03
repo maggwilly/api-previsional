@@ -123,12 +123,10 @@ class VisiteRepository extends EntityRepository
 
        $qb = $this->createQueryBuilder('v')->leftJoin('v.pointVente','pv');
         if($region!=null){
-           $qb->where('pv.ville=:ville')
-          ->setParameter('ville', $region);
+           $qb->where('pv.ville=:ville') ->setParameter('ville', $region);
           }
           if($user!=null){
-           $qb->where('v.user=:user')
-          ->setParameter('user', $user);
+           $qb->andWhere('v.user=:user') ->setParameter('user', $user);
           }
           if($startDate!=null){
            $qb->andWhere('v.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
