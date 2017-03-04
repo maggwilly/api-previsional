@@ -57,50 +57,20 @@
                 <td>{% if visite.pasOuvert %}Non{% else %}Oui{% endif %}</td>
                  {% if visite.pasOuvert %}<td>{{ visite.raisonPasOuvert }}</td>{% endif %}
             </tr>
+            <tr>
+                <th class="col-md-6">Commentaire</th>
+                <td>{{ visite.commentaire }}</td>
+                 
+            </tr>
         </tbody>
     </table> 
-     <h3>VISIBILITE AU POINT DE VENTE</h3>
-        <table class="table table-striped table-hover table-bordered">
-        <tbody>
-                  
-            <tr>
-                <th class="col-md-6">Mise en avant du produit</th>
-                <td>{% if visite.map %}Oui{% else %}Non{% endif %}</td>
-            </tr>
-            <tr>
-                <th class="col-md-6">Présence de présentoires</th>
-                <td>{% if visite.pre %}Oui{% else %}Non{% endif %}</td>
-            </tr>
-            <tr>
-                <th class="col-md-6">Présence d'affiches</th>
-                <td>{% if visite.aff %}Oui{% else %}Non{% endif %}</td>
-            </tr>
-            <tr>
-                <th class="col-md-6">Exclusivité</th>
-                <td>{% if visite.exc %}Oui{% else %}Non{% endif %}</td>
-            </tr>
-        </tbody>
-      </table> 
-         <h3>VENTE</h3>              
-        <table class="table table-striped table-hover table-bordered">
-        <tbody>
-            <tr>
-                <th class="col-md-6">Source d'approvisionnement</th>
-                <td>{% if visite.sapp %}Agent commercial{% else %}Autre{% endif %}</td>
-            </tr>
-            <tr>
-                <th class="col-md-6">Fréquence de passage (en jours)</th>
-                <td>{{ visite.fp }}</td>
-            </tr>
-            <tr>
-                <th class="col-md-6">Ecart de livraison (en jours)</th>
-                <td>{{ visite.ecl }}</td>
-            </tr>
-
-        </tbody>
-    </table>
-    <h3>Commentaire</h3> 
-    <p>{{ visite.commentaire }}</p> 
+        <h3>REPARTITION DU STOCK</h3>
+                     {% if visite is not defined or visite.pasClient or visite.pasOuvert %} 
+                                   <p> Aucune donnée à présenter</p>  
+                            
+                             {% else%} 
+                             <canvas class="chartjs height-400" id="pieChartCanvas" width="500" height="400"></canvas>
+ {% endif%}  
           </div>
         </div>
           <!-- /panel content -->
@@ -152,7 +122,7 @@
                                             <td>PART DE SIAT</td>
                                       <td><b>{{totalStockSiat|number_format(0, '.', ' ')}}</b></td>
                      <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStockSiat)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>                                      
-                                  <td><b>{%if totalStockSiat>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+                                  <td><b>{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -178,8 +148,8 @@
                                                         <tr>
                 <td>PART concurrence</td>
               <td><b>{{totalStockCon|number_format(0, '.', ' ')}}</b></td>
-             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>              
-             <td><b>{%if totalStockSiat>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
+             <td><b>{%if totalStockCon>0 %}{{(totalStockCon*100/totalStockCon)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>              
+             <td><b>{%if totalStock>0 %}{{(totalStockCon*100/totalStock)|number_format(0, '.', ' ')}}%{% else %}--{%endif %}</b></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -194,10 +164,51 @@
 </div>
 </div>
 {% endblock %}
-   {% block javascripts %}
+{% block javascripts %}
        <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
        <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
        <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
- 
+<script>
+function myMap() {
+var mapProp= {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom:5,
+};
+var map=new google.maps.Map(document.getElementById("map2"),mapProp);
+}
+</script>
 
-       {% endblock %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap">
+</script>
+       <script type="text/javascript">
+    {% if visite is defined %}
+
+
+     loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
+
+         var data = {
+          labels: [
+
+        {% for situation in visite.situations %}
+          "{{situation.produit.nom}}",
+         {%endfor%}
+           ],
+         datasets: [
+             {
+        data: [
+        {%if totalStock>0 %} {% for situation in visite.situations  %}{{(situation.stock*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
+
+
+        backgroundColor: [{% for color in colors  %}"{{ color}}",{%endfor%}],
+        hoverBackgroundColor: [{% for color in colors  %}"{{ color}}",{%endfor%}]
+        }]
+      };      
+    var ctx = document.getElementById("pieChartCanvas").getContext("2d");
+            new Chart(ctx,{
+                type: 'pie',
+               data: data
+                });
+      });
+      {% endif %}
+        </script>
+ {% endblock %}

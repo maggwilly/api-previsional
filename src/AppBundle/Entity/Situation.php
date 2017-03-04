@@ -105,7 +105,7 @@ class Situation
     public function __construct(\AppBundle\Entity\Produit $produit,$stock)
     {
       $this->produit = $produit;;
-       $this->mvj=$stock;
+       $this->stock=$stock;
 
     }
     /**

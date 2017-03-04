@@ -82,7 +82,7 @@
 
             </tbody>
             </table>
- <div class="height-300" id="map2"></div>
+ <div class="height-250" id="map2"></div>
             </div>
 
           </div>
@@ -90,97 +90,11 @@
 
         </div>
                <!-- /PANEL -->
-                            <div id="panel-2" class="panel panel-default">
-                                <div class="panel-heading">
-                                    <span class="title elipsis">
-                                        <strong>Historique des visites</strong> ({{visites|length}} visites)
-                                    </span>
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
-
-                                </div>
-                                <!-- panel content -->
-                                <div class="panel-body"> 
-                                  {% if visites is not empty %} 
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                          <th><i class="fa fa-eye"></i></th>
-                                                            <th>#Auditeur</th>
-                                                            <th>Date</th>
-                                                            <th>Commentaire</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for visite in visites %}
-                                                        <tr>
-                                                        <td>
-                                            <a href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-xs" target="_blank"> <i class="fa fa-eye"></i></a>
-                                            </td>
-                                                            <td class="col-md-4"><a href="#">{{visite.user.nom}}</a></td>
-                                                            <td class="col-md-2">{{visite.date | date ('d/m/Y')}}</td>
-                                                <td class="col-md-6">
-                                                {% if visite.pasClient %}
-                                                   Non client pour {{visite.raisonPasClient }}
-                                                 {% elseif visite.pasOuvert %}
-                                                     Fermé pour   {{visite.raisonPasOuvert }}
-                                                  {% else %}
-                                                   {{visite.commentaire }}
-                                                {% endif %}
-                                                </td>
-                                                  </tr>
-                                                  {%endfor%}
-
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                             {% else%} 
-                                             <p> Aucune visite dans la période</p>   
-                                           {% endif%}
-                                </div>
-                                <!-- /panel content -->
-
-                            </div>
-                            <!-- /PANEL -->                     
+                     
        </div>
             <div class="col-md-5">
-                            <div id="panel-2" class="panel panel-default">
-                                <div class="panel-heading">
-                                    <span class="title elipsis">
-                                        <strong>A la derniere visite</strong>{% if visites is not empty %} ( le {{first.date|date ('d/m/Y')}}, {{first.user.nom}}){% endif%}
-                                    </span>
 
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
-                                </div>
-
-                                <!-- panel content -->
-                                <div class="panel-body">
-                                {% if first is not defined or first.pasClient or first.pasOuvert %} 
-                                   <p> Aucune donnée à présenter</p>  
-                            
-                             {% else%} 
-                             <canvas class="chartjs height-300" id="pieChartCanvas" width="547" height="300"></canvas>
- 
-                            {% endif%}                           
-                        </div>
-                                <!-- /panel content -->
-
-                            </div>
-                            <!-- /PANEL -->
-                             <div id="panel-2" class="panel panel-default">
+                             <div id="panel-2" class="panel panel-default ">
                                 <div class="panel-heading">
                                     <span class="title elipsis">
                                         <strong>Indicateurs</strong>
@@ -221,7 +135,6 @@
                                            
                                             <td>{% if first.exc %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.aff %}OUI{% else %}NON{% endif %}</td>
-                                       
                                             <td>{% if first.map %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.pre %}OUI{% else %}NON{% endif %}</td>
                                             <td>{% if first.rpd %}OUI{% else %}NON{% endif %}</td> 
@@ -270,7 +183,88 @@
                             </div>
                             <!-- /PANEL -->                           
                     
-        </div>
+                      </div>
+      <div class="col-md-12">
+                            <div id="panel-2" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <strong>Historique des visites</strong> ({{visites|length}} visites)
+                                    </span>
+                            <!-- right options -->
+                            <ul class="options pull-right list-inline">
+                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
+                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
+                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
+                            </ul>
+                            <!-- /right options -->
+
+                                </div>
+                                <!-- panel content -->
+                                <div class="panel-body"> 
+                                  {% if visites is not empty %} 
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                          <th><i class="fa fa-eye"></i></th>
+                                                            <th>#Auditeur</th>
+                                                            <th>Date</th>
+                                                           <th>EXC</th>
+                                                           <th>AFF</th>
+                                                           <th>MAP</th>
+                                                           <th>RPD</th>
+                                                          <th>PRE</th>
+                                                           <th>SAPP</th>
+                                                          <th>Commentaire</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for visite in visites %}
+                                            <tr>
+                                            <td>
+                                            <a href="{{ path('visite_show',{'id':visite.id}) }}" class="btn btn-default btn-xs" target="_blank"> <i class="fa fa-eye"></i></a>
+                                            </td>
+                                            
+                                            <td class="col-md-4"><a href="#">{{visite.user.nom}}</a></td>
+                                            <td class="col-md-2">{{visite.date | date ('d/m/Y')}}</td>
+
+                                            <td >{% if visite.exc and not visite.pasClient and not visite.pasOuvert%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>  
+
+                                            <td >{% if visite.aff and not visite.pasClient and not visite.pasOuvert %}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+
+                                            <td >{% if visite.map and not visite.pasClient and not visite.pasOuvert%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+
+                                            <td >{% if visite.rpd and not visite.pasClient and not visite.pasOuvert%}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+
+                                            <td >{% if visite.pre and not visite.pasClient and not visite.pasOuvert %}Oui{% elseif not visite.pasClient and not visite.pasOuvert %}Non{%else %}--{% endif %}</td>
+
+                                           <td >{% if visite.sapp and not visite.pasClient and not visite.pasOuvert%}AC{% elseif not visite.pasClient and not visite.pasOuvert %}Autre{%else %}--{% endif %}</td>
+
+                                            <td >
+                                                {% if visite.pasClient %}
+                                                   Non client pour {{visite.raisonPasClient }}
+                                                 {% elseif visite.pasOuvert %}
+                                                     Fermé pour   {{visite.raisonPasOuvert }}
+                                                  {% else %}
+                                                   {{visite.commentaire }}
+                                                {% endif %}
+                                                </td>
+                                                  </tr>
+                                                  {%endfor%}
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                             {% else%} 
+                                             <p> Aucune visite dans la période</p>   
+                                           {% endif%}
+                                </div>
+                                <!-- /panel content -->
+
+                            </div>
+                            <!-- /PANEL -->
+         </div>     
 </div>
 </div>
 

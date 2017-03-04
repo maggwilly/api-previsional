@@ -60,9 +60,9 @@ class VisiteController extends Controller
      */
     public function showAction(Visite $visite)
     {
-
+ $colors=array("#FF6384","#36A2EB","#FFCE56","#F7464A","#FF5A5E","#46BFBD", "#5AD3D1","#FDB45C","#FFC870", "#5AE4D1","#FDB478","#FFD973");
         return $this->render('visite/show.html.twig', array(
-            'visite' => $visite,
+            'visite' => $visite,'colors'=>$colors,
         ));
     }
 
@@ -281,7 +281,7 @@ public function numberToString($intVal,$id=true){
      public function loadVisitesFromExcelAction()
     {
         $em = $this->getDoctrine()->getManager();
-    $path = $this->get('kernel')->getRootDir(). "/../web/import/visites.xls";
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/visites_traitees.xlsx";
      $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
            $fks=$em->getRepository('AppBundle:Produit')->findOneByNom('FKS');
            $fkm=$em->getRepository('AppBundle:Produit')->findOneByNom('FKM');
@@ -321,8 +321,9 @@ public function numberToString($intVal,$id=true){
              $visite->addSituation(new Situation($malboro,$feuille->getCellByColumnAndRow(11, $row)->getValue())); 
              $visite->setPointVente($pointVente);                    
              $em->persist($visite);
+             $em->flush();
            }
-            $em->flush();
+            
          }
     
     return $this->redirectToRoute('user_homepage');      

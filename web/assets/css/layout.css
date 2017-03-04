@@ -2285,7 +2285,7 @@ ul.easypiecharts li span.stat-title {
 		overflow:hidden;
 		position:relative;
 		padding:10px;
-
+        height: 130px;
 		-webkit-border-radius: 3px;
 		   -moz-border-radius: 3px;
 				border-radius: 3px;
@@ -2358,7 +2358,9 @@ ul.easypiecharts li span.stat-title {
 	#mobileMenuBtn {
 		display:block;
 	}
-	
+  .box {
+        min-height: 130px;
+	}
 	#header .logo {
 		width:auto;
 	}
@@ -2387,6 +2389,9 @@ ul.easypiecharts li span.stat-title {
 	}
 	.lockscreen form img.avatar {
 		display:none;
+	}
+	  .box {
+        min-height: 130px;
 	}
 }
 

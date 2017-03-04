@@ -61,7 +61,7 @@
                             <div class="box default"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4><a href="{{ path('visites') }}">{{tauxAff|number_format(0, ',', '.')}}%:Taux de présence d'affiches</a></h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxAff|number_format(0, ',', '.')}}%:Présence d'affiches</a></h4>
                     <small class="block">
                     {% if nombrePointVenteVisite==0%}
                     --
@@ -93,7 +93,7 @@
                             <div class="box info"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4><a href="{{ path('visites') }}">{{tauxMap|number_format(0, ',', '.')}}%: Taux de mise en avant</a></h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxMap|number_format(0, ',', '.')}}%: Mise en avant</a></h4>
                           <small class="block">
                           {% if nombrePointVenteVisite==0%}
                           --
@@ -123,7 +123,7 @@
                             <div class="box warning"><!-- default, danger, warning, info, success -->
 
                                 <div class="box-title"><!-- add .noborder class if box-body is removed -->
-                                    <h4><a href="{{ path('visites') }}">{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix de détail</a></h4>
+                                    <h4><a href="{{ path('visites') }}">{{tauxRpd|number_format(0, ',', '.')}}% : Respect de prix</a></h4>
                           <small class="block">
                           {% if nombrePointVenteVisite==0%}
                           --
