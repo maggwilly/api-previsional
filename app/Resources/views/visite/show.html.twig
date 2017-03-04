@@ -50,16 +50,23 @@
             <tr>
                 <th class="col-md-6">Est-il client</th>
                 <td>{% if visite.pasClient %}Non{% else %}Oui{% endif %}</td>
-                {% if visite.pasClient %}<td>{{ visite.raisonPasClient }}</td>{% endif %}
+               
             </tr>
             <tr>
                 <th class="col-md-6">Est-il ouvert</th>
                 <td>{% if visite.pasOuvert %}Non{% else %}Oui{% endif %}</td>
-                 {% if visite.pasOuvert %}<td>{{ visite.raisonPasOuvert }}</td>{% endif %}
             </tr>
             <tr>
                 <th class="col-md-6">Commentaire</th>
-                <td>{{ visite.commentaire }}</td>
+                <td>
+                    {% if visite.pasClient %}
+                                                   Non client pour {{visite.raisonPasClient }}
+                    {% elseif visite.pasOuvert %}
+                                                     Fermé pour   {{visite.raisonPasOuvert }}
+                      {% else %}
+                                                   {{visite.commentaire }}
+                    {% endif %}
+                </td>
                  
             </tr>
         </tbody>
@@ -69,7 +76,7 @@
                                    <p> Aucune donnée à présenter</p>  
                             
                              {% else%} 
-                             <canvas class="chartjs height-400" id="pieChartCanvas" width="500" height="400"></canvas>
+                             <canvas class="chartjs height-450" id="pieChartCanvas" width="500" height="450"></canvas>
  {% endif%}  
           </div>
         </div>
