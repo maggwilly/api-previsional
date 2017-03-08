@@ -67,9 +67,12 @@ class PointVenteController extends Controller
         $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
       $eligibles = $em->getRepository('AppBundle:PointVente')->eligibles($region,$startDate, $endDate);
+       $eligiblesranking = $em->getRepository('AppBundle:PointVente')->eligiblesranking($region,$startDate, $endDate);
        $nombrePointVenteVisite = $em->getRepository('AppBundle:PointVente')->nombrePointVenteVisite($region,$startDate, $endDate);
         return $this->render('pointvente/eligibles.html.twig', array(
-            'eligibles' => $eligibles,  'nombrePointVenteVisite' => $nombrePointVenteVisite,
+            'eligibles' => $eligibles,  
+            'eligiblesranking' => $eligiblesranking,
+             'nombrePointVenteVisite' => $nombrePointVenteVisite,
         ));
     } 
 
@@ -238,6 +241,74 @@ public function boleanToString($boolVal){
         return $response;        
     } 
 
+     public function eligibiliteRackingExcelAction($name=null)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $session = $this->getRequest()->getSession();
+      $region=$session->get('region');
+      $startDate=$session->get('startDate',date('Y').'-01-01');
+      $endDate=$session->get('endDate', date('Y').'-12-31');
+      $periode= $session->get('periode',' 01/01 - 31/12/'.date('Y'));
+      $eligibles = $em->getRepository('AppBundle:PointVente')->eligiblesranking($region,$startDate, $endDate);
+      
+        // ask the service for a Excel5
+       $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+       $phpExcelObject->getProperties()->setCreator("AllReport")
+           ->setLastModifiedBy("AllReport")
+           ->setTitle("Racking ".$region." de ".$periode)
+           ->setSubject("Eligibilité ".$region." de ".$periode)
+           ->setDescription("Eligibilité ".$region." de ".$periode)
+           ->setKeywords("Eligibilité ".$region." de ".$periode)
+           ->setCategory("Rapports AllReport");
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A1', 'NOM')
+               ->setCellValue('B1', 'MATRICULE')
+               ->setCellValue('C1', 'EXC')
+               ->setCellValue('D1', 'MAP')
+               ->setCellValue('E1', 'FKS')
+               ->setCellValue('F1', 'FKL')
+               ->setCellValue('G1', 'FMT')
+               ->setCellValue('H1', 'FKM')
+               ->setCellValue('I1', 'Stock total')
+               ->setCellValue('J1', 'Points');
+             foreach ($eligibles as $key => $value) {
+                // $startDate= \DateTime::createFromFormat('Y-m-d', $value['createdAt']);
+               $phpExcelObject->setActiveSheetIndex(0)
+               ->setCellValue('A'.($key+2), $value['nom'])
+               ->setCellValue('B'.($key+2), $value['matricule'])
+               ->setCellValue('C'.($key+2), $this->boleanToString($value['exc']))
+               ->setCellValue('D'.($key+2),  $this->boleanToString($value['map']))
+               ->setCellValue('E'.($key+2), $value['fks'])
+               ->setCellValue('F'.($key+2), $value['fkl'])
+               ->setCellValue('G'.($key+2), $value['fmt'])
+               ->setCellValue('H'.($key+2), $value['fkm']) 
+               ->setCellValue('I'.($key+2), $value['stock'])
+               ->setCellValue('J'.($key+2), $value['note'])  ;
+           };
+        $startDate=new \DateTime($startDate);
+        $endDate= new \DateTime($endDate);
+       $phpExcelObject->getActiveSheet()->setTitle('Du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y'));
+       // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+       $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'Racking '.$region.' du '.$startDate->format('d M Y').' au '.$endDate->format('d M Y').'.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;        
+    }
     //apk
     public function importAction()
 {

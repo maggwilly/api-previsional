@@ -2,27 +2,35 @@
 {% block title %}Eligibilité {% endblock %}
 {% block body %}
 
-   <!-- page title -->
-    <header id="page-header">
-    <h1>Eligible</h1>
-    </header>
+
 <div id="content" class="dashboard padding-20">
-     <div id="panel-2" class="panel panel-default">
-                         <div class="panel-heading">
-                                    <span class="title elipsis">
-                        <strong>Points de vente éligibles</strong> ({{eligibles|length}} sur {{nombrePointVenteVisite}} visités )
-                        </span>
-                            <!-- right options -->
-                            <ul class="options pull-right list-inline">
-                                <li class=""><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-                                <li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-                                <li class=""><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-                            </ul>
-                            <!-- /right options -->
-                                </div>
-                                <!-- panel content -->
-                                <div class="panel-body">  
-                                           <table class="table table-striped table-bordered table-hover" id="datatable_sample">
+<div class="panel panel-default ">
+                        <div class="panel-body">
+                            <b>Eligibilités</b> <br>
+                            Liste des points de vente et leurs états d'élibilité
+                        </div>
+                    </div>
+<div id="panel-ui-tan-l4" class="panel panel-default">
+                <div class="panel-heading">
+                  <!-- tabs nav -->
+                  <ul class="nav nav-tabs pull-left">
+                    <li class="active"><!-- TAB 1 -->
+                      <a href="#ttab1l_nobg" data-toggle="tab" aria-expanded="true">Eligibilité <span class="label label-danger">Dernier visite</span></a>
+                    </li>
+                    <li class=""><!-- TAB 2 -->
+                      <a href="#ttab2l_nobg" data-toggle="tab" aria-expanded="false">Racking <span class="label label-info">Toute la période</span></a></a>
+                    </li>
+                  </ul>
+                  <!-- /tabs nav -->
+                </div>
+                <!-- panel content -->
+                <div class="panel-body">
+
+                    <!-- tabs content -->
+                    <div class="tab-content transparent">
+
+                      <div id="ttab1l_nobg" class="tab-pane active"><!-- TAB 1 CONTENT -->
+                                          <table class="table table-striped table-bordered table-hover" id="datatable_sample">
                                                     <thead>
                                                         <tr>
                                                          <th><i class="fa fa-eye"></i></th> 
@@ -34,8 +42,9 @@
                                                               <th>FKL</th>
                                                               <th>FMT</th>
                                                               <th>FKM</th>
-                                                              <th>Total Stock</th>
-                                                            <th>Points</th>                             
+                                                              <th>STOCK</th>
+                                                            <th>POINTS</th>  
+                                                             <th>RACKING</th>                           
                                                          </tr>
                                                     </thead>
                                                     <tbody>
@@ -49,13 +58,14 @@
                                                             <td >{{pointVente.nom}}</td>
                                                             <td >{{pointVente.matricule}}</td>
                                                             <td >{% if pointVente.exc %}Oui{% else %}Non{% endif %}</td>
-                                                            <td >{% if pointVente.map %}Oui{% else %}Non{% endif %}</td>
+                                                            <td >{% if pointVente.map %}Oui{% else %}Non{% endif %}</td> 
                                                             <td >{{pointVente.fks}}</td>
                                                             <td >{{pointVente.fkl}}</td>
                                                             <td >{{pointVente.fmt}}</td>
                                                             <td >{{pointVente.fkm}}</td>
                                                             <td class="col-md-1">{{pointVente.stock}}</td>
-                                                            <td >{{pointVente.note}}</td>    
+                                                            <td >{{pointVente.note}}</td> 
+                                                            <td >{{pointVente.note*100/20}}%</td>   
                                                         </tr>
                                                         {%endfor%}
                                                     </tbody>
@@ -64,11 +74,63 @@
                                                     <i class="fa fa-arrow-right"></i> 
                                                     Exporter vers (.xls)
                                                 </a>
-
-                                </div>
-                                <!-- /panel content -->
+                      </div><!-- /TAB 1 CONTENT -->
+                      <div id="ttab2l_nobg" class="tab-pane"><!-- TAB 2 CONTENT -->
+                                          <table class="table table-striped table-bordered table-hover" id="datatable_sample2">
+                                                    <thead>
+                                                        <tr>
+                                                         <th><i class="fa fa-eye"></i></th> 
+                                                            <th>#Nom du PDV</th>
+                                                            <th>Matricule</th>
+                                                             <th>Exclusivité</th>
+                                                              <th>Mise en avant</th>
+                                                              <th>FKS</th>
+                                                              <th>FKL</th>
+                                                              <th>FMT</th>
+                                                              <th>FKM</th>
+                                                              <th>STOCK MOYEN</th>
+                                                            <th>POINTS</th>  
+                                                             <th>RACKING</th>                            
+                                                         </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for pointVente in eligiblesranking %}
+                                                        <tr class="odd gradeX">
+                                                              <td class="col-md-1">
+                                                             <a target="_blank" href="{{ path('pointvente_show',{'id':pointVente.id}) }}" class="btn btn-default btn-xs">
+                                                              <i class="fa fa-eye"></i>
+                                                             </a>
+                                                              </td>                                                                                        
+                                                            <td >{{pointVente.nom}}</td>
+                                                            <td >{{pointVente.matricule}}</td>
+                                                            <td >{{pointVente.exc*100}}%</td>
+                                                            <td >{{pointVente.map*100}}% </td>
+                                                            <td >{{pointVente.fks|number_format(0, ',', '.')}}</td>
+                                                            <td >{{pointVente.fkl|number_format(0, ',', '.')}}</td>
+                                                            <td >{{pointVente.fmt|number_format(0, ',', '.')}}</td>
+                                                            <td >{{pointVente.fkm|number_format(0, ',', '.')}}</td>
+                                                            <td class="col-md-1">{{pointVente.stock|number_format(0, ',', '.')}}</td>
+                                                            <td >{{pointVente.note}}</td> 
+                                                            <td >{{pointVente.note*100/20}}%</td>   
+                                                        </tr>
+                                                        {%endfor%}
+                                                    </tbody>
+                                                </table>
+                                                <a class="btn btn-xs btn-info"  href="{{ path('pointvente_racking_excel') }}">
+                                                    <i class="fa fa-arrow-right"></i> 
+                                                    Exporter vers (.xls)
+                                                </a>
+                      </div><!-- /TAB 1 CONTENT -->
 
                     </div>
+                    <!-- /tabs content -->
+
+                </div>
+                <!-- /panel content -->
+
+      </div>
+
+
      <div class="panel panel-default">
             <div class="panel-body">
                    <div class="alert alert-bordered-dashed margin-bottom-30"><!-- DASHED -->
@@ -98,8 +160,10 @@
              loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
             if (jQuery().dataTable) {
             var table = jQuery('#datatable_sample');
+            var table2 = jQuery('#datatable_sample2');
             table.dataTable({
-                    "columns": [{
+                    "columns": [
+                            {
                                 "orderable": false
                             },{
                                 "orderable": true
@@ -116,6 +180,8 @@
                             },{
                                 "orderable": true
                             },{
+                                "orderable": true
+                            }, {
                                 "orderable": true
                             }, {
                                 "orderable": true
@@ -123,8 +189,8 @@
                                 "orderable": true
                             }],
                             "lengthMenu": [
-                                [20, 50, 100, -1],
-                                [20, 50, 100, "Tous"] // change per page values here
+                                [5,20, 50, 100, -1],
+                                [5,20, 50, 100, "Tous"] // change per page values here
                             ],
                             // set the initial value
                             "pageLength": 20,            
@@ -149,7 +215,60 @@
                                 [1, "asc"]
                             ] // set first column as a default sort by asc
                         });
-
+            table2.dataTable({
+                    "columns": [
+                            {
+                                "orderable": false
+                            },{
+                                "orderable": true
+                            },{
+                                "orderable": true
+                            }, {
+                                "orderable": false
+                            },{
+                                "orderable": false
+                            },{
+                                "orderable": true
+                            }, {
+                                "orderable": true
+                            },{
+                                "orderable": true
+                            },{
+                                "orderable": true
+                            }, {
+                                "orderable": true
+                            }, {
+                                "orderable": true
+                            }, {
+                                "orderable": true
+                            }],
+                            "lengthMenu": [
+                                [5,20, 50, 100, -1],
+                                [5,20, 50, 100, "Tous"] // change per page values here
+                            ],
+                            // set the initial value
+                            "pageLength": 20,            
+                            "pagingType": "bootstrap_full_number",
+                            "language": {
+                                "lengthMenu": "  _MENU_ records",
+                                "paginate": {
+                                    "previous":"Prev",
+                                    "next": "Next",
+                                    "last": "Last",
+                                    "first": "First"
+                                }
+                            },
+                            "columnDefs": [{  // set default column settings
+                                'orderable': false,
+                                'targets': [0]
+                            }, {
+                                "searchable": false,
+                                "targets": [0]
+                            }],
+                            "order": [
+                                [1, "asc"]
+                            ] // set first column as a default sort by asc
+                        });
                         
                }
              });

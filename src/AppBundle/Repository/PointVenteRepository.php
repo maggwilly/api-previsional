@@ -120,6 +120,29 @@ Nombre de point de vente visités
       return  $result = $statement->fetchAll();
      
   }
+
+   /**
+  *Repartition des visites effectuees par semaine 
+  */
+  public function eligiblesranking ($region=null, $startDate=null, $endDate=null){
+       $em = $this->_em;
+       $RAW_QUERY =($region!=null) ?'select *,(case when stock>=30 and (fks>=20 and fmt>=8 and fkm+fkl>=2)  then  (case when map=1 then (case when exc=1 then 20 else 15 end) else (case when exc=1 then 15 else 10 end) end) else  (case when map=1 then (case when exc=1 then 10 else 5 end) else (case when exc=1 then 5 else 0 end) end) end) as note from (select id, nom,map,exc,matricule, sum(stock) as stock ,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm   from (select u.id,u.nom,(count(v.map)/count(v.id)) as map,(count(v.exc)/count(v.id)) as exc,u.matricule, s.produit_id as produit, avg(s.stock) as stock from point_vente u  join  visite v on (u.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate  and pv.ville=:region ) join situation s on s.visite_id=v.id join produit p on (s.produit_id=p.id and p.dossier=\'produit\') group by u.id,u.nom,s.produit_id,u.matricule) eligibles group by id, nom,map,exc,matricule) el;
+':'select *,(case when stock>=30 and (fks>=20 and fmt>=8 and fkm+fkl>=2)  then  (case when map=1 then (case when exc=1 then 20 else 15 end) else (case when exc=1 then 15 else 10 end) end) else  (case when map=1 then (case when exc=1 then 10 else 5 end) else (case when exc=1 then 5 else 0 end) end) end) as note from (select id, nom,map,exc,matricule, sum(stock) as stock ,sum((case when produit=\'FKS\' then stock else 0 end)) as fks,sum((case when produit=\'FKL\' then stock else 0 end)) as fkl,sum((case when produit=\'FMT\' then stock else 0 end)) as fmt,sum((case when produit=\'FKM\' then stock else 0 end)) as fkm   from (select u.id,u.nom,(count(v.map)/count(v.id)) as map,(count(v.exc)/count(v.id)) as exc,u.matricule, s.produit_id as produit, avg(s.stock) as stock from point_vente u  join  visite v on (u.id=v.point_vente_id and v.date>=:startDate and v.date<=:endDate ) join situation s on s.visite_id=v.id join produit p on (s.produit_id=p.id and p.dossier=\'produit\') group by u.id,u.nom,s.produit_id,u.matricule) eligibles group by id, nom,map,exc,matricule) el;
+';
+       $statement = $em->getConnection()->prepare($RAW_QUERY);
+         if($region!=null){
+        $statement->bindValue('region', $region);
+          }
+        $startDate=new \DateTime($startDate);
+       $endDate=new \DateTime($endDate);
+       $statement->bindValue('startDate', $startDate->format('Y-m-d'));
+       $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
+       
+       $statement->execute();
+      return  $result = $statement->fetchAll();
+     
+  }
+   
   /**
   *Repartition des visites effectuees par semaine 
   */
