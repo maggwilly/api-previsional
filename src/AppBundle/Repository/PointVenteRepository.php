@@ -17,10 +17,13 @@ class PointVenteRepository extends EntityRepository
 /**
 Nombre de point de vente recencés
  */
-	public function nombrePointVente ($region=null){
+	public function nombrePointVente ($region=null, $startDate=null, $endDate=null){
 
         $qb = $this->createQueryBuilder('p');
-
+        if($region!=null){
+           $qb->where('p.ville=:ville')
+          ->setParameter('ville', $region);
+          }
    try {
 		 $qb->select('count(p.id) as nombrePointVente');
          return $qb->getQuery()->getSingleScalarResult();  

@@ -90,9 +90,12 @@ class PointVenteController extends Controller
        $startDate=$session->get('startDate',date('Y').'-01-01');
         $endDate=$session->get('endDate', date('Y').'-12-31');
       $pointVentes = $em->getRepository('AppBundle:PointVente')->pointVentes($region,$startDate, $endDate);
-     $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region,$startDate, $endDate);
+        $nombrePointVente = $em->getRepository('AppBundle:PointVente')->nombrePointVente($region,$startDate, $endDate);
+
+
         return $this->render('pointvente/map.html.twig', array(
-            'pointVentes' => $pointVentes,  'nombrePointVente' => $nombrePointVente,
+            'pointVentes' => $pointVentes, 
+             'nombrePointVente' => $nombrePointVente,
         ));
     } 
 

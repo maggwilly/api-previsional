@@ -75,14 +75,10 @@
                 <td>{{ pointVente.quartier }}</td>
             </tr>
 
-            <tr>
-                <th>Position géolocale </th>
-                <td>[{{ pointVente.longitude }}, {{ pointVente.latitude }}]</td>
-            </tr>
 
             </tbody>
             </table>
- <div class="height-250" id="map2"></div>
+ <div class="height-300" id="map"></div>
             </div>
 
           </div>
@@ -317,4 +313,25 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
       });
       {% endif %}
         </script>
+     <script>
+     function initMap() {
+  var myLatLng = {lat: {{pointVente.latitude}}, lng: {{pointVente.longitude}}};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: '{{pointVente.nom}}\nTel: {{pointVente.telGerant}}'
+  });
+}
+
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnDVCVll8mthbMy6rXkfJXF3FoqQTIqBw&callback=initMap">
+    </script>     
  {% endblock %}

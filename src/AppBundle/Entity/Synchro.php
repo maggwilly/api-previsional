@@ -73,6 +73,7 @@ class Synchro
        $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
        $this->etapes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->quartiers = new \Doctrine\Common\Collections\ArrayCollection();
+                $this->visites = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
      * Get id
