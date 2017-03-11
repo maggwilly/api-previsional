@@ -55,7 +55,8 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
-          center:{% if first.latitude and first.longitude %} new google.maps.LatLng({{first.latitude}}, {{first.longitude}})new google.maps.LatLng(-0.691512,  15.497567) {% else % } {% endif%}
+          center:{% if first.latitude and first.longitude %} new google.maps.LatLng({{first.latitude}}, {{first.longitude}}) {% else %}
+        new google.maps.LatLng(-0.691512,  15.497567) {% endif%}
         });
 
 
