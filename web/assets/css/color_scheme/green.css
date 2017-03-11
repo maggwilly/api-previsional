@@ -1,14 +1,14 @@
-/** Green	#4b5354
-			#5a6667
+/** Green	#1f618d
+			#1f617e
  **************************************************************** **/
 	::selection {
-		background: #4b5354;
+		background: #1f618d;
 	}
 	::-moz-selection {
-		background: #4b5354; /* Firefox */
+		background: #1f618d; /* Firefox */
 	}
 	::-webkit-selection {
-		background: #4b5354; /* Safari */
+		background: #1f618d; /* Safari */
 	}
 
 	#aside nav ul li a:active,
@@ -31,23 +31,23 @@
 	#aside .logo,
 	body.min #asidesize,
 	#aside, #asidebg {
-		background-color: #5a6667;
+		background-color: #1f617e;
 	}
 	
 	body.min #aside ul.nav>li:hover:before {
-		border-right-color: #5a6667;
+		border-right-color: #1f617e;
 	}
 
 	.panel>.panel-heading strong {
-		color:#4b5354;
+		color:#1f618d;
 	}
 	
 	.btn-primary {
-		border-color:#4b5354;
+		border-color:#1f618d;
 	}
 
 	.popular {
-		border-color:#5a6667 !important;
+		border-color:#1f617e !important;
 	}
 	
 	/**
@@ -56,15 +56,84 @@
 	.btn-primary,
 	.alert-theme-color,
 	.panel-primary>.panel-heading {
-		background-color: #4b5354 !important;
+		background-color: #1f618d !important;
 	}
 	.panel-primary,
 	.panel-primary>.panel-heading {
-		border-color: #4b5354 !important;
+		border-color: #1f618d !important;
 	}
 	
 	@media only screen and (min-width: 768px) {
 		body.min #aside ul.nav>li:hover>a span {
-			background-color: #5a6667;
+			background-color: #1f617e;
+		}
+	/** Green	#1f618d
+			#1f617e
+ **************************************************************** **/
+	::selection {
+		background: #1f618d;
+	}
+	::-moz-selection {
+		background: #1f618d; /* Firefox */
+	}
+	::-webkit-selection {
+		background: #1f618d; /* Safari */
+	}
+
+	#aside nav ul li a:active,
+	#aside nav ul li.menu-open,
+	#aside nav ul li.always-open,
+	#aside nav>ul>li>a:hover,
+	#aside nav>ul>li>a:focus,
+	#aside nav ul li.active,
+	.fancy-file-upload.fancy-file-primary>span.button,
+	.datepicker table tr td.active.active,
+	.btn-primary,
+	#header,
+
+	/*.toast-primary,*/
+	.popular .plan-title,
+	body.min #aside ul.nav>li>ul li,
+	body.min #aside ul.nav li.menu-open,
+	body.min #aside ul.nav>li:hover>ul,
+	#aside nav ul li a.dashboard,
+	#aside .logo,
+	body.min #asidesize,
+	#aside, #asidebg {
+		background-color: #1f617e;
+	}
+	
+	body.min #aside ul.nav>li:hover:before {
+		border-right-color: #1f617e;
+	}
+
+	.panel>.panel-heading strong {
+		color:#1f618d;
+	}
+	
+	.btn-primary {
+		border-color:#1f618d;
+	}
+
+	.popular {
+		border-color:#1f617e !important;
+	}
+	
+	/**
+		IMPORTANT
+	**/
+	.btn-primary,
+	.alert-theme-color,
+	.panel-primary>.panel-heading {
+		background-color: #1f618d !important;
+	}
+	.panel-primary,
+	.panel-primary>.panel-heading {
+		border-color: #1f618d !important;
+	}
+	
+	@media only screen and (min-width: 768px) {
+		body.min #aside ul.nav>li:hover>a span {
+			background-color: #1f617e;
 		}
 	}
