@@ -55,7 +55,7 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
-          center: new google.maps.LatLng({{first.latitude}}, {{first.longitude}})
+          center:{% if first.latitude and first.longitude %} new google.maps.LatLng({{first.latitude}}, {{first.longitude}})new google.maps.LatLng(-0.691512,  15.497567) {% else % } {% endif%}
         });
 
 
@@ -71,7 +71,8 @@
         }
 
         var features = [
-          {% for pointVente in pointVentes %}
+          {% for pointVente in pointVentes if pointVente.latitude and pointVente.longitude %}
+
           {
             position: new google.maps.LatLng({{pointVente.latitude}}, {{pointVente.longitude}}),
              nom: '{{pointVente.nom}}\nTel: {{pointVente.telGerant}}'
