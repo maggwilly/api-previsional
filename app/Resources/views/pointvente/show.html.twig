@@ -318,8 +318,9 @@ var map=new google.maps.Map(document.getElementById("map2"),mapProp);
   var myLatLng = {lat: {{pointVente.latitude}}, lng: {{pointVente.longitude}}};
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: myLatLng
+    zoom: 15,
+    center: myLatLng,
+   mapTypeId: google.maps.MapTypeId.HYBRID
   });
 
   var marker = new google.maps.Marker({

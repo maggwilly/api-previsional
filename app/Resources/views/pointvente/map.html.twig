@@ -7,6 +7,7 @@
     <h1>Les points de ventes</h1>
     </header>
 <div id="content" class="dashboard padding-20">
+
      <div id="panel-2" class="panel panel-default">
                          <div class="panel-heading">
                                     <span class="title elipsis">
@@ -29,18 +30,7 @@
                                 <!-- /panel content -->
 
                     </div>
-     <div class="panel panel-default">
-            <div class="panel-body">
-                   <div class="alert alert-bordered-dashed margin-bottom-30"><!-- DASHED -->
-                           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                          <p>
-                                        Les données affichées sur cette page sont fonction de la période et de la région sélectionnées. Veillez vous assurer que vous avez bien défini la période et la région correspondante.
-                                        Par défaut, les données sont celle de toute les régions pour toutes les périodes.
-                             </p>
-               </div>
-            </div>
-     </div> 
-     <!-- /PANEL -->
+
 
    </div>
     
@@ -52,15 +42,45 @@
   <script>
    {% set first=pointVentes[0] %}
       var map;
+
       function initMap() {
+
+          var features = [
+          {% for pointVente in pointVentes if pointVente.latitude and pointVente.longitude %}
+
+          {
+            position: new google.maps.LatLng({{pointVente.latitude}}, {{pointVente.longitude}}),
+             nom:'{{pointVente.nom}}',
+             description:'{{pointVente.description}}',
+             tel:'{{pointVente.telGerant}}',
+             quartier:'{{pointVente.quartier}}',
+             link:'{{ path('pointvente_show',{'id':pointVente.id}) }}'
+          },
+          {%endfor%}
+        ];
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center:{% if first.latitude and first.longitude %} new google.maps.LatLng({{first.latitude}}, {{first.longitude}}) {% else %}
-        new google.maps.LatLng(-0.691512,  15.497567) {% endif%}
+          zoom: 13,
+          center:new google.maps.LatLng(-0.636558, 15.168308) 
         });
 
 
-        function addMarker(feature) {
+      function addMarker(feature) {
+       var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+feature.quartier+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>'+feature.nom+'</b>  </br>'+feature.description+'</br>Tel: '+feature.tel+'</p>'+
+      '<p><a href="'+feature.link+'">'+
+      'Voir les détails</a> '+
+      '.</p>'+
+      '</div>'+
+      '</div>';
+
+     var infowindow = new google.maps.InfoWindow({
+        content: contentString
+       });
+
           var marker = new google.maps.Marker({
             position: feature.position,
             map: map,
@@ -68,22 +88,22 @@
 
           });
 
-   
+      marker.addListener('click', function() {
+         infowindow.open(map, marker);
+         });
+
         }
-
-        var features = [
-          {% for pointVente in pointVentes if pointVente.latitude and pointVente.longitude %}
-
-          {
-            position: new google.maps.LatLng({{pointVente.latitude}}, {{pointVente.longitude}}),
-             nom: '{{pointVente.nom}}\nTel: {{pointVente.telGerant}}'
-          },
-          {%endfor%}
-        ];
-
+        var centerMap=new google.maps.LatLng(-0.636558, 15.168308) ;
+        var set=false;
         for (var i = 0, feature; feature = features[i]; i++) {
           addMarker(feature);
+          if(!set){
+          centerMap=feature.position;
+          set=true;
+          }
+
         }
+       map.setCenter(centerMap); 
       }
     </script>
 
