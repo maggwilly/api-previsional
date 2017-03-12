@@ -245,7 +245,8 @@ body.boxed #asidebg {
 		margin:0;
 		padding:0;
 	}
-	#header form.search>input{
+	#header form.search>input
+	{
 		color:#fff;
 		height:50px;
 		width:230px;
@@ -259,8 +260,8 @@ body.boxed #asidebg {
 		   -moz-box-shadow:none !important;
 				box-shadow:none !important;
 	}
-
-	#header form.search>select{
+#header form.search>select
+	{
 		color:#fff;
 		height:50px;
 		width:150px;
@@ -273,6 +274,11 @@ body.boxed #asidebg {
 		-webkit-box-shadow:none !important;
 		   -moz-box-shadow:none !important;
 				box-shadow:none !important;
+	}
+	#header form.search>label{
+		color:#fff;
+		width:81px;
+		line-height:50px;
 	}
 	/* header dropdown background color */
 	#header>nav>ul>li:hover>a,

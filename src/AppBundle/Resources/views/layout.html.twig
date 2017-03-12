@@ -90,17 +90,17 @@
                     <img src="assets/images/logo_light.png" alt="AllReport" height="35">
                 </span>
                 <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
-                 <label>Periode:</label>
-    {% set start_date_formated=app.session.get('start_date_formated') %}
-    {% set end_date_formated=app.session.get('end_date_formated')   %}
+                 <label><strong>Periode:</strong> </label>
+    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):start_date_formated|date('01/01/Y') %}
+    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):end_date_formated|date('31/12/Y')  %}
     {% set periode=app.session.get('periode')%}
 <input type="text" class="form-control rangepicker" 
 name="periode" data-format="dd/mm/yyyy" 
- {%if periode %}value="{{ periode }}"{% else %}value="{{start_date_formated|date('01/01/Y')}} - {{end_date_formated|date('31/12/Y')}}"{% endif %}  placeholder="Selectionnez une période" 
- data-from="{{ start_date_formated }}" data-to="{{ end_date_formated }}" required="">
+ value="{{start_date_formated}} - {{end_date_formated}}"  placeholder="Selectionnez une période" 
+ data-from="{{ start_date_formated}}" data-to="{{ end_date_formated }}" required="">
 
                 <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-                <label></label>
+                <label><strong>Region:</strong></strong></label>
                 <select class="" name="region" selected>
                    <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toutes régions</option>
                    <option value="Brazzaville"  {% if app.session.get('region')=='Brazzaville'  %}selected="true"{% endif %}>Brazzaville</option>
