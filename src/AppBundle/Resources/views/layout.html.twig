@@ -91,8 +91,8 @@
                 </span>
                 <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
                  <label><strong>Periode:</strong> </label>
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):start_date_formated|date('01/01/Y') %}
-    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):end_date_formated|date('31/12/Y')  %}
+    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):app.session.get('start_date_formated')|date('01/01/Y') %}
+    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):app.session.get('end_date_formated')|date('31/12/Y')  %}
     {% set periode=app.session.get('periode')%}
 <input type="text" class="form-control rangepicker" 
 name="periode" data-format="dd/mm/yyyy" 
