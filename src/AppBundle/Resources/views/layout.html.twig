@@ -90,13 +90,13 @@
                     <img src="assets/images/logo_light.png" alt="AllReport" height="35">
                 </span>
                 <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
-                 <label></label>
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):'01/01/2017'  %}
-    {% set end_date_formated=app.session.get('end_date_formated') ?app.session.get('end_date_formated'):'31/12/2017'   %}
+                 <label>Periode:</label>
+    {% set start_date_formated=app.session.get('start_date_formated') %}
+    {% set end_date_formated=app.session.get('end_date_formated')   %}
     {% set periode=app.session.get('periode')%}
 <input type="text" class="form-control rangepicker" 
 name="periode" data-format="dd/mm/yyyy" 
- {%if periode %}value="{{ periode }}"{% endif %}  placeholder="Selectionnez une période"
+ {%if periode %}value="{{ periode }}"{% else %}value="{{start_date_formated|date('01/01/Y')}} - {{end_date_formated|date('31/12/Y')}}"{% endif %}  placeholder="Selectionnez une période" 
  data-from="{{ start_date_formated }}" data-to="{{ end_date_formated }}" required="">
 
                 <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">

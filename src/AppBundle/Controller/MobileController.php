@@ -68,8 +68,8 @@ class MobileController extends Controller
     public function pointVentesAction(Request $request)
     {
           $em = $this->getDoctrine()->getManager();
-//$request->get('region')
-        $pointVentes= $em->getRepository('AppBundle:PointVente')->pdvs('BRAZAVILLE'); 
+
+        $pointVentes= $em->getRepository('AppBundle:PointVente')->pdvs(  $request->get('region')); 
 
        return $pointVentes;
     }
