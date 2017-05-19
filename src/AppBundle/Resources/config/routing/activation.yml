@@ -1,0 +1,24 @@
+activation_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Activation:index" }
+    methods:  GET
+
+activation_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Activation:show" }
+    methods:  GET
+
+activation_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Activation:new" }
+    methods:  [GET, POST]
+
+activation_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Activation:edit" }
+    methods:  [GET, POST]
+
+activation_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Activation:delete" }
+    methods:  DELETE

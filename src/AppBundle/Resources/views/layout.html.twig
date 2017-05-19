@@ -1,273 +1,197 @@
 <!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>{% block title %}AllReport {% endblock %}</title>       
-        <meta name="description" content="" />
-        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
-        <!-- mobile settings -->
-        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-        <!-- WEB FONTS -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
-         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
-        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/layout-datatable.css') }}"  />
-        {% endblock %}
-    </head>
-       {% if situations is defined %}
-               {% set totalStock=0 %} 
-               {% set totalStockSiat=0 %} 
-               {% set totalStockCon=0 %} 
-               {% for situation in situations  %}
-               {% if situation.dossier=='produit' %}
-               {% set totalStockSiat=totalStockSiat+situation.sd %}
-               {% elseif situation.dossier=='concurrence'  %}
-               {% set totalStockCon=totalStockCon+situation.sd %}
-               {% endif %}
-                {% set totalStock=totalStock+situation.sd %}
-               {%endfor%} 
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png" />
+	<link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>
+		{% block title %} Orange Cameroon {% endblock %}
+	</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('assets/css/material-dashboard.css') }}"  type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" type="text/css"  />
+    <!--     Fonts and icons     -->
+       <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+       <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+        {% endblock %}   
+</head>
+{% block fos_user_content %}
+<body>
 
-        {% endif %}         
-    <body>
-        {% block fos_user_content %}
-        <!-- WRAPPER -->
-        <div id="wrapper">
-            <aside id="aside">
+	<div class="wrapper">
+	    <div class="sidebar" data-color="purple" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
 
-                <nav id="sideNav"><!-- MAIN MENU -->
-                    <ul class="nav nav-list">
+			<!--
+		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                               <i class="main-icon fa fa-bar-chart-o"></i><span>Statistiques</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('statistiques_dernier') }}">Derniere visite</a></li>
-                                 <li><a href="{{ path('statistiques_periode') }}">Toute la période</a></li>
-                            </ul>
-                        </li>                                              
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Points de vente</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('pointvente_index') }}">Les points de vente</a></li>
-                                 <li><a href="{{ path('pointvente_eligibles') }}">Eligibilités</a></li>
-                                <li><a href="{{ path('pointvente_map') }}">Geolocalisation</a></li>
-                            </ul>
-                        </li>
+		        Tip 2: you can also add an image using data-image tag
+		    -->
 
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                               <i class="main-icon fa fa-check-square"></i><span>Visite</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('visites') }}">Historique des visites</a></li>
-                                 <li><a href="{{ path('visite_par_pdv') }}">Dernieres vistes</a></li>
-                            </ul>
-                        </li>                                               
-                       <li><!-- dashboard -->
-                            <a class="dashboard" href="{{ path('etape_index') }}"><!-- warning - url used by default by ajax (if eneabled) -->
-                                <i class="main-icon fa fa-calendar"></i><span>Activités</span>
-                            </a>
-                        </li>                   
-                    </ul>
-                </nav>
-                <span id="asidebg"><!-- aside fixed background --></span>
-            </aside>
+			<div class="logo">
+				<a href="#" class="simple-text">
+					All Repports
+				</a>
+			</div>
+	    	<div class="sidebar-wrapper">
+	            <ul class="nav">
+	                <li class="active">
+	                    <a href="{{ path('user_homepage') }}">
+	                       <i class="material-icons">dashboard</i>
+	                        <p>Overview</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="{{ path('phoning_index') }}">
+	                        <i class="material-icons">person</i>
+	                        <p>Phonings & relances</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="{{ path('rendezvous_index') }}">
+	                        <i class="material-icons">today</i>
+	                        <p>Rendez-vous </p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="{{ path('activation_index') }}">
+	                        <i class="material-icons">settings_brightness</i>
+	                        <p>Paramétrages </p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="{{ path('vente_index') }}">
+	                        <i class="material-icons">bubble_chart</i>
+	                        <p>Ventes des Tel</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="{{ path('user_index') }}">
+	                        <i class="material-icons">content_paste</i>
+	                        <p>Gestion des ressources</p>
+	                    </a>
+	                </li>					
+					<li class="active-pro">
+	                    <a href="#">
+	                        <i class="material-icons">unarchive</i>
+	                        <p>Lpm consulting</p>
+	                    </a>
+	                </li>
+	            </ul>
+	    	</div>
+		</div>
 
-            <header id="header">
-                <!-- Mobile Button -->
-                <button id="mobileMenuBtn"></button>
-                <span class="logo pull-left">
-                    <img src="assets/images/logo_light.png" alt="AllReport" height="35">
-                </span>
-                <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
-                 <label><strong>Periode:</strong> </label>
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):app.session.get('start_date_formated')|date('01/01/Y') %}
-    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):app.session.get('end_date_formated')|date('31/12/Y')  %}
-    {% set periode=app.session.get('periode')%}
-<input type="text" class="form-control rangepicker" 
-name="periode" data-format="dd/mm/yyyy" 
- value="{{start_date_formated}} - {{end_date_formated}}"  placeholder="Selectionnez une période" 
- data-from="{{ start_date_formated}}" data-to="{{ end_date_formated }}" required="">
+	    <div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">{{ block('title') }}</a>
+					</div>
+					<div class="collapse navbar-collapse">
+						<ul class="nav navbar-nav navbar-right">
 
-                <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-                <label><strong>Region:</strong></strong></label>
-                <select class="" name="region" selected>
-                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toutes régions</option>
-                   <option value="Brazzaville"  {% if app.session.get('region')=='Brazzaville'  %}selected="true"{% endif %}>Brazzaville</option>
-                   <option value="Pointe-Noire" {% if  app.session.get('region')=='Pointe-Noire'  %}selected="true"{% endif %}>Pointe-Noire</option>
-              </select>
-                <button type="submit" class="btn btn-primary btn-sm">Afficher les données</button>
-                </form>
-                <nav>
+							<li>
+								<a href="{{ path('fos_user_security_logout') }}" >
+	 							   <i class="material-icons">https</i>
+	 							   <p class="hidden-lg hidden-md">Profile</p>
+	 						   </a>
+							</li>
+						</ul>
+	{% set day = null|date('w') %}
+   {% set weekStart = null|date_modify("-#{day} days")|date('d/m/Y') %}
+   {% set weekEnd = null|date_modify("+#{6-day} days")|date('d/m/Y') %}					
+    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):weekStart %}
+    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):weekEnd  %}			
+						<form class="navbar-form navbar-right" role="search" method="post" action="{{ path('set_periode') }}">
+							<div class="form-group  is-empty">
+	                        	<select name="region" class="form-control pointer required">
+								<option value="">Toutes les villes</option>
+								<option value="Douala">Douala</option>
+								<option value="Yaoundé">Yaoundé</option>
+									</select>
+	                        	<span class="material-input"></span>
+							</div>
+							<div class="form-group">
+							 <div class="form-group">
+							 <label class="label-control"></label>
+							 </div>
+                            <label class="label-control"> De </label>
+                               <input type="text" name="start_date" class="form-control datepicker" value="{{start_date_formated}}" />
+                            </div>
+							 <div class="form-group">
+                            <label class="label-control">à </label>
+                               <input type="text" name="end_date" class="form-control datepicker" value="{{end_date_formated}}" />
+                            </div>							
+							<button type="submit" class="btn btn-white btn-round btn-just-icon">
+								<i class="material-icons">search</i><div class="ripple-container"></div>
+							</button>
+	                    </form>
+					</div>
+				</div>
+			</nav>
 
-                    <!-- OPTIONS LIST -->
-                    <ul class="nav pull-right">
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <!-- USER OPTIONS -->
-                        <li class="dropdown pull-left">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img class="user-avatar" alt="" src="{{ asset('assets/images/noavatar.jpg') }}" height="34" /> 
-                                <span class="user-name">
-                                    <span class="hidden-xs">
-                                        {{  app.user.username }}<i class="fa fa-angle-down"></i>
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu hold-on-click">
-                                <li><!-- settings -->
-                                    <a href="#"><i class="fa fa-cogs"></i> Paramètres</a>
-                                </li>
-
-                                <li class="divider"></li>
-                                  
-                                <li><!-- logout -->
-                                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Deconnexion</a>
-                                </li>
-                                 
-                            </ul>
-                        </li>
-                        <!-- /USER OPTIONS -->
-                 {% endif %}
-                    </ul>
-                    <!-- /OPTIONS LIST -->
-
-                </nav>
-
-            </header>
-            <!-- /HEADER -->
+	        <div class="content">
+			 <div class="container-fluid">
+	            {% block body %}
+	                <div class="row">
 
 
-            <!-- 
-                MIDDLE 
-            -->
-            <section id="middle">
-               {% block body %}
+	                </div>
+	           {% endblock body %}
+			    </div>
+	        </div>
+			<footer class="footer">
+	            <div class="container-fluid">
+	                <nav class="pull-left">
+	                    <ul>
+	                        <li>
+	                            <a href="#">
+	                                Home
+	                            </a>
+	                        </li>
 
+	                    </ul>
+	                </nav>
+                    <p class="copyright pull-right">
+                        &copy;
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="#">Created</a>, by LPM for Orange Cameroon
+                    </p>
+	            </div>
+	        </footer>
+	    </div>
+	</div>
 
-              {% endblock %}
+</body>
+{% endblock fos_user_content %}
+  {% block javascripts %}
+       <script type="text/javascript" src= "{{ asset('assets/js/jquery-3.1.0.min.js') }}"></script>
+       <script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/material.min.js') }}"></script>
 
+       <script type="text/javascript"  src="{{ asset('assets/js/chartist.min.js') }}"></script>
 
-            </section>
-            <!-- /MIDDLE -->
+       <script type="text/javascript" src="{{ asset('assets/js/bootstrap-notify.js') }}"></script>
 
-        </div>
-    
-        {% endblock fos_user_content %}
+         <script src="{{ asset('assets/js/moment.js') }}"></script>
+        <script src="{{ asset('assets/bootstrap.datepicker/js/bootstrap-datepicker.js') }}"></script>
+	<!--  Google Maps Plugin    -->
+	  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
-       {% block javascripts %}
-       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-
-       <script type="text/javascript">
-            /**
-                Chart.js
-                http://www.chartjs.org/
-            **/
- 
-
-     loadScript( "{{ asset('assets/Chart.min.js') }}", function() {
-
-         var data = {
-          labels: [
-            "SIAT CONGO",
-        {% for situation in situations if situation.dossier=='concurrence' %}
-          "{{situation.nom}}",
-         {%endfor%}
-           ],
-         datasets: [
-             {
-        data: [{%if totalStock>0 %}{{(totalStockSiat*100/totalStock)|number_format(0, '.', ' ')}},{%endif%}
-        {%if totalStock>0 %}     {% for situation in situations if situation.dossier=='concurrence' %}{{(situation.sd*100/totalStock)|number_format(0, '.', ' ')}},{%endfor%}{%endif%}],
-        backgroundColor: ["#F38823",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}],
-        hoverBackgroundColor: ["#F38584",{% for situation in situations if situation.dossier=='concurrence' %}"{{ attribute(colors, loop.index )}}",{%endfor%}]
-        }]
-      };      
-    var ctx = document.getElementById("pieChartCanvas").getContext("2d");
-            new Chart(ctx,{
-                type: 'pie',
-               data: data
-                });
-                
-
-
-
-var data = {
-    labels: [{% for stockSiat in stockSiatParSemaine %}"{{stockSiat.weektext}}:{{stockSiat.nombre}}",{% endfor%}],
-    datasets: [
-        {
-            label: "PART stock SIAT CONGO",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(255, 206, 86, 27)",
-            borderColor: "rgba(255, 206, 86, 27)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [{% for stockSiat in stockSiatParSemaine %}{{stockSiat.stock}},{% endfor%}],
-            spanGaps: false,
-        },
-         {
-            label: "Part concurrence",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(255, 99, 132, 27)",
-            borderColor: "rgba(255,99,132,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [{% for stockCon in stockConParSemaine %}{{stockCon.stock}},{% endfor%}],
-            spanGaps: false,
-        }
-
+       <script type="text/javascript" src="{{ asset('assets/js/material-dashboard.js') }}"></script>
        
-    ]
- };
+       <script type="text/javascript"  src="{{ asset('assets/js/demo.js') }}"></script>              
+ {% endblock %}    
 
-    var ctx2 = document.getElementById("barChartCanvas").getContext("2d");
-            new Chart(ctx2,{
-                type: 'bar',
-                data: data,
-               options: {
-                       scales: {
-                             xAxes: [{stacked: true}],
-                             yAxes: [{stacked: true}]
-                               }
-                           }
-            });
-      });
-        </script>
-       {% endblock %}
-
-    </body>
 </html>

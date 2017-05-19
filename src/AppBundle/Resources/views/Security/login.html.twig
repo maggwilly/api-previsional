@@ -1,66 +1,110 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
-{% block title %}AllReport:Connexion {% endblock %}
+{% block title %}Connexion {% endblock %}
 {% block fos_user_content %}
-
-		<div class="padding-15">
-
-
-			<div class="login-box">
-				<!-- login form -->
-				<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
-					<header><i class="fa fa-users"></i> Connexion</header>
-					{% if error %}
-					<div class="alert alert-danger noborder text-center weight-400 nomargin noradius">
-						
-                    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-                    
-					</div>
-					 {% endif %}
-					<fieldset>	
-
-						<section>
-							<label class="label">Email ou nom d'utilisateur</label>
-							<label class="input">
-								<i class="icon-append fa fa-envelope"></i>
-								<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-								<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
-							</label>
-						</section>
-						
-						<section>
-							<label class="label">Mot de passe</label>
-							<label class="input">
-								<i class="icon-append fa fa-lock"></i>
-								<input type="password" id="password" name="_password" required="required"/>
-								<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
-							</label>
-					<label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-						</section>
-
-					</fieldset>
-
-					<footer>
-						<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
-
-						<div class="forgot-password pull-left">
-							<a href="#">Mot de passe oublié ?</a> <br />
-
-						</div>
-
-					</footer>
-				</form>
-				<!-- /login form -->
-
-
-      <p style="text-align:center;"><a href="{{ path('homepage') }}"><strong>Retour à l'accueil</strong></a></p>
-			</div>
-
-		</div>
-
+<body>
+    <nav class="navbar navbar-primary navbar-transparent navbar-absolute">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('homepage')}}">All Reports</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+ 
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper wrapper-full-page">
+        <div class="full-page login-page" filter-color="black" data-color="blue"  data-image="../../assets/img/login.jpeg">
+            <div class="content">
+                <div class="container">
+				
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<br><br><br><br><br><br><br><br>
+                            <form action="{{ path("fos_user_security_check") }}" method="post">
+                                <div class="card card-login card-hidden">
+                                    <div class="card-header text-center" data-background-color="orange">
+                                        <h4 class="card-title">Se connecter</h4>
+                                        <div class="social-line">
+                                            <p>Connectez-vous à votre compte</p>
+                                        </div>
+                                    </div>
+                                    <p class="category text-center">
+                                       
+                                    </p>
+                                    <div class="card-content">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">email</i>
+                                            </span>
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Email address</label>
+                                                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">lock_outline</i>
+                                            </span>
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Password</label>
+                                                <input type="password" id="password" name="_password" required="required" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="footer text-center">
+                                        <button type="submit" class="btn btn-primary  btn-wd btn-lg">Let's go</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+            <footer class="footer">
+                <div class="container">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Company
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Portfolio
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy;
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="#">Created</a>, by LPM for Orange Cameroon
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
 {% endblock fos_user_content %}
-{% block javascripts %}
-       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-
- {% endblock %}

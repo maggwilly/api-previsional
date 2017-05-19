@@ -1,180 +1,67 @@
 <?php
 
 namespace AppBundle\Entity;
-use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
 
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * /**
- * @ORM\Entity
+ * Client
+ *
+ * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
-  *@ORM\HasLifecycleCallbacks()
  */
-class Client extends BaseUser
+class Client
 {
-    
     /**
-     * @var string
-     * @ORM\Column(name="id",  type="string", length=255)
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
-	
+    private $id;
 
     /**
      * @var string
-     * @ORM\Column(name="nom", type="string", length=255,nullable=true)
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
-   /**
+    /**
      * @var string
-     * @ORM\Column(name="ville", type="string", length=255,nullable=true)
+     *
+     * @ORM\Column(name="telephone", type="string", length=255)
+     */
+    private $telephone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="technologie", type="string", length=255, nullable=true)
+     */
+    private $technologie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="marqueTelephone", type="string", length=255, nullable=true)
+     */
+    private $marqueTelephone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255, nullable=true)
      */
     private $ville;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255,unique=true)
-     */
-    protected $username;
-
-        /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string")
-     */
-    protected $password;
-
-    /**
-     * Plain password. Used for model validation. Must not be persisted.
-     *
-     * @var string
-     */
-    protected $plainPassword;
-
-
-    /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visite", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $visites;
-
-   /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Synchro", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $synchros;
-
-
-       /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="user", cascade={"persist","remove"})
-   *@ORM\OrderBy({"date" = "DESC"})
-   */
-    private $etapes;
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="usernameCanonical", type="string", length=180, unique=true, nullable=false)
-     */
-    protected $usernameCanonical;
-
-   /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=180)
-     */
-    protected $email;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="emailCanonical", type="string", length=180, unique=true)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
-    protected $emailCanonical;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="enabled", type="boolean",nullable=true)
-     */
-    protected $enabled;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string")
-     */
-    protected $salt;
-
-
-   /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="lastLogin", type="datetime", nullable=true)
-     */
-    protected $lastLogin;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="confirmationToken", type="string", length=180,unique=true ,nullable=true)
-     */
-    protected $confirmationToken;
-
-   /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="passwordRequestedAt", type="datetime" , nullable=true)
-     */
-    protected $passwordRequestedAt;
-
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="locked", type="boolean",nullable=true)
-     */
-    protected $locked;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="expired", type="boolean",nullable=true)
-     */
-    protected $expired;
-
-     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="expiresAt", type="datetime",nullable=true)
-     */
-    protected $expiresAt;
-
-
-   
-     /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="array")
-     */
-    protected $roles;
-
-     /**
-     * @var bool
-     *
-     * @ORM\Column(name="credentialsExpired", type="boolean",nullable=true)
-     */
-    protected $credentialsExpired;
-
-     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="credentialsExpireAt", type="datetime",nullable=true)
-     */
-    protected $credentialsExpireAt;
+    private $type;
 
 
     /**
@@ -201,17 +88,6 @@ class Client extends BaseUser
     }
 
     /**
-     * Set nom
-     *
-     * @param string $nom
-     * @return Client
-     */
-    public function setId($username)
-    {
-        $this->id = $username;
-        return $this;
-    }
-    /**
      * Get nom
      *
      * @return string 
@@ -222,187 +98,79 @@ class Client extends BaseUser
     }
 
     /**
-  * @ORM\PrePersist
- */
- public function prePersist(){
- 
-    $this->id = $this->username;
- } 
-  
-    /**
-     * Constructor
-     */
- 
- public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
-
- 
-
-    public function __toString()
-    {
-        return $this->getUsername();
-    }
-
-  
-
-    /**
-     * Get enabled
+     * Set telephone
      *
-     * @return boolean 
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
+     * @param string $telephone
      * @return Client
      */
-    public function setSalt($salt)
+    public function setTelephone($telephone)
     {
-        $this->salt = $salt;
+        $this->telephone = $telephone;
 
         return $this;
     }
 
     /**
-     * Get locked
+     * Get telephone
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getLocked()
+    public function getTelephone()
     {
-        return $this->locked;
+        return $this->telephone;
     }
 
     /**
-     * Get expired
+     * Set technologie
      *
-     * @return boolean 
-     */
-    public function getExpired()
-    {
-        return $this->expired;
-    }
-
-    /**
-     * Get expiresAt
-     *
-     * @return \DateTime 
-     */
-    public function getExpiresAt()
-    {
-        return $this->expiresAt;
-    }
-
-    /**
-     * Get credentialsExpired
-     *
-     * @return boolean 
-     */
-    public function getCredentialsExpired()
-    {
-        return $this->credentialsExpired;
-    }
-
-    /**
-     * Get credentialsExpireAt
-     *
-     * @return \DateTime 
-     */
-    public function getCredentialsExpireAt()
-    {
-        return $this->credentialsExpireAt;
-    }
-
-        /**
-     * Add visites
-     *
-     * @param \AppBundle\Entity\Visite $visites
-     * @return PointVente
-     */
-    public function addVisite(\AppBundle\Entity\Visite $visite)
-    {
-        $visite->setPointVente($this);
-        $this->visites[] = $visite;
-
-        return $this;
-    }
-
-    /**
-     * Remove visites
-     *
-     * @param \AppBundle\Entity\Visite $visites
-     */
-    public function removeVisite(\AppBundle\Entity\Visite $visites)
-    {
-        $this->visites->removeElement($visites);
-    }
-
-    /**
-     * Get visites
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getVisites()
-    {
-        return $this->visites;
-    }
-
-
-    /**
-     * Get visites
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEtapes()
-    {
-        return $this->etapes;
-    }
-    /**
-     * Add synchros
-     *
-     * @param \AppBundle\Entity\Visite $synchros
+     * @param string $technologie
      * @return Client
      */
-    public function addSynchro(\AppBundle\Entity\Visite $synchros)
+    public function setTechnologie($technologie)
     {
-        $this->synchros[] = $synchros;
+        $this->technologie = $technologie;
 
         return $this;
     }
 
     /**
-     * Remove synchros
+     * Get technologie
      *
-     * @param \AppBundle\Entity\Visite $synchros
+     * @return string 
      */
-    public function removeSynchro(\AppBundle\Entity\Visite $synchros)
+    public function getTechnologie()
     {
-        $this->synchros->removeElement($synchros);
+        return $this->technologie;
     }
 
     /**
-     * Get synchros
+     * Set marqueTelephone
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param string $marqueTelephone
+     * @return Client
      */
-    public function getSynchros()
+    public function setMarqueTelephone($marqueTelephone)
     {
-        return $this->synchros;
+        $this->marqueTelephone = $marqueTelephone;
+
+        return $this;
     }
 
-        /**
+    /**
+     * Get marqueTelephone
+     *
+     * @return string 
+     */
+    public function getMarqueTelephone()
+    {
+        return $this->marqueTelephone;
+    }
+
+    /**
      * Set ville
      *
      * @param string $ville
-     * @return PointVente
+     * @return Client
      */
     public function setVille($ville)
     {
@@ -419,5 +187,28 @@ class Client extends BaseUser
     public function getVille()
     {
         return $this->ville;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Client
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

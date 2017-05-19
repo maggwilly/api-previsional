@@ -1,58 +1,31 @@
-app_situation:
-    resource: "@AppBundle/Resources/config/routing/situation.yml"
-    prefix:   /situation
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user
 
-app_produit:
-    resource: "@AppBundle/Resources/config/routing/produit.yml"
-    prefix:   /produit
+app_activation:
+    resource: "@AppBundle/Resources/config/routing/activation.yml"
+    prefix:   /activation
 
-app_visite:
-    resource: "@AppBundle/Resources/config/routing/visite.yml"
-    prefix:   /visite
+app_phoning:
+    resource: "@AppBundle/Resources/config/routing/phoning.yml"
+    prefix:   /phoning
 
-app_point_vente:
-    resource: "@AppBundle/Resources/config/routing/pointvente.yml"
-    prefix:   /pointvente
+app_rendezvous:
+    resource: "@AppBundle/Resources/config/routing/rendezvous.yml"
+    prefix:   /rendezvous
 
-app_etape:
-    resource: "@AppBundle/Resources/config/routing/etape.yml"
-    prefix:   /etape
+app_telephone:
+    resource: "@AppBundle/Resources/config/routing/telephone.yml"
+    prefix:   /telephone
 
-point_ventes:
-    path:      /mobile/points/ventes/{region}
-    defaults: { _controller: "AppBundle:Mobile:pointVentes" }
-    methods:  GET
+app_vente:
+    resource: "@AppBundle/Resources/config/routing/vente.yml"
+    prefix:   /vente
 
-produits:
-    path:      /mobile/produits
-    defaults: { _controller: "AppBundle:Mobile:produits" }
-    methods:  GET
+app_client:
+    resource: "@AppBundle/Resources/config/routing/client.yml"
+    prefix:   /client
 
-create_point_ventes:
-    path:      /mobile/create/points/ventes
-    defaults: { _controller: "AppBundle:Mobile:createPointVentes" }
-    methods:  [POST,GET]
-
-create_visites:
-    path:      /mobile/create/visites
-    defaults: { _controller: "AppBundle:Mobile:createVisites" }
-    methods:  POST
-
-create_etatpes:
-    path:      /mobile/create/etapes
-    defaults: { _controller: "AppBundle:Mobile:createEtapes" }
-    methods:  POST 
-
-secteurs:
-    path:      /mobile/secteurs/{region}
-    defaults: { _controller: "AppBundle:Mobile:secteurs" }
-    methods:  GET 
-
-quartiers:
-    path:      /mobile/quartiers
-    defaults: { _controller: "AppBundle:Mobile:quartiers" }
-    methods:  GET 
-    
 create_token:
     path:      /mobile/create/auth-token
     defaults: { _controller: "AppBundle:Mobile:postAuthTokens" }

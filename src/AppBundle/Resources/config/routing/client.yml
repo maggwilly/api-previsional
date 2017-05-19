@@ -1,0 +1,12 @@
+client_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Client:index" }
+    methods:  GET
+
+client_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Client:show" }
+    methods:  GET
+
+
+
