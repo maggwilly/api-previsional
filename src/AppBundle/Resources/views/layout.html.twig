@@ -115,8 +115,8 @@
 							<div class="form-group  is-empty">
 	                        	<select name="region" class="form-control pointer required">
 								<option value="">Toutes les villes</option>
-								<option value="Douala">Douala</option>
-								<option value="Yaoundé">Yaoundé</option>
+								<option value="Douala" {% if app.session.get('region')=="Douala"  %}selected="true"{% endif %}>Douala</option>
+								<option value="Yaoundé" {% if app.session.get('region')=="Yaoundé"  %}selected="true"{% endif %} >Yaoundé</option>
 									</select>
 	                        	<span class="material-input"></span>
 							</div>
