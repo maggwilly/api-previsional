@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * /**
- * @ORM\Entity
+ * @ORM\Table(name="user_account")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
   *@ORM\HasLifecycleCallbacks()
  */
