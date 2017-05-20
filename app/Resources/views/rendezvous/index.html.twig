@@ -2,7 +2,6 @@
 {% block title %}Rendez-vous{% endblock %}
 {% block body %}
 	                <div class="row">
-
 	                    <div class="col-md-12">
 	                        <div class="card  card-stats">
 	                            <div class="card-header" data-background-color="blue">
@@ -11,7 +10,7 @@
 	                            </div>
 								<div class="card-content">
 									<p class="category">Rendez-vous obtenus</p>
-									<h3 class="title">86</h3>
+									<h3 class="title">{{rendezVouses|length}}</h3>
 								</div>								
 	                            <div class="card-footer table-responsive">
 	                                <table class="table">
@@ -23,75 +22,16 @@
 											<th>Compte rendu</th>
 	                                    </thead>
 	                                    <tbody>
+										 {% for rendezVous in rendezVouses %}
 	                                        <tr>
-	                                        	<td>Richard amougou</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>21/05/217 08:24</td>
-												<td>Penka w</td>
-												<td class="text-primary">En attente</td>
+	                                        	<td>{{rendezVous.client.nom}}</td>
+	                                        	<td>{{rendezVous.client.telephone}}</td>
+	                                        	<td>{{rendezVous.date| date('d/m/Y')}}</td>
+	                                        	<td>{{rendezVous.dateRdv| date('d/m/Y')}} {{rendezVous.heure| date('H:M')}}</td>
+												<td>{{rendezVous.user.nom}}</td>
+												<td class="text-primary">{{rendezVous.compteRendu}}</td>
 	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dorethé Mambou</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 09:24</td>								
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Terminé avec Succès</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Nicolas Tedonfeu</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 35:24</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Telephone non compatible</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Tekeu Jean Ledou</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 08:24</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Teléphone configuré</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Narcis Tejeuteu</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 14:24</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Teléphone configuré</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Fokoua Alain</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 08:24</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Pas interessé</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 13:24</td>
-												<td>Robert Bi</td>
-												<td class="text-primary">Pas interessé</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 11:24</td>
-												<td>Stephane Bak.</td>
-												<td class="text-primary">Pas interessé</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Moni Prosper Luc</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 11:24</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Non disponible</td>
-	                                        </tr>																																																																<tr>
-	                                        	<td>Noubissi Lionie</td>
-	                                        	<td>14/05/217</td>
-	                                        	<td>14/05/217 10:24</td>
-												<td>Joseph Djambock</td>
-												<td class="text-primary">Pas interessé</td>
-	                                        </tr>															
+                                         {% endfor %}															
 	                                    </tbody>
 	                                </table>
 
@@ -99,6 +39,4 @@
 	                        </div>
 	                    </div>
 </div>
-
-
 {% endblock %}

@@ -1,8 +1,7 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 {% block title %}Contacts clients {% endblock %}
 {% block body %}
-					<div class="row">
-
+			<div class="row">
 	                    <div class="col-md-12">
 	                        <div class="card card-stats">
 	                            <div class="card-header" data-background-color="orange">								
@@ -10,8 +9,8 @@
 	                                <p class="category">Historique des Contacts et relance des clients</p>
 	                            </div>
 									<div class="card-content">
-									<p class="category">Personnes contactées</p>
-									<h3 class="title">153</h3>
+									   <p class="category">Personnes contactées</p>
+									<h3 class="title">{{phonings|length}}</h3>
 								</div>	
 	                            <div class="card-footer table-responsive">
 	                                <table class="table">
@@ -24,85 +23,16 @@
 											<th>Issu de l'appel</th>
 	                                    </thead>
 	                                    <tbody>
+										 {% for phoning in phonings %}
 	                                        <tr>
-	                                        	<td>Richard amougou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 08:24</td>
-												<td>3 appels</td>
-												<td>Penka w</td>
-												<td class="text-primary">Rendez-vous pris</td>
+	                                        	<td>{{phoning.client}}</td>
+	                                        	<td>{{phoning.telephone}}</td>
+	                                        	<td>{{phoning.date| date('d/m/Y')}} {{phoning.heure| date('H:M')}}</td>
+												<td>{{phoning.nombre}} appels</td>
+												<td>{{phoning.commercial}}</td>
+												<td class="text-primary">{{phoning.issu}}</td>
 	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dorethé Mambou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 09:24</td>
-												<td>1 appel</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Rendez-vous pris</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Nicolas Tedonfeu</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 35:24</td>
-												<td>3 appels</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Pas de réponse</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Tekeu Jean Ledou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 08:24</td>
-												<td>3 appel</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Rendez-vous pris</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Narcis Tejeuteu</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 14:24</td>
-												<td>3 appel</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Pas de réponse</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Fokoua Alain</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 08:24</td>
-												<td>3 appel</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Pas interessé</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 13:24</td>
-												<td>3 appels</td>
-												<td>Robert Bi</td>
-												<td class="text-primary">Pas de réponse</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 11:24</td>
-												<td>1 appel</td>
-												<td>Stephane Bak.</td>
-												<td class="text-primary">Trop occupé</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Moni Prosper Luc</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 11:24</td>
-												<td>1 appel</td>
-												<td>Agniess Aguy</td>
-												<td class="text-primary">Non disponible</td>
-	                                        </tr>																																																																<tr>
-	                                        	<td>Noubissi Lionie</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217 10:24</td>
-												<td>3 appels</td>
-												<td>Joseph Djambock</td>
-												<td class="text-primary">Rendez-vous pris</td>
-	                                        </tr>															
+										{% endfor %}		                                        													
 	                                    </tbody>
 	                                </table>
 
@@ -110,6 +40,4 @@
 	                        </div>
 	                    </div>
 </div>
-
-
 {% endblock %}

@@ -23,85 +23,16 @@
 											<th>Prix </th>
 	                                    </thead>
 	                                    <tbody>
+										 {% for vente in ventes %}										
 	                                        <tr>
-	                                        	<td>Richard amougou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Gzack Marie</td>
-												<td>Samsung Galaxy S4 T5</td>
-												<td class="text-primary">12300 XAF</td>
+	                                        	<td>{{vente.client.nom}}</td>
+	                                        	<td>{{vente.client.telephone}}</td>
+	                                        	<td>{{vente.date| date('d/m/Y')}}</td>
+												<td>{{vente.user.nom}}</td>
+												<td>{{vente.telephone.marque}} {{vente.telephone.modele}}</td>
+												<td class="text-primary">{{vente.prix}} XAF</td>
 	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dorethé Mambou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Penka w</td>
-												<td>Samsung S Gear Z 2016</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Nicolas Tedonfeu</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Penka w</td>
-												<td>iPhone 7 plus 32 GO</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Tekeu Jean Ledou</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Joseph Djambock</td>
-												<td>iPhone 7 plus 32 GO</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Narcis Tejeuteu</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Penka w</td>
-												<td>Samsung Galaxy S4 T5</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Fokoua Alain</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Penka w</td>
-												<td>iPhone 7 plus 32 GO</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Stephane Ba</td>
-												<td>Nokia Lumia T620</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Agniess Aguy</td>
-												<td>Samsung Galaxy S4 T5</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>	
-	                                        <tr>
-	                                        	<td>Moni Prosper Luc</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Robert Bibock</td>
-												<td>Nokia Lumia T620</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>																																																																<tr>
-	                                        	<td>Noubissi Lionie</td>
-	                                        	<td>654755224</td>
-	                                        	<td>14/05/217</td>											
-												<td>Agniess Aguy</td>
-												<td>Samsung Galaxy S4 T5</td>
-												<td class="text-primary">12300 XAF</td>
-	                                        </tr>															
+									 {% endfor %}			
 	                                    </tbody>
 	                                </table>
 
@@ -109,5 +40,4 @@
 	                        </div>
 	                    </div>
 </div>
-
 {% endblock %}

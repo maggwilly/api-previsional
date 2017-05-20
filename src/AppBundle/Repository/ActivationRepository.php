@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActivationRepository extends EntityRepository
 {
-       public function findList($region=null, $startDate=null, $endDate=null){
+       public function findList($region=null, $startDate=null, $endDate=null,$filter=false){
          $qb = $this->createQueryBuilder('a')->join('a.client','c');
         if($region!=null){
            $qb->where('c.ville=:ville')
@@ -22,13 +22,41 @@ class ActivationRepository extends EntityRepository
            $qb->andWhere('a.date>=:startDate')
           ->setParameter('startDate', new \DateTime($startDate));
           }
+
           if($endDate!=null){
            $qb->andWhere('a.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
-          }          
+          }
+          
+          if($filter){
+           $qb->andWhere('a.parametrage=:parametrage')
+          ->setParameter('parametrage',true);
+          }                     
           return $qb->getQuery()->getArrayResult();
   }   
 
+     public function findGroupByUser($region=null, $startDate=null, $endDate=null){
+         $qb = $this->createQueryBuilder('v')->join('v.client','c')->join('v.user','u');
+        if($region!=null){
+           $qb->where('c.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+      if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }  
+           $qb->select('u.nom')
+          ->addSelect('u.username')
+          ->addSelect('count(v.id) as nombre')
+          ->addSelect('sum(CASE WHEN v.parametrage=true THEN 1 ELSE 0 END) as reussi')
+          ->groupBy('u.nom')
+          ->addGroupBy('u.username');
 
+          return $qb->getQuery()->getArrayResult();
+  }  
   
 }

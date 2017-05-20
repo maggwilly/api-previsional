@@ -41,13 +41,20 @@ class Activation
      */
     private $raison;
 
+       /**
+     * @var string
+     *
+     * @ORM\Column(name="provisionning", type="integer", nullable=true)
+     */
+    private $provisionning;
+
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
     private $user;
 
     /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\Client")
    */
     private $client;
     
@@ -174,5 +181,28 @@ class Activation
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set provisionning
+     *
+     * @param integer $provisionning
+     * @return Activation
+     */
+    public function setProvisionning($provisionning)
+    {
+        $this->provisionning = $provisionning;
+
+        return $this;
+    }
+
+    /**
+     * Get provisionning
+     *
+     * @return integer 
+     */
+    public function getProvisionning()
+    {
+        return $this->provisionning;
     }
 }

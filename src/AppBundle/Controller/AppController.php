@@ -24,8 +24,35 @@ class AppController extends Controller
 
     public function overviewAction()
     {
-        
-        return $this->render('overview/overview.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->getRequest()->getSession();
+        $date = new \DateTime();
+        $week = $date->format("W");
+        $year=$date->format("Y");
+        $date->setISODate($year, $week);
+        $weekStart = $date->format('Y-m-d');
+        $date->modify('+6 days');
+        $weekEnd=$date->format('Y-m-d'); 
+        $region=$session->get('region');
+        $startDate=$session->get('startDate',$weekStart);
+        $endDate=$session->get('endDate',$weekEnd);     
+
+        $phoningsGroup = $em->getRepository('AppBundle:Phoning')->findGroupByIssu($region, $startDate, $endDate);
+        $rendezVous = $em->getRepository('AppBundle:RendezVous')->findList($region,$startDate,$endDate); 
+        $activationsReuissites = $em->getRepository('AppBundle:Activation')->findList( $region,$startDate,$endDate,true);
+        $activations = $em->getRepository('AppBundle:Activation')->findList( $region,$startDate,$endDate);
+        $ventes = $em->getRepository('AppBundle:Vente')->findList($region,$startDate, $endDate);
+        $ventesGroup = $em->getRepository('AppBundle:Vente')->findGroupByMarque($region,$startDate, $endDate);
+
+        return $this->render('overview/overview.html.twig',
+         array(
+            'phoningsGroup' => $phoningsGroup,
+            'ventesGroup' => $ventesGroup, 
+            'activationsReuissites'=>count($activationsReuissites),
+            'activations'=>count($activations),
+            'ventes'=>count($ventes),
+            'rendezVous'=>count($rendezVous),
+        ));
     }
 
     public function setPeriodeAction(Request $request)

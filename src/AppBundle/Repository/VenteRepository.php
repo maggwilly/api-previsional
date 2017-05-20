@@ -28,5 +28,54 @@ class VenteRepository extends EntityRepository
           ->setParameter('endDate',new \DateTime($endDate));
           }          
           return $qb->getQuery()->getArrayResult();
-  }   
+  }
+
+
+     public function findGroupByMarque($region=null, $startDate=null, $endDate=null){
+         $qb = $this->createQueryBuilder('v')->join('v.client','c')->join('v.telephone','t');
+        if($region!=null){
+           $qb->where('c.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+      if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }  
+          $qb->select('t.marque')
+          ->addSelect('t.modele')
+          ->addSelect('count(v.id) as nombre')
+          ->addSelect('sum(v.prix) as montant')
+          ->groupBy('t.marque')
+          ->addGroupBy('t.modele');
+
+          return $qb->getQuery()->getArrayResult();
+  }  
+
+     public function findGroupByUser($region=null, $startDate=null, $endDate=null){
+         $qb = $this->createQueryBuilder('v')->join('v.client','c')->join('v.user','u');
+        if($region!=null){
+           $qb->where('c.ville=:ville')
+          ->setParameter('ville', $region);
+          }
+      if($startDate!=null){
+           $qb->andWhere('v.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('v.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }  
+           $qb->select('u.nom')
+          ->addSelect('u.username')
+          ->addSelect('count(v.id) as nombre')
+          ->addSelect('sum(v.prix) as montant')
+          ->groupBy('u.nom')
+          ->addGroupBy('u.username');
+
+          return $qb->getQuery()->getArrayResult();
+  }          
 }

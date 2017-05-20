@@ -28,12 +28,6 @@ class Phoning
      */
     private $date;
 
-   /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_rdv", type="date")
-     */
-    private $dateRdv;
     /**
      * @var \DateTime
      *
@@ -183,26 +177,5 @@ class Phoning
         return $this->client;
     }
 
-    /**
-     * Set dateRdv
-     *
-     * @param \DateTime $dateRdv
-     * @return Phoning
-     */
-    public function setDateRdv($dateRdv)
-    {
-        $this->dateRdv = $dateRdv;
 
-        return $this;
-    }
-
-    /**
-     * Get dateRdv
-     *
-     * @return \DateTime 
-     */
-    public function getDateRdv()
-    {
-        return $this->dateRdv;
-    }
 }

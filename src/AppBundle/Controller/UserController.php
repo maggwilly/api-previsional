@@ -19,11 +19,21 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
+        $session = $this->getRequest()->getSession();
+        $date = new \DateTime();
+        $week = $date->format("W");
+        $year=$date->format("Y");
+        $date->setISODate($year, $week);
+        $weekStart = $date->format('Y-m-d');
+        $date->modify('+6 days');
+        $weekEnd=$date->format('Y-m-d'); 
+        $region=$session->get('region');
+        $startDate=$session->get('startDate',$weekStart);
+        $endDate=$session->get('endDate',$weekEnd);     
+        $activations = $em->getRepository('AppBundle:Activation')->findGroupByUser( $region,$startDate,$endDate);
+        $ventes = $em->getRepository('AppBundle:Vente')->findGroupByUser($region,$startDate, $endDate);
         return $this->render('user/index.html.twig', array(
-            'users' => $users,
+            'ventes' => $ventes,'activations' => $activations,
         ));
     }
 

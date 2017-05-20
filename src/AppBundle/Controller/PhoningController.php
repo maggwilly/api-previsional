@@ -19,23 +19,21 @@ class PhoningController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-       $session = $this->getRequest()->getSession();
-       $date = new \DateTime();
+        $session = $this->getRequest()->getSession();
+        $date = new \DateTime();
         $week = $date->format("W");
         $year=$date->format("Y");
         $date->setISODate($year, $week);
-         $weekStart = $date->format('Y-m-d');
-         $date->modify('+6 days');
-         $weekEnd=$date->format('Y-m-d'); 
+        $weekStart = $date->format('Y-m-d');
+        $date->modify('+6 days');
+        $weekEnd=$date->format('Y-m-d'); 
+
         $region=$session->get('region');
         $startDate=$session->get('startDate',$weekStart);
         $endDate=$session->get('endDate',$weekEnd);
 
-        $phonings = $em->getRepository('AppBundle:Phoning')->findList($region, $startDate, $endDate);
-
-        return $this->render('phoning/index.html.twig', array(
-            'phonings' => $phonings,
-        ));
+        $phonings = $em->getRepository('AppBundle:Phoning')->findGroupByClient($region, $startDate, $endDate);
+                return $this->render('phoning/index.html.twig', array('phonings' => $phonings ));
     }
 
     /**

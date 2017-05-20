@@ -56,6 +56,7 @@ class Vente
    */
     private $telephone;
     
+
     /**
      * Get id
      *

@@ -33,10 +33,25 @@ class RendezVous
    */
     private $user;
 
+
+
+   /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_rdv", type="date")
+     */
+    private $dateRdv;
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
    */
     private $client;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="compter_rendu", type="string", length=255, nullable=true)
+     */
+    private $compteRendu;
  
     /**
      * @var \DateTime
@@ -177,4 +192,50 @@ class RendezVous
     {
         return $this->client;
     }
+
+    /**
+     * Set compteRendu
+     *
+     * @param string $compteRendu
+     * @return RendezVous
+     */
+    public function setCompteRendu($compteRendu)
+    {
+        $this->compteRendu = $compteRendu;
+
+        return $this;
+    }
+
+    /**
+     * Get compteRendu
+     *
+     * @return string 
+     */
+    public function getCompteRendu()
+    {
+        return $this->compteRendu;
+    }
+
+    /**
+     * Set dateRdv
+     *
+     * @param \DateTime $dateRdv
+     * @return Phoning
+     */
+    public function setDateRdv($dateRdv)
+    {
+        $this->dateRdv = $dateRdv;
+
+        return $this;
+    }
+
+    /**
+     * Get dateRdv
+     *
+     * @return \DateTime 
+     */
+    public function getDateRdv()
+    {
+        return $this->dateRdv;
+    }    
 }
