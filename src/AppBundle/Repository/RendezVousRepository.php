@@ -27,6 +27,6 @@ class RendezVousRepository extends EntityRepository
            $qb->andWhere('r.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
           }          
-          return $qb->getQuery()->getArrayResult();
+          return $qb->getQuery()->getResult();
   }     
 }

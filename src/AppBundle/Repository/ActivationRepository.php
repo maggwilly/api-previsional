@@ -32,7 +32,7 @@ class ActivationRepository extends EntityRepository
            $qb->andWhere('a.parametrage=:parametrage')
           ->setParameter('parametrage',true);
           }                     
-          return $qb->getQuery()->getArrayResult();
+          return $qb->getQuery()->getResult();
   }   
 
      public function findGroupByUser($region=null, $startDate=null, $endDate=null){

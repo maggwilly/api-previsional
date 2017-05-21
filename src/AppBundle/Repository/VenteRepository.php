@@ -27,7 +27,7 @@ class VenteRepository extends EntityRepository
            $qb->andWhere('v.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
           }          
-          return $qb->getQuery()->getArrayResult();
+          return $qb->getQuery()->getResult();
   }
 
 
