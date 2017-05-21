@@ -67,6 +67,12 @@ class RendezVous
      */
     private $rapport;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lieu", type="string", length=255, nullable=true)
+     */
+    private $lieu;
 
     /**
      * Get id
@@ -238,4 +244,27 @@ class RendezVous
     {
         return $this->dateRdv;
     }    
+
+    /**
+     * Set lieu
+     *
+     * @param string $lieu
+     * @return RendezVous
+     */
+    public function setLieu($lieu)
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * Get lieu
+     *
+     * @return string 
+     */
+    public function getLieu()
+    {
+        return $this->lieu;
+    }
 }
