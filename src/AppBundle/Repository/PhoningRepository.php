@@ -42,6 +42,7 @@ class PhoningRepository extends EntityRepository
     $statement->bindValue('startDate', $startDate->format('Y-m-d'));
     $statement->bindValue('endDate',  $endDate->format('Y-m-d'));
     $statement->execute();
+    
       return  $result = $statement->fetchAll();
   }   
   
