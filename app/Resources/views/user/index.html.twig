@@ -41,20 +41,20 @@
 	                                <p class="category">paramétrages par commercial</p>
 	                            </div> 
                                 <div class="card-content">
-									<p class="category">Cartes SIM utilisées</p>
-									<h3 class="title">{{ventes|somme('nombre')}}</h3>
+									<p class="category">Nombre de migrations</p>
+									<h3 class="title">{{activations|somme('nombre')}}</h3>
 								</div>                               
 	                            <div class="card-footer table-responsive">
 	                                <table class="table">
 	                                    <thead class="text-primary">
 	                                    	<th>Name du commercial</th>
-	                                    	<th>Nbre de tel paramétrés</th>
+	                                    	<th>Nbre de paramétrages</th>
 	                                    	<th>paramétrages reussi</th>										
 	                                    </thead>
 	                                    <tbody>
 										 {% for activation in activations %}
 	                                        <tr>
-	                                        	<td>{{activation.nom}}</td>
+	                                        	<td>{{activation.username}}</td>
 	                                        	<td>{{activation.nombre}}</td>
 	                                        	<td>{{activation.reussi}}</td>
 	                                        </tr>
