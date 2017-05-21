@@ -38,7 +38,7 @@ class RendezVous
    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_rdv", type="date")
+     * @ORM\Column(name="date_rdv", type="datetime")
      */
     private $dateRdv;
     /**
