@@ -28,7 +28,9 @@
 	                                        	<td>{{vente.client.nom}}</td>
 	                                        	<td>{{vente.client.telephone}}</td>
 	                                        	<td>{{vente.date| date('d/m/Y')}}</td>
-												<td>{{vente.user.nom}}</td>
+												<td>
+												{% if vente.user.nom %}{{vente.user.nom}}{% else %}{{vente.user.username}}{% endif %}
+												</td>
 												<td>{{vente.telephone.marque}} {{vente.telephone.modele}}</td>
 												<td class="text-primary">{{vente.prix}} XAF</td>
 	                                        </tr>

@@ -27,8 +27,10 @@
 	                                        <tr>
 	                                        	<td>{{activation.client.nom}}</td>
 	                                        	<td>{{activation.client.telephone}}</td>
-	                                        	<td>{{activation.date| date('d/m/Y')}} {{activation.heure| date('H:M')}}</td>
-												<td>{{activation.user.nom}}</td>
+	                                        	<td>{{activation.date| date('d/m/Y')}} {{activation.heure| date('H:i')}}</td>
+                                                 <td>
+												{% if vente.user.nom %}{{vente.user.nom}}{% else %}{{vente.user.username}}{% endif %}
+												</td>
 												<td class="text-primary">{{activation.raison}}</td>
 	                                        </tr>
 											 {% endfor %}		
