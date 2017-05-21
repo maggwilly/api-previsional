@@ -31,7 +31,7 @@
 	                                        	<td>{{rendezVous.dateRdv| date('d/m/Y H:i')}} </td>
 												<td>{{rendezVous.lieu}}</td>
 												<td>
-												{% if vente.user.nom %}{{vente.user.nom}}{% else %}{{vente.user.username}}{% endif %}
+												{% if rendezVous.user.nom %}{{rendezVous.user.nom}}{% else %}{{rendezVous.user.username}}{% endif %}
 												</td>
 												<td class="text-primary">{{rendezVous.compteRendu}}</td>
 	                                        </tr>
