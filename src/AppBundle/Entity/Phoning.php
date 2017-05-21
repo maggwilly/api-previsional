@@ -24,14 +24,14 @@ class Phoning
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="heure", type="time")
+     * @ORM\Column(name="heure", type="time", nullable=true)
      */
     private $heure;
 

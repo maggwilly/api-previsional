@@ -24,7 +24,7 @@ class RendezVous
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
@@ -56,14 +56,14 @@ class RendezVous
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="heure", type="time")
+     * @ORM\Column(name="heure", type="time", nullable=true)
      */
     private $heure;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="rapport", type="string", length=255)
+     * @ORM\Column(name="rapport", type="string", length=255, nullable=true)
      */
     private $rapport;
 

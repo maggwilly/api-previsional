@@ -27,7 +27,7 @@
 	                                        <tr>
 	                                        	<td>{{activation.client.nom}}</td>
 	                                        	<td>{{activation.client.telephone}}</td>
-	                                        	<td>{{activation.date| date('d/m/Y')}} {{activation.heure| date('H:i')}}</td>
+	                                        	<td>{{activation.date| date('d/m/Y H:i')}}</td>
                                                  <td>
 												{% if vente.user.nom %}{{vente.user.nom}}{% else %}{{vente.user.username}}{% endif %}
 												</td>
