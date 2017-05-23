@@ -2,29 +2,36 @@ app_user:
     resource: "@AppBundle/Resources/config/routing/user.yml"
     prefix:   /user
 
-app_activation:
-    resource: "@AppBundle/Resources/config/routing/activation.yml"
-    prefix:   /activation
+app_article:
+    resource: "@AppBundle/Resources/config/routing/article.yml"
+    prefix:   /article
 
-app_phoning:
-    resource: "@AppBundle/Resources/config/routing/phoning.yml"
-    prefix:   /phoning
+app_concours:
+    resource: "@AppBundle/Resources/config/routing/programme.yml"
+    prefix:   /programme
 
-app_rendezvous:
-    resource: "@AppBundle/Resources/config/routing/rendezvous.yml"
-    prefix:   /rendezvous
+app_formated:
+    resource: "@AppBundle/Resources/config/routing/formated.yml"
+    prefix:   /formated
 
-app_telephone:
-    resource: "@AppBundle/Resources/config/routing/telephone.yml"
-    prefix:   /telephone
+app_matiere:
+    resource: "@AppBundle/Resources/config/routing/matiere.yml"
+    prefix:   /matiere
 
-app_vente:
-    resource: "@AppBundle/Resources/config/routing/vente.yml"
-    prefix:   /vente
+app_partie:
+    resource: "@AppBundle/Resources/config/routing/partie.yml"
+    prefix:   /partie
+app_objectif:
+    resource: "@AppBundle/Resources/config/routing/objectif.yml"
+    prefix:   /objectif
 
-app_client:
-    resource: "@AppBundle/Resources/config/routing/client.yml"
-    prefix:   /client
+app_question:
+    resource: "@AppBundle/Resources/config/routing/question.yml"
+    prefix:   /question
+
+app_content:
+    resource: "@AppBundle/Resources/config/routing/content.yml"
+    prefix:   /content
 
 create_token:
     path:      /mobile/create/auth-token

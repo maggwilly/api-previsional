@@ -1,7 +1,0 @@
-AppBundle\Entity\Quartier:
-    exclusion_policy: none
-    properties:
-        id:
-            groups: ['quartier','secteur']
-        secteur:    
-            groups: ['quartier']

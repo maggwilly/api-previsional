@@ -29,7 +29,7 @@ class AuthToken
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\ManyToOne(targetEntity="User")
      * @var User
      */
     protected $user;
@@ -70,12 +70,12 @@ class AuthToken
         return $this->user;
     }
 
-    public function setUser(Client $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
 
-    static function create(Client $user)
+    static function create(User $user)
     {   
         $authToken = new AuthToken();
         $str = uniqid();

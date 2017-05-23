@@ -86,11 +86,14 @@ fos_rest:
             html: true
     format_listener:
         rules:
-            - { path: ^/v1/mobile, priorities: [json], fallback_format: 'json'} 
-            - { path: ^/, priorities: [html], fallback_format: 'html'}
+           - { path: ^/v1/formated , priorities: [json], fallback_format: 'json'} 
+           - { path: ^/, priorities: [html], fallback_format: 'html'}
+         
+
 
     routing_loader:
         include_format: false
+        default_format: html
     versioning:
         enabled: true
         resolvers:

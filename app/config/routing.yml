@@ -8,14 +8,10 @@ mobileapp:
     defaults: { _controller: "AppBundle:Mobile:apk" }
     methods:  GET
 
-set_periode:
-    path:     /set/periode
-    defaults: { _controller: "AppBundle:App:setPeriode" }
-    methods:  POST
 
 user_homepage:
     path:     /v1/home
-    defaults: { _controller: "AppBundle:App:overview" }
+    defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
 
 app_admin:

@@ -6,7 +6,7 @@
 	<link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>
-		{% block title %} Orange Cameroon {% endblock %}
+		{% block title %} Saisie de données {% endblock %}
 	</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -21,19 +21,11 @@
 </head>
 {% block fos_user_content %}
 <body>
-
 	<div class="wrapper">
 	    <div class="sidebar" data-color="purple" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
-
-			<!--
-		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
-
-		        Tip 2: you can also add an image using data-image tag
-		    -->
-
 			<div class="logo">
 				<a href="#" class="simple-text">
-					All Reports
+					Entrances saisie
 				</a>
 			</div>
 	    	<div class="sidebar-wrapper">
@@ -41,49 +33,24 @@
 	                <li class="active">
 	                    <a href="{{ path('user_homepage') }}">
 	                       <i class="material-icons">dashboard</i>
-	                        <p>Overview</p>
+	                        <p>Les concours</p>
 	                    </a>
 	                </li>
 	                <li>
-	                    <a href="{{ path('phoning_index') }}">
-	                        <i class="material-icons">person</i>
-	                        <p>Phonings & relances</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="{{ path('rendezvous_index') }}">
-	                        <i class="material-icons">today</i>
-	                        <p>Rendez-vous </p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="{{ path('activation_index') }}">
-	                        <i class="material-icons">settings_brightness</i>
-	                        <p>Paramétrages </p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="{{ path('vente_index') }}">
+	                    <a href="{{ path('article_index') }}">
 	                        <i class="material-icons">bubble_chart</i>
-	                        <p>Ventes des Tel</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="{{ path('user_index') }}">
-	                        <i class="material-icons">content_paste</i>
-	                        <p>Gestion des ressources</p>
+	                        <p>Les articles</p>
 	                    </a>
 	                </li>					
 					<li class="active-pro">
 	                    <a href="#">
 	                        <i class="material-icons">unarchive</i>
-	                        <p>LPM Consulting &copy;</p>
+	                        <p>Entrances saisie &copy;</p>
 	                    </a>
 	                </li>
 	            </ul>
 	    	</div>
 		</div>
-
 	    <div class="main-panel">
 			<nav class="navbar navbar-transparent navbar-absolute">
 				<div class="container-fluid">
@@ -106,39 +73,10 @@
 	 						   </a>
 							</li>
 						</ul>
-	{% set day = null|date('w') %}
-   {% set weekStart = null|date_modify("-#{day} days")|date('d/m/Y') %}
-   {% set weekEnd = null|date_modify("+#{6-day} days")|date('d/m/Y') %}					
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):weekStart %}
-    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):weekEnd  %}			
-						<form class="navbar-form navbar-right" role="search" method="post" action="{{ path('set_periode') }}">
-							<div class="form-group  is-empty">
-	                        	<select name="region" class="form-control pointer required">
-								<option value="">Toutes les villes</option>
-								<option value="Douala" {% if app.session.get('region')=="Douala"  %}selected="true"{% endif %}>Douala</option>
-								<option value="Yaoundé" {% if app.session.get('region')=="Yaoundé"  %}selected="true"{% endif %} >Yaoundé</option>
-									</select>
-	                        	<span class="material-input"></span>
-							</div>
-							<div class="form-group">
-							 <div class="form-group">
-							 <label class="label-control"></label>
-							 </div>
-                            <label class="label-control"> De </label>
-                               <input type="text" name="start_date" class="form-control datepicker" value="{{start_date_formated}}" />
-                            </div>
-							 <div class="form-group">
-                            <label class="label-control">à </label>
-                               <input type="text" name="end_date" class="form-control datepicker" value="{{end_date_formated}}" />
-                            </div>							
-							<button type="submit" class="btn btn-white btn-round btn-just-icon">
-								<i class="material-icons">search</i><div class="ripple-container"></div>
-							</button>
-	                    </form>
+
 					</div>
 				</div>
 			</nav>
-
 	        <div class="content">
 			 <div class="container-fluid">
 	            {% block body %}
@@ -149,27 +87,7 @@
 	           {% endblock body %}
 			    </div>
 	        </div>
-			<footer class="footer">
-	            <div class="container-fluid">
-	                <nav class="pull-left">
-	                    <ul>
-	                        <li>
-	                            <a href="#">
-	                                Home
-	                            </a>
-	                        </li>
 
-	                    </ul>
-	                </nav>
-                    <p class="copyright pull-right">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
-                        <a href="#">Created</a>, by LPM for Orange Cameroon
-                    </p>
-	            </div>
-	        </footer>
 	    </div>
 	</div>
 
