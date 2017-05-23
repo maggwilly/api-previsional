@@ -23,7 +23,7 @@
                 <td><a href="{{ path('question_show', { 'id': question.id }) }}">
                 {{ question.text }}
                 {{ question.math }}
-                {{ question.image }}
+               <img src="{{ question.image }}" height="160" width="200">
                 </a>
                 </td>
                   <td>{{ question.type }}</td>

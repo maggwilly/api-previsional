@@ -6,20 +6,19 @@
 	 <div class="card-content table-responsive">
     <table class="table">
         <tbody>
-            <tr>
              {% if article.user %}
-                <td>
+               <tr>
                 <th>Editeur</th>
                 <td>{{ article.user.username }}</td>
-                </td>
+              </tr>
                 {% endif %} 
                 {% if article.validateur %}
-                <td>
+             <tr>    
                  <th>Validateur</th>
                 <td>{{ article.validateur.username }}</td>
-                </td>
+             </tr>   
                 {% endif %}
-            </tr>
+            
            <tr>
                 <th>Date</th>
                 <td>{% if article.date %}{{ article.date|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -29,8 +28,7 @@
                 <td>{{ article.titre }}</td>
             </tr>
             <tr>
-                <th>Image</th>
-                <td>{{ article.image }}</td>
+                <td><img src="{{ article.image }}" height="160" width="200"></td>
             </tr>
             
             <tr>
