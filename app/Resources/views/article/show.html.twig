@@ -27,10 +27,11 @@
                 <th>Titre</th>
                 <td>{{ article.titre }}</td>
             </tr>
+            {% if article.image %}
             <tr>
                 <td><img src="{{ article.image }}" height="160" width="200"></td>
             </tr>
-            
+             {% endif %}
             <tr>
                 <th>Introduction</th>
                 <td>{{ article.introduction }}</td>

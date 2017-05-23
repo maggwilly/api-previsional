@@ -23,7 +23,9 @@
                 <td><a href="{{ path('question_show', { 'id': question.id }) }}">
                 {{ question.text }}
                 {{ question.math }}
+                {% if question.image %}
                <img src="{{ question.image }}" height="160" width="200">
+               {% endif %}
                 </a>
                 </td>
                   <td>{{ question.type }}</td>

@@ -11,10 +11,12 @@
                 <th>Subtitle</th>
                 <td>{{ content.subtitle }}</td>
             </tr>
+            {% if content.image %}
             <tr>
                 <th>Image</th>
                 <td><img src="{{ content.image }}" height="160" width="200"></td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Text</th>
                 <td>{{ content.text }}</td>

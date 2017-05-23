@@ -47,10 +47,12 @@
                 <th>Lien</th>
                 <td>{{ concour.lien }}</td>
             </tr>
+             {% if concour.image %}
             <tr>
                 <th>Image</th>
                 <td><img src="{{ concour.image }}" height="160" width="200"></td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Contact</th>
                 <td>{{ concour.contact }}</td>
