@@ -47,7 +47,7 @@ class MatiereController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $matiere->setConcours($concours);
+            $matiere->setProgramme($concours);
             $em->persist($matiere);
             $em->flush($matiere);
 
