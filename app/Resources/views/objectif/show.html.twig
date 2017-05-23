@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Objectif</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ objectif.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ objectif.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ objectif.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('partie_show', { 'id': objectif.partie.id }) }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('objectif_edit', { 'id': objectif.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

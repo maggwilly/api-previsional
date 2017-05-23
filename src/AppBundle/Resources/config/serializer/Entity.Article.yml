@@ -1,0 +1,13 @@
+AppBundle\Entity\Article:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['article', 'full']
+        titre:
+             groups: ['article', 'full']
+        introduction:
+             groups: ['article', 'full']
+        image:
+             groups: ['article', 'full']
+        contents:
+             groups: ['article', 'full']

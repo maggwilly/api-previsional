@@ -1,0 +1,51 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Concours list{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">Les concours</h4>
+	  <p class="category">Liste des concours</p>
+	</div>
+	 <div class="card-content table-responsive">
+	     <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Ecole</th>
+                <th>Abreviation</th>
+                <th>Type</th>
+                <th>Session</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for concour in concours %}
+            <tr>
+                <td><a href="{{ path('matiere_index', { 'id': concour.id }) }}">{{ concour.nom }}</a></td>
+                <td>{{ concour.ecole }}</td>
+                <td>{{ concour.abreviation }}</td>
+                <td>{{ concour.type }}</td>
+                <td>{{ concour.session }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('concours_show', { 'id': concour.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('concours_edit', { 'id': concour.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ <a href="{{ path('concours_new') }}" class="btn btn-default ">Create a new concours</a> 
+ <a  href="{{ path('concours_index_json') }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>   
+</div>
+</div>
+</div>
+
+{% endblock %}

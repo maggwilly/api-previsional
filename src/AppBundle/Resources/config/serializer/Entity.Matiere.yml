@@ -1,0 +1,15 @@
+AppBundle\Entity\Matiere:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['matiere', 'programme', 'full','partie']
+        titre:
+             groups: ['matiere', 'programme', 'full','partie']
+        description:
+             groups: ['matiere', 'programme', 'full']
+        categorie:
+             groups: ['matiere', 'programme', 'full']
+        poids:
+             groups: ['matiere', 'programme', 'full']
+        image:
+             groups: ['matiere', 'programme', 'full']

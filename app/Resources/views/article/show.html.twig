@@ -1,0 +1,73 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{ article.titre }} #ID {{ article.id }} {% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+	 <div class="card-content table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+             {% if article.user %}
+                <td>
+                <th>Editeur</th>
+                <td>{{ article.user.username }}</td>
+                </td>
+                {% endif %} 
+                {% if article.validateur %}
+                <td>
+                 <th>Validateur</th>
+                <td>{{ article.validateur.username }}</td>
+                </td>
+                {% endif %}
+            </tr>
+           <tr>
+                <th>Date</th>
+                <td>{% if article.date %}{{ article.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>              
+            <tr>
+                <th>Titre</th>
+                <td>{{ article.titre }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ article.image }}</td>
+            </tr>
+            
+            <tr>
+                <th>Introduction</th>
+                <td>{{ article.introduction }}</td>
+            </tr>
+            <tr>
+                <th>Paragraphes</th>
+                <td> 
+                 <ul>
+                {% for content in article.contents %}
+                   <li>
+                <p>{{content.subtitle}}</p>
+                 <p> {{content.text}}</p>
+                   </li>
+                  {% endfor %}
+                </ul>
+                <a href="{{ path('content_new', { 'id': article.id }) }}">Create a new paragraphe</a>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+ {% if not article.validated %}<a  href="{{ path('article_valid', { 'id': article.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+    <ul>
+        <li>
+            <a href="{{ path('article_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('article_edit', { 'id': article.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+ </div 
+  </div>    
+{% endblock %}

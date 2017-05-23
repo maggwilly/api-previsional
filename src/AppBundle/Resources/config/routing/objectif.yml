@@ -1,0 +1,24 @@
+objectif_index:
+    path:     /{id}/list
+    defaults: { _controller: "AppBundle:Objectif:index" }
+    methods:  GET
+
+objectif_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Objectif:show" }
+    methods:  GET
+
+objectif_new:
+    path:     /{id}/new
+    defaults: { _controller: "AppBundle:Objectif:new" }
+    methods:  [GET, POST]
+
+objectif_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Objectif:edit" }
+    methods:  [GET, POST]
+
+objectif_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Objectif:delete" }
+    methods:  DELETE

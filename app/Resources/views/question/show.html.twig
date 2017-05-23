@@ -1,0 +1,123 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Question #ID {{ question.id }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+	 <div class="card-content table-responsive">
+    <table class="table">
+        <tbody>
+           
+             {% if question.user %}
+               <tr>
+                <th>Editeur</th>
+                <td>{{ question.user.username }}</td>
+              </tr>
+                {% endif %} 
+                {% if question.validateur %}
+             <tr>    
+                 <th>Validateur</th>
+                <td>{{ question.validateur.username }}</td>
+             </tr>   
+                {% endif %}
+            
+             <tr>
+                <th>Date</th>
+                <td>{% if question.date %}{{ question.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>     
+            <tr>
+                <th>Type</th>
+                <td>{{ question.type }}</td>
+            </tr>
+            <tr>
+                <th>Texte</th>
+                <td>{{ question.text }}</td>
+            </tr>
+             {% if question.math %} 
+            <tr>
+                <th>Math</th>
+                <td>{{ question.math }}</td>
+            </tr>
+            {% endif %} 
+            {% if question.image %} 
+            <tr>
+                <th>Image</th>
+                <td>{{ question.image }}</td>
+            </tr>
+             {% endif %} 
+            {% if question.historique %} 
+            <tr>
+                <th>Historique</th>
+                <td>{{ question.historique }}</td>
+            </tr>
+            {% endif %} 
+            {% if question.explication %}   
+             <tr>
+                <th>Explication</th>
+                <td>{{ question.explication }}</td>
+            </tr> 
+            {% endif %} 
+            {% if question.hint %}         
+            <tr >
+                <th>Indication</th>
+                <td>{{ question.hint }}</td>
+            </tr> 
+            {% endif %}           
+            <tr>
+                <th>Temps</th>
+                <td>{{ question.time }} min</td>
+            </tr>
+            <tr>
+                <th>Reponse</th>
+                <td>{{ question.rep }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ question.note }}</td>
+            </tr>
+            <tr>
+                <th>Proposition A</th>
+                <td>{{ question.propA }}</td>
+            </tr>
+            <tr>
+                <th>Proposition B</th>
+                <td>{{ question.propB }}</td>
+            </tr>
+             {% if question.propC %} 
+            <tr>
+                <th>Proposition C</th>
+                <td>{{ question.propC }}</td>
+            </tr>
+            {% endif %} 
+            {% if question.propD %} 
+            <tr>
+                <th>Proposition D</th>
+                <td>{{ question.propD }}</td>
+            </tr>
+            {% endif %} 
+              {% if question.propE %}
+            <tr>
+                <th>Proposition E</th>
+                <td>{{ question.propE }}</td>
+            </tr>
+              {% endif %} 
+        </tbody>
+
+    </table>
+    {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+    <ul>
+        <li>
+            <a href="{{ path('question_index', { 'id': question.partie.id }) }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('question_edit', { 'id': question.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+ </div 
+  </div>      
+{% endblock %}

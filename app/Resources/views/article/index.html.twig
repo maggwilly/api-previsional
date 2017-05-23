@@ -1,0 +1,47 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Articles list{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">Les articles</h4>
+	  <p class="category">Les articles a lire</p>
+	</div>
+	 <div class="card-content table-responsive">
+	     <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Introduction</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ path('content_index', { 'id': article.id }) }}">{{ article.id }}</a></td>
+                <td><a href="{{ path('content_index', { 'id': article.id }) }}">{{ article.titre }}</a></td>
+                <td>{{ article.introduction }}</td>
+                <td>{% if article.date %}{{ article.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('article_show', { 'id': article.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('article_edit', { 'id': article.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  <a class="btn btn-default"  href="{{ path('article_new') }}">Create a new article</a>
+ <a   href="{{ path('article_index_json') }}" target="_blank"  class="btn btn-primary pull-right" >Export to .json</a>  
+  </div 
+ </div>
+ </div>
+   
+{% endblock %}

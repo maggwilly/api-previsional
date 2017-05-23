@@ -1,0 +1,24 @@
+article_index_json:
+    path:     /article/json
+    defaults: { _controller: "AppBundle:Article:jsonIndex" }
+    methods:  GET
+
+concours_index_json:
+    path:     /concours/json
+    defaults: { _controller: "AppBundle:Programme:jsonIndex" }
+    methods:  GET
+
+matiere_index_json:
+    path:     /matiere/{id}/json
+    defaults: { _controller: "AppBundle:Matiere:jsonIndex" }
+    methods:  GET
+
+partie_index_json:
+    path:     /partie/{id}/json
+    defaults: { _controller: "AppBundle:Partie:jsonIndex" }
+    methods:  GET
+
+question_index_json:
+    path:     /question/{id}/json
+    defaults: { _controller: "AppBundle:Question:jsonIndex" }
+    methods:  GET

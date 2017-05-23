@@ -1,0 +1,7 @@
+AppBundle\Entity\Objectif:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['partie','objectif', 'question', 'full']
+        titre:
+             groups: ['partie','objectif','full']

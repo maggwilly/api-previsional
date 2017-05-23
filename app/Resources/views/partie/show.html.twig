@@ -1,0 +1,45 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{ partie.titre }}{% endblock %}
+{% block body %}
+<h2>Details</h2>
+    <table>
+        <tbody>
+            <tr>
+                <th>Titre</th>
+                <td>{{ partie.titre }}</td>
+            </tr>
+            <tr>
+                <th>Prerequis</th>
+                <td>{{ partie.prerequis }}</td>
+            </tr>
+        </tbody>
+    </table>
+     <br>
+    <h2>Les objectifs</h2>
+   <ul>
+           {% for objectif in partie.getObjectifs() %}
+           <li><a href="{{ path('objectif_edit', { 'id': objectif.id }) }}">{{ objectif.titre }}</a> </li>
+         {% endfor %}
+        
+    
+   </ul>
+   <br>
+    <ul>
+
+       <li>
+            <a href="{{ path('objectif_new', { 'id': partie.id }) }}">Create a new objectif</a>
+        </li>
+        <br>   
+        <li>
+            <a href="{{ path('partie_index', { 'id': partie.matiere.id }) }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('partie_edit', { 'id': partie.id }) }}">Editer cette partie</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer cette partie">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

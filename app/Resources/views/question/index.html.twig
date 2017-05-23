@@ -1,0 +1,50 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{ partie.titre }} #ID {{ partie.id }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">Les questions</h4>
+	  <p class="category">Questions de cette partie</p>
+	</div>
+	 <div class="card-content table-responsive">
+	     <table class="table">
+        <thead>
+            <tr>
+                <th>Enonce</th>
+                <th>Type</th>                
+                <th>Validated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td><a href="{{ path('question_show', { 'id': question.id }) }}">
+                {{ question.text }}
+                {{ question.math }}
+                {{ question.image }}
+                </a>
+                </td>
+                  <td>{{ question.type }}</td>
+                <td>{% if question.validated %}Yes{% else %}No{% endif %}</td>            
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('question_show', { 'id': question.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('question_edit', { 'id': question.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ <a  href="{{ path('question_index_json', { 'id': partie.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>  
+ <a  class="btn btn-default" href="{{ path('question_new', { 'id': partie.id }) }}">Create a new question</a>   
+ </div   
+ </div>
+ </div       
+{% endblock %}

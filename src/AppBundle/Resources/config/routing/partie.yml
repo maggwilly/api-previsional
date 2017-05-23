@@ -1,0 +1,25 @@
+partie_index:
+    path:     /{id}/list
+    defaults: { _controller: "AppBundle:Partie:index" }
+    methods:  GET
+
+
+partie_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Partie:show" }
+    methods:  GET
+
+partie_new:
+    path:     /{id}/new
+    defaults: { _controller: "AppBundle:Partie:new" }
+    methods:  [GET, POST]
+
+partie_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Partie:edit" }
+    methods:  [GET, POST]
+
+partie_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Partie:delete" }
+    methods:  DELETE

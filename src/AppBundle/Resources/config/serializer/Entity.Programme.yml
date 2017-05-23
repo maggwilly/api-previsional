@@ -1,0 +1,33 @@
+AppBundle\Entity\Programme:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['programme', 'full']
+        non:
+             groups: ['programme', 'full']
+        ecole:
+             groups: ['programme', 'full']
+        image:
+             groups: ['programme', 'full']
+        abreviation:
+             groups: ['programme', 'full']
+        type:
+             groups: ['programme', 'full']
+        session:
+             groups: ['programme', 'full']
+        descriptionEcole:
+             groups: ['programme', 'full']
+        descriptionConcours:
+             groups: ['programme', 'full']
+        nombrePlace:
+             groups: ['programme', 'full']
+        dateConcours:
+             groups: ['programme', 'full']
+        dateDossier:
+             groups: ['programme', 'full']
+        lien:
+             groups: ['programme', 'full']
+        contact:
+             groups: ['programme', 'full']
+        lien:
+             groups: ['programme', 'full']

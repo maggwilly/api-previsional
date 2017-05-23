@@ -1,0 +1,13 @@
+AppBundle\Entity\Partie:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['question','partie', 'full']
+        titre:
+             groups: ['partie', 'full']
+        prerequis:
+             groups: ['partie', 'full']
+        matiere:
+             groups: ['partie']
+        objectifs:
+             groups: ['partie', 'full']

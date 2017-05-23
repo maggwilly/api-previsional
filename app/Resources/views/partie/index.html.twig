@@ -1,0 +1,44 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{ matiere.titre }} #ID  {{ matiere.id }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">Les parties</h4>
+	  <p class="category">Les differentes parties de cette matiere</p>
+	</div>
+	 <div class="card-content table-responsive">
+	     <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Prerequis</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partie in parties %}
+            <tr>
+                <td><a href="{{ path('question_index', { 'id': partie.id }) }}">{{ partie.titre }}</a></td>
+                <td>{{ partie.prerequis }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('partie_show', { 'id': partie.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('partie_edit', { 'id': partie.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+      <a  class="btn btn-default "href="{{ path('partie_new', { 'id': matiere.id }) }}">Create a new partie</a>
+      <a  href="{{ path('partie_index_json', { 'id': matiere.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>
+ </div 
+ </div>
+ </div>
+
+{% endblock %}

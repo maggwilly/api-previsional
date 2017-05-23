@@ -1,0 +1,38 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{ content.subtitle }}{% endblock %}
+{% block body %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ content.id }}</td>
+            </tr>
+            <tr>
+                <th>Subtitle</th>
+                <td>{{ content.subtitle }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ content.image }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ content.text }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('content_index', { 'id': content.article.id }) }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('content_edit', { 'id': content.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
