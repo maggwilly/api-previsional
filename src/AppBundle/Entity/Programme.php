@@ -94,28 +94,28 @@ class Programme
     /**
      * @var string
      *
-     * @ORM\Column(name="lien", type="string", length=255)
+     * @ORM\Column(name="lien", type="text", length=255,  nullable=true)
      */
     private $lien;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=2000, nullable=true)
+     * @ORM\Column(name="image", type="text",  nullable=true)
      */
     private $image;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="contact", type="string", length=255)
+     * @ORM\Column(name="contact", type="string", length=255,  nullable=true)
      */
     private $contact;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="resultats", type="string", length=255)
+     * @ORM\Column(name="resultats", type="string", length=255,  nullable=true)
      */
     private $resultats;
 
