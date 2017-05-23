@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class QuestionType extends AbstractType
 {
     /**
@@ -13,6 +14,7 @@ class QuestionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $partie=$options['partie'];
         $builder->add('type', ChoiceType::class, array(
                                  'choices'  => array(
                                          'text' => 'Texte uniquement',
@@ -21,10 +23,12 @@ class QuestionType extends AbstractType
                                           'math' => 'Math & prop Maths',
              ),
           ))
+        ->add('objectif', EntityType::class, array(
+    'class' => 'AppBundle:Objectif','choice_label' => 'titre',
+    'choices' => $partie->getObjectifs(),
+       ))
         ->add('text')  
-        ->add('math')
         ->add('image')
-
         ->add('propA')
         ->add('propB')
         ->add('propC')
@@ -53,7 +57,7 @@ class QuestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Question'
+            'data_class' => 'AppBundle\Entity\Question','partie'=>null
         ));
     }
 

@@ -1,7 +1,7 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block title %}Question edit{% endblock %}
 {% block body %}
-<div class="col-md-6">
+<div class="col-md-4">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />
@@ -18,9 +18,9 @@
         </li>
     </ul>
 </div>
-<div class="col-md-6">
-<iframe src="https://www.w3schools.com">
+<div class="col-md-8">
+<iframe src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/test/sample-dynamic-2.html" height="600" width="600">
   <p>Your browser does not support iframes.</p>
 </iframe>
-</div>    
+</div>   
 {% endblock %}

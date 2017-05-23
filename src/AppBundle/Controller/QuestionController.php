@@ -42,7 +42,7 @@ class QuestionController extends Controller
     public function newAction(Partie $partie,Request $request)
     {
         $question = new Question();
-        $form = $this->createForm('AppBundle\Form\QuestionType', $question);
+        $form = $this->createForm('AppBundle\Form\QuestionType', $question, array('partie'=>$partie));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -80,7 +80,7 @@ class QuestionController extends Controller
     public function editAction(Request $request, Question $question)
     {
         $deleteForm = $this->createDeleteForm($question);
-        $editForm = $this->createForm('AppBundle\Form\QuestionType', $question);
+        $editForm = $this->createForm('AppBundle\Form\QuestionType', $question, array('partie'=>$question->getPartie()));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
