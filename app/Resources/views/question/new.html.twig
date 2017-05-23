@@ -1,6 +1,7 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block title %}Question creation{% endblock %}
 {% block body %}
+<div class="col-md-4">
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
@@ -11,4 +12,10 @@
             <a href="{{ path('question_index', { 'id': partie.id }) }}">Back to the list</a>
         </li>
     </ul>
+</div>
+<div class="col-md-8">
+<iframe src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/test/sample-dynamic-2.html" height="600" width="600">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+</div>        
 {% endblock %}
