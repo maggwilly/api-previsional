@@ -81,7 +81,7 @@ class ProgrammeController extends Controller
     public function editAction(Request $request, Programme $concour)
     {
         $deleteForm = $this->createDeleteForm($concour);
-        $editForm = $this->createForm('AppBundle\Form\ConcoursType', $concour);
+        $editForm = $this->createForm('AppBundle\Form\ProgrammeType', $concour);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
