@@ -59,14 +59,14 @@ class Programme
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionEcole", type="string", length=755, nullable=true)
+     * @ORM\Column(name="descriptionEcole", type="text",  nullable=true)
      */
     private $descriptionEcole;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionConcours", type="string", length=755, nullable=true)
+     * @ORM\Column(name="descriptionConcours", type="text",  nullable=true)
      */
     private $descriptionConcours;
 
