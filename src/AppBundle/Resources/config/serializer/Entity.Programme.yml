@@ -22,13 +22,9 @@ AppBundle\Entity\Programme:
         nombrePlace:
              groups: ['programme', 'full']
         dateConcours:
-             groups: ['programme', 'full']
-             accessor:
-                 getter: getDateConcoursFormated             
+             groups: ['programme', 'full']           
         dateDossier:
              groups: ['programme', 'full']
-             accessor:
-                 getter: getDateDossierFormated
         lien:
              groups: ['programme', 'full']
         contact:
