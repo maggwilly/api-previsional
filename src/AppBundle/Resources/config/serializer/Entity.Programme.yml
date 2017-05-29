@@ -3,7 +3,7 @@ AppBundle\Entity\Programme:
     properties:
         id:
             groups: ['programme', 'full']
-        non:
+        nom:
              groups: ['programme', 'full']
         ecole:
              groups: ['programme', 'full']
