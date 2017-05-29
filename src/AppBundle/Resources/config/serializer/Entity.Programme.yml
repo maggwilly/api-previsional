@@ -23,7 +23,7 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         dateConcours:
              groups: ['programme', 'full']
-            accessor:
+             accessor:
                  getter: getDateConcoursFormated             
         dateDossier:
              groups: ['programme', 'full']
