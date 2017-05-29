@@ -22,9 +22,13 @@ AppBundle\Entity\Programme:
         nombrePlace:
              groups: ['programme', 'full']
         dateConcours:
-             groups: ['programme', 'full']           
+             groups: ['programme', 'full']
+             expose: true
+             type: DateTime<'Y-m-d'>           
         dateDossier:
              groups: ['programme', 'full']
+             expose: true
+             type: DateTime<'Y-m-d'> 
         lien:
              groups: ['programme', 'full']
         contact:
