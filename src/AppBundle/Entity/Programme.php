@@ -341,6 +341,15 @@ class Programme
     }
 
     /**
+     * Get dateConcours
+     *
+     * @return \DateTime 
+     */
+    public function getDateConcoursFormated()
+    {
+        return $this->dateConcours->format('Y-m-dTH:i');
+    }
+    /**
      * Set dateDossier
      *
      * @param \DateTime $dateDossier
@@ -361,6 +370,16 @@ class Programme
     public function getDateDossier()
     {
         return $this->dateDossier;
+    }
+
+        /**
+     * Get dateDossier
+     *
+     * @return \DateTime 
+     */
+    public function getDateDossierFormated()
+    {
+        return $this->dateDossier->format('Y-m-dTH:i');
     }
 
     /**
