@@ -31,14 +31,14 @@ class Partie
     /**
      * @var string
      *
-     * @ORM\Column(name="cours", type="string", length=255)
+     * @ORM\Column(name="cours", type="string", length=255,nullable=true)
      */
     private $cours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="prerequis", type="text")
+     * @ORM\Column(name="prerequis", type="text",nullable=true)
      */
     private $prerequis;
 
