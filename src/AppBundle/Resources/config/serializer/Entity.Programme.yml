@@ -33,5 +33,5 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         contact:
              groups: ['programme', 'full']
-        lien:
+        resultats:
              groups: ['programme', 'full']

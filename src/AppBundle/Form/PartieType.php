@@ -13,7 +13,7 @@ class PartieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('prerequis');
+        $builder->add('titre')->add('prerequis')->add('cours');
     }
     
     /**

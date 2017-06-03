@@ -31,6 +31,13 @@ class Partie
     /**
      * @var string
      *
+     * @ORM\Column(name="cours", type="string", length=255)
+     */
+    private $cours;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="prerequis", type="text")
      */
     private $prerequis;
@@ -78,11 +85,33 @@ class Partie
      *
      * @return string 
      */
+    public function getCours()
+    {
+        return $this->cours;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     * @return Partie
+     */
+    public function setCours($titre)
+    {
+        $this->cours = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string 
+     */
     public function getTitre()
     {
         return $this->titre;
     }
-
     /**
      * Set prerequis
      *

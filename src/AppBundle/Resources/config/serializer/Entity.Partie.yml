@@ -5,6 +5,8 @@ AppBundle\Entity\Partie:
             groups: ['question','partie', 'full']
         titre:
              groups: ['partie', 'full']
+        cours:
+             groups: ['partie', 'full']             
         prerequis:
              groups: ['partie', 'full']
         matiere:
