@@ -36,10 +36,5 @@
         <li>
             <a href="{{ path('partie_edit', { 'id': partie.id }) }}">Editer cette partie</a>
         </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Supprimer cette partie">
-            {{ form_end(delete_form) }}
-        </li>
     </ul>
 {% endblock %}
