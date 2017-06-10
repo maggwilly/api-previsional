@@ -84,7 +84,7 @@ class Matiere
 
 
      /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="partie", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="matiere", cascade={"persist","remove"})
    */
     private $objectifs;
 
