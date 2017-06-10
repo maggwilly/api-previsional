@@ -35,5 +35,7 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         resultats:
              groups: ['programme', 'full']
-        programme:
-             groups: ['programme', 'full']           
+    virtual_properties:
+        getProgramme:
+            serialized_name: programme
+            type: integer           

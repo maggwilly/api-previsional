@@ -11,16 +11,13 @@ AppBundle\Entity\Question:
              groups: ['question', 'full']
         image:
             groups: ['question', 'full']
-        showLink:
-            groups: ['question', 'full']
         validated:
             groups: ['question', 'full']
         explication:
             groups: ['question', 'full']
         partie:
             groups: ['question']
-        objectif:
-            groups: ['question']
+
         time:
             groups: ['question', 'full']
         rep:
@@ -37,3 +34,10 @@ AppBundle\Entity\Question:
             groups: ['question', 'full']
         propE:
             groups: ['question', 'full']
+    virtual_properties:
+        getExplication:
+            serialized_name: explication
+            type: string               
+        getShowLink:
+            serialized_name: showLink
+            type: string
