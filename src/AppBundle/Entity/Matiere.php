@@ -337,9 +337,9 @@ class Matiere
      */
     public function getParties()
     {
-        if($this->auMoinsdeMemeQue!=null)
-             return $this->auMoinsdeMemeQue->getParties();
-        return $this->parties;
+        if($this->auMoinsdeMemeQue==$this||$this->auMoinsdeMemeQue==null)
+              return $this->parties;
+            return $this->auMoinsdeMemeQue->getParties();
     }
 
     /**
@@ -349,7 +349,7 @@ class Matiere
      */
     public function getContenu()
     {
-        if($this->auMoinsdeMemeQue!=null)
+        if($this->auMoinsdeMemeQue!=null&&$this->auMoinsdeMemeQue!=$this)
             return  $this->contenu=$this->auMoinsdeMemeQue->getId();
         return $this->contenu= $this->id;
     }

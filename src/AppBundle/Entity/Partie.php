@@ -305,7 +305,7 @@ class Partie
      */
     public function getQuestions()
     {  
-        if($this->auMoinsdeMemeQue!=null)
+        if($this->auMoinsdeMemeQue!=null&&$this->auMoinsdeMemeQue!=$this)
              return $this->auMoinsdeMemeQue->getQuestions();
         return $this->questions;
     }
@@ -317,7 +317,7 @@ class Partie
      */
     public function getQcm()
     {
-        if($this->auMoinsdeMemeQue!=null)
+        if($this->auMoinsdeMemeQue!=null&&$this->auMoinsdeMemeQue!=$this)
             return $this->qcm= $this->auMoinsdeMemeQue->getId();
         return $this->qcm=$this->id;
     }

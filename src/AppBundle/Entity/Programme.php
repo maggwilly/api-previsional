@@ -555,10 +555,10 @@ class Programme
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getMatieres()
-    {
-        if($this->auMoinsdeMemeQue!=null)
-        return $this->auMoinsdeMemeQue->getMatieres();
-        return $this->matieres;
+    { 
+        if($this->auMoinsdeMemeQue==$this||$this->auMoinsdeMemeQue==null)
+              return $this->matieres;
+            return $this->auMoinsdeMemeQue->getMatieres();
     }
 
     /**
@@ -568,7 +568,7 @@ class Programme
      */
     public function getProgramme()
     {
-        if($this->auMoinsdeMemeQue!=null)
+        if($this->auMoinsdeMemeQue!=null &&$this->auMoinsdeMemeQue!=$this)
             return  $this->programme=$this->auMoinsdeMemeQue->getId();
         return $this->programme=$this->id;
     }
