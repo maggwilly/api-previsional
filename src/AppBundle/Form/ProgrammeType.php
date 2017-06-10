@@ -28,7 +28,7 @@ class ProgrammeType extends AbstractType
         ->add('contact')
         ->add('auMoinsdeMemeQue', 
             EntityType::class,
-             array('class' => 'AppBundle:Programme',   'choice_label' => 'nom', 'multiple'=>false ,'expanded '=>false ,'label'=>'Le même programme  que')
+             array('class' => 'AppBundle:Programme',   'choice_label' => 'nom', 'empty_data' => null,'label'=>'Le même programme  que')
              )
         ->add('resultats') ;
     }
