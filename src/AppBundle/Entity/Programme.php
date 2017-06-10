@@ -24,7 +24,7 @@ class Programme
         /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=true)
+     * @ORM\Column(name="price", type="integer", nullable=true)
      */
     private $price;
 
