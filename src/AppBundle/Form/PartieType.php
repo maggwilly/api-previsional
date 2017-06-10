@@ -20,7 +20,7 @@ class PartieType extends AbstractType
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
               'choice_label' => 'titre',
-                'label'=>'Les même questions que', 'empty_data' => '--',
+                'label'=>'Les même questions que', 'multiple'=>false ,'expanded '=>false ,
                 'group_by' => function($val, $key, $index) {
                             return $val->getMatiere()->getDisplayName();
                }));
