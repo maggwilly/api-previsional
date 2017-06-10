@@ -556,7 +556,7 @@ class Programme
     public function getMatieres()
     {
         if($this->auMoinsdeMemeQue!=null)
-        return $this->auMoinsdeMemeQue->getQuestions();
+        return $this->auMoinsdeMemeQue->getMatieres();
         return $this->matieres;
     }
 
