@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ article.titre }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+	 <div class="card-content table-responsive">
+    <table class="table">
+        <tbody>  
+            <tr>
+                <td><h2>{{ article.titre }}</h2></td>
+            </tr>
+            {% if article.image %}
+            <tr>
+                <td>{{ article.image }}</td>
+            </tr>
+             {% endif %}
+            <tr>
+                <th>Introduction</th>
+                <td>{{ article.introduction }}</td>
+            </tr>
+            <tr>
+                <td> 
+                 <ul>
+                {% for content in article.contents %}
+                   <li>
+                <p>{{content.subtitle}}</p>
+                 <p> {{content.text}}</p>
+                   </li>
+                  {% endfor %}
+                </ul>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+ </div 
+  </div>    
+{% endblock %}

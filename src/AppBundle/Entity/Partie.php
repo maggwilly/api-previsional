@@ -21,6 +21,20 @@ class Partie
      */
     private $id;
 
+   /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Partie" )
+   */
+    private $auMoinsdeMemeQue;
+
+    private $qcm;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
     /**
      * @var string
      *
@@ -42,6 +56,13 @@ class Partie
      */
     private $prerequis;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="objectif", type="text",nullable=true)
+     */
+    private $objectif;
+
 
    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere",inversedBy="parties")
@@ -49,14 +70,50 @@ class Partie
     private $matiere;
 
             /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="partie", cascade={"persist","remove"})
-   */
-    private $objectifs;
-
-            /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="partie", cascade={"persist","remove"})
    */
-    private $questions;    
+    private $questions; 
+
+   /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article")
+   */
+    private $article;
+
+       /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->date=new \DateTime();
+    } 
+
+    /**
+     * Set ecole
+     *
+     * @param string $ecole
+     * @return Concours
+     */
+    public function setAuMoinsdeMemeQue(\AppBundle\Entity\Programme $programme= null)
+    {
+        $this->auMoinsdeMemeQue = $programme;
+
+        return $this;
+    }
+
+    /**
+     * Get ecole
+     *
+     * @return string 
+     */
+    public function getAuMoinsdeMemeQue()
+    {
+        if($this->auMoinsdeMemeQue==$this)
+            return null;
+        return $this->auMoinsdeMemeQue;
+    }
+
+  
     /**
      * Get id
      *
@@ -87,7 +144,10 @@ class Partie
      */
     public function getCours()
     {
-        return $this->cours;
+        if($this->article!=null)
+         return $this->article->getwebLink();
+        return $this->cours;//
+
     }
 
     /**
@@ -112,6 +172,16 @@ class Partie
     {
         return $this->titre;
     }
+
+        /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getDisplayName()
+    {
+        return $this->titre.' > '.$this->matiere->getTitre().' > '.$this->matiere->getProgramme()->getAbreviation();
+    }
     /**
      * Set prerequis
      *
@@ -134,14 +204,7 @@ class Partie
     {
         return $this->prerequis;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->objectifs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+ 
 
     /**
      * Set matiere
@@ -167,16 +230,26 @@ class Partie
     }
 
     /**
-     * Add objectifs
+     * Set matiere
      *
-     * @param \AppBundle\Entity\Objectif $objectifs
+     * @param \AppBundle\Entity\Article $matiere
      * @return Partie
      */
-    public function addObjectif(\AppBundle\Entity\Objectif $objectifs)
+    public function setArticle(\AppBundle\Entity\Article $matiere = null)
     {
-        $this->objectifs[] = $objectifs;
+        $this->article = $matiere;
 
         return $this;
+    }
+
+    /**
+     * Get matiere
+     *
+     * @return \AppBundle\Entity\Article 
+     */
+    public function getArticle()
+    {
+        return $this->article;
     }
 
     /**
@@ -184,9 +257,9 @@ class Partie
      *
      * @param \AppBundle\Entity\Objectif $objectifs
      */
-    public function removeObjectif(\AppBundle\Entity\Objectif $objectifs)
+    public function setObjectif($objectifs)
     {
-        $this->objectifs->removeElement($objectifs);
+        $this->objectif=$objectifs;
     }
 
     /**
@@ -194,9 +267,11 @@ class Partie
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getObjectifs()
+    public function getObjectif()
     {
-        return $this->objectifs;
+        if(!$this->objectif)
+          return $this->objectif;
+      return 'Evaluer vos aquis sur cette partie.';
     }
 
     /**
@@ -212,6 +287,7 @@ class Partie
         return $this;
     }
 
+
     /**
      * Remove questions
      *
@@ -222,13 +298,51 @@ class Partie
         $this->questions->removeElement($questions);
     }
 
+
     /**
      * Get questions
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getQuestions()
-    {
+    {  
+        if($this->auMoinsdeMemeQue!=null)
+             return $this->auMoinsdeMemeQue->getQuestions();
         return $this->questions;
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getQcm()
+    {
+        if($this->auMoinsdeMemeQue!=null)
+            return $this->qcm= $this->auMoinsdeMemeQue->getId();
+        return $this->qcm=$this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Etape
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    } 
 }

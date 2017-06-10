@@ -3,6 +3,11 @@ matiere_index:
     defaults: { _controller: "AppBundle:Matiere:index" }
     methods:  GET
 
+matiere_show_from_mobile:
+    path:     /{id}/show/from/mobile
+    defaults: { _controller: "AppBundle:Objectif:index" }
+    methods:  GET
+
 
 matiere_show:
     path:     /{id}/show
@@ -10,7 +15,7 @@ matiere_show:
     methods:  GET
 
 matiere_new:
-    path:     /{id}//new
+    path:     /{id}/new
     defaults: { _controller: "AppBundle:Matiere:new" }
     methods:  [GET, POST]
 

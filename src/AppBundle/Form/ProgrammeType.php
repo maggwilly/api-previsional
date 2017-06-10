@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class ProgrammeType extends AbstractType
 {
     /**
@@ -13,7 +13,22 @@ class ProgrammeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('ecole')->add('abreviation')->add('type')->add('session')->add('descriptionEcole')->add('descriptionConcours')->add('nombrePlace')->add('dateConcours')->add('dateDossier')->add('lien')->add('image')->add('contact')->add('resultats')        ;
+        $builder->add('nom')
+        ->add('ecole')
+        ->add('abreviation')
+        ->add('type')
+        ->add('session')
+        ->add('descriptionEcole')
+        ->add('descriptionConcours')
+        ->add('nombrePlace')
+        ->add('dateConcours')
+        ->add('dateDossier')
+        ->add('programme')
+        ->add('lien')
+        ->add('image')
+        ->add('contact')
+        ->add('auMoinsdeMemeQue', EntityType::class, array('class' => 'AppBundle:Programme',   'choice_label' => 'nom'))
+        ->add('resultats') ;
     }
     
     /**

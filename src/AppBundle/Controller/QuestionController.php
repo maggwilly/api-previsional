@@ -74,6 +74,16 @@ class QuestionController extends Controller
     }
 
     /**
+     * Finds and displays a question entity.
+     *
+     */
+    public function showFromMobileAction(Question $question)
+    {
+        return $this->render('question/showFromMobile.html.twig', array(
+            'question' => $question,
+        ));
+    }
+    /**
      * Displays a form to edit an existing question entity.
      *
      */

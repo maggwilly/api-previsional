@@ -28,6 +28,13 @@ class Article
      */
     private $titre;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
     /**
      * @var string
      *
@@ -100,6 +107,40 @@ class Article
     public function getTitre()
     {
         return $this->titre;
+    }
+
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     * @return Article
+     */
+    public function setType($titre)
+    {
+        $this->titre = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+   /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getwebLink()
+    {
+        return 'https://entrances.herokuapp.com/v1/article/'.$this->id.'/show/from/mobile'; //link to view on line
     }
 
     /**

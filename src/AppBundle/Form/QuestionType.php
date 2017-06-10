@@ -23,10 +23,6 @@ class QuestionType extends AbstractType
                                           'math' => 'Math & prop Maths',
              ),
           ))
-        ->add('objectif', EntityType::class, array(
-    'class' => 'AppBundle:Objectif','choice_label' => 'titre',
-    'choices' => $partie->getObjectifs(),
-       ))
         ->add('text')  
         ->add('image')
         ->add('propA')
@@ -34,19 +30,17 @@ class QuestionType extends AbstractType
         ->add('propC')
         ->add('propD')
         ->add('propE')
-        ->add('note')
         ->add('rep', ChoiceType::class, array(
                                  'choices'  => array(
                                          'a' => 'Proposition A',
                                          'b' => 'Proposition B',
                                           'c' => 'Proposition C',
                                           'd' => 'Proposition D',
-                                        'e' => 'Proposition E',
+                                          'e' => 'Proposition E',
             ),
           ))
+        ->add('text')  
         ->add('time')
-         ->add('hint')
-         ->add('historique')
         ->add('explication')
    ;
     }

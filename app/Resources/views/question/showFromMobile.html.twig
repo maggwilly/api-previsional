@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}Question #ID {{ question.id }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+	 <div class="card-content table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Texte</th>
+                <td>{{ question.text }}</td>
+            </tr>
+            {% if question.image %} 
+            <tr>
+                <td>{{ question.image }}</td>
+            </tr>
+            {% endif %}           
+            <tr>
+                <th>Temps</th>
+                <td>{{ question.time }} min</td>
+            </tr>
+            <tr>
+                <th>Proposition A</th>
+                <td>{{ question.propA }}</td>
+            </tr>
+            <tr>
+                <th>Proposition B</th>
+                <td>{{ question.propB }}</td>
+            </tr>
+             {% if question.propC %} 
+            <tr>
+                <th>Proposition C</th>
+                <td>{{ question.propC }}</td>
+            </tr>
+            {% endif %} 
+            {% if question.propD %} 
+            <tr>
+                <th>Proposition D</th>
+                <td>{{ question.propD }}</td>
+            </tr>
+            {% endif %} 
+              {% if question.propE %}
+            <tr>
+                <th>Proposition E</th>
+                <td>{{ question.propE }}</td>
+            </tr>
+              {% endif %} 
+        </tbody>
+
+    </table>
+    </div>
+ </div 
+  </div>      
+{% endblock %}

@@ -35,3 +35,5 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         resultats:
              groups: ['programme', 'full']
+        programme:
+             groups: ['programme', 'full']           

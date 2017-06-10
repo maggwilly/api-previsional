@@ -39,8 +39,20 @@
         {% endfor %}
         </tbody>
     </table>
+    <p>
+     {% if concour.auMoinsdeMemeQue%}
+            <tr>
+                <th>Même programme de préparation que</th>
+                <td><a href="{{ path('concours_show', { 'id': concour.auMoinsdeMemeQue.id }) }}">
+                {{ concour.auMoinsdeMemeQue.titre }} 
+                </a></td>
+            </tr>  
+      {% endif %}
+    </p>
     <a class="btn btn-default " href="{{ path('matiere_new', { 'id': concour.id }) }}">Create a new matiere</a>
-    <a  href="{{ path('matiere_index_json', { 'id': concour.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>        
+ {% if concour.auMoinsdeMemeQue is null%}  
+    <a  href="{{ path('matiere_index_json', { 'id': concour.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a> 
+     {% endif %}       
 </div
  </div> 
 </div> 

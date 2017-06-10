@@ -44,7 +44,21 @@
         {% endfor %}
         </tbody>
     </table>
+    <p>
+    {% if partie.auMoinsdeMemeQue%}
+            <tr>
+                <th>Les Même questions que que</th>
+                <td><a href="{{ path('partie_show', { 'id': partie.auMoinsdeMemeQue.id }) }}">
+                {{ partie.auMoinsdeMemeQue.titre }} 
+                <br>->{{ partie.auMoinsdeMemeQue.matiere.titre }}
+                <br>->{{ partie.auMoinsdeMemeQue.matiere.programme.nom }}
+                </a></td>
+            </tr>  
+        {% endif %}
+    </p>
+{% if partie.auMoinsdeMemeQue is null%}  
  <a  href="{{ path('question_index_json', { 'id': partie.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>  
+ {% endif %}
  <a  class="btn btn-default" href="{{ path('question_new', { 'id': partie.id }) }}">Create a new question</a>   
 
  </div   

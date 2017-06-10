@@ -28,6 +28,15 @@ class Question
      */
     private $type;
 
+
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="showLink", type="string", length=755, nullable=true)
+     */
+    private $showLink;
+
     /**
      * @var string
      *
@@ -40,12 +49,6 @@ class Question
      * @ORM\Column(name="text", type="text", nullable=true)
      */
     private $text;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hint", type="text", nullable=true)
-     */
-    private $hint;
 
     /**
      * @var string
@@ -54,12 +57,6 @@ class Question
      */
     private $image;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="historique", type="text",  nullable=true)
-     */
-    private $historique;
 
     /**
      * @var string
@@ -116,7 +113,7 @@ class Question
     /**
      * @var int
      *
-     * @ORM\Column(name="note", type="integer")
+     * @ORM\Column(name="note", type="integer",  nullable=true)
      */
     private $note;
 
@@ -220,28 +217,6 @@ class Question
         return $this->math;
     }
 
-    /**
-     * Set hint
-     *
-     * @param string $hint
-     * @return Question
-     */
-    public function setHint($hint)
-    {
-        $this->hint = $hint;
-
-        return $this;
-    }
-
-    /**
-     * Get hint
-     *
-     * @return string 
-     */
-    public function getHint()
-    {
-        return $this->hint;
-    }
 
     /**
      * Set image
@@ -272,9 +247,9 @@ class Question
      * @param string $historique
      * @return Question
      */
-    public function setHistorique($historique)
+    public function setShowLink($historique)
     {
-        $this->historique = $historique;
+        $this->showLink = $historique;
 
         return $this;
     }
@@ -284,9 +259,9 @@ class Question
      *
      * @return string 
      */
-    public function getHistorique()
+    public function getShowLink()
     {
-        return $this->historique;
+        return 'https://entrances.herokuapp.com/v1/question/'.$this->id.'/show/from/mobile';// url defaul to view question;
     }
 
     /**
@@ -308,8 +283,10 @@ class Question
      * @return string 
      */
     public function getExplication()
-    {
-        return $this->explication;
+    {   
+        if($this->explication)
+        return $this->explication; // url to cours
+    return $this->partie->getCours();
     }
 
     /**

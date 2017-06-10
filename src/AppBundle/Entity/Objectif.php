@@ -37,11 +37,22 @@ class Objectif
 
 
    /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Partie" ,inversedBy="objectifs")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere" ,inversedBy="objectifs")
    */
-    private $partie;
+    private $matiere;
 
+   /**
+     * Set partie
+     *
+     * @param \AppBundle\Entity\Partie $partie
+     * @return Objectif
+     */
+    public function setMatiere(\AppBundle\Entity\Matiere $partie = null)
+    {
+        $this->matiere = $partie;
 
+        return $this;
+    }
     /**
      * Get id
      *
@@ -98,26 +109,15 @@ class Objectif
         return $this->description;
     }
 
-    /**
-     * Set partie
-     *
-     * @param \AppBundle\Entity\Partie $partie
-     * @return Objectif
-     */
-    public function setPartie(\AppBundle\Entity\Partie $partie = null)
-    {
-        $this->partie = $partie;
-
-        return $this;
-    }
+ 
 
     /**
      * Get partie
      *
      * @return \AppBundle\Entity\Partie 
      */
-    public function getPartie()
+    public function getMatiere()
     {
-        return $this->partie;
+        return $this->matiere;
     }
 }

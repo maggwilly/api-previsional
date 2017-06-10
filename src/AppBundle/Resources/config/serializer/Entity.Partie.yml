@@ -11,5 +11,7 @@ AppBundle\Entity\Partie:
              groups: ['partie', 'full']
         matiere:
              groups: ['partie']
-        objectifs:
+        objectif:
              groups: ['partie', 'full']
+        qcm:
+             groups: ['partie', 'full']            

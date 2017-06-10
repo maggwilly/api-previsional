@@ -78,6 +78,17 @@ class ArticleController extends Controller
         ));
     }
 
+
+    /**
+     * Finds and displays a article entity.
+     *
+     */
+    public function showFromMobileAction(Article $article)
+    {
+        return $this->render('article/showFromMobile.html.twig', array(
+            'article' => $article,
+        ));
+    }
     /**
      * Displays a form to edit an existing article entity.
      *

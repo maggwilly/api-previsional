@@ -11,9 +11,7 @@ AppBundle\Entity\Question:
              groups: ['question', 'full']
         image:
             groups: ['question', 'full']
-        hint:
-            groups: ['question', 'full']
-        historique:
+        showLink:
             groups: ['question', 'full']
         validated:
             groups: ['question', 'full']

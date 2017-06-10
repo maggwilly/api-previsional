@@ -43,24 +43,13 @@
                 <th>Image</th>
                 <td>{{ question.image }}</td>
             </tr>
-             {% endif %} 
-            {% if question.historique %} 
-            <tr>
-                <th>Historique</th>
-                <td>{{ question.historique }}</td>
-            </tr>
-            {% endif %} 
+             {% endif %}  
             {% if question.explication %}   
              <tr>
                 <th>Explication</th>
-                <td>{{ question.explication }}</td>
+                <td><a href="{{ question.explication }}">{{ question.explication }}</a></td>
             </tr> 
             {% endif %} 
-            {% if question.hint %}         
-            <tr >
-                <th>Indication</th>
-                <td>{{ question.hint }}</td>
-            </tr> 
             {% endif %}           
             <tr>
                 <th>Temps</th>
@@ -69,10 +58,6 @@
             <tr>
                 <th>Reponse</th>
                 <td>{{ question.rep }}</td>
-            </tr>
-            <tr>
-                <th>Note</th>
-                <td>{{ question.note }}</td>
             </tr>
             <tr>
                 <th>Proposition A</th>

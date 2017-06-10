@@ -21,6 +21,19 @@ class Programme
      */
     private $id;
 
+        /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+   /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme" )
+   */
+    private $auMoinsdeMemeQue;
+
+    private $programme;
     /**
      * @var string
      *
@@ -123,6 +136,17 @@ class Programme
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Matiere", mappedBy="programme", cascade={"persist","remove"})
    */
     private $matieres;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->date=new \DateTime();
+    }
+
     /**
      * Get id
      *
@@ -132,6 +156,7 @@ class Programme
     {
         return $this->id;
     }
+
 
     /**
      * Set nom
@@ -155,6 +180,31 @@ class Programme
     {
         return $this->nom;
     }
+
+    /**
+     * Set ecole
+     *
+     * @param string $ecole
+     * @return Concours
+     */
+    public function setAuMoinsdeMemeQue(\AppBundle\Entity\Programme$programme= null)
+    {
+        $this->auMoinsdeMemeQue = $programme;
+
+        return $this;
+    }
+
+    /**
+     * Get ecole
+     *
+     * @return string 
+     */
+    public function getAuMoinsdeMemeQue()
+    {    if($this->auMoinsdeMemeQue==$this)
+            return null;
+        return $this->auMoinsdeMemeQue;
+    }
+
 
     /**
      * Set ecole
@@ -473,13 +523,7 @@ class Programme
     {
         return $this->resultats;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add matieres
@@ -511,6 +555,43 @@ class Programme
      */
     public function getMatieres()
     {
+        if($this->auMoinsdeMemeQue!=null)
+        return $this->auMoinsdeMemeQue->getQuestions();
         return $this->matieres;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getProgramme()
+    {
+        if($this->auMoinsdeMemeQue!=null)
+            return  $this->programme=$this->auMoinsdeMemeQue->getId();
+        return $this->programme=$this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Etape
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

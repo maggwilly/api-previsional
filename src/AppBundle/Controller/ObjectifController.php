@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Controller;
-use AppBundle\Entity\Partie;
+use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Objectif;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,14 +17,14 @@ class ObjectifController extends Controller
      *
      */
 
-    public function indexAction(Partie $partie)
+    public function indexAction(Matiere $partie)
     {
         $em = $this->getDoctrine()->getManager();
 
         $objectifs = $em->getRepository('AppBundle:Objectif')->findAll();
 
         return $this->render('objectif/index.html.twig', array(
-            'objectifs' =>  $partie->getObjectifs(),  'partie' => $partie,
+            'objectifs' =>  $partie->getObjectifs(),  'matiere' => $partie,
         ));
     }
 
@@ -32,7 +32,7 @@ class ObjectifController extends Controller
      * Creates a new objectif entity.
      *
      */
-    public function newAction(Partie $partie,Request $request)
+    public function newAction(Matiere $partie,Request $request)
     {
         $objectif = new Objectif();
         $form = $this->createForm('AppBundle\Form\ObjectifType', $objectif);
@@ -40,15 +40,15 @@ class ObjectifController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $objectif->setPartie($partie);
+            $objectif->setMatiere($partie);
             $em->persist($objectif);
             $em->flush($objectif);
 
-            return $this->redirectToRoute('partie_show', array('id' => $partie->getId()));
+            return $this->redirectToRoute('matiere_show', array('id' => $partie->getId()));
         }
 
         return $this->render('objectif/new.html.twig', array(
-            'objectif' => $objectif,'partie' => $partie,
+            'objectif' => $objectif,'matiere' => $partie,
             'form' => $form->createView(),
         ));
     }

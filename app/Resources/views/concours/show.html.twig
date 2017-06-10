@@ -61,6 +61,14 @@
                 <th>Resultats</th>
                 <td>{{ concour.resultats }}</td>
             </tr>
+            {% if concour.auMoinsdeMemeQue%}
+            <tr>
+                <th>Même programme de préparation que</th>
+                <td><a href="{{ path('matiere_index', { 'id': concour.auMoinsdeMemeQue.id }) }}">
+                {{ concour.auMoinsdeMemeQue.titre }} 
+                </a></td>
+            </tr>  
+            {% endif %} 
         </tbody>
     </table>
 

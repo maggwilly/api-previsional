@@ -9,6 +9,11 @@ question_show:
     defaults: { _controller: "AppBundle:Question:show" }
     methods:  GET
 
+question_show_from_mobile:
+    path:     /{id}/show/from/mobile
+    defaults: { _controller: "AppBundle:Question:showFromMobile" }
+    methods:  GET
+
 question_valid:
     path:     /{id}/valid
     defaults: { _controller: "AppBundle:Question:valide" }

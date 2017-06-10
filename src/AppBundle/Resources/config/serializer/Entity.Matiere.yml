@@ -11,5 +11,9 @@ AppBundle\Entity\Matiere:
              groups: ['matiere', 'programme', 'full']
         poids:
              groups: ['matiere', 'programme', 'full']
+        otherRessourcesLink:
+             groups: ['matiere', 'programme', 'full']      
         image:
              groups: ['matiere', 'programme', 'full']
+        contenu:
+             groups: ['matiere', 'programme', 'full']             

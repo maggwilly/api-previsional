@@ -23,9 +23,21 @@
                 <th>Categorie</th>
                 <td>{{ matiere.categorie }}</td>
             </tr>
+            {% if matiere.auMoinsdeMemeQue%}
+            <tr>
+                <th>Même contenu que</th>
+                <td><a href="{{ path('partie_index', { 'id': matiere.auMoinsdeMemeQue.id }) }}">
+                {{ matiere.auMoinsdeMemeQue.titre }} 
+                <br>->{{ matiere.auMoinsdeMemeQue.programme.nom }}
+                </a></td>
+            </tr>  
+            {% endif %}      
         </tbody>
     </table>
-
+       <li>
+            <a href="{{ path('objectif_new', { 'id': matiere.id }) }}">Creer une ressource</a>
+        </li>
+     <br> 
     <ul>
         <li>
             <a href="{{ path('matiere_index', { 'id': matiere.programme.id }) }}">Back to the list</a>

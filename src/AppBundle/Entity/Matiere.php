@@ -21,6 +21,13 @@ class Matiere
      */
     private $id;
 
+
+   /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere" )
+   */
+    private $auMoinsdeMemeQue;
+
+    private $contenu;
     /**
      * @var string
      *
@@ -28,7 +35,22 @@ class Matiere
      */
     private $titre;
 
+        /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
     /**
+     * @var string
+     *
+     * @ORM\Column(name="otherRessourcesLink", type="string", length=755, nullable=true)
+     */
+    private $otherRessourcesLink;
+
+
+      /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=755, nullable=true)
@@ -59,6 +81,51 @@ class Matiere
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="matiere", cascade={"persist","remove"})
    */
     private $parties;
+
+
+     /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="partie", cascade={"persist","remove"})
+   */
+    private $objectifs;
+
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->objectifs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->date=new \DateTime();
+    }
+
+
+    /**
+     * Set ecole
+     *
+     * @param string $ecole
+     * @return Concours
+     */
+    public function setAuMoinsdeMemeQue(\AppBundle\Entity\Matiere $programme= null)
+    {
+        $this->auMoinsdeMemeQue = $programme;
+
+        return $this;
+    }
+
+    /**
+     * Get ecole
+     *
+     * @return string 
+     */
+    public function getAuMoinsdeMemeQue()
+    {
+       if($this->auMoinsdeMemeQue==$this)
+            return null;
+        return $this->auMoinsdeMemeQue;
+    }
+
     /**
      * Get id
      *
@@ -91,7 +158,15 @@ class Matiere
     {
         return $this->titre;
     }
-
+        /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getDisplayName()
+    {
+        return $this->matiere->getTitre().' > '.$this->programme->getAbreviation();
+    }
     /**
      * Set description
      *
@@ -113,6 +188,32 @@ class Matiere
     public function getDescription()
     {
         return $this->description;
+    }
+
+
+    /**
+     * Set description
+     * @param string $description
+     * @return Matiere
+     */
+    public function setOtherRessourcesLink($description)
+    {
+        $this->otherRessourcesLink = $description;
+
+        return $this;
+    }
+
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getOtherRessourcesLink()
+    {
+         if($this->otherRessourcesLink!=null)
+              return $this->otherRessourcesLink;
+        return 'https://entrances.herokuapp.com/v1/matiere/'.$this->id.'/show/from/mobile'; //url to view list off objectif
     }
 
     /**
@@ -137,7 +238,28 @@ class Matiere
     {
         return $this->poids;
     }
+      /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Etape
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
 
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
     /**
      * Set categorie
      *
@@ -159,13 +281,6 @@ class Matiere
     public function getCategorie()
     {
         return $this->categorie;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -222,6 +337,53 @@ class Matiere
      */
     public function getParties()
     {
+        if($this->auMoinsdeMemeQue!=null)
+             return $this->auMoinsdeMemeQue->getParties();
         return $this->parties;
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getContenu()
+    {
+        if($this->auMoinsdeMemeQue!=null)
+            return  $this->contenu=$this->auMoinsdeMemeQue->getId();
+        return $this->contenu= $this->id;
+    }
+    /**
+     * Add objectifs
+     *
+     * @param \AppBundle\Entity\Objectif $objectifs
+     * @return Partie
+     */
+    public function addObjectif(\AppBundle\Entity\Objectif $objectifs)
+    {
+        $this->objectifs[] = $objectifs;
+
+        return $this;
+    }
+
+        /**
+     * Remove objectifs
+     *
+     * @param \AppBundle\Entity\Objectif $objectifs
+     */
+    public function removeObjectif(\AppBundle\Entity\Objectif $objectifs)
+    {
+        $this->objectifs->removeElement($objectifs);
+    }
+
+    /**
+     * Get objectifs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObjectifs()
+    {
+        return $this->objectifs;
+    }
+
 }
