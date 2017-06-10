@@ -18,7 +18,9 @@ AppBundle\Entity\Matiere:
     virtual_properties:
         getContenu:
             serialized_name: contenu
-            type: integer              
+            type: integer 
+            groups: ['matiere', 'programme', 'full']                             
         getOtherRessourcesLink:
             serialized_name: otherRessourcesLink
-            type: string   
+            type: string  
+            groups: ['matiere', 'programme', 'full']                 

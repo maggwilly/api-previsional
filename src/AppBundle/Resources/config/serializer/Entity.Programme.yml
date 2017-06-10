@@ -1,5 +1,6 @@
 AppBundle\Entity\Programme:
-    exclusion_policy: none
+    exclusion_policy: ALL
+    access_type: public_method
     properties:
         id:
             groups: ['programme', 'full']
@@ -35,7 +36,5 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         resultats:
              groups: ['programme', 'full']
-    virtual_properties:
-        getProgramme:
-            serialized_name: programme
-            type: integer           
+        programme:
+             groups: ['programme', 'full']            
