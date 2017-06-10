@@ -23,7 +23,7 @@ class MatiereType extends AbstractType
                      'choice_label' => 'titre',
                       'label'=>'Le même contenu que',
                       'group_by' => function($val, $key, $index) {
-                            return $val->getNom();
+                            return $val->getProgramme()->getNom();
                            }
                   ))
                 
