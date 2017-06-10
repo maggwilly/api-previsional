@@ -21,7 +21,7 @@ class MatiereType extends AbstractType
                   EntityType::class, array(
                      'class' => 'AppBundle:Matiere' ,
                      'choice_label' => 'titre',
-                      'label'=>'Le même contenu que',
+                      'label'=>'Le même contenu que', 'empty_data' => '--',
                       'group_by' => function($val, $key, $index) {
                             return $val->getProgramme()->getNom();
                            }
