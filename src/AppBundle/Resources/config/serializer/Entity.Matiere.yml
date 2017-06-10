@@ -15,12 +15,10 @@ AppBundle\Entity\Matiere:
              groups: ['matiere', 'programme', 'full']      
         image:
              groups: ['matiere', 'programme', 'full']
-    virtual_properties:
-        getContenu:
-            serialized_name: contenu
-            type: integer 
-            groups: ['matiere', 'programme', 'full']                             
-        getOtherRessourcesLink:
-            serialized_name: otherRessourcesLink
-            type: string  
-            groups: ['matiere', 'programme', 'full']                 
+        otherRessourcesLink:
+             groups: ['matiere', 'programme', 'full']
+        contenu:
+             groups: ['matiere', 'programme', 'full']             
+    callback_methods:
+        pre_serialize: ['getOtherRessourcesLink','getContenu']
+                

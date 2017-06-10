@@ -5,18 +5,15 @@ AppBundle\Entity\Partie:
             groups: ['question','partie', 'full']
         titre:
              groups: ['partie', 'full']
+        cours:
+             groups: ['partie', 'full']             
+        prerequis:
+             groups: ['partie', 'full']
+        qcm:
+             groups: ['partie', 'full']            
         matiere:
              groups: ['partie']
-    virtual_properties:
-        getQcm:
-            serialized_name: qcm
-            type: integer               
-        getCours:
-            serialized_name: cours
-            type: string
-        getObjectif:
-            serialized_name: objectif
-            type: string 
-        getPrerequis:
-            serialized_name: prerequis
-            type: string                        
+        objectif:
+             groups: ['partie', 'full']
+    callback_methods:
+        pre_serialize: ['getPrerequis','getObjectif','getCours','getQcm']

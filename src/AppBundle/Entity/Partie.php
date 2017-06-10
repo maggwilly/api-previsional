@@ -144,7 +144,7 @@ class Partie
     public function getCours()
     {
         if($this->article!=null)
-         return $this->article->getwebLink();
+         return $this->cours=$this->article->getwebLink();
         return $this->cours;//
 
     }
@@ -203,7 +203,7 @@ class Partie
     { 
         if($this->prerequis!=null)
           return $this->prerequis;
-      return 'Avoir Maitrisé le programme de : .'.$this->matiere->getTitre().' du niveau requis pour ce concours';
+      return $this->prerequis='Avoir Maitrisé le programme de : .'.$this->matiere->getTitre().' du niveau requis pour ce concours';
     }
  
 
@@ -271,8 +271,8 @@ class Partie
     public function getObjectif()
     {
         if($this->objectif!=null)
-          return $this->objectif;
-      return 'Evaluer les aquis sur cette partie';
+          return  $this->objectif;
+      return $this->objectif='Evaluer les aquis sur cette partie';
     }
 
     /**
