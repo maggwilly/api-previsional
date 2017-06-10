@@ -38,4 +38,4 @@ AppBundle\Entity\Programme:
         programme:
              groups: ['programme', 'full']            
     callback_methods:
-        pre_serialize: ['getProgramme']
+        pre_serialize: ['getProgramme','getPrice']

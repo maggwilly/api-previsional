@@ -18,6 +18,7 @@ class ProgrammeType extends AbstractType
         ->add('abreviation')
         ->add('type')
         ->add('session')
+         ->add('price')
         ->add('descriptionEcole')
         ->add('descriptionConcours')
         ->add('nombrePlace')

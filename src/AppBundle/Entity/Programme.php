@@ -22,6 +22,13 @@ class Programme
     private $id;
 
         /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=true)
+     */
+    private $price;
+
+        /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
@@ -573,6 +580,32 @@ class Programme
         return $this->programme=$this->id;
     }
 
+        /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getPrice()
+    {
+        if($this->price!=null)
+              return $this->price;
+        if($this->auMoinsdeMemeQue!=null &&$this->auMoinsdeMemeQue!=$this)
+            return $this->price==$this->auMoinsdeMemeQue->getPrice();
+    return $this->price;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Etape
+     */
+    public function setPrice($date)
+    {
+        $this->price = $date;
+
+        return $this;
+    }
     /**
      * Set date
      *
