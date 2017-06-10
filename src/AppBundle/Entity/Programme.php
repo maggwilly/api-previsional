@@ -200,6 +200,8 @@ class Programme
      * @return string 
      */
     public function getAuMoinsdeMemeQue(){
+        if($this->auMoinsdeMemeQue==null)
+            return $this;
         return $this->auMoinsdeMemeQue;
     
     }
