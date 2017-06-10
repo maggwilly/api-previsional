@@ -1,6 +1,5 @@
 AppBundle\Entity\Programme:
-    exclusion_policy: ALL
-    access_type: public_method
+    exclusion_policy: none
     properties:
         id:
             groups: ['programme', 'full']
@@ -38,3 +37,5 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full']
         programme:
              groups: ['programme', 'full']            
+    callback_methods:
+        pre_serialize: ['getProgramme']
