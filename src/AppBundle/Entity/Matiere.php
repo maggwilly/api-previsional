@@ -165,7 +165,7 @@ class Matiere
      */
     public function getDisplayName()
     {
-        return $this->matiere->getTitre().' > '.$this->programme->getAbreviation();
+        return $this->titre.' > '.$this->programme->getAbreviation();
     }
     /**
      * Set description
