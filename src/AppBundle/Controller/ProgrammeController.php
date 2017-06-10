@@ -21,7 +21,7 @@ class ProgrammeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $concours = $em->getRepository('AppBundle:Programme')->findDispo();
+        $concours = $em->getRepository('AppBundle:Programme')->findAll();
 
         return $this->render('concours/index.html.twig', array(
             'concours' => $concours,
@@ -36,7 +36,11 @@ class ProgrammeController extends Controller
     public function jsonIndexAction()
     {
         $em = $this->getDoctrine()->getManager();
-         $programmes = $em->getRepository('AppBundle:Programme')->findAll();
+         $programmes =new \Doctrine\Common\Collections\ArrayCollection();
+         foreach ($em->getRepository('AppBundle:Programme')->findAll() as $key => $programe) {
+            if(!$programe->getMatieres()->isEmpty())
+                   $programmes[]=$programe;
+           }
         return  $programmes;
     }
     /**

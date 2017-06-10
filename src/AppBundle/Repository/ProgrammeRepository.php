@@ -17,7 +17,7 @@ class ProgrammeRepository extends EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findDispo(){
-         $qb = $this->createQueryBuilder('p')->join('p.matieres','m'); 
+         $qb = $this->createQueryBuilder('p'); 
           return $qb->getQuery()->getResult();
   }
 
