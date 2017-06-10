@@ -272,7 +272,7 @@ class Partie
     {
         if($this->objectif!=null)
           return $this->objectif;
-      return 'Evaluer les aquis sur: .'.$this->titre;
+      return 'Evaluer les aquis sur cette partie';
     }
 
     /**

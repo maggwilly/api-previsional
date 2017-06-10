@@ -25,7 +25,7 @@
                 <td><a href="{{ path('question_index', { 'id': partie.id }) }}">{{ partie.titre }}</a></td>
                 <td>{{ partie.prerequis }}</td>
                 <td>{{ partie.objectif }}</td>
-                <td><a href="{{ partie.cours }}">Diso</td>
+                <td>{% if partie.cours %}<a href="{{ partie.cours }}">Diso{% endif %}</td>
                 <td>{% if partie.questions is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
                     <ul>
