@@ -114,7 +114,14 @@
 
        <script type="text/javascript" src="{{ asset('assets/js/material-dashboard.js') }}"></script>
        
-       <script type="text/javascript"  src="{{ asset('assets/js/demo.js') }}"></script>              
+       <script type="text/javascript"  src="{{ asset('assets/js/demo.js') }}"></script> 
+       <script type="text/javascript"  src="{{ asset('assets/dynatable/jquery.dynatable.js') }}"></script>
+       <script type="text/javascript">
+       	 $().ready(function(){
+       $('#my-table').dynatable();
+       	 });
+       </script>
+                
  {% endblock %}    
 
 </html>
