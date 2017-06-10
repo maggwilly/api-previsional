@@ -1,14 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{partie.titre}}</h1>
-    <h1>{{partie.description}}</h1>
+    <h1>{{matiere.titre}}</h1>
+    <h2>{{matiere.description}}</h2>
+    <h3>Cours</h3>
+     <table>
+        <tbody>
+        {% for partie in matiere.parties %}
+        {% if partie.cours %}
+            <tr>
+                <td>{{ partie.titre }}</td>
+                <td><a href="{{ partie.cours }}">Cours</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Autres ressources</h3>   
     <table>
         <tbody>
         {% for objectif in objectifs %}
             <tr>
                 <td>{{ objectif.titre }}</td>
-                <td>{{ objectif.description }}</td>
+                <td><a href="{{ objectif.description }}"> Ouvrir</a></td>
             </tr>
         {% endfor %}
         </tbody>
