@@ -92,10 +92,7 @@ class Question
    */
     private $partie;
 
-   /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Objectif")
-   */
-    private $objectif;
+
     /**
      * @var int
      *
@@ -564,28 +561,7 @@ class Question
         return $this->partie;
     }
 
-    /**
-     * Set objectif
-     *
-     * @param \AppBundle\Entity\Objectif $objectif
-     * @return Question
-     */
-    public function setObjectif(\AppBundle\Entity\Objectif $objectif = null)
-    {
-        $this->objectif = $objectif;
 
-        return $this;
-    }
-
-    /**
-     * Get objectif
-     *
-     * @return \AppBundle\Entity\Objectif 
-     */
-    public function getObjectif()
-    {
-        return $this->objectif;
-    }
 
     /**
      * Set text
