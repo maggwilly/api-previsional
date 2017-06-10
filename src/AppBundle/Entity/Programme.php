@@ -199,8 +199,9 @@ class Programme
      *
      * @return string 
      */
-    public function getAuMoinsdeMemeQue()
+    public function getAuMoinsdeMemeQue(){
         return $this->auMoinsdeMemeQue;
+    
     }
 
 
