@@ -14,7 +14,7 @@
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Poids</th>
-                <th>Categorie</th>
+                 <th>Contenu dispo</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
                 <td><a href="{{ path('partie_index', { 'id': matiere.id }) }}">{{ matiere.titre }}</a></td>
                 <td>{{ matiere.description }}</td>
                 <td>{{ matiere.poids }}</td>
-                <td>{{ matiere.categorie }}</td>
+                <td>{% if matiere.parties is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
                     <ul>
                         <li>

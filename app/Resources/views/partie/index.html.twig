@@ -14,6 +14,8 @@
                 <th>Titre</th>
                 <th>Prerequis</th>
                  <th>Objectif</th>
+                 <th>Cours</th>
+                  <th>QCM dispo</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +25,8 @@
                 <td><a href="{{ path('question_index', { 'id': partie.id }) }}">{{ partie.titre }}</a></td>
                 <td>{{ partie.prerequis }}</td>
                 <td>{{ partie.objectif }}</td>
+                <td><a href="{{ partie.cours }}">Diso</td>
+                <td>{% if partie.questions is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
                     <ul>
                         <li>

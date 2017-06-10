@@ -200,8 +200,10 @@ class Partie
      * @return string 
      */
     public function getPrerequis()
-    {
-        return $this->prerequis;
+    { 
+        if($this->prerequis!=null)
+          return $this->prerequis;
+      return 'Avoir Maitrisé le programme de : .'.$this->matiere->getTitre().' du niveau requis pour ce concours';
     }
  
 
@@ -268,9 +270,9 @@ class Partie
      */
     public function getObjectif()
     {
-        if(!$this->objectif)
+        if($this->objectif!=null)
           return $this->objectif;
-      return 'Evaluer vos aquis sur cette partie.';
+      return 'Evaluer les aquis sur: .'.$this.titre;
     }
 
     /**

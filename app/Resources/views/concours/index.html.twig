@@ -18,6 +18,7 @@
                 <th>Type</th>
                 <th>Session</th>
                 <th>Actions</th>
+                <th>Prepa dispo</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                 <td>{{ concour.abreviation }}</td>
                 <td>{{ concour.type }}</td>
                 <td>{{ concour.session }}</td>
+                <td>{% if concour.matieres is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
                     <ul>
                         <li>
