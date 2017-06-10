@@ -258,7 +258,9 @@ class Question
      */
     public function getShowLink()
     {
-        return $this->$showLink='https://entrances.herokuapp.com/v1/question/'.$this->id.'/show/from/mobile';// url defaul to view question;
+         if($this->showLink)
+            return $this->showLink;
+        return $this->$showLink ='https://entrances.herokuapp.com/v1/question/'.$this->id.'/show/from/mobile';// url defaul to view question;
     }
 
     /**
