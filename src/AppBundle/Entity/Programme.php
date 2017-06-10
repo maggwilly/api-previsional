@@ -187,7 +187,7 @@ class Programme
      * @param string $ecole
      * @return Concours
      */
-    public function setAuMoinsdeMemeQue(\AppBundle\Entity\Programme$programme= null)
+    public function setAuMoinsdeMemeQue(\AppBundle\Entity\Programme $programme= null)
     {
         $this->auMoinsdeMemeQue = $programme;
 
