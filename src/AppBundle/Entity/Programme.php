@@ -590,7 +590,7 @@ class Programme
         if($this->price!=null)
               return $this->price;
         if($this->auMoinsdeMemeQue!=null &&$this->auMoinsdeMemeQue!=$this)
-            return $this->price==$this->auMoinsdeMemeQue->getPrice();
+            return $this->price=$this->auMoinsdeMemeQue->getPrice();
     return $this->price;
     }
 
