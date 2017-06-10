@@ -21,7 +21,7 @@ class ProgrammeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $concours = $em->getRepository('AppBundle:Programme')->findAll();
+        $concours = $em->getRepository('AppBundle:Programme')->findDispo();
 
         return $this->render('concours/index.html.twig', array(
             'concours' => $concours,
