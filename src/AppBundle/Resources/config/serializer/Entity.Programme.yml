@@ -36,6 +36,8 @@ AppBundle\Entity\Programme:
         resultats:
              groups: ['programme', 'full']
         programme:
-             groups: ['programme', 'full']            
+             groups: ['programme', 'full']  
+        price:
+             groups: ['programme', 'full']                      
     callback_methods:
         pre_serialize: ['getProgramme','getPrice']
