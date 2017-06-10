@@ -17,9 +17,16 @@ class MatiereType extends AbstractType
     {
         $builder->add('titre')
                 ->add('description')->add('poids')->add('otherRessourcesLink')
-                 ->add('auMoinsdeMemeQue', EntityType::class, array('class' => 'AppBundle:Matiere' ,   'choice_label' => function ($matiere) {
-                      return $matiere->getDisplayName();
-                      }))
+                 ->add('auMoinsdeMemeQue',
+                  EntityType::class, array(
+                     'class' => 'AppBundle:Matiere' ,
+                     'choice_label' => 'titre',
+                      'label'=>'Le même contenu que',
+                      'group_by' => function($val, $key, $index) {
+                            return $val->getNom();
+                           }
+                  ))
+                
                 ->add('categorie', ChoiceType::class, array(
                                  'choices'  => array(
                                   'prepa' => 'Travaux dirigés'),
