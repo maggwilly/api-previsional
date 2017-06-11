@@ -201,9 +201,9 @@ class Partie
      */
     public function getPrerequis()
     { 
-        if($this->prerequis!=null)
-          return $this->prerequis;
+        if($this->prerequis==null&&$this->matiere!=null)
       return $this->prerequis='Avoir Maitrisé le programme de : .'.$this->matiere->getTitre().' du niveau requis pour ce concours';
+    return $this->prerequis;
     }
  
 
