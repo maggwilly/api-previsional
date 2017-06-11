@@ -16,14 +16,7 @@ class PartieType extends AbstractType
         $builder->add('titre')
         ->add('prerequis')
         ->add('cours')
-        ->add('objectif')
-        ->add('auMoinsdeMemeQue', EntityType::class, 
-            array('class' => 'AppBundle:Partie' , 
-              'choice_label' => 'titre',
-                'label'=>'Les même questions que', 'empty_data' => null,
-                'group_by' => function($val, $key, $index) {
-                            return $val->getMatiere()->getDisplayName();
-               }));
+        ->add('objectif');
     }
     
     /**

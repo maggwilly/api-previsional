@@ -81,7 +81,7 @@ class MatiereController extends Controller
     public function editAction(Request $request, Matiere $matiere)
     {
         $deleteForm = $this->createDeleteForm($matiere);
-        $editForm = $this->createForm('AppBundle\Form\MatiereType', $matiere);
+        $editForm = $this->createForm('AppBundle\Form\MatiereEditType', $matiere);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

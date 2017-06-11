@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-class MatiereType extends AbstractType
+class MatiereEditType extends AbstractType
 {
 
     /**
@@ -17,6 +17,16 @@ class MatiereType extends AbstractType
     {
         $builder->add('titre')
                 ->add('description')->add('poids')->add('otherRessourcesLink')
+                 ->add('auMoinsdeMemeQue',
+                  EntityType::class, array(
+                     'class' => 'AppBundle:Matiere' ,
+                     'choice_label' => 'titre',
+                      'label'=>'Le même contenu que', 'empty_data' => null,
+                      'group_by' => function($val, $key, $index) {
+                            return $val->getProgramme()->getNom();
+                           }
+                  ))
+                
                 ->add('categorie', ChoiceType::class, array(
                                  'choices'  => array(
                                   'prepa' => 'Travaux dirigés'),

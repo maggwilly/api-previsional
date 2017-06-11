@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-class ProgrammeType extends AbstractType
+class ProgrammeEditType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -27,6 +27,10 @@ class ProgrammeType extends AbstractType
         ->add('lien')
         ->add('image')
         ->add('contact')
+        ->add('auMoinsdeMemeQue', 
+            EntityType::class,
+             array('class' => 'AppBundle:Programme',   'choice_label' => 'nom', 'empty_data' => null,'label'=>'Le même programme  que')
+             )
         ->add('resultats') ;
     }
     

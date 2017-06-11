@@ -6,28 +6,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-class ProgrammeType extends AbstractType
+class PartieEditType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')
-        ->add('ecole')
-        ->add('abreviation')
-        ->add('type')
-        ->add('session')
-         ->add('price')
-        ->add('descriptionEcole')
-        ->add('descriptionConcours')
-        ->add('nombrePlace')
-        ->add('dateConcours')
-        ->add('dateDossier')
-        ->add('lien')
-        ->add('image')
-        ->add('contact')
-        ->add('resultats') ;
+        $builder->add('titre')
+        ->add('prerequis')
+        ->add('cours')
+        ->add('objectif')
+        ->add('auMoinsdeMemeQue', EntityType::class, 
+            array('class' => 'AppBundle:Partie' , 
+              'choice_label' => 'titre',
+                'label'=>'Les même questions que', 'empty_data' => null,
+                'group_by' => function($val, $key, $index) {
+                            return $val->getMatiere()->getDisplayName();
+               }));
     }
     
     /**
@@ -36,7 +32,7 @@ class ProgrammeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Programme'
+            'data_class' => 'AppBundle\Entity\Partie'
         ));
     }
 
@@ -45,7 +41,7 @@ class ProgrammeType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_programme';
+        return 'appbundle_partie';
     }
 
 

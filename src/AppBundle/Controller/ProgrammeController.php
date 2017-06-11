@@ -50,7 +50,7 @@ class ProgrammeController extends Controller
     public function newAction(Request $request)
     {
         $concours = new Programme();
-        $form = $this->createForm('AppBundle\Form\ProgrammeType', $concours);
+        $form = $this->createForm('AppBundle\Form\ProgrammeEditType', $concours);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

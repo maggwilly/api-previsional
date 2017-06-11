@@ -80,7 +80,7 @@ class PartieController extends Controller
     public function editAction(Request $request, Partie $partie)
     {
         $deleteForm = $this->createDeleteForm($partie);
-        $editForm = $this->createForm('AppBundle\Form\PartieType', $partie);
+        $editForm = $this->createForm('AppBundle\Form\PartieEditType', $partie);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
