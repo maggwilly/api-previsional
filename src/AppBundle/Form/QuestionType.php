@@ -26,8 +26,8 @@ class QuestionType extends AbstractType
                                           'math' => 'Math & prop Maths',
              ),
           ))
-        ->add('text',,'textarea',array('label'=>'Enonce de la question'))
-        ->add('image',,'textarea',array('label'=>'Image de la question'))
+        ->add('text','textarea',array('label'=>'Enonce de la question'))
+        ->add('image','textarea',array('label'=>'Image de la question'))
         ->add('propA')
         ->add('propB')
         ->add('propC')
