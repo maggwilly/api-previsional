@@ -26,8 +26,8 @@ class QuestionType extends AbstractType
                                           'math' => 'Math & prop Maths',
              ),
           ))
-        ->add('text',TextareaType::class,array('label'=>'Enonce de la question'))
-        ->add('image',TextareaType::class,array('label'=>'Image de la question'))
+        ->add('text',,'textarea',array('label'=>'Enonce de la question'))
+        ->add('image',,'textarea',array('label'=>'Image de la question'))
         ->add('propA')
         ->add('propB')
         ->add('propC')
@@ -42,7 +42,7 @@ class QuestionType extends AbstractType
                                          'd' => 'D',
                                          'e' => 'E' ),
                                       'label'=>'Proposition juste'))
-        ->add('explication',TextareaType::class,array('label'=>'Une explication de la reponse'))
+        ->add('explication','textarea',array('label'=>'Une explication de la reponse'))
    ;
     }
     
