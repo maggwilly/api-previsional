@@ -14,6 +14,17 @@ user_homepage:
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
 
+help:
+    path:     /v1/mobile/{id}/help
+    defaults: { _controller: "AppBundle:App:help" }
+    methods:  GET
+
+cgu:
+    path:     /v1/mobile/cgu
+    defaults: { _controller: "AppBundle:App:cgu" }
+    methods:  GET
+
+
 app_admin:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /v1

@@ -21,4 +21,13 @@ class AppController extends Controller
     return $this->redirectToRoute('concours_index');
     }
 
+    public function helpAction($topic)
+    {      
+    return $this->render('reads/help.html.twig', array());
+    }
+
+    public function cguAction()
+    {      
+    return $this->render('reads/cgu.html.twig', array());
+    }
 }
