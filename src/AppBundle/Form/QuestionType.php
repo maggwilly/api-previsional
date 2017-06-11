@@ -6,10 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bridge\Doctrine\Form\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\IntegerType;
-use Symfony\Bridge\Doctrine\Form\Type\TextareaType;
 class QuestionType extends AbstractType
 {
     /**
@@ -33,7 +29,7 @@ class QuestionType extends AbstractType
         ->add('propC')
         ->add('propD')
         ->add('propE')
-        ->add('time',IntegerType::class,array('label'=>'Duree pour repondre'))
+        ->add('time','integer',array('label'=>'Duree pour repondre'))
         ->add('rep', ChoiceType::class, array(
                                      'choices'  => array(
                                          'a' => 'A',
