@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\Form\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\TextareaType;
 class QuestionType extends AbstractType
 {
     /**
@@ -17,7 +18,7 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $partie=$options['partie'];
-        $builder->add('type', ChoiceType::class, array('label'=>'Type de question'
+        $builder->add('type', ChoiceType::class, array('label'=>'Type de question',
                                  'choices'  => array(
                                          'text' => 'Texte uniquement',
                                          'image_text' => 'Image et texte',
@@ -25,8 +26,8 @@ class QuestionType extends AbstractType
                                           'math' => 'Math & prop Maths',
              ),
           ))
-        ->add('text',TextType::class,array('label'=>'Enonce de la question'))
-        ->add('image',TextType::class,array('label'=>'Image de la question'))
+        ->add('text',TextareaType::class,array('label'=>'Enonce de la question'))
+        ->add('image',TextareaType::class,array('label'=>'Image de la question'))
         ->add('propA')
         ->add('propB')
         ->add('propC')
@@ -41,7 +42,7 @@ class QuestionType extends AbstractType
                                          'd' => 'D',
                                          'e' => 'E' ),
                                       'label'=>'Proposition juste'))
-        ->add('explication',TextType::class,array('label'=>'Une explication de la reponse'))
+        ->add('explication',TextareaType::class,array('label'=>'Une explication de la reponse'))
    ;
     }
     
