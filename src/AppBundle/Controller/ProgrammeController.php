@@ -50,7 +50,7 @@ class ProgrammeController extends Controller
     public function newAction(Request $request)
     {
         $concours = new Programme();
-        $form = $this->createForm('AppBundle\Form\ProgrammeEditType', $concours);
+        $form = $this->createForm('AppBundle\Form\ProgrammeType', $concours);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,7 +85,7 @@ class ProgrammeController extends Controller
     public function editAction(Request $request, Programme $concour)
     {
         $deleteForm = $this->createDeleteForm($concour);
-        $editForm = $this->createForm('AppBundle\Form\ProgrammeType', $concour);
+        $editForm = $this->createForm('AppBundle\Form\ProgrammeEditType', $concour);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
