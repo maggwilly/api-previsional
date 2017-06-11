@@ -258,9 +258,9 @@ class Question
      */
     public function getShowLink()
     {
-         if($this->showLink)
-            return $this->showLink;
+  if($this->showLink==null&&$this->id!=null)
         return $this->showLink ='https://entrances.herokuapp.com/v1/question/'.$this->id.'/show/from/mobile';// url defaul to view question;
+    return $this->showLink;
     }
 
     /**
@@ -283,9 +283,9 @@ class Question
      */
     public function getExplication()
     {   
-        if($this->explication)
-        return $this->explication; // url to cours
-    return $this->explication=$this->partie->getCours();
+        if($this->explication!=null&&$this->partie!=null)
+              return $this->explication=$this->partie->getCours();
+   return $this->explication; // url to cours
     }
 
     /**
