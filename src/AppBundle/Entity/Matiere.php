@@ -211,9 +211,10 @@ class Matiere
      */
     public function getOtherRessourcesLink()
     {
-         if($this->otherRessourcesLink!=null)
-              return $this->otherRessourcesLink;
+         if($this->otherRessourcesLink==null&&$this->id!=null)
+    
         return $this->otherRessourcesLink='https://entrances.herokuapp.com/v1/matiere/'.$this->id.'/show/from/mobile'; //url to view list off objectif
+              return $this->otherRessourcesLink;
     }
 
     /**
