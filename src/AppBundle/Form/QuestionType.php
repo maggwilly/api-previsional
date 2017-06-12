@@ -23,7 +23,7 @@ class QuestionType extends AbstractType
              ),
           ))
         ->add('text','textarea',array('label'=>'Enonce de la question'))
-        ->add('image','textarea',array('label'=>'Image de la question'))
+        ->add('image','textarea',array('label'=>'Image de la question','required'=>false))
         ->add('propA')
         ->add('propB')
         ->add('propC')
@@ -38,7 +38,7 @@ class QuestionType extends AbstractType
                                          'd' => 'D',
                                          'e' => 'E' ),
                                       'label'=>'Proposition juste'))
-        ->add('explication','textarea',array('label'=>'Une explication de la reponse'))
+        ->add('explication','textarea',array('label'=>'Une explication de la reponse','required'=>false))
    ;
     }
     
