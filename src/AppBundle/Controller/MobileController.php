@@ -224,8 +224,8 @@ public function apkAction()
     $response = new Response();
 
     //set headers
-    $response->headers->set('Content-Type', 'mime/type');
-    $response->headers->set('Content-Disposition', 'attachment;filename="update.xml"');
+    $response->headers->set('Content-Type', 'text/xml');
+   // $response->headers->set('Content-Disposition', 'attachment;filename="update.xml"');
 
     $response->setContent($content);
     return $response;
