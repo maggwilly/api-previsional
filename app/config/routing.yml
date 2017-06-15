@@ -3,11 +3,16 @@ homepage:
     path:     /
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
-mobileapp:
+
+mobileapp_apk:
     path:     /apk
     defaults: { _controller: "AppBundle:Mobile:apk" }
     methods:  GET
 
+mobileapp_tags:
+    path:     /xml
+    defaults: { _controller: "AppBundle:Mobile:xml" }
+    methods:  GET
 
 user_homepage:
     path:     /v1/home

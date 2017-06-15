@@ -198,18 +198,37 @@ private function getConnectedUser(){
         return $authToken;
     }
 //apk
-    public function apkAction()
+
+
+    
+public function apkAction()
 {
   $request = $this->get('request');
-    $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/allreport1.9.0.apk";
+    $path = $this->get('kernel')->getRootDir(). "/../web/update/CentOr.apk";
     $content = file_get_contents($path);
     $response = new Response();
 
     //set headers
     $response->headers->set('Content-Type', 'mime/type');
-    $response->headers->set('Content-Disposition', 'attachment;filename="allreport1.9.0.apk"');
+    $response->headers->set('Content-Disposition', 'attachment;filename="CentOr.apk"');
 
     $response->setContent($content);
     return $response;
 }
+
+   public function xmlAction()
+{
+  $request = $this->get('request');
+    $path = $this->get('kernel')->getRootDir(). "/../web/update/update.apk";
+    $content = file_get_contents($path);
+    $response = new Response();
+
+    //set headers
+    $response->headers->set('Content-Type', 'mime/type');
+    $response->headers->set('Content-Disposition', 'attachment;filename="update.xml"');
+
+    $response->setContent($content);
+    return $response;
+}
+
 }
