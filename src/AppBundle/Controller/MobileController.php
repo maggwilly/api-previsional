@@ -219,7 +219,7 @@ public function apkAction()
    public function xmlAction()
 {
   $request = $this->get('request');
-    $path = $this->get('kernel')->getRootDir(). "/../web/update/update.apk";
+    $path = $this->get('kernel')->getRootDir(). "/../web/update/update.xml";
     $content = file_get_contents($path);
     $response = new Response();
 
