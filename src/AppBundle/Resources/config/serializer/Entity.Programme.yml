@@ -12,7 +12,17 @@ AppBundle\Entity\Programme:
         programme:
              groups: ['programme', 'full','abonnement']  
         abreviation:
-             groups: ['programme', 'full','abonnement']                         
+             groups: ['programme', 'full','abonnement']   
+        dateConcours:
+             groups: ['programme', 'full','abonnement']
+             expose: true
+             type: DateTime<'Y-m-d'>           
+        dateDossier:
+             groups: ['programme', 'full','abonnement']
+             expose: true
+             type: DateTime<'Y-m-d'> 
+        lien:
+             groups: ['programme', 'full','abonnement']                                   
         image:
              groups: [ 'full']
         type:
@@ -24,16 +34,6 @@ AppBundle\Entity\Programme:
         descriptionConcours:
              groups: ['full']
         nombrePlace:
-             groups: ['programme', 'full']
-        dateConcours:
-             groups: ['programme', 'full']
-             expose: true
-             type: DateTime<'Y-m-d'>           
-        dateDossier:
-             groups: [ 'full']
-             expose: true
-             type: DateTime<'Y-m-d'> 
-        lien:
              groups: ['programme', 'full']
         contact:
              groups: [ 'full']
