@@ -50,11 +50,7 @@ class Question
      */
     private $text;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="text",  nullable=true)
-     */
+    
     private $image;
 
 
@@ -149,6 +145,12 @@ class Question
      */
     private $propE;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $imageEntity;
+
 
     /**
      * Get id
@@ -235,7 +237,9 @@ class Question
      */
     public function getImage()
     {
-        return $this->image;
+        if($this->imageEntity!=null)
+           return $this->image='https://entrances.herokuapp.com/'.$this->imageEntity->getWebPath();
+       return $this->image;
     }
 
     /**
@@ -610,4 +614,27 @@ class Question
     {
         return $this->validateur;
     }
+    /**
+     * Set image
+     *
+     * @param \PW\QCMBundle\Entity\Image $image
+     * @return QCM
+     */
+    public function setImageEntity(\AppBundle\Entity\Image $image = null)
+    {
+        $this->imageEntity = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \PW\QCMBundle\Entity\Image 
+     */
+    public function getImageEntity()
+    {
+        return $this->imageEntity;
+    }
+
 }

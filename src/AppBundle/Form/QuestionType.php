@@ -23,7 +23,7 @@ class QuestionType extends AbstractType
              ),
           ))
         ->add('text','textarea',array('label'=>'Enonce de la question'))
-        ->add('image','textarea',array('label'=>'Image de la question','required'=>false))
+        ->add('imageEntity',   new ImageType(), array('label'=>'Image de la question','required'=>false))
         ->add('propA')
         ->add('propB')
         ->add('propC')

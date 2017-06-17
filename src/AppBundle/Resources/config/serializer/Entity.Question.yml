@@ -36,4 +36,4 @@ AppBundle\Entity\Question:
         propE:
             groups: ['question', 'full']
     callback_methods:
-        pre_serialize: ['getExplication','getShowLink']
+        pre_serialize: ['getExplication','getShowLink'.'getImage']
