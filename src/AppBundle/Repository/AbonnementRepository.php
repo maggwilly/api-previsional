@@ -30,6 +30,6 @@ class AbonnementRepository extends EntityRepository
          ->where('a.studentId=:studentId')->setParameter('studentId',$studentId)
          ->andWhere('a.programme=:programme')->setParameter('programme',$programme);
 
-          return $qb->getQuery()->getSingleResult();
+          return $qb->getQuery()->getOneOrNullResult();
   }
 }
