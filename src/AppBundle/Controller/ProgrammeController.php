@@ -43,6 +43,16 @@ class ProgrammeController extends Controller
            }
         return  $programmes;
     }
+
+        /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"full"})
+     */
+    public function showJsonAction(Programme $programme){
+        
+        return $programme;
+    }
+
     /**
      * Creates a new concour entity.
      *

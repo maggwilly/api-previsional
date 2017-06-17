@@ -9,6 +9,8 @@ AppBundle\Entity\Programme:
              groups: ['programme', 'full','abonnement']                
         ecole:
              groups: ['programme', 'full','abonnement']
+        programme:
+             groups: ['programme', 'full','abonnement']              
         image:
              groups: [ 'full']
         abreviation:
@@ -36,8 +38,6 @@ AppBundle\Entity\Programme:
         contact:
              groups: [ 'full']
         resultats:
-             groups: ['programme', 'full']
-        programme:
-             groups: ['programme', 'full']                     
+             groups: ['programme', 'full']           
     callback_methods:
         pre_serialize: ['getProgramme','getPrice']

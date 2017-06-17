@@ -8,6 +8,11 @@ concours_index_json:
     defaults: { _controller: "AppBundle:Programme:jsonIndex" }
     methods:  GET
 
+concours_show_json:
+    path:     /concours/{id}/json
+    defaults: { _controller: "AppBundle:Programme:showJson" }
+    methods:  GET
+
 matiere_index_json:
     path:     /matiere/{id}/json
     defaults: { _controller: "AppBundle:Matiere:jsonIndex" }
