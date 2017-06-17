@@ -204,13 +204,13 @@ private function getConnectedUser(){
 public function apkAction()
 {
   $request = $this->get('request');
-    $path = $this->get('kernel')->getRootDir(). "/../web/update/CentOr.apk";
+    $path = $this->get('kernel')->getRootDir(). "/../web/update/CentOr_remote.apk";
     $content = file_get_contents($path);
     $response = new Response();
 
     //set headers
     $response->headers->set('Content-Type', 'mime/type');
-    $response->headers->set('Content-Disposition', 'attachment;filename="CentOr.apk"');
+    $response->headers->set('Content-Disposition', 'attachment;filename="CentOr_remote.apk"');
 
     $response->setContent($content);
     return $response;

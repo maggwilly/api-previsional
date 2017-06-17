@@ -10,11 +10,11 @@ AppBundle\Entity\Programme:
         ecole:
              groups: ['programme', 'full','abonnement']
         programme:
-             groups: ['programme', 'full','abonnement']              
+             groups: ['programme', 'full','abonnement']  
+        abreviation:
+             groups: ['programme', 'full','abonnement']                         
         image:
              groups: [ 'full']
-        abreviation:
-             groups: ['programme', 'full']
         type:
              groups: ['programme', 'full']
         session:
