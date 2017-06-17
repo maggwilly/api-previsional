@@ -272,7 +272,7 @@ class Partie
     {
         if($this->objectif!=null)
           return  $this->objectif;
-      return $this->objectif='Evaluer les aquis sur cette partie';
+      return $this->objectif='Evaluer les acquis sur cette partie';
     }
 
     /**
