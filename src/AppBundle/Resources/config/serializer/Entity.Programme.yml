@@ -5,10 +5,12 @@ AppBundle\Entity\Programme:
             groups: ['programme', 'full','abonnement']
         nom:
              groups: ['programme', 'full','abonnement']
+        price:
+             groups: ['programme', 'full','abonnement']                
         ecole:
-             groups: ['programme', 'full']
+             groups: ['programme', 'full','abonnement']
         image:
-             groups: ['programme', 'full']
+             groups: [ 'full']
         abreviation:
              groups: ['programme', 'full']
         type:
@@ -16,9 +18,9 @@ AppBundle\Entity\Programme:
         session:
              groups: ['programme', 'full']
         descriptionEcole:
-             groups: ['programme', 'full']
+             groups: [ 'full']
         descriptionConcours:
-             groups: ['programme', 'full']
+             groups: ['full']
         nombrePlace:
              groups: ['programme', 'full']
         dateConcours:
@@ -26,18 +28,16 @@ AppBundle\Entity\Programme:
              expose: true
              type: DateTime<'Y-m-d'>           
         dateDossier:
-             groups: ['programme', 'full']
+             groups: [ 'full']
              expose: true
              type: DateTime<'Y-m-d'> 
         lien:
              groups: ['programme', 'full']
         contact:
-             groups: ['programme', 'full']
+             groups: [ 'full']
         resultats:
              groups: ['programme', 'full']
         programme:
-             groups: ['programme', 'full']  
-        price:
-             groups: ['programme', 'full','abonnement']                      
+             groups: ['programme', 'full']                     
     callback_methods:
         pre_serialize: ['getProgramme','getPrice']
