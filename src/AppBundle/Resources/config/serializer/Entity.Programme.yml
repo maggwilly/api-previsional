@@ -2,9 +2,9 @@ AppBundle\Entity\Programme:
     exclusion_policy: none
     properties:
         id:
-            groups: ['programme', 'full']
+            groups: ['programme', 'full','abonnement']
         nom:
-             groups: ['programme', 'full']
+             groups: ['programme', 'full','abonnement']
         ecole:
              groups: ['programme', 'full']
         image:
@@ -38,6 +38,6 @@ AppBundle\Entity\Programme:
         programme:
              groups: ['programme', 'full']  
         price:
-             groups: ['programme', 'full']                      
+             groups: ['programme', 'full','abonnement']                      
     callback_methods:
         pre_serialize: ['getProgramme','getPrice']

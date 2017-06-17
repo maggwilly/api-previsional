@@ -22,3 +22,18 @@ question_index_json:
     path:     /question/{id}/json
     defaults: { _controller: "AppBundle:Question:jsonIndex" }
     methods:  GET
+
+abonnement_index_json:
+    path:     /abonnement/{studentId}/json
+    defaults: { _controller: "AppBundle:Abonnement:indexJson"}
+    methods:  GET
+
+abonnement_new_json:
+    path:     /abonnement/{id}/new/json
+    defaults: { _controller: "AppBundle:Abonnement:newJson" ,id:0}
+    methods:  [GET,POST]
+  
+abonnement_show_json:
+    path:     /abonnement/{studentId}/{id}/json
+    defaults: { _controller: "AppBundle:Abonnement:showJson"}
+    methods:  [GET,POST]  

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Abonnements list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Enddate</th>
+                <th>Startdate</th>
+                <th>Method</th>
+                <th>Plan</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Telpaidnumber</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for abonnement in abonnements %}
+            <tr>
+                <td><a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">{{ abonnement.id }}</a></td>
+                <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ abonnement.method }}</td>
+                <td>{{ abonnement.plan }}</td>
+                <td>{{ abonnement.price }}</td>
+                <td>{{ abonnement.status }}</td>
+                <td>{{ abonnement.telPaidNumber }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('abonnement_edit', { 'id': abonnement.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('abonnement_new') }}">Create a new abonnement</a>
+        </li>
+    </ul>
+{% endblock %}

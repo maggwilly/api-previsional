@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Abonnement</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ abonnement.id }}</td>
+            </tr>
+            <tr>
+                <th>Enddate</th>
+                <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Startdate</th>
+                <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Method</th>
+                <td>{{ abonnement.method }}</td>
+            </tr>
+            <tr>
+                <th>Plan</th>
+                <td>{{ abonnement.plan }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ abonnement.price }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ abonnement.status }}</td>
+            </tr>
+            <tr>
+                <th>Telpaidnumber</th>
+                <td>{{ abonnement.telPaidNumber }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('abonnement_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('abonnement_edit', { 'id': abonnement.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

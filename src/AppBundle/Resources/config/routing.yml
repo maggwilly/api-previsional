@@ -10,6 +10,10 @@ app_concours:
     resource: "@AppBundle/Resources/config/routing/programme.yml"
     prefix:   /programme
 
+app_abonnement:
+    resource: "@AppBundle/Resources/config/routing/abonnement.yml"
+    prefix:   /abonnement   
+
 app_formated:
     resource: "@AppBundle/Resources/config/routing/formated.yml"
     prefix:   /formated
