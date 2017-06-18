@@ -20,13 +20,13 @@
         <tbody>
         {% for question in questions %}
             <tr>
-                <td><a href="{{ path('question_show', { 'id': question.id }) }}">
+                <td>
                 {{ question.text }}
-                {{ question.math }}
+                <br>
                 {% if question.image %}
-               {{question.image }}
+                 <img src="{{question.image }}" alt="img">
                {% endif %}
-                </a>
+                
                 </td>
                   <td>{{ question.type }}</td>
                 <td>{% if question.validated %}Yes{% else %}No{% endif %}</td>            

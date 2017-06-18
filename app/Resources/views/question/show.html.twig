@@ -41,7 +41,11 @@
             {% if question.image %} 
             <tr>
                 <th>Image</th>
-                <td>{{ question.image }}</td>
+                <td> 
+                {% if question.image %}
+                 <img src="{{question.image }}" alt="img">
+               {% endif %}
+               </td>
             </tr>
              {% endif %}  
             {% if question.explication %}   
