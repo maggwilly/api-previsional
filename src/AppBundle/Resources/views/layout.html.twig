@@ -22,7 +22,15 @@
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
-</script> 			 
+</script>
+ <script src="http://www.wiris.net/demo/editor/editor"></script>
+  <script>
+    var editor;
+    window.onload = function () {
+      editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'en'});
+            editor.insertInto(document.getElementById('editorContainer'));
+    }
+ </script> 			 
 </head>
 {% block fos_user_content %}
 <body>
