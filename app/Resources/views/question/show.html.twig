@@ -43,7 +43,7 @@
                 <th>Image</th>
                 <td> 
                 {% if question.image %}
-                  <img src="{{question.image }}" alt="{{question.image }}" height="42" width="42"> 
+                  <img src="{{ asset( question.image) }}" alt="{{question.image }}" height="42" width="42"> 
                {% endif %}
                </td>
             </tr>
