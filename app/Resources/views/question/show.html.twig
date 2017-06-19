@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <th>Texte</th>
-                <td>{{ question.text }}</td>
+                <td>{{ question.text| e }}</td>
             </tr>
       
             <tr>
@@ -63,28 +63,28 @@
             </tr>
             <tr>
                 <th>Proposition A</th>
-                <td>{{ question.propA }}</td>
+                <td>{{ question.propA| e }}</td>
             </tr>
             <tr>
                 <th>Proposition B</th>
-                <td>{{ question.propB }}</td>
+                <td>{{ question.propB| e }}</td>
             </tr>
-             {% if question.propC %} 
+             {% if question.propC| e %} 
             <tr>
                 <th>Proposition C</th>
-                <td>{{ question.propC }}</td>
+                <td>{{ question.propC| e }}</td>
             </tr>
             {% endif %} 
             {% if question.propD %} 
             <tr>
                 <th>Proposition D</th>
-                <td>{{ question.propD }}</td>
+                <td>{{ question.propD | e}}</td>
             </tr>
             {% endif %} 
               {% if question.propE %}
             <tr>
                 <th>Proposition E</th>
-                <td>{{ question.propE }}</td>
+                <td>{{ question.propE| e }}</td>
             </tr>
               {% endif %} 
         </tbody>
