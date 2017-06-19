@@ -238,7 +238,7 @@ class Question
     public function getImage()
     {
         if($this->imageEntity!=null)
-           return $this->image='https://entrances.herokuapp.com/'.$this->imageEntity->getWebPath();
+           return $this->image=$this->imageEntity->getWebPath();
        return $this->image;
     }
 
