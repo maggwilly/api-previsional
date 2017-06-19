@@ -30,13 +30,9 @@
             </tr>
             <tr>
                 <th>Texte</th>
-                <td>{{ question.text| e }}</td>
+                <td>{{ question.text| raw}}</td>
             </tr>
       
-            <tr>
-                <th>Math</th>
-                <td><math><mfrac><mn>1</mn><mn>2</mn></mfrac></math></td>
-            </tr>
             {% if question.image %} 
             <tr>
                 <th>Image</th>
@@ -63,28 +59,28 @@
             </tr>
             <tr>
                 <th>Proposition A</th>
-                <td>{{ question.propA| e }}</td>
+                <td>{{ question.propA| raw }}</td>
             </tr>
             <tr>
                 <th>Proposition B</th>
-                <td>{{ question.propB| e }}</td>
+                <td>{{ question.propB| raw }}</td>
             </tr>
              {% if question.propC| e %} 
             <tr>
                 <th>Proposition C</th>
-                <td>{{ question.propC| e }}</td>
+                <td>{{ question.propC| raw }}</td>
             </tr>
             {% endif %} 
             {% if question.propD %} 
             <tr>
                 <th>Proposition D</th>
-                <td>{{ question.propD | e}}</td>
+                <td>{{ question.propD | raw}}</td>
             </tr>
             {% endif %} 
               {% if question.propE %}
             <tr>
                 <th>Proposition E</th>
-                <td>{{ question.propE| e }}</td>
+                <td>{{ question.propE| raw }}</td>
             </tr>
               {% endif %} 
         </tbody>
