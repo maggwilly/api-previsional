@@ -98,9 +98,9 @@ class AnalyseController extends Controller
      */
     public function showJsonAction($studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null){
         $em = $this->getDoctrine()->getManager();
-        $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie);
-         $analyse->setSup10($em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie));
+        $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
         if($analyse!=null){
+             $analyse->setSup10($em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie));
            $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
