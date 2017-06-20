@@ -26,6 +26,7 @@ public function onObjetCreated(QuestionEvent $event)
          $results=  $this->cloudinaryWrapper-> upload($image->getPath(), '_question_'.$question->getId())->getResult();
          $image->setUrl($results['url']);
           $this->_em->flush();
+          $image->remove();
        }
      }
 }

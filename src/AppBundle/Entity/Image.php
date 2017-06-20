@@ -158,13 +158,11 @@ public function getPath(){
             return $this->getUploadRootDir().'/'.$this->id.'.'.$this->url;
     }
 
-    /**
-    * @ORM\PostRemove()
-    */
-    public function removeUpload(){
 
-            if(file_exists($this->tempFilename)){
-                unlink($this->tempFilename);
+    public function remove(){
+
+            if(file_exists($this->getPath())){
+                unlink($this->getPath());
             }
     }
 
