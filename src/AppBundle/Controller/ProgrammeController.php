@@ -33,14 +33,11 @@ class ProgrammeController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"programme"})
      */
-    public function jsonIndexAction()
+    public function jsonIndexAction($start=0)
     {
         $em = $this->getDoctrine()->getManager();
-         $programmes =new \Doctrine\Common\Collections\ArrayCollection();
-         foreach ($em->getRepository('AppBundle:Programme')->findAll() as $key => $programe) {
-            if(!$programe->getMatieres()->isEmpty())
-                   $programmes[]=$programe;
-           }
+         $programmes =$em->getRepository('AppBundle:Programme')->findList($start);
+
         return  $programmes;
     }
 

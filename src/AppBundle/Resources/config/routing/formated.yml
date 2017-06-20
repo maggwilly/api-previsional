@@ -4,12 +4,12 @@ article_index_json:
     methods:  GET
 
 concours_index_json:
-    path:     /concours/json
-    defaults: { _controller: "AppBundle:Programme:jsonIndex" }
+    path:     /concours/{start}/json
+    defaults: { _controller: "AppBundle:Programme:jsonIndex", start:0}
     methods:  GET
 
 concours_show_json:
-    path:     /concours/{id}/json
+    path:     /concours/{id}/show/json
     defaults: { _controller: "AppBundle:Programme:showJson" }
     methods:  GET
 

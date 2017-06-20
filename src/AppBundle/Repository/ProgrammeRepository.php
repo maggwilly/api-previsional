@@ -16,9 +16,11 @@ class ProgrammeRepository extends EntityRepository
   /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findDispo(){
-         $qb = $this->createQueryBuilder('p'); 
-          return $qb->getQuery()->getResult();
+  public function findList($start){
+         $qb = $this->createQueryBuilder('p')->orderBy('p.nom', 'asc'); 
+         $query=$qb->getQuery();
+         $query->setFirstResult($start)->setMaxResults(10);
+          return $query->getResult();
   }
 
 }
