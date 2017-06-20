@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Analyse
  *
- * @ORM\Table(name="analyse")
+ * @ORM\Table(name="resultat")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AnalyseRepository")
  */
 class Analyse
