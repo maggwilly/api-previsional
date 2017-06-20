@@ -41,6 +41,12 @@ class Objectif
    */
     private $matiere;
 
+
+       /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere" ,inversedBy="liens")
+   */
+    private $programme;
+
    /**
      * Set partie
      *
@@ -119,5 +125,28 @@ class Objectif
     public function getMatiere()
     {
         return $this->matiere;
+    }
+
+        /**
+     * Set concours
+     *
+     * @param \AppBundle\Entity\Programme $concours
+     * @return Matiere
+     */
+    public function setProgramme(\AppBundle\Entity\Programme $concours = null)
+    {
+        $this->programme = $concours;
+
+        return $this;
+    }
+
+    /**
+     * Get concours
+     *
+     * @return \AppBundle\Entity\Programme 
+     */
+    public function getProgramme()
+    {
+        return $this->programme;
     }
 }

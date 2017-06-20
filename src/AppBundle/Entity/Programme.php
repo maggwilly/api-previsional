@@ -93,9 +93,16 @@ class Programme
     /**
      * @var int
      *
-     * @ORM\Column(name="nombrePlace", type="integer")
+     * @ORM\Column(name="nombrePlace", type="integer",  nullable=true)
      */
     private $nombrePlace;
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="nombreInscrit", type="integer",  nullable=true)
+     */
+    private $nombreInscrit;
 
     /**
      * @var \DateTime
@@ -111,12 +118,10 @@ class Programme
      */
     private $dateDossier;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lien", type="text", length=255,  nullable=true)
-     */
-    private $lien;
+     /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="programme", cascade={"persist","remove"})
+   */
+    private $liens;
 
     /**
      * @var string
@@ -151,6 +156,7 @@ class Programme
     public function __construct()
     {
     $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
     $this->date=new \DateTime();
     }
 
@@ -627,5 +633,63 @@ class Programme
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set nombreInscrit
+     *
+     * @param integer $nombreInscrit
+     *
+     * @return Programme
+     */
+    public function setNombreInscrit($nombreInscrit)
+    {
+        $this->nombreInscrit = $nombreInscrit;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreInscrit
+     *
+     * @return integer
+     */
+    public function getNombreInscrit()
+    {
+        return $this->nombreInscrit;
+    }
+
+    /**
+     * Add lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     *
+     * @return Programme
+     */
+    public function addLien(\AppBundle\Entity\Objectif $lien)
+    {
+        $this->liens[] = $lien;
+
+        return $this;
+    }
+
+    /**
+     * Remove lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     */
+    public function removeLien(\AppBundle\Entity\Objectif $lien)
+    {
+        $this->liens->removeElement($lien);
+    }
+
+    /**
+     * Get liens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLiens()
+    {
+        return $this->liens;
     }
 }

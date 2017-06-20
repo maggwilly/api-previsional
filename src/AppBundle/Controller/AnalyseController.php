@@ -57,7 +57,7 @@ class AnalyseController extends Controller
 
     /**
      * Lists all Produit entities.
-     *@Rest\View()
+     *@Rest\View(serializerGroups={"analyse"})
      */
     public function newJsonAction(Request $request,$studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null)
     {   $em = $this->getDoctrine()->getManager();
@@ -71,7 +71,7 @@ class AnalyseController extends Controller
             $em = $this->getDoctrine()->getManager();
               $em->persist($analyse);
             $em->flush();
-            return   array("a"=>'good');
+            return   $analyse;
         }
         return $form;
     }
@@ -87,19 +87,30 @@ class AnalyseController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return array("a"=>'good');
+            return $analyse;
         }
         return $form;
     }
 
     /**
      * Lists all Produit entities.
-     *@Rest\View()
+     *@Rest\View(serializerGroups={"analyse"})
      */
     public function showJsonAction($studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null){
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie);
-        return $analyse;
+         $analyse->setSup10($em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie));
+        if($analyse!=null){
+           $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
+        foreach ($analyseData as $key => $value) {
+            if($value['note']==$analyse->getNote()){
+                $analyse->setDememe($value['dememe']);
+                $analyse->setRang($key+1);
+          }
+        } 
+    }
+        return  $analyse;
+           
     }
 
     /**

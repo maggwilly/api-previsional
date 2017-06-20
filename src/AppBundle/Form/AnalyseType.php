@@ -17,6 +17,10 @@ class AnalyseType extends AbstractType
         ->add('note')
         ->add('objectif')
         ->add('programme')
+         ->add('trueNb')
+        ->add('time')
+        ->add('failedNb') 
+        ->add('firstNote')             
         ->add('studentId');
     }
     

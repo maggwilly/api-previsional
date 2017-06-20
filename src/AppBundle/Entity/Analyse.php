@@ -22,6 +22,43 @@ class Analyse
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="gTime", type="integer", nullable=true)
+     */
+    private $time;
+
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="failedNb", type="integer", nullable=true)
+     */
+    private $failedNb;
+
+            /**
+     * @var int
+     *
+     * @ORM\Column(name="trueNb", type="integer", nullable=true)
+     */
+    private $trueNb;
+
+
+    private $dememe;
+
+    private $rang;
+
+
+    private $sup10;
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="first_note", type="decimal", precision=10, scale=4, nullable=true)
+     */
+    private $firstNote;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="note", type="decimal", precision=10, scale=4, nullable=true)
@@ -253,5 +290,173 @@ class Analyse
     public function getPartie()
     {
         return $this->partie;
+    }
+
+    /**
+     * Set time
+     *
+     * @param integer $time
+     *
+     * @return Analyse
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * Get time
+     *
+     * @return integer
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
+     * Set failedNb
+     *
+     * @param integer $failedNb
+     *
+     * @return Analyse
+     */
+    public function setFailedNb($failedNb)
+    {
+        $this->failedNb = $failedNb;
+
+        return $this;
+    }
+
+    /**
+     * Get failedNb
+     *
+     * @return integer
+     */
+    public function getFailedNb()
+    {
+        return $this->failedNb;
+    }
+
+    /**
+     * Set trueNb
+     *
+     * @param integer $trueNb
+     *
+     * @return Analyse
+     */
+    public function setTrueNb($trueNb)
+    {
+        $this->trueNb = $trueNb;
+
+        return $this;
+    }
+
+    /**
+     * Get trueNb
+     *
+     * @return integer
+     */
+    public function getTrueNb()
+    {
+        return $this->trueNb;
+    }
+
+    /**
+     * Set firstNote
+     *
+     * @param string $firstNote
+     *
+     * @return Analyse
+     */
+    public function setFirstNote($firstNote)
+    {
+        $this->firstNote = $firstNote;
+
+        return $this;
+    }
+
+    /**
+     * Get firstNote
+     *
+     * @return string
+     */
+    public function getFirstNote()
+    {
+        return $this->firstNote;
+    }
+
+    /**
+     * Set dememe
+     *
+     * @param integer $dememe
+     *
+     * @return Analyse
+     */
+    public function setDememe($dememe)
+    {
+        $this->dememe = $dememe;
+
+        return $this;
+    }
+
+    /**
+     * Get dememe
+     *
+     * @return integer
+     */
+    public function getDememe()
+    {
+        return $this->dememe;
+    }
+
+    /**
+     * Set rang
+     *
+     * @param integer $rang
+     *
+     * @return Analyse
+     */
+    public function setRang($rang)
+    {
+        $this->rang = $rang;
+
+        return $this;
+    }
+
+    /**
+     * Get rang
+     *
+     * @return integer
+     */
+    public function getRang()
+    {
+        return $this->rang;
+    }
+
+    /**
+     * Set sup10
+     *
+     * @param integer $sup10
+     *
+     * @return Analyse
+     */
+    public function setSup10($sup10)
+    {
+        $this->sup10 = $sup10;
+
+        return $this;
+    }
+
+    /**
+     * Get sup10
+     *
+     * @return integer
+     */
+    public function getSup10()
+    {
+        return $this->sup10;
     }
 }

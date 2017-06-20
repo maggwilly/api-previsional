@@ -2,6 +2,8 @@ AppBundle\Entity\Objectif:
     exclusion_policy: none
     properties:
         id:
-            groups: ['partie','objectif', 'question', 'full']
+            groups: ['matiere','programme', ]
         titre:
-             groups: ['partie','objectif','full']
+             groups: ['matiere','programme']
+        description:
+             groups: ['matiere','programme']

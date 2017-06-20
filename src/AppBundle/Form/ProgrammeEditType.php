@@ -27,6 +27,7 @@ class ProgrammeEditType extends AbstractType
         ->add('lien')
         ->add('image')
         ->add('contact')
+        ->add('nombreInscrit')
         ->add('auMoinsdeMemeQue', 
             EntityType::class,
              array('class' => 'AppBundle:Programme',   'choice_label' => 'nom', 'empty_data' => null,'label'=>'Le même programme  que')
