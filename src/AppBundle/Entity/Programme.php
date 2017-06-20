@@ -650,6 +650,19 @@ class Programme
     }
 
     /**
+     * Set nombreInscrit
+     *
+     * @param integer $nombreInscrit
+     *
+     * @return Programme
+     */
+    public function addInscrit()
+    {
+        $this->nombreInscrit += 1;
+
+        return $this;
+    }
+    /**
      * Get nombreInscrit
      *
      * @return integer
