@@ -19,7 +19,7 @@ class ProgrammeRepository extends EntityRepository
   public function findList($start){
          $qb = $this->createQueryBuilder('p')->orderBy('p.nom', 'asc'); 
          $query=$qb->getQuery();
-         $query->setFirstResult($start)->setMaxResults(10);
+         $query->setFirstResult($start)->setMaxResults(8);
           return $query->getResult();
   }
 
