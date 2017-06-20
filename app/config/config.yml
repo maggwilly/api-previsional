@@ -90,7 +90,6 @@ fos_rest:
            - { path: ^/, priorities: [html], fallback_format: 'html'}
          
 
-
     routing_loader:
         include_format: false
         default_format: html
@@ -123,3 +122,8 @@ fos_rest:
         enabled: true
     serializer:
         serialize_null:  false
+
+misteio_cloudinary:
+  cloud_name: hsoqwbdhd
+  api_key: 776351678799743
+  secret_key: jxnj3InvfgRu_JQk1eTT54aVxdI

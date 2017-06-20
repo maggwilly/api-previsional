@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use AppBundle\Event\QuestionEvent;
 /**
  * Question controller.
  *
@@ -50,6 +51,8 @@ class QuestionController extends Controller
             $question->setUser($this->getUser());
             $em->persist($question);
             $em->flush($question);
+            $event= new QuestionEvent($question);
+            $this->get('event_dispatcher')->dispatch('object.created', $event);
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
 
@@ -96,6 +99,8 @@ class QuestionController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
              $question->setValidated(false);
             $this->getDoctrine()->getManager()->flush();
+            $event= new QuestionEvent($question);
+            $this->get('event_dispatcher')->dispatch('object.created', $event);
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
 
@@ -124,16 +129,19 @@ class QuestionController extends Controller
      */
     public function deleteAction(Request $request, Question $question)
     {
+        $cloudinary = $this -> container -> get('misteio_cloudinary_wrapper');
         $form = $this->createDeleteForm($question);
         $form->handleRequest($request);
+         $id=$question->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($question);
             $em->flush($question);
+            $cloudinary -> destroy('_question_'.$id);
         }
 
-        return $this->redirectToRoute('question_index');
+        return $this->redirectToRoute('question_index', array('id' => $question->getPartie()->getId()));
     }
 
     /**

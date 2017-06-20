@@ -113,12 +113,9 @@ class Image
       }
     }
 
-     /**
-    * @ORM\PrePersist()
-    * @ORM\PreUpdate()
-    */
-    public function preUpload(){
 
+    public function preUpload(){
+ 
             if(null === $this->getFile()){
                 return;
             }
@@ -126,18 +123,14 @@ class Image
             $this->alt = $this->getFile()->getClientOriginalName();
     }
 
-    /**
-    * @ORM\PostPersist()
-    * @ORM\PostUpdate()
-    */
+
     public function upload(){
 
-            if(null === $this->getFile()){
-                return;
+       if(null === $this->getFile()){
+                return false;
             }
 
-            if(null !== $this->tempFilename){
-                
+            if(null !== $this->tempFilename){           
                 $oldFile = $this->getUploadRootDir().'/'.$this->id.'.'.$this->tempFilename;
 
                 if(file_exists($oldFile)){
@@ -149,7 +142,7 @@ class Image
                 $this->getUploadRootDir(),
                 $this->id.'.'.$this->url
                 );
-
+    return true;
     }
 
     /**
@@ -158,6 +151,11 @@ class Image
     public function preRemoveUpload(){
 
             $this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->url;
+    }
+
+public function getPath(){
+
+            return $this->getUploadRootDir().'/'.$this->id.'.'.$this->url;
     }
 
     /**
@@ -182,7 +180,7 @@ class Image
 
     public function getWebPath(){
 
-            return $this->getUploadDir().'/'.$this->getId().'.'.$this->getUrl();
+            return $this->getUrl();//$this->getUploadDir().'/'.$this->getId().'.'.$this->getUrl();
     }
 
 }
