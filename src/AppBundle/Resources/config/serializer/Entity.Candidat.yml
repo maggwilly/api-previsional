@@ -1,0 +1,19 @@
+AppBundle\Entity\Candidat:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['candidat', 'full']
+        studentId:
+             groups: ['candidat', 'full']
+        email:
+             groups: ['candidat', 'full']             
+        displayName:
+             groups: ['candidat', 'full']
+        parentPhone:
+             groups: ['candidat', 'full']
+        etablissement:
+             groups: ['candidat', 'full']             
+        branche:
+             groups: ['candidat', 'full']
+        ville:
+             groups: ['candidat', 'full']

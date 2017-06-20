@@ -41,4 +41,25 @@ abonnement_new_json:
 abonnement_show_json:
     path:     /abonnement/{studentId}/{id}/json
     defaults: { _controller: "AppBundle:Abonnement:showJson"}
-    methods:  [GET,POST]  
+    methods:  [GET,POST] 
+
+candidat_new_json:
+    path:     /candidat/{studentId}/new/json
+    defaults: { _controller: "AppBundle:Candidat:newJson" }
+    methods:  [GET,POST]
+  
+candidat_show_json:
+    path:     /candidat/{studentId}/json
+    defaults: { _controller: "AppBundle:Candidat:showJson"}
+    methods:  [GET,POST] 
+
+
+analyse_new_json:
+    path:     /analyse/{studentId}/{concours}/{matiere}/{partie}/new/json
+    defaults: { _controller: "AppBundle:Analyse:newJson" ,matiere:0,partie:0}
+    methods:  [GET,POST]
+  
+analyse_show_json:
+    path:     /analyse/{studentId}/{concours}/{matiere}/{partie}/json
+    defaults: { _controller: "AppBundle:Analyse:showJson",matiere:0,partie:0}
+    methods:  [GET,POST]      

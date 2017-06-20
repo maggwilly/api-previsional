@@ -50,8 +50,9 @@ class AbonnementController extends Controller
      */
     public function newJsonAction(Request $request, Abonnement $abonnement=null)
     {   
-        if($abonnement==null)
-             $abonnement = new Abonnement();
+        if($abonnement!=null)
+            return $this->editAction($request, $abonnement);
+            $abonnement = new Abonnement();
          $form = $this->createForm('AppBundle\Form\AbonnementType', $abonnement);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
@@ -62,6 +63,23 @@ class AbonnementController extends Controller
         }
         return $form;
     }
+
+        /**
+     * Displays a form to edit an existing analyse entity.
+     *
+     */
+    public function editAction(Request $request, Abonnement $abonnement)
+    {
+        $form = $this->createForm('AppBundle\Form\AbonnementType', $abonnement);
+         $form->submit($request->request->all(),false);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $abonnement;
+        }
+        return $form;
+    }
+
 
     /**
      * Lists all Produit entities.
@@ -109,28 +127,7 @@ class AbonnementController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing abonnement entity.
-     *
-     */
-    public function editAction(Request $request, Abonnement $abonnement)
-    {
-        $deleteForm = $this->createDeleteForm($abonnement);
-        $editForm = $this->createForm('AppBundle\Form\AbonnementType', $abonnement);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('abonnement_edit', array('id' => $abonnement->getId()));
-        }
-
-        return $this->render('abonnement/edit.html.twig', array(
-            'abonnement' => $abonnement,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
 
     /**
      * Deletes a abonnement entity.
