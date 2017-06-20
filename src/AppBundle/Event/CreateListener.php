@@ -23,7 +23,7 @@ public function onObjetCreated(QuestionEvent $event)
      $image=$question->getImageEntity();
      if($image!=null){
        if( $image->upload()){
-         $results=  $this->cloudinaryWrapper-> upload($image->getPath(), '_question_'.$question->getId())->getResult();
+         $results=  $this->cloudinaryWrapper-> upload($image->getPath(), '_question_'.$question->getId(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
          $image->setUrl($results['url']);
           $this->_em->flush();
           $image->remove();

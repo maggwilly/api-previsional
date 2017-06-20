@@ -31,8 +31,17 @@
     window.onload = function () {
       editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'en'});
             editor.insertInto(document.getElementById('editorContainer'));
+           
+              
     }
- </script> 			 
+
+ </script> 	
+ <script>
+function myFunction() {
+  //alert(editor.getMathML());
+   window.prompt("Copy to clipboard: Ctrl+C, Enter", editor.getMathML());
+}
+</script>		 
 </head>
 {% block fos_user_content %}
 <body>
