@@ -1,6 +1,6 @@
 article_index_json:
-    path:     /article/json
-    defaults: { _controller: "AppBundle:Article:jsonIndex" }
+    path:     /article/{start}/json
+    defaults: { _controller: "AppBundle:Article:jsonIndex",, start:0 }
     methods:  GET
 
 concours_index_json:

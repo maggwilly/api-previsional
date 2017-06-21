@@ -20,9 +20,7 @@ class ArticleController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $articles = $em->getRepository('AppBundle:Article')->findAll();
-
         return $this->render('article/index.html.twig', array(
             'articles' => $articles,
         ));
@@ -32,10 +30,10 @@ class ArticleController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"article"})
      */
-    public function jsonIndexAction()
+    public function jsonIndexAction($start=0)
     {
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('AppBundle:Article')->findAll();
+        $articles = $em->getRepository('AppBundle:Article')->findList($start);
         return  $articles;
     }
 

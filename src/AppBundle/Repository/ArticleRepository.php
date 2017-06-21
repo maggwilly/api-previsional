@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository
 {
+
+  /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findList($start){
+         $qb = $this->createQueryBuilder('a')->orderBy('a.date', 'desc'); 
+         $query=$qb->getQuery();
+         $query->setFirstResult($start)->setMaxResults(2);
+          return $query->getResult();
+  }
+
 }
