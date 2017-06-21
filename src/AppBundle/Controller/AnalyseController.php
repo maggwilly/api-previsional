@@ -45,7 +45,6 @@ class AnalyseController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($analyse);
             $em->flush();
-
             return $this->redirectToRoute('analyse_show', array('id' => $analyse->getId()));
         }
 
@@ -63,7 +62,7 @@ class AnalyseController extends Controller
     {   $em = $this->getDoctrine()->getManager();
          $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie);
          if($analyse!=null)
-             return $this->editAction($request, $analyse);
+             return $this->editAction($request, $analyse,$studentId,$concours,$matiere,$partie);
         $analyse = new Analyse($studentId, $concours, $matiere, $partie);
         $form = $this->createForm('AppBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
@@ -71,7 +70,7 @@ class AnalyseController extends Controller
             $em = $this->getDoctrine()->getManager();
               $em->persist($analyse);
             $em->flush();
-            return   $analyse;
+            return  $this->showJsonAction($studentId,$concours,$matiere,$partie);
         }
         return $form;
     }
@@ -80,14 +79,14 @@ class AnalyseController extends Controller
      * Displays a form to edit an existing analyse entity.
      *
      */
-    public function editAction(Request $request, Analyse $analyse)
+    public function editAction(Request $request, Analyse $analyse,$studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null)
     {
         $form = $this->createForm('AppBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $analyse;
+            return $this->showJsonAction($studentId,$concours,$matiere,$partie);
         }
         return $form;
     }
@@ -100,8 +99,11 @@ class AnalyseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
         if($analyse!=null){
-             $analyse->setSup10($em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie));
-           $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
+              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10'];
+              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre'];
+             $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+             $analyse->setEvalues($nombre);
+             $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']);

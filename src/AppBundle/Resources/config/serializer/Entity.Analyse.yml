@@ -23,3 +23,5 @@ AppBundle\Entity\Analyse:
              groups: ['analyse', 'full']
         programme:
              groups: ['analyse', 'full']
+        evalues:
+             groups: ['analyse', 'full']

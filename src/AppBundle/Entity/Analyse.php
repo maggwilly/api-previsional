@@ -48,6 +48,8 @@ class Analyse
 
     private $rang;
 
+    private $evalues;
+
 
     private $sup10;
 
@@ -329,7 +331,29 @@ class Analyse
 
         return $this;
     }
+    /**
+     * Set failedNb
+     *
+     * @param integer $failedNb
+     *
+     * @return Analyse
+     */
+    public function setEvalues($evalues)
+    {
+        $this->evalues = $evalues;
 
+        return $this;
+    }
+
+       /**
+     * Get failedNb
+     *
+     * @return integer
+     */
+    public function getEvalues()
+    {
+        return $this->evalues;
+    }
     /**
      * Get failedNb
      *
