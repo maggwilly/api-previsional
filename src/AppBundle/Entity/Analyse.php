@@ -56,28 +56,28 @@ class Analyse
         /**
      * @var int
      *
-     * @ORM\Column(name="first_note", type="decimal", precision=10, scale=4, nullable=true)
+     * @ORM\Column(name="first_note", type="decimal", precision=10, scale=1, nullable=true)
      */
     private $firstNote;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="note", type="decimal", precision=10, scale=4, nullable=true)
+     * @ORM\Column(name="note", type="decimal", precision=10, scale=1, nullable=true)
      */
     private $note;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="objectif", type="decimal", precision=10, scale=4, nullable=true)
+     * @ORM\Column(name="objectif", type="decimal", precision=10, scale=1, nullable=true)
      */
     private $objectif;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="programme", type="decimal", precision=10, scale=4, nullable=true)
+     * @ORM\Column(name="programme", type="decimal", precision=10, scale=1, nullable=true)
      */
     private $programme;
 
