@@ -29,14 +29,7 @@
                 <td>{{ abonnement.status }}</td>
                 <td>{{ abonnement.telPaidNumber }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('abonnement_edit', { 'id': abonnement.id }) }}">edit</a>
-                        </li>
-                    </ul>
+  <a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">show</a>
                 </td>
             </tr>
         {% endfor %}
