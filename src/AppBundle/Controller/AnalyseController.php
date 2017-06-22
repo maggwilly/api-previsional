@@ -132,12 +132,12 @@ class AnalyseController extends Controller
     public function showJsonAction($studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null){
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
-        if($analyse!=null){
+         if($analyse!=null){
               $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10'];
               $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre'];
-             $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
-             $analyse->setEvalues($nombre);
-             $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
+              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+              $analyse->setEvalues($nombre);
+              $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']);

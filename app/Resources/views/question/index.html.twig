@@ -21,7 +21,7 @@
         {% for question in questions %}
             <tr>
                 <td>
-                {{ question.text }}
+                {{ question.text | raw}}
                 <br>
                 {% if question.image %}
                  {{question.image }}
