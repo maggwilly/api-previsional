@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use AppBundle\Event\QuestionEvent;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Question controller.
  *
@@ -20,10 +21,9 @@ class QuestionController extends Controller
      */
     public function indexAction(Partie $partie)
     {
-        $em = $this->getDoctrine()->getManager();
-        $questions = $em->getRepository('AppBundle:Question')->findAll();
+         $questions= $partie->getQuestions();
         return $this->render('question/index.html.twig', array(
-            'questions' => $partie->getQuestions(), 'partie' => $partie,
+            'questions' => $this->sortCollection($questions), 'partie' => $partie,
         ));
     }
     /**
@@ -32,10 +32,17 @@ class QuestionController extends Controller
      */
     public function jsonIndexAction(Partie $partie)
     {
-       $questions= $partie->getQuestions();
-        return   $questions;
+        $questions= $partie->getQuestions();
+        return   $this->sortCollection($questions);
     }
 
+    public function sortCollection($collection){
+    $iterator = $collection->getIterator();
+    $iterator->uasort(function ($a, $b) {
+    return ($a->getId() < $b->getId()) ? -1 : 1;
+    });
+   return  new ArrayCollection(iterator_to_array($iterator));
+ }
     /**
      * Creates a new question entity.
      *

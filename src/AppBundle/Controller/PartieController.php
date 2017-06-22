@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Doctrine\Common\Collections\ArrayCollection;
 
 // Utilisation de la vue de FOSRestBundle
 
@@ -21,8 +22,9 @@ class PartieController extends Controller
      */
     public function indexAction(Matiere $matiere)
     {
+        $parties= $matiere->getParties();
         return $this->render('partie/index.html.twig', array(
-            'parties' => $matiere->getParties(), 'matiere' => $matiere,
+            'parties' => $this->sortCollection($parties), 'matiere' => $matiere,
         ));
     }
 
@@ -33,9 +35,16 @@ class PartieController extends Controller
     public function jsonIndexAction(Matiere $matiere)
     {
        $parties= $matiere->getParties();
-        return   $parties;
+        return   $this->sortCollection($parties);
     }
     
+    public function sortCollection($collection){
+    $iterator = $collection->getIterator();
+    $iterator->uasort(function ($a, $b) {
+    return ($a->getId() < $b->getId()) ? -1 : 1;
+    });
+   return  new ArrayCollection(iterator_to_array($iterator));
+ }
     /**
      * Creates a new partie entity.
      *

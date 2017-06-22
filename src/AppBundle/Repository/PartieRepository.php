@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use AppBundle\Entity\Matiere;
 /**
  * PartieRepository
  *
@@ -12,4 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class PartieRepository extends EntityRepository
 {
+
+
 }

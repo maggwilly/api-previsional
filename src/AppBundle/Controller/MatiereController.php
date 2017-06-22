@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; // Utilisation de la vue de FOSRestBundle
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Matiere controller.
  *
@@ -20,12 +20,19 @@ class MatiereController extends Controller
      */
     public function indexAction(Programme $concours)
     {
+        $collection=$concours->getMatieres();
         return $this->render('matiere/index.html.twig', array(
-            'matieres' =>  $concours->getMatieres(),'concour' => $concours,
+            'matieres' =>  $this->sortCollection($collection),'concour' => $concours,
         ));
     }
 
-
+ public function sortCollection($collection){
+    $iterator = $collection->getIterator();
+    $iterator->uasort(function ($a, $b) {
+    return ($a->getId() < $b->getId()) ? -1 : 1;
+    });
+   return  new ArrayCollection(iterator_to_array($iterator));
+ }
     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"matiere"})
@@ -33,7 +40,7 @@ class MatiereController extends Controller
     public function jsonIndexAction(Programme $concours)
     {
        $matieres= $concours->getMatieres();
-        return   $matieres;
+        return   $this->sortCollection($matieres);
     }
     /**
      * Creates a new matiere entity.
