@@ -6,7 +6,7 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>studentId</th>
                 <th>Enddate</th>
                 <th>Startdate</th>
                 <th>Method</th>
@@ -20,7 +20,7 @@
         <tbody>
         {% for abonnement in abonnements %}
             <tr>
-                <td><a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">{{ abonnement.id }}</a></td>
+                <td><a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">{{ abonnement.studentId }}</a></td>
                 <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ abonnement.method }}</td>
