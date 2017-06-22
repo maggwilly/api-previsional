@@ -31,6 +31,16 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getOneOrNullResult();
   }
 
+    public function findOllFor($studentId, Programme $concours, Matiere $matiere=null){
+         $qb = $this->createQueryBuilder('a')
+         ->where('a.studentId=:studentId')->setParameter('studentId',$studentId)
+            ->andWhere('a.concours=:concours')->setParameter('concours',$concours)->andWhere('a.matiere is not null');
+         if($matiere!=null)
+           $qb ->andWhere('a.matiere=:matiere')->setParameter('matiere',$matiere)->andWhere('a.partie is not null');
+
+          return $qb->getQuery()->getResult();
+  }
+
   /**
   *Nombre de synchro effectue par utilisateur 
   */

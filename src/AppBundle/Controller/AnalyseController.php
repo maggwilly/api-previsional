@@ -58,7 +58,7 @@ class AnalyseController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"analyse"})
      */
-    public function newJsonAction(Request $request,$studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null)
+    public function newJsonAction(Request $request,$studentId, Programme $concours, Matiere $matiere, Partie $partie)
     {   $em = $this->getDoctrine()->getManager();
          $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie);
          if($analyse!=null)
@@ -67,13 +67,47 @@ class AnalyseController extends Controller
         $form = $this->createForm('AppBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+              $em = $this->getDoctrine()->getManager();
               $em->persist($analyse);
-            $em->flush();
-            return  $this->showJsonAction($studentId,$concours,$matiere,$partie);
+              $em->flush();
+            return  array('partie'=>$this->showJsonAction($studentId, $concours, $matiere, $partie), 'parents'=>$this->newParent($studentId,$concours,$matiere));
         }
         return $form;
     }
+
+    
+    public function newParent($studentId,Programme $concours, Matiere $matiere=null){
+        $em = $this->getDoctrine()->getManager();
+        $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere);
+            if($analyse==null){
+                 $analyse = new Analyse($studentId, $concours, $matiere);
+                 $em->persist($analyse);
+              //   $em->flush();
+            }
+          $analyses = $em->getRepository('AppBundle:Analyse')->findOllFor($studentId,$concours,$matiere);
+          $nombre= count($analyses);
+          $note=0; $programme=0; $objectif=0; 
+          $poids=0;
+         foreach ($analyses as $key => $value) {
+             $note+= $value->getNote()?$value->getNote()*$value->getMatiere()->getPoids():0;
+             $poids+=$value->getMatiere()->getPoids();
+             $programme+=($value->getProgramme())?$value->getProgramme():0;
+             $objectif+=$value->getObjectif()?$value->getObjectif():0;
+            }
+               $analyse->setNote($nombre>0?$note/$poids:$note);
+              $analyse->setObjectif($nombre>0?$objectif/$nombre:null);
+              if($matiere!=null){
+                 $analyse->setProgramme($nombre*100/$matiere->getParties()->count());
+                 $em->flush();
+                 return array('matiere'=>$this->showJsonAction($studentId,$concours,$matiere),'concours'=> $this->newParent($studentId, $concours));
+              }
+               else
+                 $analyse->setProgramme($nombre>0?$programme/$nombre:null);
+                 $em->flush();
+               return $this->showJsonAction($studentId,$concours); 
+          
+      }
+
 
     /**
      * Displays a form to edit an existing analyse entity.
@@ -86,7 +120,7 @@ class AnalyseController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->showJsonAction($studentId,$concours,$matiere,$partie);
+            return array('partie'=>$this->showJsonAction($studentId, $concours, $matiere, $partie), 'parents'=>$this->newParent($studentId,$concours,$matiere));
         }
         return $form;
     }
