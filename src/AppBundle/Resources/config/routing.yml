@@ -29,6 +29,10 @@ app_objectif:
     resource: "@AppBundle/Resources/config/routing/objectif.yml"
     prefix:   /objectif
 
+app_abonnement:
+    resource: "@AppBundle/Resources/config/routing/abonnement.yml"
+    prefix:   /abonnement
+
 app_question:
     resource: "@AppBundle/Resources/config/routing/question.yml"
     prefix:   /question
