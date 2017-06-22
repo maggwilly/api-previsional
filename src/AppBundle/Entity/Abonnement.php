@@ -115,7 +115,8 @@ class Abonnement
          if ($this->plan=='free') {
               $this->endDate->modify('+15 day');
          }elseif ($this->plan=='full') {
-             $this->endDate->modify('+91 day');
+            // $this->endDate->modify('+91 day');
+             $this->endDate->modify('+15 day');
          }if($this->user!=null)
          $this->method='espece';
     $this->status='confirmed';
