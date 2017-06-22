@@ -1,9 +1,14 @@
 {% extends "AppBundle::layout.html.twig" %}
-
+{% block title %}Inscriptions{% endblock %}
 {% block body %}
-    <h1>Abonnements list</h1>
-
-    <table>
+<div class="col-md-12">
+<div class="card">
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">Inscriptions</h4>
+      <p class="category">Inscriptions</p>
+    </div>
+     <div class="card-content table-responsive">
+         <table class="table">
         <thead>
             <tr>
                 <th>studentId</th>
@@ -35,10 +40,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('abonnement_new') }}">Create a new abonnement</a>
-        </li>
-    </ul>
+  </div 
+ </div>
+ </div>
+   
 {% endblock %}
