@@ -79,6 +79,7 @@ class Matiere
 
         /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="matiere", cascade={"persist","remove"})
+   * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $parties;
 

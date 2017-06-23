@@ -71,6 +71,7 @@ class Partie
 
             /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="partie", cascade={"persist","remove"})
+  * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $questions; 
 

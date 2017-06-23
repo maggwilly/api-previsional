@@ -146,6 +146,7 @@ class Programme
 
     /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Matiere", mappedBy="programme", cascade={"persist","remove"})
+    * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $matieres;
 
