@@ -28,7 +28,7 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
            $qb ->andWhere('a.partie=:partie')->setParameter('partie',$partie);
            else
              $qb ->andWhere('a.partie is null');
-          return $qb->getQuery()->getOneOrNullResult();
+          return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
 
     public function findOllFor($studentId, Programme $concours, Matiere $matiere=null){
