@@ -35,7 +35,7 @@ class PartieController extends Controller
     public function jsonIndexAction(Matiere $matiere)
     {
        $parties= $matiere->getParties();
-        return   $this->sortCollection($parties);
+        return   $parties;
     }
     
     public function sortCollection($collection){

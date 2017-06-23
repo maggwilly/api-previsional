@@ -33,7 +33,7 @@ class QuestionController extends Controller
     public function jsonIndexAction(Partie $partie)
     {
         $questions= $partie->getQuestions();
-        return   $this->sortCollection($questions);
+        return   $questions;
     }
 
     public function sortCollection($collection){

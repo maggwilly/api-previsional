@@ -40,7 +40,7 @@ class MatiereController extends Controller
     public function jsonIndexAction(Programme $concours)
     {
        $matieres= $concours->getMatieres();
-        return   $this->sortCollection($matieres);
+        return   $matieres;
     }
     /**
      * Creates a new matiere entity.
