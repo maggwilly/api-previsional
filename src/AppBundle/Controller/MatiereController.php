@@ -22,7 +22,7 @@ class MatiereController extends Controller
     {
         $collection=$concours->getMatieres();
         return $this->render('matiere/index.html.twig', array(
-            'matieres' =>  $this->sortCollection($collection),'concour' => $concours,
+            'matieres' =>  $collection,'concour' => $concours,
         ));
     }
 

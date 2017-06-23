@@ -23,7 +23,7 @@ class QuestionController extends Controller
     {
          $questions= $partie->getQuestions();
         return $this->render('question/index.html.twig', array(
-            'questions' => $this->sortCollection($questions), 'partie' => $partie,
+            'questions' => $questions, 'partie' => $partie,
         ));
     }
     /**

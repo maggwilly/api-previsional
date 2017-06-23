@@ -24,7 +24,7 @@ class PartieController extends Controller
     {
         $parties= $matiere->getParties();
         return $this->render('partie/index.html.twig', array(
-            'parties' => $this->sortCollection($parties), 'matiere' => $matiere,
+            'parties' => $parties, 'matiere' => $matiere,
         ));
     }
 
