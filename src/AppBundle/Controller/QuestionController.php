@@ -41,7 +41,7 @@ class QuestionController extends Controller
     $iterator->uasort(function ($a, $b) {
     return ($a->getId() < $b->getId()) ? -1 : 1;
     });
-   return  new ArrayCollection(iterator_to_array($iterator));
+   return  iterator_to_array($iterator);
  }
     /**
      * Creates a new question entity.
