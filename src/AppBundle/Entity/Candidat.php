@@ -12,15 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Candidat
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
+      /**
+     * @var string
+     * @ORM\Id
+     * @ORM\Column(name="studentId", type="string", length=255)
+     */
+    private $studentId;
     /**
      * @var string
      *
@@ -63,30 +61,18 @@ class Candidat
      */
     private $email;
 
-      /**
-     * @var string
-     *
-     * @ORM\Column(name="studentId", type="string", length=255)
-     */
-    private $studentId;
+
 
            /**
      * Constructor
      */
-    public function __construct($studentId=null)
+    public function __construct($studentId=null,$displayName=null)
     {
         $this->studentId =$studentId;
+        $this->displayName=$displayName;
     }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+
 
     /**
      * Set displayName

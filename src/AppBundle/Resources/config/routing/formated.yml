@@ -53,6 +53,16 @@ candidat_show_json:
     defaults: { _controller: "AppBundle:Candidat:showJson"}
     methods:  [GET,POST] 
 
+info_new_json:
+    path:     /info/{studentId}/new/json
+    defaults: { _controller: "AppBundle:Info:newJson" }
+    methods:  [GET,POST]
+  
+info_show_json:
+    path:     /info/{studentId}/json
+    defaults: { _controller: "AppBundle:Info:showJson"}
+    methods:  [GET,POST] 
+
 
 analyse_new_json:
     path:     /analyse/{studentId}/{concours}/{matiere}/{partie}/new/json
