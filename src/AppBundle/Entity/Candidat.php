@@ -16,7 +16,7 @@ class Candidat
       /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(name="studentId", type="string", length=255,unique=true)
+     * @ORM\Column(name="studentId", type="string", length=255)
      */
     private $studentId;
     /**
