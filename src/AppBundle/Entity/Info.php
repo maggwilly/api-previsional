@@ -17,7 +17,7 @@ class Info
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=255)
     * @ORM\Id
      */
     private $email;
@@ -47,7 +47,7 @@ class Info
 
     /**
    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Candidat" , cascade={"persist", "remove"})
-     @ORM\JoinColumn(name="email", referencedColumnName="studentId")
+     @ORM\JoinColumn(name="candidat_id", referencedColumnName="studentId")
    */
     private $candidat;
 
