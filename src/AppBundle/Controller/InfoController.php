@@ -71,14 +71,14 @@ class InfoController extends Controller
      * Displays a form to edit an existing analyse entity.
      *
      */
-    public function editAction(Request $request, Info $candidat)
+    public function editAction(Request $request, Info $info)
     {
         $form = $this->createForm('AppBundle\Form\InfoType', $candidat);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $candidat;
+            return $info;
         }
         return $form;
     }
@@ -88,8 +88,9 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function showJsonAction(Info $candidat){
-        return $candidat;
+    public function showJsonAction(Info $info){
+
+        return $info;
     }
 
     /**

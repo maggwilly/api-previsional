@@ -54,17 +54,17 @@ candidat_show_json:
     methods:  [GET,POST] 
 
 info_new_json:
-    path:     /info/{studentId}/new/json
+    path:     /info/{email}/new/json
     defaults: { _controller: "AppBundle:Info:newJson" }
     methods:  [GET,POST]
  
 info_edit_picture:
-    path:     /info/{id}/picture
+    path:     /info/{email}/picture
     defaults: { _controller: "AppBundle:Info:editPicture" }
     methods:  [GET,POST] 
 
 info_show_json:
-    path:     /info/{studentId}/json
+    path:     /info/{email}/json
     defaults: { _controller: "AppBundle:Info:showJson"}
     methods:  [GET,POST] 
 
