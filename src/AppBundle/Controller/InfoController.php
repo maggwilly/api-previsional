@@ -40,14 +40,15 @@ class InfoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-        $cloudinaryWrapper=$this -> container -> get('misteio_cloudinary_wrapper');
+           
        if( $info->upload()){
-         $results= $cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
-         $info->setPhotoURL($results['url']);
-          $this->_em->flush();
+         $cloudinaryWrapper=$this -> container -> get('misteio_cloudinary_wrapper');
+          $results= $cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "150", "height" => "150"))->getResult();
+          $info->setPhotoURL($results['url']);
+          $em->flush();
           $info->remove();
        }
-            return $this->showJsonAction($info);
+          return $this->showJsonAction($info);
         }
         return $form;
     }
