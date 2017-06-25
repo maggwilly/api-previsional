@@ -38,7 +38,7 @@ public function onUserPictureSubmited(InfoEvent $event)
         $results=  $this->cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
          $info->setPhotoURL($results['url']);
           $this->_em->flush();
-          $$info->remove();
+          $info->remove();
        }
      
 }
