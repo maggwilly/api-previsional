@@ -51,12 +51,12 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function newJsonAction(Request $request, $studentId)
+    public function newJsonAction(Request $request, $email)
     {    $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Info')->findOneByEmail($studentId);
+         $candidat = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
         if($candidat!=null)
             return $this->editAction($request, $candidat);
-            $candidat = new Info($studentId);
+            $candidat = new Info($email);
             $form = $this->createForm('AppBundle\Form\InfoType', $candidat);
             $form->submit($request->request->all(),false);
         if ($form->isValid()) {
