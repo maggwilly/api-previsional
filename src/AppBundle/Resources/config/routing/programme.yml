@@ -23,3 +23,8 @@ concours_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Programme:delete" }
     methods:  DELETE
+
+concours_show_from_mobile:
+    path:     /{id}/show/from/mobile
+    defaults: { _controller: "AppBundle:Programme:showFromMobile" }
+    methods:  GET

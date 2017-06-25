@@ -57,7 +57,12 @@ info_new_json:
     path:     /info/{studentId}/new/json
     defaults: { _controller: "AppBundle:Info:newJson" }
     methods:  [GET,POST]
-  
+ 
+info_edit_picture:
+    path:     /info/{id}/picture
+    defaults: { _controller: "AppBundle:Info:editPicture" }
+    methods:  [GET,POST] 
+
 info_show_json:
     path:     /info/{studentId}/json
     defaults: { _controller: "AppBundle:Info:showJson"}

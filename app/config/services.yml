@@ -25,3 +25,9 @@ services:
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
           tags:
             - { name: kernel.event_listener, event: object.created, method: onObjetCreated }
+
+      user_picture_listener:
+          class: AppBundle\Event\CreateListener
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
+          tags:
+            - { name: kernel.event_listener, event: user.picture.submited, method: onUserPictureSubmited }

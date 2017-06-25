@@ -8,11 +8,6 @@ info_show:
     defaults: { _controller: "AppBundle:Info:show" }
     methods:  GET
 
-info_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:Info:new" }
-    methods:  [GET, POST]
-
 info_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Info:edit" }

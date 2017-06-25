@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use AppBundle\Event\InfoEvent;
 /**
  * Info controller.
  *
@@ -28,27 +29,22 @@ class InfoController extends Controller
         ));
     }
 
-    /**
-     * Creates a new info entity.
-     *
+        /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"info"})
      */
-    public function newAction(Request $request)
+    public function editPictureAction(Request $request, Info $info)
     {
-        $info = new Info();
         $form = $this->createForm('AppBundle\Form\InfoType', $info);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($info);
             $em->flush();
-            return $this->redirectToRoute('info_show', array('id' => $info->getId()));
+            $event= new InfoEvent($info);
+            $this->get('event_dispatcher')->dispatch('user.picture.submited', $event);
+            return $this->showJsonAction($info);
         }
-
-        return $this->render('info/new.html.twig', array(
-            'info' => $info,
-            'form' => $form->createView(),
-        ));
+        return $form;
     }
 
         /**
@@ -92,9 +88,7 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function showJsonAction($studentId){
-        $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Info')->findOneOrNull($studentId);
+    public function showJsonAction(Info $candidat){
         return $candidat;
     }
 
@@ -141,7 +135,7 @@ class InfoController extends Controller
     private function createDeleteForm(Info $info)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('info_delete', array('id' => $info->getId())))
+            ->setAction($this->generateUrl('info_delete', array('id' => $info->getEmail())))
             ->setMethod('DELETE')
             ->getForm()
         ;

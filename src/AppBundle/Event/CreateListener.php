@@ -31,7 +31,20 @@ public function onObjetCreated(QuestionEvent $event)
      }
 }
 
+public function onUserPictureSubmited(InfoEvent $event)
+{
+     $info=$event->getInfo();
+       if( $info->upload()){
+        $results=  $this->cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
+         $info->setPhotoURL($results['url']);
+          $this->_em->flush();
+          $$info->remove();
+       }
+     
+}
 
+
+ 
  
 
 }

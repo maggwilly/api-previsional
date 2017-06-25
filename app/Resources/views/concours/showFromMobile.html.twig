@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block title %}Concours{% endblock %}
+{% block body %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ concour.nom }}</td>
+            </tr>
+            <tr>
+                <th>Ecole</th>
+                <td>{{ concour.ecole }}</td>
+            </tr>
+            <tr>
+                <th>Abreviation</th>
+                <td>{{ concour.abreviation }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ concour.type }}</td>
+            </tr>
+            <tr>
+                <th>Session</th>
+                <td>{{ concour.session }}</td>
+            </tr>
+            <tr>
+                <th>Descriptionecole</th>
+                <td>{{ concour.descriptionEcole }}</td>
+            </tr>
+            <tr>
+                <th>Descriptionconcours</th>
+                <td>{{ concour.descriptionConcours }}</td>
+            </tr>
+            <tr>
+                <th>Nombreplace</th>
+                <td>{{ concour.nombrePlace }}</td>
+            </tr>
+            <tr>
+                <th>Dateconcours</th>
+                <td>{% if concour.dateConcours %}{{ concour.dateConcours|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datedossier</th>
+                <td>{% if concour.dateDossier %}{{ concour.dateDossier|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Lien</th>
+                <td>{{ concour.lien }}</td>
+            </tr>
+             {% if concour.image %}
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ concour.image }}" height="42" width="72"></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Contact</th>
+                <td>{{ concour.contact }}</td>
+            </tr>
+            <tr>
+                <th>Resultats</th>
+                <td>{{ concour.resultats }}</td>
+            </tr>
+            {% if concour.auMoinsdeMemeQue%}
+            <tr>
+                <th>Même programme de préparation que</th>
+                <td><a href="{{ path('matiere_index', { 'id': concour.auMoinsdeMemeQue.id }) }}">
+                {{ concour.auMoinsdeMemeQue.nom }} 
+                </a></td>
+            </tr>  
+            {% endif %} 
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('concours_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('concours_edit', { 'id': concour.id }) }}">Edit</a>
+        </li>
+    </ul>
+{% endblock %}

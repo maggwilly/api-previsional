@@ -28,6 +28,16 @@ class ProgrammeController extends Controller
         ));
     }
 
+    /**
+     * Finds and displays a question entity.
+     *
+     */
+    public function showFromMobileAction(Programme $programme)
+    {
+        return $this->render('concours/showFromMobile.html.twig', array(
+            'concour' => $programme,
+        ));
+    }
 
     /**
      * Lists all Produit entities.

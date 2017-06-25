@@ -44,6 +44,7 @@ class Info
      */
     private $langue;
 
+    private $file;
 
     /**
    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Candidat" , cascade={"persist", "remove"})
@@ -180,13 +181,41 @@ class Info
     {
         return $this->candidat;
     }
-
-    /**
-    * @ORM\PrePersist()
-    */
-     public function PrePersist()
+    
+       public function getFile()
     {
-      //  if($this->candidat==null)
-        //   $this->candidat=new \AppBundle\Entity\Candidat($this->email,$this->displayName) ;
-    }    
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+     $this->file = $file;
+     return $this->file;
+    }
+
+    public function upload(){
+       if(null === $this->getFile()){
+                return false;
+            }
+                $oldFile = __DIR__.'/../../../web/uploads/images/'.$this->email.'.jpg' ;
+                if(file_exists($oldFile)){
+                    unlink($oldFile);
+                }
+              $this->getFile()->move(
+                __DIR__.'/../../../web/uploads/images/',
+                $this->email.'.jpg'
+                );
+    return true;
+    }
+
+   public function getPath(){
+
+            return __DIR__.'/../../../web/uploads/images/'.$this->email.'.jpg';
+    }
+    public function remove(){
+
+            if(file_exists($this->getPath())){
+                unlink($this->getPath());
+            }
+    }
 }
