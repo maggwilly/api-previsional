@@ -64,7 +64,11 @@ class CandidatController extends Controller
             $form = $this->createForm('AppBundle\Form\CandidatType', $candidat);
             $form->submit($request->request->all(),false);
         if ($form->isValid()) {
-              $em->persist($candidat);
+              $info = $em->getRepository('AppBundle:Info')->findOneByEmail($studentId);
+              if($info!=null){
+                $info->setCandidat($candidat);
+                 }else
+                   $em->persist($candidat);
               $em->flush();
             return $candidat;
         }
@@ -81,7 +85,11 @@ class CandidatController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->flush();
+             $info = $em->getRepository('AppBundle:Info')->findOneByEmail($studentId);
+              if($info!=null&&$info->getCandidat()==null){
+                  $info->setCandidat($candidat);
+                }
+              $em->flush();
             return $candidat;
         }
         return $form;
