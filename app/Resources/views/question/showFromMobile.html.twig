@@ -51,8 +51,11 @@
 
         </tbody>
     </table>
-
+<row>
+<div class="fb-like col-md-12" data-href="{{ app.request.getSchemeAndHttpHost() }}{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="standard" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+ </row>
   </div>
+  <h3>Repondre </h3>
    <div class="fb-comments" data-href="{{ app.request.getSchemeAndHttpHost() }}{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-numposts="15" data-width="100%">
  </div> 
 </div>
