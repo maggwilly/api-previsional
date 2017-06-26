@@ -78,8 +78,8 @@ class CandidatController extends Controller
     public function editAction(Request $request, Candidat $candidat)
     {
         $form = $this->createForm('AppBundle\Form\CandidatType', $candidat);
-         $form->submit($request->request->all(),false);
-        if ($form->isValid()) {
+           $form->handleRequest($request);
+           if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $candidat;

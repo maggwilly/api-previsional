@@ -85,7 +85,7 @@ class InfoController extends Controller
     public function editAction(Request $request, Info $info)
     {
         $form = $this->createForm('AppBundle\Form\InfoType', $candidat);
-         $form->submit($request->request->all(),false);
+         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
