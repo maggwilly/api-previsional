@@ -12,13 +12,19 @@
  </div> 
 </div>
 <div id="panel-1" class="panel panel-default">
+  <header class="panel-heading">
+<h2 class="panel-title elipsis">
+Choisir la bonne réponse 
+</h2>
+</header>
 <div class="panel-body">
  <p>{{ question.text| raw }}<br>
  {% if question.image %} 
  <img src="{{ question.image }}">
  <br>
  </p>
-{% endif %}  
+{% endif %}
+
 <div class="table-responsive">
     <table class="table nobordered nomargin">
         <tbody>
