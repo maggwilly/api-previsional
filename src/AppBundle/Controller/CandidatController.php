@@ -57,7 +57,7 @@ class CandidatController extends Controller
      */
     public function newJsonAction(Request $request, $studentId)
     {    $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Candidat')->findOneOrNull($studentId);
+         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByStudentId($studentId);
         if($candidat!=null)
             return $this->editAction($request, $candidat);
             $candidat = new Candidat($studentId);
@@ -94,7 +94,7 @@ class CandidatController extends Controller
      */
     public function showJsonAction($studentId){
         $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Candidat')->findOneOrNull($studentId);
+         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByStudentId($studentId);
         return $candidat;
     }
 
