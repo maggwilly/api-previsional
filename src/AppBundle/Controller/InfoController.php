@@ -95,6 +95,7 @@ class InfoController extends Controller
      *@Rest\View(serializerGroups={"info"})
      */
     public function showJsonAction( $email){
+         $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
         return $info;
     }
