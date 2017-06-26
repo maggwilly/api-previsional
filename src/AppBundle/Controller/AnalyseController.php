@@ -116,7 +116,7 @@ class AnalyseController extends Controller
     public function editAction(Request $request, Analyse $analyse,$studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null)
     {
         $form = $this->createForm('AppBundle\Form\AnalyseType', $analyse);
-        $form->handleRequest($request);
+         $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
