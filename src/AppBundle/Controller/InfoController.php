@@ -94,8 +94,8 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function showJsonAction(Info $info){
-
+    public function showJsonAction( $email){
+          $info = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
         return $info;
     }
 
