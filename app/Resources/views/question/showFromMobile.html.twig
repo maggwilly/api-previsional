@@ -1,54 +1,62 @@
 {% extends 'base.html.twig' %}
-{% block title %}Question #ID {{ question.id }}{% endblock %}
+{% block title %}CentOr# Q N° {{question.id}}{% endblock %}
 {% block body %}
-<div class="col-md-12">
-<div class="card">
-	 <div class="card-content table-responsive">
-    <table class="table">
+ <div id="panel-1" class="panel panel-default">
+ <div class="panel-body"> 
+  <b>{{question.partie.titre }}</b > >
+ <h4>{{question.partie.matiere.titre }}</h4>
+ {{question.partie.matiere.programme.nom }}
+  <div class="col-md-3 pull-right">
+ <a href="https://play.google.com/store/apps/details?id=com.centor.mobile.app" class="btn btn-3d btn-dirtygreen">Repondre dans l'App</a>
+</div>       
+ </div> 
+</div>
+<div id="panel-1" class="panel panel-default">
+<div class="panel-body">
+ <p>{{ question.text }}<br>
+ {% if question.image %} 
+ <img src="{{ question.image }}">
+ <br>
+ </p>
+{% endif %}  
+<div class="table-responsive">
+    <table class="table nobordered nomargin">
         <tbody>
-            <tr>
-                <th>Texte</th>
-                <td>{{ question.text }}</td>
-            </tr>
-            {% if question.image %} 
-            <tr>
-                <td>{{ question.image }}</td>
-            </tr>
-            {% endif %}           
-            <tr>
-                <th>Temps</th>
-                <td>{{ question.time }} min</td>
-            </tr>
-            <tr>
-                <th>Proposition A</th>
+             <tr>
+                <th> A</th>
                 <td>{{ question.propA }}</td>
-            </tr>
+            </tr>       
             <tr>
-                <th>Proposition B</th>
+                <th> B</th>
                 <td>{{ question.propB }}</td>
             </tr>
              {% if question.propC %} 
             <tr>
-                <th>Proposition C</th>
+                <th>C</th>
                 <td>{{ question.propC }}</td>
             </tr>
             {% endif %} 
             {% if question.propD %} 
             <tr>
-                <th>Proposition D</th>
+                <th> D</th>
                 <td>{{ question.propD }}</td>
             </tr>
             {% endif %} 
               {% if question.propE %}
             <tr>
-                <th>Proposition E</th>
+                <th> E</th>
                 <td>{{ question.propE }}</td>
             </tr>
               {% endif %} 
-        </tbody>
 
+        </tbody>
     </table>
-    </div>
- </div 
-  </div>      
+
+  </div>
+   <div class="fb-comments" data-href="{{ app.request.getSchemeAndHttpHost() }}{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-numposts="15" data-width="100%">
+ </div> 
+</div>
+</div>     
+{% endblock %}
+{% block javascripts %}
 {% endblock %}

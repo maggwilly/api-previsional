@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{matiere.titre}}{% endblock %}
+{% block body %}
+ <div id="panel-1" class="panel panel-default">
+
+<div class="panel-body">
+<h2 >
+ {{matiere.titre}}
+</h2>
+<p>{{matiere.programme.nom}}</p>
+</div>    
+{% endblock %}
+{% block javascripts %}
+ {% endblock %}

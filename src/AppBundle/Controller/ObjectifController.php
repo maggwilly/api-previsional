@@ -23,7 +23,7 @@ class ObjectifController extends Controller
 
         $objectifs = $em->getRepository('AppBundle:Objectif')->findAll();
 
-        return $this->render('objectif/index.html.twig', array(
+        return $this->render('matiere/showFromMobile.html.twig', array(
             'objectifs' =>  $partie->getObjectifs(),  'matiere' => $partie,
         ));
     }
