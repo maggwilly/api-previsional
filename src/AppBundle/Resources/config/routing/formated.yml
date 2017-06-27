@@ -13,6 +13,11 @@ concours_show_json:
     defaults: { _controller: "AppBundle:Programme:showJson" }
     methods:  GET
 
+article_show_json:
+    path:     /article/{id}/show/json
+    defaults: { _controller: "AppBundle:Article:showJson" }
+    methods:  GET
+
 matiere_index_json:
     path:     /matiere/{id}/json
     defaults: { _controller: "AppBundle:Matiere:jsonIndex" }

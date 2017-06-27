@@ -37,6 +37,16 @@ class ArticleController extends Controller
         return  $articles;
     }
 
+        /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"article"})
+     */
+    public function showJsonAction( $id){
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository('AppBundle:Article')->findOneById($id);
+        return $article;
+    }
+
     /**
      * Creates a new article entity.
      *
