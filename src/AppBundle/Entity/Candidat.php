@@ -66,9 +66,9 @@ class Candidat
            /**
      * Constructor
      */
-    public function __construct($uid=null,$displayName=null,$email=null)
+    public function __construct($uid=null,$displayName=null)
     {
-        $this->studentId =$email;
+        $this->studentId =$uid;
         $this->uid =$uid;
         $this->displayName=$displayName;
     }

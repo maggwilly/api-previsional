@@ -13,19 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Info
 {
-
-      /**
-     * @var string
-     * @ORM\Id
-     * @ORM\Column(name="uid", type="string", length=255)
-     */
-    private $uid;
-
        /**
      * @var string
+     * @ORM\Id
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
+
+      /**
+     * @var string
+     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     */
+    private $uid;
 
 
     /**
@@ -64,7 +63,7 @@ class Info
      */
     public function __construct($studentId=null)
     {
-        $this->uid =$studentId;
+        $this->email =$studentId;
     }
 
 
@@ -101,7 +100,7 @@ class Info
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->uid = $email;
 
         return $this;
     }
@@ -113,7 +112,7 @@ class Info
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->uid;
     }
 
     /**
