@@ -93,7 +93,7 @@ class Abonnement
      /**
      * @var string
      *
-     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     * @ORM\Column(name="uid", type="string", length=255)
      */
     private $uid;
 
