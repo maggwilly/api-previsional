@@ -15,18 +15,16 @@ class Candidat
 
       /**
      * @var string
-       * @ORM\Id
-     * @ORM\Column(name="uid", type="string", length=255, unique=true)
-     */
-    private $uid;
-      /**
-     * @var string
-   
-     * @ORM\Column(name="studentId", type="string", length=255, nullable=true)
+     * @ORM\Id
+     * @ORM\Column(name="studentId", type="string", length=255, unique=true)
      */
      private $studentId;
 
-
+      /**
+     * @var string
+     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     */
+    private $uid;
     /**
      * @var string
      *
