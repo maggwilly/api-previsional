@@ -16,7 +16,7 @@ class AbonnementRepository extends EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findForMe($studentId){
-         $qb = $this->createQueryBuilder('a')->where('a.studentId=:studentId')->setParameter('studentId',$studentId); 
+         $qb = $this->createQueryBuilder('a')->where('a.uid=:uid')->setParameter('uid',$studentId); 
 
           return $qb->getQuery()->getResult();
   }
@@ -27,7 +27,7 @@ class AbonnementRepository extends EntityRepository
   */
   public function findOneForMe($studentId,Programme $programme){
          $qb = $this->createQueryBuilder('a')
-         ->where('a.studentId=:studentId')->setParameter('studentId',$studentId)
+         ->where('a.uid=:uid')->setParameter('uid',$studentId)
          ->andWhere('a.programme=:programme')->setParameter('programme',$programme);
 
           return $qb->getQuery()->getOneOrNullResult();

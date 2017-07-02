@@ -16,9 +16,15 @@ class Candidat
       /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(name="studentId", type="string", length=255,unique=true)
+     * @ORM\Column(name="studentId", type="string", length=255, unique=true)
      */
-    private $studentId;
+     private $studentId;
+
+      /**
+     * @var string
+     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     */
+    private $uid;
     /**
      * @var string
      *
@@ -54,24 +60,18 @@ class Candidat
      */
     private $ville;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     */
-    private $email;
 
 
 
            /**
      * Constructor
      */
-    public function __construct($studentId=null,$displayName=null)
+    public function __construct($uid=null,$displayName=null,$email=null)
     {
-        $this->studentId =$studentId;
+        $this->studentId =$email;
+        $this->uid =$uid;
         $this->displayName=$displayName;
     }
-
 
 
     /**

@@ -100,13 +100,19 @@ class Analyse
       /**
      * @var string
      *
-     * @ORM\Column(name="studentId", type="string", length=255)
+     * @ORM\Column(name="studentId", type="string", length=255,nullable=true)
      */
     private $studentId;
 
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="uid", type="string", length=255,nullable=true)
+     */
+    private $uid;
 
-        /**
+     /**
      * Constructor
      */
     public function __construct($studentId=null, Programme $concours, Matiere $matiere=null, Partie $partie=null)

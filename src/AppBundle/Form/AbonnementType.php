@@ -18,8 +18,8 @@ class AbonnementType extends AbstractType
         ->add('method')
         ->add('plan')
         ->add('price')
-        ->add('telPaidNumber')
-        ->add('studentId')
+        ->add('tel_paid_number')
+        ->add('uid')
         ->add('user', EntityType::class, array('class' => 'AppBundle:User'))
         ->add('programme', EntityType::class, array('class' => 'AppBundle:Programme')) ;
     }

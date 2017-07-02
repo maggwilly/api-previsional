@@ -35,7 +35,7 @@ class InfoController extends Controller
      */
     public function editPictureAction(Request $request,  $email)
     {  $em = $this->getDoctrine()->getManager();
-        $info = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
+        $info = $em->getRepository('AppBundle:Info')->findOneByUid($email);
           if($info==null){
           $info = new Info($email);
            $em->persist($info);
@@ -47,8 +47,8 @@ class InfoController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();       
        if( $info->upload()){
-         $cloudinaryWrapper=$this -> container -> get('misteio_cloudinary_wrapper');
-          $results= $cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "150", "height" => "150"))->getResult();
+         $cloudinaryWrapper=$this ->container-> get('misteio_cloudinary_wrapper');
+          $results= $cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getUid(),array(), array("crop" => "limit","width" => "150", "height" => "150"))->getResult();
           $info->setPhotoURL($results['url']);
           $em->flush();
           $info->remove();
@@ -64,7 +64,7 @@ class InfoController extends Controller
      */
     public function newJsonAction(Request $request, $email)
     {     $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
+         $candidat = $em->getRepository('AppBundle:Info')->findOneByUid($email);
         if($candidat!=null)
             return $this->editAction($request, $candidat);
             $candidat = new Info($email);
@@ -101,7 +101,7 @@ class InfoController extends Controller
      */
     public function showJsonAction( $email){
          $em = $this->getDoctrine()->getManager();
-          $info = $em->getRepository('AppBundle:Info')->findOneByEmail($email);
+          $info = $em->getRepository('AppBundle:Info')->findOneByUid($email);
         return $info;
     }
 

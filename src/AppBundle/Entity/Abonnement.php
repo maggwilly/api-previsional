@@ -74,19 +74,29 @@ class Abonnement
      */
     private $status;
 
-        /**
+
+      /**
      * @var string
      *
-     * @ORM\Column(name="studentId", type="string", length=255)
+     * @ORM\Column(name="studentId", type="string", length=255, nullable=true)
      */
     private $studentId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telPaidNumber", type="string", length=255,nullable=true)
+     * @ORM\Column(name="tel_paid_number", type="string", length=255, nullable=true)
      */
-    private $telPaidNumber;
+    private $tel_paid_number;
+
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    private $uid;
+
 
   /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme" ,inversedBy="matieres")
@@ -94,14 +104,13 @@ class Abonnement
     private $programme;
 
 
-        /**
+     /**
      * Constructor
      */
     public function __construct($studentId=null)
     {
-        $this->studentId =$studentId;
+        $this->uid =$studentId;
          $this->date=new \DateTime();
-      
     }
 
 
@@ -113,10 +122,10 @@ class Abonnement
           $this->endDate=new \DateTime();
            $this->startDate=new \DateTime();
          if ($this->plan=='free') {
-              $this->endDate->modify('+15 day');
+              $this->endDate->modify('+10 day');
          }elseif ($this->plan=='full') {
             // $this->endDate->modify('+91 day');
-             $this->endDate->modify('+15 day');
+             $this->endDate->modify('+10 day');
          }if($this->user!=null)
          $this->method='espece';
     $this->status='confirmed';
@@ -187,13 +196,11 @@ class Abonnement
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-
         return $this;
     }
 
     /**
      * Get endDate
-     *
      * @return \DateTime 
      */
     public function getEndDate()
@@ -339,28 +346,7 @@ class Abonnement
         return $this->status;
     }
 
-    /**
-     * Set telPaidNumber
-     *
-     * @param string $telPaidNumber
-     * @return Abonnement
-     */
-    public function setTelPaidNumber($telPaidNumber)
-    {
-        $this->telPaidNumber = $telPaidNumber;
 
-        return $this;
-    }
-
-    /**
-     * Get telPaidNumber
-     *
-     * @return string 
-     */
-    public function getTelPaidNumber()
-    {
-        return $this->telPaidNumber;
-    }
 
     /**
      * Set studentId
@@ -383,5 +369,54 @@ class Abonnement
     public function getStudentId()
     {
         return $this->studentId;
+    }
+
+
+    /**
+     * Set uid
+     *
+     * @param string $uid
+     *
+     * @return Abonnement
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return string
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * Set telPaidNumber
+     *
+     * @param string $telPaidNumber
+     *
+     * @return Abonnement
+     */
+    public function setTelPaidNumber($telPaidNumber)
+    {
+        $this->tel_paid_number = $telPaidNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get telPaidNumber
+     *
+     * @return string
+     */
+    public function getTelPaidNumber()
+    {
+        return $this->tel_paid_number;
     }
 }

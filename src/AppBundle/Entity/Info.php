@@ -13,14 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Info
 {
-
-    /**
+       /**
      * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-    * @ORM\Id
+     * @ORM\Id
+     * @ORM\Column(name="email", type="string", length=255,  unique=true)
      */
     private $email;
+
+      /**
+     * @var string
+     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     */
+    private $uid;
+
 
     /**
      * @var string
@@ -53,12 +58,12 @@ class Info
     private $candidat;
 
 
-           /**
+    /**
      * Constructor
      */
     public function __construct($studentId=null)
     {
-        $this->email =$studentId;
+        $this->uid =$studentId;
     }
 
 
@@ -197,7 +202,7 @@ class Info
        if(null === $this->getFile()){
                 return false;
             }
-                $oldFile = __DIR__.'/../../../web/uploads/images/'.$this->email.'.jpg' ;
+                $oldFile = __DIR__.'/../../../web/uploads/images/'.$this->uid.'.jpg' ;
                 if(file_exists($oldFile)){
                     unlink($oldFile);
                 }
@@ -210,7 +215,7 @@ class Info
 
    public function getPath(){
 
-            return __DIR__.'/../../../web/uploads/images/'.$this->email.'.jpg';
+            return __DIR__.'/../../../web/uploads/images/'.$this->uid.'.jpg';
     }
     public function remove(){
 

@@ -57,14 +57,14 @@ class CandidatController extends Controller
      */
     public function newJsonAction(Request $request, $studentId)
     {    $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByStudentId($studentId);
+         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByUid($studentId);
         if($candidat!=null)
             return $this->editAction($request, $candidat);
             $candidat = new Candidat($studentId);
             $form = $this->createForm('AppBundle\Form\CandidatType', $candidat);
             $form->submit($request->request->all(),false);
         if ($form->isValid()) {
-              $info = $em->getRepository('AppBundle:Info')->findOneByEmail($studentId);
+              $info = $em->getRepository('AppBundle:Info')->findOneByUid($studentId);
               if($info!=null){
                 $info->setCandidat($candidat);
                  }else
@@ -85,7 +85,7 @@ class CandidatController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-             $info = $em->getRepository('AppBundle:Info')->findOneByEmail($studentId);
+             $info = $em->getRepository('AppBundle:Info')->findOneByUid($studentId);
               if($info!=null&&$info->getCandidat()==null){
                   $info->setCandidat($candidat);
                 }
@@ -102,7 +102,7 @@ class CandidatController extends Controller
      */
     public function showJsonAction($studentId){
         $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByStudentId($studentId);
+         $candidat = $em->getRepository('AppBundle:Candidat')->findOneByUid($studentId);
         return $candidat;
     }
 
