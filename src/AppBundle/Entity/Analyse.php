@@ -117,7 +117,7 @@ class Analyse
      */
     public function __construct($studentId=null, Programme $concours, Matiere $matiere=null, Partie $partie=null)
     {
-        $this->studentId =$studentId;
+        $this->uid =$studentId;
         $this->partie=$partie;
          $this->matiere=$matiere;
         $this->concours=$concours;
