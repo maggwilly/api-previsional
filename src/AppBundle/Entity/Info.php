@@ -7,24 +7,26 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Info
  *
- * @ORM\Table(name="user_account_info")
+ * @ORM\Table(name="user_account_details")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\InfoRepository")
   * @ORM\HasLifecycleCallbacks
  */
 class Info
 {
+        /**
+     * @var string
+    * @ORM\Id
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    private $uid;
+
        /**
      * @var string
-     * @ORM\Id
+  
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
 
-      /**
-     * @var string
-     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
-     */
-    private $uid;
 
 
     /**
@@ -63,7 +65,7 @@ class Info
      */
     public function __construct($studentId=null)
     {
-        $this->email =$studentId;
+        $this->uid =$studentId;
     }
 
 
@@ -100,7 +102,7 @@ class Info
      */
     public function setEmail($email)
     {
-        $this->uid = $email;
+        $this->email = $email;
 
         return $this;
     }
@@ -112,7 +114,7 @@ class Info
      */
     public function getEmail()
     {
-        return $this->uid;
+        return $this->email;
     }
 
     /**

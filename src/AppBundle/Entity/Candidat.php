@@ -7,24 +7,27 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Candidat
  *
- * @ORM\Table(name="candidat")
+ * @ORM\Table(name="candidat_details")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CandidatRepository")
  */
 class Candidat
 {
 
+    /**
+     * @var string
+      * @ORM\Id
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    private $uid;
+
       /**
      * @var string
-     * @ORM\Id
+  
      * @ORM\Column(name="studentId", type="string", length=255, unique=true)
      */
      private $studentId;
 
-      /**
-     * @var string
-     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
-     */
-    private $uid;
+
     /**
      * @var string
      *
@@ -60,7 +63,11 @@ class Candidat
      */
     private $ville;
 
-
+       /**
+     * @var string
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
 
 
            /**
