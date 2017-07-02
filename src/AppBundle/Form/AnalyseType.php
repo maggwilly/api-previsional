@@ -21,7 +21,6 @@ class AnalyseType extends AbstractType
         ->add('time')
         ->add('failedNb') 
         ->add('firstNote')             
-        ->add('studentId');
     }
     
     /**
