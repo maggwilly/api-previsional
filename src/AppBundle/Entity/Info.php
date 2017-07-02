@@ -13,20 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Info
 {
-       /**
-     * @var string
-     * @ORM\Id
-     * @ORM\Column(name="email", type="string", length=255,  unique=true)
-     */
-    private $email;
+
 
       /**
      * @var string
-     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     * @ORM\Id
+     * @ORM\Column(name="uid", type="string", length=255,  unique=true)
      */
     private $uid;
 
-
+       /**
+     * @var string
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
     /**
      * @var string
      *
