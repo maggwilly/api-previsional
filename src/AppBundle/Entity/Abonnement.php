@@ -110,7 +110,8 @@ class Abonnement
     public function __construct($studentId=null)
     {
         $this->uid =$studentId;
-         $this->date=new \DateTime();
+        $this->studentId =$studentId;
+        $this->date=new \DateTime();
     }
 
 
