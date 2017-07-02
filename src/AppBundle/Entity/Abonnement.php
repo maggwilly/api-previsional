@@ -89,7 +89,11 @@ class Abonnement
      */
     private $tel_paid_number;
 
-
+       /**
+     * @var string
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+     private $email;
      /**
      * @var string
      *
@@ -231,7 +235,29 @@ class Abonnement
     {
         return $this->startDate;
     }
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Info
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
     /**
      * Set method
      *
@@ -358,7 +384,7 @@ class Abonnement
     public function setStudentId($studentId)
     {
         $this->studentId = $studentId;
-
+         $this->uid =$studentId;
         return $this;
     }
 
@@ -369,7 +395,7 @@ class Abonnement
      */
     public function getStudentId()
     {
-        return $this->studentId;
+        return $this->uid;
     }
 
 
