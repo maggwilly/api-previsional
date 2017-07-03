@@ -133,15 +133,15 @@ class AnalyseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
          if($analyse!=null){
-              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10'];
-              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre'];
+              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+rand(21,520);
+              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+rand(1028,2045);
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']);
-                $analyse->setRang($key+1);
+                $analyse->setDememe($value['dememe']+rand(31,78));
+                $analyse->setRang($key+1+rand(121,520));
           }
         } 
     }
