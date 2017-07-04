@@ -151,11 +151,11 @@ class AnalyseController extends Controller
                elseif($analyse->getNote()<7)
                    $analyse->setRang($key+1+510);
                elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+rand(180,184));
+                   $analyse->setRang($key+1+180);
                 elseif($analyse->getNote()<12)
-                   $analyse->setRang($key+1+rand(156,160));
+                   $analyse->setRang($key+1+160);
                 elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+rand(100,104));
+                   $analyse->setRang($key+1+104);
                 elseif($analyse->getNote()<17)
                    $analyse->setRang($key+1+64);
                  elseif($analyse->getNote()<19)
