@@ -134,14 +134,14 @@ class AnalyseController extends Controller
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
          if($analyse!=null){
          if($concours->getId()==9||$concours->getId()==14){
-             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+297;
+             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+309;
               $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+1728;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+5);
+                $analyse->setDememe($value['dememe']+16);
                 if($analyse->getNote()<2)
                    $analyse->setRang($key+1+1728);
                elseif($analyse->getNote()<3)
@@ -158,7 +158,7 @@ class AnalyseController extends Controller
                    $analyse->setRang($key+1+104);
                 elseif($analyse->getNote()<17)
                    $analyse->setRang($key+1+64);
-                 elseif($analyse->getNote()<19)
+                 elseif($analyse->getNote()<=19)
                    $analyse->setRang($key+1+26);
           }
         }
