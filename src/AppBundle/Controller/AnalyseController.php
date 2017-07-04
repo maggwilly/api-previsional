@@ -141,7 +141,7 @@ class AnalyseController extends Controller
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+rand(16,18));
+                $analyse->setDememe($value['dememe']+5);
                 if($analyse->getNote()<2)
                    $analyse->setRang($key+1+1728);
                elseif($analyse->getNote()<3)
@@ -170,7 +170,7 @@ class AnalyseController extends Controller
             $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);     
          foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+rand(1,4));
+                $analyse->setDememe($value['dememe']+2);
                    $analyse->setRang($key+1+21);
           }
         }       
