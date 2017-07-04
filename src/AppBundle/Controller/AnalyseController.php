@@ -171,7 +171,7 @@ class AnalyseController extends Controller
          foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+rand(1,4));
-                   $analyse->setRang($key+1+rand(4,7));
+                   $analyse->setRang($key+1+rand(17,29));
           }
         }       
     } 
