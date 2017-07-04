@@ -143,13 +143,13 @@ class AnalyseController extends Controller
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+rand(16,18));
                 if($analyse->getNote()<2)
-                   $analyse->setRang($key+1+rand(1720,1728));
+                   $analyse->setRang($key+1+1728);
                elseif($analyse->getNote()<3)
-                   $analyse->setRang($key+1+rand(700,709));               
+                   $analyse->setRang($key+1+709);               
                elseif($analyse->getNote()<5)
-                   $analyse->setRang($key+1+rand(700,709));
+                   $analyse->setRang($key+1+709);
                elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+rand(500,510));
+                   $analyse->setRang($key+1+510);
                elseif($analyse->getNote()<10)
                    $analyse->setRang($key+1+rand(180,184));
                 elseif($analyse->getNote()<12)
@@ -157,9 +157,9 @@ class AnalyseController extends Controller
                 elseif($analyse->getNote()<15)
                    $analyse->setRang($key+1+rand(100,104));
                 elseif($analyse->getNote()<17)
-                   $analyse->setRang($key+1+rand(60,64));
+                   $analyse->setRang($key+1+64);
                  elseif($analyse->getNote()<19)
-                   $analyse->setRang($key+1+rand(21,26));
+                   $analyse->setRang($key+1+26);
           }
         }
     }else{
@@ -171,7 +171,7 @@ class AnalyseController extends Controller
          foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+rand(1,4));
-                   $analyse->setRang($key+1+rand(17,29));
+                   $analyse->setRang($key+1+21);
           }
         }       
     } 
