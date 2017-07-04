@@ -133,7 +133,8 @@ class AnalyseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
          if($analyse!=null){
-              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+297;
+         if($concours->getId()==9||$concours->getId()==14){
+             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+297;
               $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+1728;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
@@ -141,8 +142,10 @@ class AnalyseController extends Controller
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+rand(16,18));
-                if($analyse->getNote()<3)
-                   $analyse->setRang($key+1+rand(1000,1005));
+                if($analyse->getNote()<2)
+                   $analyse->setRang($key+1+rand(1720,1728));
+               elseif($analyse->getNote()<3)
+                   $analyse->setRang($key+1+rand(700,709));               
                elseif($analyse->getNote()<5)
                    $analyse->setRang($key+1+rand(700,709));
                elseif($analyse->getNote()<7)
@@ -158,7 +161,20 @@ class AnalyseController extends Controller
                  elseif($analyse->getNote()<19)
                    $analyse->setRang($key+1+rand(21,26));
           }
-        } 
+        }
+    }else{
+            $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+7;
+            $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+260;
+            $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+            $analyse->setEvalues($nombre);
+            $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);     
+         foreach ($analyseData as $key => $value) {
+            if($value['note']==$analyse->getNote()){
+                $analyse->setDememe($value['dememe']+rand(1,4));
+                   $analyse->setRang($key+1+rand(4,7));
+          }
+        }       
+    } 
     }
         return  $analyse;
            
