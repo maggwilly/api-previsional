@@ -133,15 +133,28 @@ class AnalyseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
          if($analyse!=null){
-              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+rand(105,270);
-              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+rand(1053,1075);
+              $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+297;
+              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+1728;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+rand(31,78));
-                $analyse->setRang($key+1+rand(121,129));
+                $analyse->setDememe($value['dememe']+rand(16,18));
+                if($analyse->getNote()<7)
+                   $analyse->setRang($key+1+rand(285,985));
+               elseif($analyse->getNote()<7)
+                   $analyse->setRang($key+1+rand(200,284));
+               elseif($analyse->getNote()<10)
+                   $analyse->setRang($key+1+rand(180,196));
+                elseif($analyse->getNote()<12)
+                   $analyse->setRang($key+1+rand(156,179));
+                elseif($analyse->getNote()<15)
+                   $analyse->setRang($key+1+rand(100,120));
+                elseif($analyse->getNote()<17)
+                   $analyse->setRang($key+1+rand(60,99));
+                 elseif($analyse->getNote()<19)
+                   $analyse->setRang($key+1+rand(21,34));
           }
         } 
     }
