@@ -141,20 +141,22 @@ class AnalyseController extends Controller
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+rand(16,18));
-                if($analyse->getNote()<7)
-                   $analyse->setRang($key+1+rand(285,985));
+                if($analyse->getNote()<3)
+                   $analyse->setRang($key+1+rand(1000,1005));
+               elseif($analyse->getNote()<5)
+                   $analyse->setRang($key+1+rand(700,709));
                elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+rand(200,284));
+                   $analyse->setRang($key+1+rand(500,510));
                elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+rand(180,196));
+                   $analyse->setRang($key+1+rand(180,184));
                 elseif($analyse->getNote()<12)
-                   $analyse->setRang($key+1+rand(156,179));
+                   $analyse->setRang($key+1+rand(156,160));
                 elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+rand(100,120));
+                   $analyse->setRang($key+1+rand(100,104));
                 elseif($analyse->getNote()<17)
-                   $analyse->setRang($key+1+rand(60,99));
+                   $analyse->setRang($key+1+rand(60,64));
                  elseif($analyse->getNote()<19)
-                   $analyse->setRang($key+1+rand(21,34));
+                   $analyse->setRang($key+1+rand(21,26));
           }
         } 
     }
