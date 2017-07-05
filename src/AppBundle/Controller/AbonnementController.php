@@ -56,6 +56,9 @@ class AbonnementController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ab=$em->getRepository('AppBundle:Abonnement')->findOneForMe($abonnement->getStudentId(),$abonnement->getProgramme());
+            if($ab!=null)
+                 return $ab;
               $em->persist($abonnement);
              $em->flush();
             return $abonnement;
