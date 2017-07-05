@@ -145,21 +145,31 @@ class AnalyseController extends Controller
                 if($analyse->getNote()<2)
                    $analyse->setRang($key+1+1728);
                elseif($analyse->getNote()<3)
-                   $analyse->setRang($key+1+709);               
+                   $analyse->setRang($key+1+1000);               
                elseif($analyse->getNote()<5)
-                   $analyse->setRang($key+1+709);
+                   $analyse->setRang($key+1+800);
                elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+510);
+                   $analyse->setRang($key+1+700);
+               elseif($analyse->getNote()<8)
+                   $analyse->setRang($key+1+600);
+               elseif($analyse->getNote()<9)
+                   $analyse->setRang($key+1+300);
                elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+180);
-                elseif($analyse->getNote()<12)
+                   $analyse->setRang($key+1+182);
+                elseif($analyse->getNote()<11)
                    $analyse->setRang($key+1+160);
+                elseif($analyse->getNote()<13)
+                   $analyse->setRang($key+1+140);
+                elseif($analyse->getNote()<14)
+                   $analyse->setRang($key+1+120);
                 elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+104);
-                elseif($analyse->getNote()<17)
+                   $analyse->setRang($key+1+110);
+                elseif($analyse->getNote()<16)
                    $analyse->setRang($key+1+64);
+                elseif($analyse->getNote()<17)
+                   $analyse->setRang($key+1+31);
                  elseif($analyse->getNote()<=19)
-                   $analyse->setRang($key+1+26);
+                   $analyse->setRang($key+1+13);
           }
         }
     }else{
