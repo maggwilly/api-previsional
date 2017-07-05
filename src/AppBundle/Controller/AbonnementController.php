@@ -25,7 +25,6 @@ class AbonnementController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $abonnements = $em->getRepository('AppBundle:Abonnement')->findAll();
-
         return $this->render('abonnement/index.html.twig', array(
             'abonnements' => $abonnements,
         ));
