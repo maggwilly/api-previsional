@@ -57,7 +57,6 @@ class AbonnementController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $programme-=$abonnement->getProgramme()->addInscrit();
               $em->persist($abonnement);
              $em->flush();
             return $abonnement;
