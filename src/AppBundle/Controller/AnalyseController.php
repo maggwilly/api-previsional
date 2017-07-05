@@ -134,9 +134,10 @@ class AnalyseController extends Controller
         $analyse = $em->getRepository('AppBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
          if($analyse!=null){
          if($concours->getId()==9||$concours->getId()==14){
-             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+309;
+             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10'];
+             $nombre1=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre'];
               $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+1728;
-              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+              $analyse->setSup10($nombre>0?$sup10*100/$nombre1:'--');
               $analyse->setEvalues($nombre);
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
