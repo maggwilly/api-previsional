@@ -143,7 +143,7 @@ class AnalyseController extends Controller
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+31);
                 if($analyse->getNote()<2)
-                   $analyse->setRang($key+1+1738);
+                   $analyse->setRang($key+1+1700);
                elseif($analyse->getNote()<3)
                    $analyse->setRang($key+1+1050);               
                elseif($analyse->getNote()<5)
