@@ -141,7 +141,7 @@ class AnalyseController extends Controller
               $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($concours,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+37);
+                $analyse->setDememe($value['dememe']+31);
                 if($analyse->getNote()<2)
                    $analyse->setRang($key+1+1738);
                elseif($analyse->getNote()<3)
