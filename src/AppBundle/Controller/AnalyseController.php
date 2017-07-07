@@ -155,9 +155,9 @@ class AnalyseController extends Controller
                elseif($analyse->getNote()<9)
                    $analyse->setRang($key+1+405);
                elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+250);
+                   $analyse->setRang($key+1+300);
                 elseif($analyse->getNote()<11)
-                   $analyse->setRang($key+1+205);
+                   $analyse->setRang($key+1+255);
                 elseif($analyse->getNote()<12)
                    $analyse->setRang($key+1+186);                
                 elseif($analyse->getNote()<13)
