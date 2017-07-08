@@ -145,38 +145,38 @@ class AnalyseController extends Controller
                 if($analyse->getNote()<2)
                    $analyse->setRang($key+1+1700);
                elseif($analyse->getNote()<3)
-                   $analyse->setRang($key+1+1050);               
+                   $analyse->setRang($key+1+1600);               
                elseif($analyse->getNote()<5)
-                   $analyse->setRang($key+1+810);
+                   $analyse->setRang($key+1+1500);
                elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+703);
+                   $analyse->setRang($key+1+1300);
                elseif($analyse->getNote()<8)
-                   $analyse->setRang($key+1+612);
+                   $analyse->setRang($key+1+1100);
                elseif($analyse->getNote()<9)
-                   $analyse->setRang($key+1+405);
+                   $analyse->setRang($key+1+1000);
                elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+300);
+                   $analyse->setRang($key+1+900);
                 elseif($analyse->getNote()<11)
-                   $analyse->setRang($key+1+255);
+                   $analyse->setRang($key+1+800);
                 elseif($analyse->getNote()<12)
-                   $analyse->setRang($key+1+186);                
+                   $analyse->setRang($key+1+700);                
                 elseif($analyse->getNote()<13)
-                   $analyse->setRang($key+1+157);
+                   $analyse->setRang($key+1+600);
                 elseif($analyse->getNote()<14)
-                   $analyse->setRang($key+1+120);
+                   $analyse->setRang($key+1+500);
                 elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+110);
+                   $analyse->setRang($key+1+400);
                 elseif($analyse->getNote()<16)
-                   $analyse->setRang($key+1+87);
+                   $analyse->setRang($key+1+300);
                 elseif($analyse->getNote()<17)
-                   $analyse->setRang($key+1+39);
+                   $analyse->setRang($key+1+200);
                 elseif($analyse->getNote()<18)
-                   $analyse->setRang($key+1+45);                 
+                   $analyse->setRang($key+1+100);                 
                  elseif($analyse->getNote()<=19)
-                   $analyse->setRang($key+1+15);
+                   $analyse->setRang($key+1+50);
           }
         }
-        
+
     }else{
             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+7;
             $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+260;
