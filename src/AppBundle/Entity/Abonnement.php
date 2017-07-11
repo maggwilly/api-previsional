@@ -130,7 +130,7 @@ class Abonnement
               $this->endDate->modify('+10 day');
          }elseif ($this->plan=='full') {
             // $this->endDate->modify('+91 day');
-             $this->endDate->modify('+10 day');
+             $this->endDate->modify('+2 day');
          }if($this->user!=null)
          $this->method='espece';
     $this->status='confirmed';
