@@ -179,6 +179,8 @@ class AnalyseController extends Controller
           }
         }
 
+        
+
     }else{
             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+7;
             $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+260;
