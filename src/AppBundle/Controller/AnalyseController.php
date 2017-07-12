@@ -173,13 +173,15 @@ class AnalyseController extends Controller
                 elseif($analyse->getNote()<17)
                    $analyse->setRang($key+1+210);
                 elseif($analyse->getNote()<18)
-                   $analyse->setRang($key+1+100);                 
-                 elseif($analyse->getNote()<=19)
-                   $analyse->setRang($key+1+60);
+                   $analyse->setRang($key+1+100); 
+                 elseif($analyse->getNote()<19)
+                   $analyse->setRang($key+1+60);                
+                 elseif($analyse->getNote()<=20)
+                   $analyse->setRang($key+1+3);
           }
         }
 
-        
+
 
     }else{
             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+7;
