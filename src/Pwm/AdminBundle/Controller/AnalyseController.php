@@ -3,9 +3,9 @@
 namespace Pwm\AdminBundle\Controller;
 
 use Pwm\AdminBundle\Entity\Analyse;
-use Pwm\AdminBundle\Entity\Matiere;
-use Pwm\AdminBundle\Entity\Partie;
-use Pwm\AdminBundle\Entity\Programme;
+use AppBundle\Entity\Matiere;
+use AppBundle\Entity\Partie;
+use AppBundle\Entity\Programme;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations

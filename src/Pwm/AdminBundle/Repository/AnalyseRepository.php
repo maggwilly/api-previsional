@@ -1,9 +1,9 @@
 <?php
 
 namespace Pwm\AdminBundle\Repository;
-use Pwm\AdminBundle\Entity\Programme;
-use Pwm\AdminBundle\Entity\Matiere;
-use Pwm\AdminBundle\Entity\Partie;
+use AppBundle\Entity\Programme;
+use AppBundle\Entity\Matiere;
+use AppBundle\Entity\Partie;
 use Doctrine\ORM\NoResultException;
 /**
  * AnalyseRepository
