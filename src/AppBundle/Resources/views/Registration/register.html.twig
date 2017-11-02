@@ -1,109 +1,115 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
+{% extends "AdminBundle::layout.html.twig" %}
+{% block title %}UTILISATEURS{% endblock %}
 {% block body %}
-   <!-- page title -->
-    <header id="page-header">
-    <h1>Admin</h1>
-    </header>
-<div id="content" class="dashboard padding-20">
+					<div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header text-left" data-background-color="red">
+                                    <h4 class="title">Utilisateurs</h3>
+                                    <p class="category">Liste des utilisateurs du systeme</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="table-responsive table-upgrade">
+                                        <table class="table" id="my-table">
+                                            <thead>
+                                                <th>Utilisateur</th>
+                                            	<th class="text-center">Tel</th>
+                                            	<th class="text-center">email</th>
+                                                <th class="text-center">Type</th>
+                                                <th class="text-center">Last login</th>
+                                            </thead>
+                                            <tbody>
+                                            	   {% for user in users %}
+                                                <tr>
+                                                	<td class="text-left">{{user.nom}}</td>
+                                                	<td class="text-center">{{user.phone}}</td>
+                                                	<td class="text-left">{{user.email}}</td>
+                                                	<td class="text-left">{{user.type}}</td>
+                                                	<td class="text-left">{{user.lastLogin|date('d/m/Y h:i')}}</td>
+                                                </tr>
+                                                     {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+	                    <div class="col-md-4">
+	                        <div class="card">
+	                            <div class="card-content">
 
-<div id="panel-misc-portlet-color-l1" class="panel panel-default">
+	                                <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST">
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Non complet</label>
+													{{ form_widget(form.nom,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                 </div>
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Email</label>
+													{{ form_widget(form.email,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>	
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Phone</label>
+													{{ form_widget(form.phone,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>	      
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Psedo</label>
+													{{ form_widget(form.username,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Domaine</label>
+													{{ form_widget(form.type,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Password</label>
+													{{ form_widget(form.plainPassword.first,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>
 
-								<div class="panel-heading">
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Verification</label>
+													{{ form_widget(form.plainPassword.second,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>
 
-									<span class="elipsis"><!-- panel title -->
-										<strong>Ceate user</strong>
-									</span>
-
-									<!-- right options -->
-									<ul class="options pull-right list-inline">
-										<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-										<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-										<li><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-									</ul>
-									<!-- /right options -->
-
-								</div>
-
-								<!-- panel content -->
-								<div class="panel-body">
-
-{% include "FOSUserBundle:Registration:register_content.html.twig" %}
-
-								</div>
-								<!-- /panel content -->
-		</div>
-
-<div id="panel-misc-portlet-color-l1" class="panel panel-default">
-
-								<div class="panel-heading">
-
-									<span class="elipsis"><!-- panel title -->
-										<strong>Charger des données de Test</strong>
-									</span>
-
-									<!-- right options -->
-									<ul class="options pull-right list-inline">
-										<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Colapse"></a></li>
-										<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand"></i></a></li>
-										<li><a href="#" class="opt panel_close" data-confirm-title="Confirm" data-confirm-message="Are you sure you want to remove this panel?" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Close"><i class="fa fa-times"></i></a></li>
-									</ul>
-									<!-- /right options -->
-
-								</div>
-
-								<!-- panel content -->
-								<div class="panel-body">
-                                <h4>Charger des données de Test</h4>
-                                 <a href="{{ path('load_default') }}" class="btn btn-3d btn-xlg btn-purple">
-										CHARGER LES DONNEES 
-										<span class="block font-lato">Enrégistrer 5 lignes de données </span>
-									</a>
-                                  <a href="{{ path('load_default_visite') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER LES VISITES
-										<span class="block font-lato">Enrégistrer 5 visites </span>
-									</a>
-                                 <a href="{{ path('load_default_etape') }}" class="btn btn-3d btn-xlg btn-dirtygreen">
-										CHARGER DES JOURNEES
-										<span class="block font-lato">Enrégister des journees </span>
-									</a>
-                                 <a href="{{ path('load_default_synchro') }}" class="btn btn-3d btn-xlg btn-green">
-										CHARGER DES SYNCHROS
-										<span class="block font-lato">Enrégister des synchros </span>
-									</a>
-                                 <a href="{{ path('load_default_produit') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER DES PRODUITS
-										<span class="block font-lato">Enrégister des produits </span>
-									</a>
-                                 <a href="{{ path('load_default_point_vente') }}" class="btn btn-3d btn-xlg btn-purple">
-										CHARGER DES PDVS
-										<span class="block font-lato">Enrégister des pdv </span>
-									</a>
-                                 <a href="{{ path('load_default_secteur') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER DES SECTEURS
-										<span class="block font-lato">Enrégister des secteurs</span>
-									</a>
-                                 <a href="{{ path('load_default_quartier') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER DES QUARTIERS EXCEL
-										<span class="block font-lato">Enrégister de excel</span>
-									</a>
-                                 <a href="{{ path('load__point_vente_from_excel') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER DES PDV EXCEL
-										<span class="block font-lato">Enrégister de excel</span>
-									</a>
-                                  <a href="{{ path('load__point_visite_excel') }}" class="btn btn-3d btn-xlg btn-red">
-										CHARGER LES VISITES EXCEL
-										<span class="block font-lato">Enrégistrer visite excel </span>
-									</a>																		
-								</div>
-				<!-- /panel content -->
-		</div>
-
-    </div>
+	                                    <div class="row">
+	                                        <div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">Ville</label>
+													{{ form_widget(form.ville,{attr:{'class':'form-control'}}) }}
+												</div>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <button type="submit" class="btn btn-danger pull-right">Creer un compte</button>
+	                                    <div class="clearfix"></div>
+	                                  {{ form_end(form) }}
+	                                </form>
+	                            </div>
+	                        </div>
+	                    </div>
 {% endblock %}
-{% block javascripts %}
-       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-
- {% endblock %}

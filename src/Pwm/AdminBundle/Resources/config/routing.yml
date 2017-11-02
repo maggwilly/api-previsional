@@ -1,0 +1,18 @@
+admin_homepage:
+    path:     /admin
+    defaults: { _controller: AdminBundle:Default:index }
+    
+admin_formated:
+    resource: "@AdminBundle/Resources/config/routing/formated.yml"
+    prefix:   /formated
+
+
+admin_abonnement:
+    resource: "@AdminBundle/Resources/config/routing/abonnement.yml"
+    prefix:   /abonnement
+
+admin_info:
+    resource: "@AdminBundle/Resources/config/routing/info.yml"
+    prefix:   /info
+
+

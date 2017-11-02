@@ -1,40 +1,28 @@
+messager:
+    resource: "@MessagerBundle/Resources/config/routing.yml"
+    prefix:   /v1
+
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /v1
+
+
+app:
+    resource: "@AppBundle/Resources/config/routing.yml"
+    prefix: /v1
+     
+
+user_homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:Programme:index" }
+    methods:  GET
+
 
 homepage:
     path:     /
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
-
-mobileapp_apk:
-    path:     /apk
-    defaults: { _controller: "AppBundle:Mobile:apk" }
-    methods:  GET
-
-mobileapp_tags:
-    path:     /xml
-    defaults: { _controller: "AppBundle:Mobile:xml" }
-    methods:  GET
-
-user_homepage:
-    path:     /v1/home
-    defaults: { _controller: "AppBundle:App:index" }
-    methods:  GET
-
-help:
-    path:     /v1/mobile/{topic}/help
-    defaults: { _controller: "AppBundle:App:help" }
-    methods:  GET
-
-cgu:
-    path:     /v1/mobile/cgu
-    defaults: { _controller: "AppBundle:App:cgu" }
-    methods:  GET
-
-
-app_admin:
-    resource: "@AppBundle/Resources/config/routing.yml"
-    prefix: /v1
-
-      
+ 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

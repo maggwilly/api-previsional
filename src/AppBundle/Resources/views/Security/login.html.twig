@@ -1,4 +1,4 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "layout.html.twig" %}
 {% block title %}Connexion {% endblock %}
 {% block fos_user_content %}
 <body>
@@ -11,17 +11,34 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ path('homepage')}}">Entrances #ressources #admin</a>
+                <a class="navbar-brand" href="{{ path('homepage')}}"><img src="{{asset('assets/img/logo.png') }}" alt="CENTOR"></a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
- 
+                   <li class="dropdown">
+                            <a href="{{ path('admin_homepage') }}" class="dropdown-toggle" >
+                                    <i class="material-icons">notifications</i>
+                                 <p class="hidden-lg hidden-md">ADMIN</p>
+                           </a>
+                        </li>
+                       <li class="dropdown">
+                            <a href="{{ path('homepage') }}" class="dropdown-toggle" >
+                                    <i class="material-icons">notifications</i>
+                                 <p class="hidden-lg hidden-md">CONTENT</p>
+                           </a>
+                        </li>                         
+                       <li class="dropdown">
+                            <a href="{{ path('messager_homepage') }}" class="dropdown-toggle" >
+                                    <i class="material-icons">notifications</i>
+                                 <p class="hidden-lg hidden-md">MESSAGER</p>
+                           </a>
+                        </li>                        
                 </ul>
             </div>
         </div>
     </nav>
     <div class="wrapper wrapper-full-page">
-        <div class="full-page login-page" filter-color="black" data-color="blue"  data-image="../../assets/img/login.jpeg">
+        <div class="full-page login-page" filter-color="black" data-color="blue"  data-image="{{asset('assets/img/cover.jpeg') }}">
             <div class="content">
                 <div class="container">
 				

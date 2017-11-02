@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %}CentOr{% endblock %}</title>
+        <meta name="description" content="" />
+        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE"/>
+        <!-- mobile settings -->
+        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+        <!-- WEB FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/fm/css/bootstrap.min.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('assets/fm/css/essentials.css') }}"  type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/fm/css/layout.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('assets/fm/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />  
+  
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+ </script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>      
+    </head>
+    <body>
+
+        <div id="wrapper">
+            <header id="header">
+                <!-- Mobile Button -->
+                <nav></nav>
+            </header>
+            <!-- /HEADER -->
+            <div id="content" class="padding-20">
+        {% block body %}
+        {% endblock %}
+         </div>
+    </div>
+</body>
+</html> 

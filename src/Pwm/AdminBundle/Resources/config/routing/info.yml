@@ -1,0 +1,19 @@
+info_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:Info:index" }
+    methods:  GET
+
+info_show:
+    path:     /{id}/show
+    defaults: { _controller: "AdminBundle:Info:show" }
+    methods:  GET
+
+info_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Info:edit" }
+    methods:  [GET, POST]
+
+info_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Info:delete" }
+    methods:  DELETE

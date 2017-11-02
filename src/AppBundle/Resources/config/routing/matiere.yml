@@ -8,6 +8,10 @@ matiere_show_from_mobile:
     defaults: { _controller: "AppBundle:Objectif:index" }
     methods:  GET
 
+matiere_show_from_mobile2:
+    path:     /{id}/ressources
+    defaults: { _controller: "AppBundle:Objectif:index" }
+    methods:  GET
 
 matiere_show:
     path:     /{id}/show

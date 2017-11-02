@@ -1,0 +1,26 @@
+Pwm\AdminBundle\Entity\Info:
+    exclusion_policy: none
+    properties:
+        email:
+             groups: ['info', 'full']             
+        displayName:
+             groups: ['info', 'full']
+        photoURL:
+             groups: ['info', 'full']
+        phone:
+             groups: ['info', 'full']
+
+        ville:
+             groups: ['info', 'full']
+
+        langue:
+             groups: ['info', 'full']
+
+        branche:
+             groups: ['info', 'full']
+
+        paymentMethod:
+             groups: ['info', 'full']
+             
+        enableNotifications:
+             groups: ['info', 'full']

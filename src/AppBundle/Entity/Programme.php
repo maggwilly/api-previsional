@@ -447,28 +447,6 @@ class Programme
         return $this->dateDossier->format('Y-m-dTH:i');
     }
 
-    /**
-     * Set lien
-     *
-     * @param string $lien
-     * @return Concours
-     */
-    public function setLien($lien)
-    {
-        $this->lien = $lien;
-
-        return $this;
-    }
-
-    /**
-     * Get lien
-     *
-     * @return string 
-     */
-    public function getLien()
-    {
-        return $this->lien;
-    }
 
     /**
      * Set image

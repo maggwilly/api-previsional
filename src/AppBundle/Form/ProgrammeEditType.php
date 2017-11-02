@@ -24,7 +24,6 @@ class ProgrammeEditType extends AbstractType
         ->add('nombrePlace')
         ->add('dateConcours')
         ->add('dateDossier')
-        ->add('lien')
         ->add('image')
         ->add('contact')
         ->add('nombreInscrit')

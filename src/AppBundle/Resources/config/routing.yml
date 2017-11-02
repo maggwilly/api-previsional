@@ -1,3 +1,15 @@
+homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:App:index" }
+    methods:  GET
+
+user_homepage:
+    path:     /
+    defaults: { _controller: "AppBundle:Programme:index" }
+    methods:  GET
+
+    
+
 app_user:
     resource: "@AppBundle/Resources/config/routing/user.yml"
     prefix:   /user
@@ -10,10 +22,6 @@ app_concours:
     resource: "@AppBundle/Resources/config/routing/programme.yml"
     prefix:   /programme
 
-app_abonnement:
-    resource: "@AppBundle/Resources/config/routing/abonnement.yml"
-    prefix:   /abonnement   
-
 app_formated:
     resource: "@AppBundle/Resources/config/routing/formated.yml"
     prefix:   /formated
@@ -25,18 +33,10 @@ app_matiere:
 app_partie:
     resource: "@AppBundle/Resources/config/routing/partie.yml"
     prefix:   /partie
+
 app_objectif:
     resource: "@AppBundle/Resources/config/routing/objectif.yml"
     prefix:   /objectif
-
-app_abonnement:
-    resource: "@AppBundle/Resources/config/routing/abonnement.yml"
-    prefix:   /abonnement
-
-app_info:
-    resource: "@AppBundle/Resources/config/routing/info.yml"
-    prefix:   /info
-
 
 app_question:
     resource: "@AppBundle/Resources/config/routing/question.yml"
