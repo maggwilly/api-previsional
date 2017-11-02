@@ -229,13 +229,13 @@ class User extends BaseUser
     $this->id = $this->username;
     switch ( $this->type) {
         case 'SAISIE':
-            $this->roles=['ROLE_SAISIE'];
+            $this->roles=['ROLE_USER','ROLE_SAISIE'];
             break;
          case 'COMM':
-             $this->roles=['ROLE_MESSAGER'];
+             $this->roles=['ROLE_USER','ROLE_MESSAGER'];
             break  ;     
         default:
-            $this->roles=['ROLE_ADMIN'];
+            $this->roles=['ROLE_USER','ROLE_ADMIN'];
             break;
     }
 
