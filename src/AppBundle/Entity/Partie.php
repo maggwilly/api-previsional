@@ -202,6 +202,29 @@ class Partie
     }
 
     /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Session
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+    /**
      * Get prerequis
      *
      * @return string 
