@@ -3,7 +3,8 @@
 namespace Pwm\AdminBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Pwm\AdminBundle\Entity\Programme;
+use AppBundle\Entity\Session;
+use Pwm\AdminBundle\Entity\Info;
 /**
  * AbonnementRepository
  *
@@ -15,8 +16,8 @@ class AbonnementRepository extends EntityRepository
 	 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findForMe($studentId){
-         $qb = $this->createQueryBuilder('a')->where('a.uid=:uid')->setParameter('uid',$studentId); 
+  public function findForMe(Info $info){
+         $qb = $this->createQueryBuilder('a')->where('a.info=:info')->setParameter('info',$info); 
 
           return $qb->getQuery()->getResult();
   }
@@ -25,10 +26,10 @@ class AbonnementRepository extends EntityRepository
 	 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findOneForMe($studentId,Programme $programme){
+  public function findMeOnThis(Info $info,Session $session){
          $qb = $this->createQueryBuilder('a')
-         ->where('a.uid=:uid')->setParameter('uid',$studentId)
-         ->andWhere('a.programme=:programme')->setParameter('programme',$programme);
+         ->where('a.info=:info')->setParameter('info',$info)
+         ->andWhere('a.session=:session')->setParameter('session',$session);
 
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }

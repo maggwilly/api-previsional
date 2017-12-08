@@ -41,6 +41,7 @@ class Programme
     private $auMoinsdeMemeQue;
 
     private $programme;
+
     /**
      * @var string
      *
@@ -137,12 +138,6 @@ class Programme
      */
     private $contact;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="resultats", type="string", length=255,  nullable=true)
-     */
-    private $resultats;
 
     /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Matiere", mappedBy="programme", cascade={"persist","remove"})
@@ -494,28 +489,6 @@ class Programme
         return $this->contact;
     }
 
-    /**
-     * Set resultats
-     *
-     * @param string $resultats
-     * @return Concours
-     */
-    public function setResultats($resultats)
-    {
-        $this->resultats = $resultats;
-
-        return $this;
-    }
-
-    /**
-     * Get resultats
-     *
-     * @return string 
-     */
-    public function getResultats()
-    {
-        return $this->resultats;
-    }
 
 
     /**

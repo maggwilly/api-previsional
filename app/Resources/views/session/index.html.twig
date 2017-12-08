@@ -1,0 +1,48 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}SESSIONS- {{ concour.nom }}{% endblock %}
+{% block body %}
+<div class="col-md-12">
+<div class="card">
+  <div class="card-header" data-background-color="purple">
+   <h4 class="title">SESSIONS- {{ concour.nom }}</h4>
+      <p class="category">Les sessions</p>
+    </div>
+     <div class="card-content table-responsive">
+         <table class="table" id="my-table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Abreviation</th>
+                <th>Nombreplace</th>
+                <th>Nombreinscrit</th>
+                <th>Dateconcours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for session in sessions %}
+            <tr>
+                <td>{{ session.nom }}</td>
+                <td>{{ session.abreviation }}</td>
+                <td>{{ session.nombrePlace }}</td>
+                <td>{{ session.nombreInscrit }}</td>
+                <td>{% if session.dateConcours %}{{ session.dateConcours|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('session_show', { 'id': session.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('session_edit', { 'id': session.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('session_new',{ 'id': concour.id }) }}" class="btn btn-default ">Create a new session</a>  
+</div>
+</div>
+</div>
+{% endblock %}

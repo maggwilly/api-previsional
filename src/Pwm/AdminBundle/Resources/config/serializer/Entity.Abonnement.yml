@@ -5,7 +5,7 @@ Pwm\AdminBundle\Entity\Abonnement:
             groups: ['abonnement', 'full']
         studentId:
              groups: ['abonnement', 'full']
-        programme:
+        session:
              groups: ['abonnement', 'full']             
         method:
              groups: ['abonnement', 'full']

@@ -1,0 +1,24 @@
+notification_index:
+    path:     /
+    defaults: { _controller: "MessagerBundle:Notification:index" }
+    methods:  GET
+
+notification_show:
+    path:     /{id}/show
+    defaults: { _controller: "MessagerBundle:Notification:show" }
+    methods:  [GET, POST]
+
+notification_new:
+    path:     /new
+    defaults: { _controller: "MessagerBundle:Notification:new" }
+    methods:  [GET, POST]
+
+notification_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MessagerBundle:Notification:edit" }
+    methods:  [GET, POST]
+
+notification_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MessagerBundle:Notification:delete" }
+    methods:  DELETE

@@ -1,12 +1,10 @@
 <?php
 
 namespace Pwm\AdminBundle\Entity;
-
+use Pwm\MessagerBundle\Entity\Registration;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Info
- *
  * @ORM\Table(name="user_account_details")
  * @ORM\Entity(repositoryClass="Pwm\AdminBundle\Repository\InfoRepository")
   * @ORM\HasLifecycleCallbacks
@@ -28,7 +26,6 @@ class Info
     private $email;
 
 
-
     /**
      * @var string
      *
@@ -40,7 +37,7 @@ class Info
     /**
      * @var string
      *
-     * @ORM\Column(name="photoURL", type="string", length=255, nullable=true)
+     * @ORM\Column(name="photoURL", type="text",  nullable=true)
      */
     private $photoURL;
 
@@ -90,17 +87,22 @@ class Info
      */
     private $enableNotifications;
 
+
+    /**
+   * @ORM\OneToMany(targetEntity="Pwm\MessagerBundle\Entity\Registration", mappedBy="info", cascade={"persist","remove"})
+   */
+    private $registrations;
+
+
     private $file;
-
-
 
 
     /**
      * Constructor
      */
-    public function __construct($studentId=null)
+    public function __construct()
     {
-        $this->uid =$studentId;
+    
     }
 
 
@@ -201,42 +203,7 @@ class Info
     }
 
 
-       public function getFile()
-    {
-        return $this->file;
-    }
 
-    public function setFile($file)
-    {
-     $this->file = $file;
-     return $this->file;
-    }
-
-    public function upload(){
-       if(null === $this->getFile()){
-                return false;
-            }
-                $oldFile = __DIR__.'/../../../web/uploads/images/'.$this->uid.'.jpg' ;
-                if(file_exists($oldFile)){
-                    unlink($oldFile);
-                }
-              $this->getFile()->move(
-                __DIR__.'/../../../web/uploads/images/',
-                $this->email.'.jpg'
-                );
-    return true;
-    }
-
-   public function getPath(){
-
-            return __DIR__.'/../../../web/uploads/images/'.$this->uid.'.jpg';
-    }
-    public function remove(){
-
-            if(file_exists($this->getPath())){
-                unlink($this->getPath());
-            }
-    }
 
     /**
      * Set uid
@@ -380,5 +347,42 @@ class Info
     public function getEnableNotifications()
     {
         return $this->enableNotifications;
+    }
+
+
+
+    /**
+     * Add registration
+     *
+     * @param \Pwm\MessagerBundle\Entity\Registration $registration
+     *
+     * @return Info
+     */
+    public function addRegistration(\Pwm\MessagerBundle\Entity\Registration $registration)
+    {
+        $this->registrations[] = $registration;
+        $registration->setInfo(  $this);
+
+        return $this;
+    }
+
+    /**
+     * Remove registration
+     *
+     * @param \Pwm\MessagerBundle\Entity\Registration $registration
+     */
+    public function removeRegistration(\Pwm\MessagerBundle\Entity\Registration $registration)
+    {
+        $this->registrations->removeElement($registration);
+    }
+
+    /**
+     * Get registrations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRegistrations()
+    {
+        return $this->registrations;
     }
 }

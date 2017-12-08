@@ -1,7 +1,7 @@
 <?php
 
 namespace Pwm\AdminBundle\Repository;
-use AppBundle\Entity\Programme;
+use AppBundle\Entity\Session;
 use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Partie;
 use Doctrine\ORM\NoResultException;
@@ -16,10 +16,10 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
 		 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findOneOrNull($studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null){
+  public function findOneOrNull($studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.uid=:studentId')->setParameter('studentId',$studentId)
-            ->andWhere('a.concours=:concours')->setParameter('concours',$concours);
+            ->andWhere('a.session=:session')->setParameter('session',$session);
          if($matiere!=null)
            $qb ->andWhere('a.matiere=:matiere')->setParameter('matiere',$matiere);
          else
@@ -31,22 +31,23 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
 
-    public function findOllFor($studentId, Programme $concours, Matiere $matiere=null){
+
+    public function findOllFor($studentId, Session $session, Matiere $matiere=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.uid=:studentId')->setParameter('studentId',$studentId)
-            ->andWhere('a.concours=:concours')->setParameter('concours',$concours)->andWhere('a.matiere is not null');
+            ->andWhere('a.session=:session')->setParameter('session',$session)->andWhere('a.matiere is not null');
          if($matiere!=null)
            $qb ->andWhere('a.matiere=:matiere')->setParameter('matiere',$matiere)->andWhere('a.partie is not null');
-
           return $qb->getQuery()->getResult();
   }
 
+  
   /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function getIndex(Programme $concours, Matiere $matiere=null, Partie $partie=null){
+  public function getIndex(Session $session, Matiere $matiere=null, Partie $partie=null){
          $qb = $this->createQueryBuilder('a')
-          ->where('a.concours=:concours')->setParameter('concours',$concours);
+          ->where('a.session=:session')->setParameter('session',$session);
          if($matiere!=null)
            $qb ->andWhere('a.matiere=:matiere')->setParameter('matiere',$matiere);
          else
@@ -62,9 +63,9 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
 
 
 
-  public function noteSuperieur10 (Programme $concours, Matiere $matiere=null, Partie $partie=null){
+  public function noteSuperieur10 (Session $session, Matiere $matiere=null, Partie $partie=null){
           $qb = $this->createQueryBuilder('a')
-          ->where('a.concours=:concours')->setParameter('concours',$concours);
+          ->where('a.session=:session')->setParameter('session',$session);
          if($matiere!=null)
             $qb ->andWhere('a.matiere=:matiere')->setParameter('matiere',$matiere);
          else

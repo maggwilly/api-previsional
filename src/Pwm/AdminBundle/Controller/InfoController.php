@@ -3,6 +3,7 @@
 namespace Pwm\AdminBundle\Controller;
 
 use Pwm\AdminBundle\Entity\Info;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -58,31 +59,33 @@ class InfoController extends Controller
         return $form;
     }
 
-        /**
+
+    /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function newJsonAction(Request $request, $email)
-    {     $em = $this->getDoctrine()->getManager();
-         $candidat = $em->getRepository('AdminBundle:Info')->findOneByUid($email);
-        if($candidat!=null)
-            return $this->editAction($request, $candidat);
-            $candidat = new Info($email);
+    public function newJsonAction(Request $request, $registrationId)
+    {      $em = $this->getDoctrine()->getManager();
+           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+            $candidat = new Info();
             $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $candidat);
             $form->submit($request->request->all(),false);
         if ($form->isValid()) {
               $em->persist($candidat);
+              if($registrqtion!=null)
+                  $registrqtion->setInfo($candidat);
               $em->flush();
             return $candidat;
         }
         return $form;
     }
 
+    
     /**
-     * Displays a form to edit an existing analyse entity.
-     *
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"info"})
      */
-    public function editAction(Request $request, Info $info)
+    public function editJsonAction(Request $request, Info $info)
     {
         $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $info);
          $form->submit($request->request->all(),false);
@@ -99,9 +102,9 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function showJsonAction( $email){
-         $em = $this->getDoctrine()->getManager();
-          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($email);
+    public function showJsonAction(Request $request,Info $info){
+         //$em = $this->getDoctrine()->getManager();
+          //$info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
         return $info;
     }
 

@@ -1,0 +1,15 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}NOUVELLE SESSION{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('session_index',{ 'id': concour.id }) }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

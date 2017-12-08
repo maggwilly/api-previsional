@@ -1,30 +1,26 @@
-concours_index:
+programme_index:
     path:     /
     defaults: { _controller: "AppBundle:Programme:index" }
     methods:  GET
 
 
-concours_show:
+programme_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Programme:show" }
     methods:  GET
 
-concours_new:
+programme_new:
     path:     /new
     defaults: { _controller: "AppBundle:Programme:new" }
     methods:  [GET, POST]
 
-concours_edit:
+programme_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Programme:edit" }
     methods:  [GET, POST]
 
-concours_delete:
+programme_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Programme:delete" }
     methods:  DELETE
 
-concours_show_from_mobile:
-    path:     /{id}/show/from/mobile
-    defaults: { _controller: "AppBundle:Programme:showFromMobile" }
-    methods:  GET

@@ -1,17 +1,33 @@
 article_index_json:
     path:     /article/{start}/json
-    defaults: { _controller: "AppBundle:Article:jsonIndex",, start:0 }
+    defaults: { _controller: "AppBundle:Article:jsonIndex", start:0 }
     methods:  GET
 
-concours_index_json:
+programme_index_json:
     path:     /concours/{start}/json
     defaults: { _controller: "AppBundle:Programme:jsonIndex", start:0}
     methods:  GET
 
-concours_show_json:
+programme_show_json:
     path:     /concours/{id}/show/json
     defaults: { _controller: "AppBundle:Programme:showJson" }
     methods:  GET
+
+session_index_json:
+    path:     /session/{start}/json
+    defaults: { _controller: "AppBundle:Session:jsonIndex", start:0}
+    methods:  GET
+
+session_show_json:
+    path:     /session/{id}/show/json
+    defaults: { _controller: "AppBundle:Session:showJson" }
+    methods:  GET
+
+session_follow_json:
+    path:     /session/{session}/{info}/follows/json
+    defaults: { _controller: "AppBundle:Session:follows" }
+    methods:  GET
+
 
 article_show_json:
     path:     /article/{id}/show/json

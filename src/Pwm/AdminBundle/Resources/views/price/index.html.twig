@@ -1,0 +1,43 @@
+{% extends "AdminBundle::layout.html.twig" %}
+{% block title %}TARIFAIRE{% endblock %}
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Starter</th>
+                <th>Standard</th>
+                <th>Premium</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for price in prices %}
+            <tr>
+                <td><a href="{{ path('price_show', { 'id': price.id }) }}">{{ price.id }}</a></td>
+                <td>{{ price.nom }}</td>
+                <td>{{ price.starter }}</td>
+                <td>{{ price.standard }}</td>
+                <td>{{ price.premium }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('price_show', { 'id': price.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('price_edit', { 'id': price.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('price_new') }}">Create a new price</a>
+        </li>
+    </ul>
+{% endblock %}

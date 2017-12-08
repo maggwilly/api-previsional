@@ -1,0 +1,9 @@
+Pwm\AdminBundle\Entity\Price:
+    exclusion_policy: none
+    properties:
+        starter:
+             groups: ['price', 'session','full']             
+        standard:
+             groups: ['price', 'session','full']
+        premium:
+             groups: ['price', 'session','full']

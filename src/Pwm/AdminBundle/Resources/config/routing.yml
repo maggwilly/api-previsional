@@ -11,6 +11,10 @@ admin_abonnement:
     resource: "@AdminBundle/Resources/config/routing/abonnement.yml"
     prefix:   /abonnement
 
+admin_price:
+    resource: "@AdminBundle/Resources/config/routing/price.yml"
+    prefix:   /price
+
 admin_info:
     resource: "@AdminBundle/Resources/config/routing/info.yml"
     prefix:   /info

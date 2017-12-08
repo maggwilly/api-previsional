@@ -1,0 +1,19 @@
+pub_index_json:
+    path:     /pub/json
+    defaults: { _controller: "MessagerBundle:Pub:jsonIndex", }
+    methods:  GET
+
+sending_index_json:
+    path:     /sending/{registrationId}/{start}/json
+    defaults: { _controller: "MessagerBundle:Sending:jsonIndex", start:0 }
+    methods:  GET
+
+sending_edit_json:
+    path:     /sending/edit/message/{id}/json
+    defaults: { _controller: "MessagerBundle:Sending:editJson" }
+    methods:  [GET, POST]
+
+sending_new_json:
+    path:     /registration/{registrationId}/new/json
+    defaults: { _controller: "MessagerBundle:Sending:newJson" }
+    methods:  [GET, POST]

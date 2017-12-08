@@ -2,44 +2,6 @@ AppBundle\Entity\Programme:
     exclusion_policy: none
     properties:
         id:
-            groups: ['programme', 'full','abonnement']
-        nom:
-             groups: ['programme', 'full','abonnement']
-        price:
-             groups: ['programme', 'full','abonnement']                
-        ecole:
-             groups: ['programme', 'full','abonnement']
-        programme:
-             groups: ['programme', 'full','abonnement'] 
-        nombreInscrit:
-             groups: ['programme', 'full','abonnement']              
-        abreviation:
-             groups: ['programme', 'full','abonnement']  
-        nombrePlace:
-             groups: ['programme', 'full','abonnement']              
-        dateConcours:
-             groups: ['programme', 'full','abonnement']
-             expose: true
-             type: DateTime<'Y-m-d'>           
-        dateDossier:
-             groups: ['programme', 'full','abonnement']
-             expose: true
-             type: DateTime<'Y-m-d'> 
-        liens:
-             groups: ['programme', 'full','abonnement']                                   
-        image:
-             groups: [ 'full']
-        type:
-             groups: ['programme', 'full']
-        session:
-             groups: ['programme', 'full']
-        descriptionEcole:
-             groups: [ 'full']
-        descriptionConcours:
-             groups: ['full']
-        contact:
-             groups: [ 'full']
-        resultats:
-             groups: ['programme', 'full']           
-    callback_methods:
-        pre_serialize: ['getProgramme','getPrice']
+            groups: ['session','programme', 'full','abonnement']
+        nom:  
+            groups: ['session','programme', 'full','abonnement']         

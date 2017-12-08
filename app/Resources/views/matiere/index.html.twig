@@ -1,10 +1,10 @@
 {% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ concour.nom }} #ID {{ concour.programme }}{% endblock %}
+{% block title %}{{ concour.nom|upper }} #ID - MATIERES{% endblock %}
 {% block body %}
 <div class="col-md-12">
 <div class="card">
   <div class="card-header" data-background-color="purple">
-   <h4 class="title">Les TD et epreuves</h4>
+   <h4 class="title">Matières</h4>
 	  <p class="category">Differentes matieres </p>
 	</div>
 	 <div class="card-content table-responsive">

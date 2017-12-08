@@ -5,6 +5,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Pwm\MessagerBundle\Form\RegistrationType;
 class InfoType extends AbstractType
 {
     /**
@@ -15,13 +17,13 @@ class InfoType extends AbstractType
         $builder
         ->add('displayName')
         ->add('email')
+        ->add('uid')
         ->add('photoURL')
-        ->add('file',FileType::class, array('label' => ''))
-        ->add('langue');
-        ->add('phone');
-        ->add('ville');
-        ->add('branche');
-        ->add('paymentMethod');
+        ->add('langue')
+        ->add('phone')
+        ->add('ville')
+        ->add('branche')
+        ->add('paymentMethod')
         ->add('enableNotifications');        
     }
     

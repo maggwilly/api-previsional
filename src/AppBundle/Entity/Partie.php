@@ -34,6 +34,12 @@ class Partie
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
 
     /**
      * @var string

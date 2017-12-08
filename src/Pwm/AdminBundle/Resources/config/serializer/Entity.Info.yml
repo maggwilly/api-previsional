@@ -1,6 +1,8 @@
 Pwm\AdminBundle\Entity\Info:
     exclusion_policy: none
     properties:
+        uid:
+             groups: ['info', 'full']         
         email:
              groups: ['info', 'full']             
         displayName:

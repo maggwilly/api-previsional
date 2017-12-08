@@ -14,7 +14,7 @@ app:
 
 user_homepage:
     path:     /
-    defaults: { _controller: "AppBundle:Programme:index" }
+    defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
 
 

@@ -82,17 +82,17 @@ class Analyse
     private $programme;
 
 
-       /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme" )
-   */
-    private $concours;
+     /**
+      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session",inversedBy="analyses")
+     */
+    private $session;
 
-       /**
+    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere")
    */
     private $matiere;
 
-       /**
+    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Partie" )
    */
     private $partie;
@@ -115,12 +115,12 @@ class Analyse
      /**
      * Constructor
      */
-    public function __construct($studentId=null, Programme $concours, Matiere $matiere=null, Partie $partie=null)
+    public function __construct($studentId=null, Session $session, Matiere $matiere=null, Partie $partie=null)
     {
         $this->uid =$studentId;
         $this->partie=$partie;
          $this->matiere=$matiere;
-        $this->concours=$concours;
+        $this->session=$session;
     }
     /**
      * Get id
@@ -228,29 +228,6 @@ class Analyse
         return $this->studentId;
     }
 
-    /**
-     * Set concours
-     *
-     * @param \Pwm\AdminBundle\Entity\Programme $concours
-     *
-     * @return Analyse
-     */
-    public function setConcours(\AppBundle\Entity\Programme $concours = null)
-    {
-        $this->concours = $concours;
-
-        return $this;
-    }
-
-    /**
-     * Get concours
-     *
-     * @return \Pwm\AdminBundle\Entity\Programme
-     */
-    public function getConcours()
-    {
-        return $this->concours;
-    }
 
     /**
      * Set matiere
@@ -488,5 +465,53 @@ class Analyse
     public function getSup10()
     {
         return $this->sup10;
+    }
+
+    /**
+     * Set uid
+     *
+     * @param string $uid
+     *
+     * @return Analyse
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return string
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * Set session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Analyse
+     */
+    public function setSession(\AppBundle\Entity\Session $session = null)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return \AppBundle\Entity\Session
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }

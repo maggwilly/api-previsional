@@ -1,0 +1,49 @@
+{% extends "MessagerBundle::layout.html.twig" %}
+
+{% block body %}
+    <h1>Notifications list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Soustitre</th>
+                <th>Url</th>
+                <th>Date</th>
+                <th>Includemail</th>
+                <th>Sendnow</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for notification in notifications %}
+            <tr>
+                <td><a href="{{ path('notification_show', { 'id': notification.id }) }}">{{ notification.id }}</a></td>
+                <td>{{ notification.titre }}</td>
+                <td>{{ notification.sousTitre }}</td>
+                <td>{{ notification.url }}</td>
+                <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if notification.includeMail %}Yes{% else %}No{% endif %}</td>
+                <td>{% if notification.sendNow %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('notification_show', { 'id': notification.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('notification_edit', { 'id': notification.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('notification_new') }}">Create a new notification</a>
+        </li>
+    </ul>
+{% endblock %}

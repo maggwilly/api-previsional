@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class PartieType extends AbstractType
 {
     /**
@@ -16,6 +17,10 @@ class PartieType extends AbstractType
         $builder->add('titre')
         ->add('prerequis')
         ->add('cours')
+        ->add('type', ChoiceType::class, array(
+                                 'choices'  => array(
+                                  'TD' => 'Travaux dirigés', 'EP' => 'Ancienne épreuve'),
+                                   ))
         ->add('objectif');
     }
     

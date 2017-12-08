@@ -23,21 +23,12 @@ class ProgrammeController extends Controller
 
         $concours = $em->getRepository('AppBundle:Programme')->findAll();
 
-        return $this->render('concours/index.html.twig', array(
+        return $this->render('programme/index.html.twig', array(
             'concours' => $concours,
         ));
     }
 
-    /**
-     * Finds and displays a question entity.
-     *
-     */
-    public function showFromMobileAction(Programme $programme)
-    {
-        return $this->render('concours/showFromMobile.html.twig', array(
-            'concours' => $programme,
-        ));
-    }
+
 
     /**
      * Lists all Produit entities.
@@ -76,7 +67,7 @@ class ProgrammeController extends Controller
             $em->flush($concours);
             return $this->redirectToRoute('concours_show', array('id' => $concours->getId()));
         }
-        return $this->render('concours/new.html.twig', array(
+        return $this->render('programme/new.html.twig', array(
             'concour' => $concours,
             'form' => $form->createView(),
         ));
@@ -90,7 +81,7 @@ class ProgrammeController extends Controller
     {
         $deleteForm = $this->createDeleteForm($concour);
 
- return $this->render('concours/show.html.twig', array(
+ return $this->render('programme/show.html.twig', array(
       'concour' => $concour, 'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -111,7 +102,7 @@ class ProgrammeController extends Controller
             return $this->redirectToRoute('concours_edit', array('id' => $concour->getId()));
         }
 
-        return $this->render('concours/edit.html.twig', array(
+        return $this->render('programme/edit.html.twig', array(
             'concour' => $concour,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

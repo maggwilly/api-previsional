@@ -1,0 +1,37 @@
+AppBundle\Entity\Session:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['session', 'full','abonnement']
+        nom:
+             groups: ['session', 'full','abonnement']             
+        price:
+             groups: [ 'session','full','abonnement'] 
+        type:
+             groups: ['session', 'full']             
+        nombreInscrit:
+             groups: [ 'full','abonnement']                              
+        nombrePlace:
+             groups: ['session', 'full','abonnement']              
+        dateConcours:
+             groups: ['session', 'full','abonnement']
+             expose: true
+             type: DateTime<'Y-m-d'>           
+        dateDossier:
+             groups: ['session', 'full','abonnement']
+             expose: true
+             type: DateTime<'Y-m-d'>  
+        dateLancement:
+             groups: ['full','abonnement']
+             expose: true
+             type: DateTime<'Y-m-d'>  
+        abreviation:
+             groups: [ 'full','abonnement']                            
+        annee:
+             groups: [ 'full']
+        liens:
+             groups: ['session', 'full','abonnement']  
+        preparation:
+             groups: ['session', 'full','abonnement']   
+        concours:
+             groups: ['session', 'full','abonnement']                              

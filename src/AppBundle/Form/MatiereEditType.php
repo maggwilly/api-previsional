@@ -26,11 +26,7 @@ class MatiereEditType extends AbstractType
                             return $val->getProgramme()->getNom();
                            }
                   ))
-                
-                ->add('categorie', ChoiceType::class, array(
-                                 'choices'  => array(
-                                  'prepa' => 'Travaux dirigés'),
-                                   ));
+;
     }
     
     /**

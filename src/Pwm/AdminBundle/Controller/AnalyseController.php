@@ -5,7 +5,7 @@ namespace Pwm\AdminBundle\Controller;
 use Pwm\AdminBundle\Entity\Analyse;
 use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Partie;
-use AppBundle\Entity\Programme;
+use AppBundle\Entity\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -58,33 +58,33 @@ class AnalyseController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"analyse"})
      */
-    public function newJsonAction(Request $request,$studentId, Programme $concours, Matiere $matiere, Partie $partie)
+    public function newJsonAction(Request $request,$studentId, Session $session, Matiere $matiere, Partie $partie)
     {   $em = $this->getDoctrine()->getManager();
-         $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie);
+         $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie);
          if($analyse!=null)
-             return $this->editAction($request, $analyse,$studentId,$concours,$matiere,$partie);
-        $analyse = new Analyse($studentId, $concours, $matiere, $partie);
+             return $this->editAction($request, $analyse,$studentId,$session,$matiere,$partie);
+        $analyse = new Analyse($studentId, $session, $matiere, $partie);
         $form = $this->createForm('Pwm\AdminBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
               $em = $this->getDoctrine()->getManager();
               $em->persist($analyse);
               $em->flush();
-            return  array('partie'=>$this->showJsonAction($studentId, $concours, $matiere, $partie), 'parents'=>$this->newParent($studentId,$concours,$matiere));
+            return  array('partie'=>$this->showJsonAction($studentId, $session, $matiere, $partie), 'parents'=>$this->newParent($studentId,$session,$matiere));
         }
         return $form;
     }
 
     
-    public function newParent($studentId,Programme $concours, Matiere $matiere=null){
+    public function newParent($studentId,Session $session, Matiere $matiere=null){
         $em = $this->getDoctrine()->getManager();
-        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere);
+        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere);
             if($analyse==null){
-                 $analyse = new Analyse($studentId, $concours, $matiere);
+                 $analyse = new Analyse($studentId, $session, $matiere);
                  $em->persist($analyse);
               //   $em->flush();
             }
-          $analyses = $em->getRepository('AdminBundle:Analyse')->findOllFor($studentId,$concours,$matiere);
+          $analyses = $em->getRepository('AdminBundle:Analyse')->findOllFor($studentId,$session,$matiere);
           $nombre= count($analyses);
           $note=0; $programme=0; $objectif=0; 
           $poids=0;
@@ -99,12 +99,12 @@ class AnalyseController extends Controller
               if($matiere!=null){
                  $analyse->setProgramme($nombre*100/$matiere->getParties()->count());
                  $em->flush();
-                 return array('matiere'=>$this->showJsonAction($studentId,$concours,$matiere),'concours'=> $this->newParent($studentId, $concours));
+                 return array('matiere'=>$this->showJsonAction($studentId,$session,$matiere),'concours'=> $this->newParent($studentId, $session));
               }
                else
                  $analyse->setProgramme($nombre>0?$programme/$nombre:null);
                  $em->flush();
-               return $this->showJsonAction($studentId,$concours); 
+               return $this->showJsonAction($studentId,$session); 
           
       }
 
@@ -113,14 +113,14 @@ class AnalyseController extends Controller
      * Displays a form to edit an existing analyse entity.
      *
      */
-    public function editAction(Request $request, Analyse $analyse,$studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null)
+    public function editAction(Request $request, Analyse $analyse,$studentId, Session $session, Matiere $matiere=null, Partie $partie=null)
     {
         $form = $this->createForm('Pwm\AdminBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return array('partie'=>$this->showJsonAction($studentId, $concours, $matiere, $partie), 'parents'=>$this->newParent($studentId,$concours,$matiere));
+            return array('partie'=>$this->showJsonAction($studentId, $session, $matiere, $partie), 'parents'=>$this->newParent($studentId,$session,$matiere));
         }
         return $form;
     }
@@ -129,73 +129,22 @@ class AnalyseController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"analyse"})
      */
-    public function showJsonAction($studentId, Programme $concours, Matiere $matiere=null, Partie $partie=null){
+    public function showJsonAction($studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
         $em = $this->getDoctrine()->getManager();
-        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$concours,$matiere,$partie); 
+        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie); 
          if($analyse!=null){
-         if($concours->getId()==9||$concours->getId()==14){
-             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+557;
-              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+1839;
+             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+557;
+              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1839;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($concours,$matiere,$partie);
+              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+11);
-                if($analyse->getNote()<=1)
-                   $analyse->setRang($key+1+1810);
-               elseif($analyse->getNote()<2)
-                   $analyse->setRang($key+1+1710);
-               elseif($analyse->getNote()<3)
-                   $analyse->setRang($key+1+1610);               
-               elseif($analyse->getNote()<5)
-                   $analyse->setRang($key+1+1510);
-               elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+1310);
-               elseif($analyse->getNote()<8)
-                   $analyse->setRang($key+1+1110);
-               elseif($analyse->getNote()<9)
-                   $analyse->setRang($key+1+1010);
-               elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+910);
-                elseif($analyse->getNote()<11)
-                   $analyse->setRang($key+1+810);
-                elseif($analyse->getNote()<12)
-                   $analyse->setRang($key+1+700);                
-                elseif($analyse->getNote()<13)
-                   $analyse->setRang($key+1+610);
-                elseif($analyse->getNote()<14)
-                   $analyse->setRang($key+1+510);
-                elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+410);
-                elseif($analyse->getNote()<16)
-                   $analyse->setRang($key+1+310);
-                elseif($analyse->getNote()<17)
-                   $analyse->setRang($key+1+210);
-                elseif($analyse->getNote()<18)
-                   $analyse->setRang($key+1+100); 
-                 elseif($analyse->getNote()<19)
-                   $analyse->setRang($key+1+60);                
-                 elseif($analyse->getNote()<=20)
-                   $analyse->setRang($key+1+3);
+                $analyse->setDememe($value['dememe']);
+                 $analyse->setRang($key+1);
+
           }
-        }
-
-
-
-    }else{
-            $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['sup10']+7;
-            $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($concours,$matiere,$partie)[0]['nombre']+260;
-            $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
-            $analyse->setEvalues($nombre);
-            $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($concours,$matiere,$partie);     
-         foreach ($analyseData as $key => $value) {
-            if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+2);
-                   $analyse->setRang($key+1+21);
-          }
-        }       
-    } 
+        } 
     }
         return  $analyse;
            

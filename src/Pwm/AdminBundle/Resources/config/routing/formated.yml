@@ -1,50 +1,56 @@
 abonnement_index_json:
-    path:     /abonnement/{studentId}/json
+    path:     /abonnement/{info}/json
     defaults: { _controller: "AdminBundle:Abonnement:indexJson"}
     methods:  GET
 
-abonnement_new_json:
-    path:     /abonnement/{id}/new/json
-    defaults: { _controller: "AdminBundle:Abonnement:newJson" ,id:0}
-    methods:  [GET,POST]
-  
-abonnement_show_json:
-    path:     /abonnement/{studentId}/{id}/json
+get_token_json:
+    path:     /commende/token
+    defaults: { _controller: "AdminBundle:Abonnement:token"}
+    methods:  [GET,POST] 
+
+commende_start_json:
+    path:     /commende/{info}/{session}/{package}/json
+    defaults: { _controller: "AdminBundle:Abonnement:startCommande"}
+    methods:  [GET,POST] 
+
+commende_confirm_json:
+    path:     /commende/{id}/confirm/json
+    defaults: { _controller: "AdminBundle:Abonnement:confirmCommande"}
+    methods:  [GET,POST] 
+
+commende_cancel_json:
+    path:     /commende/{id}/cancel/json
+    defaults: { _controller: "AdminBundle:Abonnement:cancelCommande"}
+    methods:  DELETE 
+
+
+abonnent_show_json:
+    path:     /abonnement/{info}/{id}/json
     defaults: { _controller: "AdminBundle:Abonnement:showJson"}
     methods:  [GET,POST] 
 
-candidat_new_json:
-    path:     /candidat/{studentId}/new/json
-    defaults: { _controller: "AdminBundle:Candidat:newJson" }
-    methods:  [GET,POST]
-  
-candidat_show_json:
-    path:     /candidat/{studentId}/json
-    defaults: { _controller: "AdminBundle:Candidat:showJson"}
-    methods:  [GET,POST] 
-
 info_new_json:
-    path:     /info/{email}/new/json
+    path:     /info/{registrationId}/new/json
     defaults: { _controller: "AdminBundle:Info:newJson" }
     methods:  [GET,POST]
  
-info_edit_picture:
-    path:     /info/{email}/picture
-    defaults: { _controller: "AdminBundle:Info:editPicture" }
+info_edit_json:
+    path:     /info/{id}/edit/json
+    defaults: { _controller: "AdminBundle:Info:editJson" }
     methods:  [GET,POST] 
 
 info_show_json:
-    path:     /info/{email}/json
+    path:     /info/{uid}/show/json
     defaults: { _controller: "AdminBundle:Info:showJson"}
     methods:  [GET,POST] 
 
 
 analyse_new_json:
-    path:     /analyse/{studentId}/{concours}/{matiere}/{partie}/new/json
+    path:     /analyse/{studentId}/{session}/{matiere}/{partie}/new/json
     defaults: { _controller: "AdminBundle:Analyse:newJson" ,matiere:0,partie:0}
     methods:  [GET,POST]
   
 analyse_show_json:
-    path:     /analyse/{studentId}/{concours}/{matiere}/{partie}/json
+    path:     /analyse/{studentId}/{session}/{matiere}/{partie}/json
     defaults: { _controller: "AdminBundle:Analyse:showJson",matiere:0,partie:0}
     methods:  [GET,POST]      

@@ -22,8 +22,7 @@ class ProgrammeType extends AbstractType
         ->add('dateConcours')
         ->add('dateDossier')
         ->add('image')
-        ->add('contact')
-        ->add('resultats') ;
+        ->add('contact');
     }
     
     /**

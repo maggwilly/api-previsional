@@ -94,27 +94,42 @@ class Abonnement
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
      private $email;
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="uid", type="string", length=255)
-     */
-    private $uid;
+
+
+    /**
+   * @ORM\ManyToOne(targetEntity="Info" )
+    * @ORM\JoinColumn(name="uid",referencedColumnName="uid")
+   */
+    private $info;
 
 
   /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme" ,inversedBy="matieres")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" ,inversedBy="abonnements")
+   */
+    private $session;
+  /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme")
    */
     private $programme;
+
+  /**
+   * @ORM\ManyToOne(targetEntity="Commande")
+   */
+    private $commande;
 
 
      /**
      * Constructor
      */
-    public function __construct($studentId=null)
+    public function __construct(\Pwm\AdminBundle\Entity\Commande $commande )
     {
-        $this->uid =$studentId;
-        $this->studentId =$studentId;
+       $this->status=$commande->getStatus();
+        $this->plan=$commande->getPackage();
+        $this->price=$commande->getAmount();
+        $this->info=$commande->getInfo();
+        $this->session=$commande->getSession();
+        $this->commande=$commande;
+        $this->method='OM';
         $this->date=new \DateTime();
     }
 
@@ -126,14 +141,17 @@ class Abonnement
     public function PrePersist(){
           $this->endDate=new \DateTime();
            $this->startDate=new \DateTime();
-         if ($this->plan=='free') {
-              $this->endDate->modify('+10 day');
-         }elseif ($this->plan=='full') {
-            // $this->endDate->modify('+91 day');
-             $this->endDate->modify('+2 day');
-         }if($this->user!=null)
-         $this->method='espece';
-    $this->status='confirmed';
+           switch ($this->plan) {
+               case 'starter':
+                 $this->endDate->modify('+15 day');
+                   break;
+               case 'standard':
+                     $this->endDate->modify('+45 day');
+                   break;               
+               default:
+                   $this->endDate->modify('+240 day');
+                   break;
+           }
     }
 
 
@@ -281,28 +299,6 @@ class Abonnement
         return $this->method;
     }
 
-        /**
-     * Set concours
-     *
-     * @param \Pwm\AdminBundle\Entity\Programme $concours
-     * @return Matiere
-     */
-    public function setProgramme(\AppBundle\Entity\Programme $concours = null)
-    {
-        $this->programme = $concours;
-
-        return $this;
-    }
-
-    /**
-     * Get concours
-     *
-     * @return \Pwm\AdminBundle\Entity\Programme 
-     */
-    public function getProgramme()
-    {
-        return $this->programme;
-    }
 
     /**
      * Set plan
@@ -445,5 +441,101 @@ class Abonnement
     public function getTelPaidNumber()
     {
         return $this->tel_paid_number;
+    }
+
+
+         /**
+     * Set concours
+     *
+     * @param \AppBundle\Entity\Programme $concours
+     * @return Matiere
+     */
+    public function setProgramme(\AppBundle\Entity\Programme $concours = null)
+    {
+        $this->programme = $concours;
+
+        return $this;
+    }
+
+    /**
+     * Get concours
+     *
+     * @return \AppBundle\Entity\Programme 
+     */
+    public function getProgramme()
+    {
+        return $this->programme;
+    }   
+
+    /**
+     * Set session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Abonnement
+     */
+    public function setSession(\AppBundle\Entity\Session $session = null)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return \AppBundle\Entity\Session
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * Set commande
+     *
+     * @param \Pwm\AdminBundle\Entity\Commande $commande
+     *
+     * @return Abonnement
+     */
+    public function setCommande(\Pwm\AdminBundle\Entity\Commande $commande = null)
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Get commande
+     *
+     * @return \Pwm\AdminBundle\Entity\Commande
+     */
+    public function getCommande()
+    {
+        return $this->commande;
+    }
+
+    /**
+     * Set info
+     *
+     * @param \Pwm\AdminBundle\Entity\Info $info
+     *
+     * @return Abonnement
+     */
+    public function setInfo(\Pwm\AdminBundle\Entity\Info $info = null)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    /**
+     * Get info
+     *
+     * @return \Pwm\AdminBundle\Entity\Info
+     */
+    public function getInfo()
+    {
+        return $this->info;
     }
 }

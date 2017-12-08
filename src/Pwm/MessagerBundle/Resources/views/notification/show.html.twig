@@ -1,0 +1,66 @@
+{% extends "MessagerBundle::layout.html.twig" %}
+{% block body %}
+    <h1>Notification</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ notification.id }}</td>
+            </tr>
+            <tr>
+                <th>Send Status</th>
+                <td>{{ result }}</td>
+            </tr>            
+            <tr>
+                <th>Titre</th>
+                <td>{{ notification.titre }}</td>
+            </tr>
+
+            <tr>
+                <th>Soustitre</th>
+                <td>{{ notification.sousTitre }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ notification.url }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Includemail</th>
+                <td>{% if notification.includeMail %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sendnow</th>
+                <td>{% if notification.sendNow %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ notification.text| raw }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('notification_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('notification_edit', { 'id': notification.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(send_form) }}
+                <input type="submit" value="SEND">
+            {{ form_end(send_form) }}
+        </li>
+
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

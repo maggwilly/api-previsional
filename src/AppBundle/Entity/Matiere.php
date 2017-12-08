@@ -67,7 +67,7 @@ class Matiere
     /**
      * @var string
      *
-     * @ORM\Column(name="categorie", type="string", length=255)
+     * @ORM\Column(name="categorie", type="string", length=255, nullable=true)
      */
     private $categorie;
 

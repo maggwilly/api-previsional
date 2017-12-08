@@ -1,0 +1,62 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}{{session.concours.nom|upper}} - {{ session.nom|upper }}{% endblock %}
+{% block body %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ session.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ session.nom }}</td>
+            </tr>
+            <tr>
+                <th>Ecole</th>
+                <td>{{ session.ecole }}</td>
+            </tr>
+            <tr>
+                <th>Abreviation</th>
+                <td>{{ session.abreviation }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ session.price }}</td>
+            </tr>
+            <tr>
+                <th>Nombreplace</th>
+                <td>{{ session.nombrePlace }}</td>
+            </tr>
+            <tr>
+                <th>Nombreinscrit</th>
+                <td>{{ session.nombreInscrit }}</td>
+            </tr>
+            <tr>
+                <th>Datelancement</th>
+                <td>{% if session.dateLancement %}{{ session.dateLancement|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Dateconcours</th>
+                <td>{% if session.dateConcours %}{{ session.dateConcours|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datedossier</th>
+                <td>{% if session.dateDossier %}{{ session.dateDossier|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('session_index', { 'id': session.concours.id }) }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('session_edit', { 'id': session.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

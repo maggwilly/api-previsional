@@ -1,0 +1,29 @@
+session_index:
+    path:     /{id}/
+    defaults: { _controller: "AppBundle:Session:index" }
+    methods:  GET
+
+session_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Session:show" }
+    methods:  GET
+
+session_new:
+    path:     /{id}/new
+    defaults: { _controller: "AppBundle:Session:new" }
+    methods:  [GET, POST]
+
+session_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Session:edit" }
+    methods:  [GET, POST]
+
+session_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Session:delete" }
+    methods:  DELETE
+
+session_show_from_mobile:
+    path:     /{id}/show/from/mobile
+    defaults: { _controller: "AppBundle:Session:showFromMobile" }
+    methods:  GET

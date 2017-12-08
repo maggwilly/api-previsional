@@ -18,9 +18,18 @@ app_article:
     resource: "@AppBundle/Resources/config/routing/article.yml"
     prefix:   /article
 
-app_concours:
+app_programme:
     resource: "@AppBundle/Resources/config/routing/programme.yml"
     prefix:   /programme
+
+app_session:
+    resource: "@AppBundle/Resources/config/routing/session.yml"
+    prefix:   /session
+
+
+app_concours:
+    resource: "@AppBundle/Resources/config/routing/concours.yml"
+    prefix:   /concours
 
 app_formated:
     resource: "@AppBundle/Resources/config/routing/formated.yml"

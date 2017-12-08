@@ -16,11 +16,7 @@ class MatiereType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre')
-                ->add('description')->add('poids')->add('otherRessourcesLink')
-                ->add('categorie', ChoiceType::class, array(
-                                 'choices'  => array(
-                                  'prepa' => 'Travaux dirigés'),
-                                   ));
+                ->add('description')->add('poids');
     }
     
     /**
