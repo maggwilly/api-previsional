@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Abonnement
  *
- * @ORM\Table(name="abonnement")
+ * @ORM\Table(name="abonnement_")
  * @ORM\Entity(repositoryClass="Pwm\AdminBundle\Repository\AbonnementRepository")
  * @ORM\HasLifecycleCallbacks
  */
