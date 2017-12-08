@@ -85,7 +85,7 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function editJsonAction(Request $request, Info $info)
+    public function editJsonAction(Request $request, Info $info=null)
     {
         $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $info);
          $form->submit($request->request->all(),false);
