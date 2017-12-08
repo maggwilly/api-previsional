@@ -85,7 +85,7 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function editJsonAction(Request $request, Info $info=null)
+    public function editJsonAction(Request $request, Info $info)
     {
         $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $info);
          $form->submit($request->request->all(),false);
@@ -102,9 +102,9 @@ class InfoController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
      */
-    public function showJsonAction(Request $request,Info $info){
-         //$em = $this->getDoctrine()->getManager();
-          //$info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
+    public function showJsonAction(Request $request,$uid){
+         $em = $this->getDoctrine()->getManager();
+          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
         return $info;
     }
 
