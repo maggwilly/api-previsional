@@ -121,7 +121,7 @@ class Session
 
 
       /**
-   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist","remove"})
+   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist"})
    * @ORM\JoinTable(joinColumns={ @ORM\JoinColumn(name="session_id",referencedColumnName="id")},
                     inverseJoinColumns={ @ORM\JoinColumn(name="info_uid",referencedColumnName="uid")}
              )

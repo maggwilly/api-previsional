@@ -22,11 +22,9 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
 }
 
     function findByUser($session, $uid){
-       $qb =$this->createQueryBuilder('a');
+       $qb =$this->createQueryBuilder('a')->where('a.id=:session') ->setParameter('session', $session) ->leftJoin('a.infos', 'i');
         return   $qb
-            ->leftJoin('a.infos', 'i')->where('a.uid=:uid') 
-            ->add('where', $qb->expr()->in('i', ':i') )
-            ->setParameter('i', $uid)
+             ->andWhere('i.uid=:uid')  ->setParameter('uid', $uid) 
             ->getQuery()
             ->getResult();
     }
