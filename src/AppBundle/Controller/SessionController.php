@@ -113,18 +113,17 @@ class SessionController extends Controller
                     case 'true':
                         $session->addInfo($info);
                          $this->getDoctrine()->getManager()->flush();
-                         return  array('success'=>true);
+                         return  true;
                     case 'false':
                           $session->removeInfo($info);
                            $this->getDoctrine()->getManager()->flush();
-                        return  array('success'=>false);                    
+                        return  false;                    
                     default:
-                         ;
-                    return array('success'=>!empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info)));  
+                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info));  
                 }
      
           }
-         return  array('success'=>false);
+         return  false;
     }
 
     /**
