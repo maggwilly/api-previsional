@@ -588,7 +588,10 @@ class Session
      */
     public function removeInfo(\Pwm\AdminBundle\Entity\Info $info)
     {
-        $this->infos->removeElement($info);
+        foreach ($this->infos as $key => $value) {
+            if($info->getUid()==$value->getUid())
+                unset($this->infos[$key]);
+        }  
     }
 
     /**
