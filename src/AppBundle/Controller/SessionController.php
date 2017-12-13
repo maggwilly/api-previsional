@@ -47,6 +47,9 @@ class SessionController extends Controller
         return $session;
     }
 
+
+
+
     /**
      * Creates a new session entity.
      *
@@ -101,14 +104,27 @@ class SessionController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function followsAction(Request $request,Session $session,Info $info)
+    public function followsAction(Request $request,Session $session, Info $info)
     {
+         $status=$request->query->get('status');
+
           if ($session!=null && $info!=null) {
-                $session->removeInfo($info);
-                $session->addInfo($info);
-                $this->getDoctrine()->getManager()->flush();
+                switch ($status) {
+                    case 'true':
+                        $session->addInfo($info);
+                         $this->getDoctrine()->getManager()->flush();
+                         return  array('success'=>true);
+                    case 'false':
+                          $session->removeInfo($info);
+                           $this->getDoctrine()->getManager()->flush();
+                        return  array('success'=>false);                    
+                    default:
+                         ;
+                    return array('success'=>!empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info)));  
+                }
+     
           }
-         return  array('success'=>true);
+         return  array('success'=>false);
     }
 
     /**
