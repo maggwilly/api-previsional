@@ -119,7 +119,7 @@ class SessionController extends Controller
                            $this->getDoctrine()->getManager()->flush();
                         return  false;                    
                     default:
-                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info));  
+                    return $this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info);  
                 }
      
           }
