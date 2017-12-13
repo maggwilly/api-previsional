@@ -14,7 +14,7 @@ class Info
         /**
      * @var string
     * @ORM\Id
-     * @ORM\Column(name="uid", type="string", length=255)
+     * @ORM\Column(name="uid", type="string", length=255, nullable=false)
      */
     private $uid;
 
@@ -100,9 +100,9 @@ class Info
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($uid=null)
     {
-    
+         $this->uid=$uid;
     }
 
 

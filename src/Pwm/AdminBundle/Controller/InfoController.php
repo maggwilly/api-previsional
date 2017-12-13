@@ -60,27 +60,8 @@ class InfoController extends Controller
     }
 
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"info"})
-     */
-    public function newJsonAction(Request $request, $registrationId)
-    {      $em = $this->getDoctrine()->getManager();
-           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-            $candidat = new Info();
-            $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $candidat);
-            $form->submit($request->request->all(),false);
-        if ($form->isValid()) {
-              $em->persist($candidat);
-              if($registrqtion!=null)
-                  $registrqtion->setInfo($candidat);
-              $em->flush();
-            return $candidat;
-        }
-        return $form;
-    }
 
-    
+
     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"info"})
@@ -104,10 +85,52 @@ class InfoController extends Controller
      */
     public function showJsonAction(Request $request,$uid){
          $em = $this->getDoctrine()->getManager();
-          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
-        return $info;
+         $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
+         $registrationId=$request->query->get('registrationId');
+         $registration = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+           if(is_null($info)){
+            $info = new Info($uid);
+            $form = $this->createForm('Pwm\AdminBundle\Form\InfoType',$info);
+            $json = $this-> findFirebase($uid);
+            $form->submit(json_decode($json, true),false);
+            if (!$form->isValid())
+                 return $form; 
+                $em->persist($info); 
+                 $em->flush(); 
+            }
+            if($registration!=null){
+                    $registration->setInfo($info);
+                  $em->flush();
+              } 
+        return  $info;
     }
 
+    
+public function findFirebase($uid)
+{
+ 
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt_array($curl, array(
+  CURLOPT_URL => "https://trainings-fa73e.firebaseio.com/users/".$uid.".json",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 120,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "GET",
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+curl_close($curl);
+if ($err) 
+  return new $err;
+
+   return $response;
+        
+}
     /**
      * Finds and displays a info entity.
      *

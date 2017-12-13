@@ -29,11 +29,7 @@ abonnent_show_json:
     defaults: { _controller: "AdminBundle:Abonnement:showJson"}
     methods:  [GET,POST] 
 
-info_new_json:
-    path:     /info/{registrationId}/new/json
-    defaults: { _controller: "AdminBundle:Info:newJson" }
-    methods:  [GET,POST]
- 
+
 info_edit_json:
     path:     /info/{id}/edit/json
     defaults: { _controller: "AdminBundle:Info:editJson" }
