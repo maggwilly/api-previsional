@@ -30,7 +30,7 @@ class AnalyseType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Analyse',
+            'data_class' => 'Pwm\AdminBundle\Entity\Analyse',
             'csrf_protection' => false,
             'allow_extra_fields' => true
         ));
