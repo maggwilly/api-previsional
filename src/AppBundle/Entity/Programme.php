@@ -138,7 +138,11 @@ class Programme
      */
     private $contact;
 
-
+      /**
+   * @ORM\OneToMany(targetEntity="Pwm\AdminBundle\Entity\Abonnement", mappedBy="session", cascade={"persist","remove"})
+   */
+    private $abonnements;  
+    
     /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Matiere", mappedBy="programme", cascade={"persist","remove"})
     * @ORM\OrderBy({ "id" = "ASC"})
