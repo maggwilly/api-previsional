@@ -99,7 +99,7 @@ class InfoController extends Controller
                  $em->flush(); 
             }
             if($registration!=null){
-                    $registration->setInfo($info);
+                $registration->setInfo($info);
                   $em->flush();
               } 
         return  $info;
