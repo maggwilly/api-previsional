@@ -3,7 +3,9 @@
 namespace Pwm\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use AppBundle\Entity\Session ;
+use AppBundle\Entity\Matiere ;
+use AppBundle\Entity\Partie ;
 /**
  * Analyse
  *
@@ -115,7 +117,7 @@ class Analyse
      /**
      * Constructor
      */
-    public function __construct($studentId=null, Session $session, Matiere $matiere=null, Partie $partie=null)
+    public function __construct($studentId=null, Session $session = null, Matiere $matiere=null, Partie $partie=null)
     {
         $this->uid =$studentId;
         $this->partie=$partie;

@@ -125,7 +125,7 @@ if ($err) {
     {
          $form = $this->createForm('Pwm\AdminBundle\Form\CommandeType', $commande);
          $form->submit($request->request->all(),false);
-        if ($form->isValid()) {
+        if ($form->isValid()&&$commande->getStatus()=='SUCCESS') {
             $em = $this->getDoctrine()->getManager();
            $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
