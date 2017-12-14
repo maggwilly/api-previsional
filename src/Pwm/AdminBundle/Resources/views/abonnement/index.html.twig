@@ -62,7 +62,6 @@
          <table class="table"  id="my-table">
         <thead>
             <tr>
-                <th>studentId</th>
                 <th>Programme</th>
                 <th>Startdate</th>
                  <th>Enddate</th>
@@ -78,7 +77,6 @@
         <tbody>
         {% for abonnement in abonnements %}
             <tr>
-                <td><a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">{{ abonnement.uid }}</a></td>
                 <td>{{ abonnement.session.concours.nom }}</td>
                 <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                  <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
