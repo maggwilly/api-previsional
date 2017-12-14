@@ -79,7 +79,7 @@
         {% for abonnement in abonnements %}
             <tr>
                 <td><a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">{{ abonnement.uid }}</a></td>
-                <td>{{ abonnement.programme.nom }}</td>
+                <td>{{ abonnement.session.concours.nom }}</td>
                 <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                  <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ abonnement.method }}</td>
