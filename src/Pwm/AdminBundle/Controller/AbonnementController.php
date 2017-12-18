@@ -233,7 +233,7 @@ if ($err) {
             return $this->redirectToRoute('abonnement_show', array('id' => $abonnement->getId()));
         }
 
-        return $this->render('AdminBundle:abonnement/new.html.twig', array(
+        return $this->render('AdminBundle:abonnement:new.html.twig', array(
             'abonnement' => $abonnement,
             'form' => $form->createView(),
         ));
@@ -246,7 +246,7 @@ if ($err) {
     public function showAction(Abonnement $abonnement)
     {
         $deleteForm = $this->createDeleteForm($abonnement);
-        return $this->render('AdminBundle:abonnement/show.html.twig', array(
+        return $this->render('AdminBundle:abonnement:show.html.twig', array(
             'abonnement' => $abonnement,
             'delete_form' => $deleteForm->createView(),
         ));
