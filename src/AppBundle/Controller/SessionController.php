@@ -31,7 +31,7 @@ class SessionController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"session"})
      */
-     public function jsonIndexAction($start=0)
+     public function jsonIndexAction(Request $request,$start=0)
      {
         $all=$request->query->get('all');
          $em = $this->getDoctrine()->getManager();

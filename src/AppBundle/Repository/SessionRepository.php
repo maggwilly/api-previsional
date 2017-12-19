@@ -17,7 +17,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   public function findList($start,$all){
     $qb = $this->createQueryBuilder('s')->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();
-      if(!$all)
+      if($all!='true')
     $query->setFirstResult($start)->setMaxResults(8);
      return $query->getResult();
 }
