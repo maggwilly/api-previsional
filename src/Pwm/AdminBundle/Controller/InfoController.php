@@ -95,12 +95,12 @@ class InfoController extends Controller
             $form->submit(json_decode($json, true),false);
             if (!$form->isValid())
                  return $form; 
-               // $em->persist($info); 
-                // $em->flush(); 
+                $em->persist($info); 
+                 $em->flush(); 
             }
             if($registration!=null){
                 $registration->setInfo($info);
-                 // $em->flush();
+                  $em->flush();
               } 
         return  $info;
     }
