@@ -14,9 +14,10 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
    /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findList($start){
+  public function findList($start,$all){
     $qb = $this->createQueryBuilder('s')->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();
+      if(!$all)
     $query->setFirstResult($start)->setMaxResults(8);
      return $query->getResult();
 }

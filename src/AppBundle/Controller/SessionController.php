@@ -33,8 +33,9 @@ class SessionController extends Controller
      */
      public function jsonIndexAction($start=0)
      {
+        $all=$request->query->get('all');
          $em = $this->getDoctrine()->getManager();
-          $sessions =$em->getRepository('AppBundle:Session')->findList($start);
+          $sessions =$em->getRepository('AppBundle:Session')->findList($start,$all);
          return  $sessions;
      }
 
