@@ -35,7 +35,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
           ->where('r.registrationId=:registrationId')
           ->orWhere('r.info=:registrationId')
-          ->andWhere('a.readed is null')
+          ->andWhere('a.readed is NULL')
           ->setParameter('registrationId',$registrationId)
          ->select('count(a.id)');
           return $qb->getQuery()->getSingleScalarResult();
