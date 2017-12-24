@@ -6,11 +6,7 @@
             <tr>
                 <th>Id</th>
                 <td>{{ notification.id }}</td>
-            </tr>
-            <tr>
-                <th>Send Status</th>
-                <td>{{ result }}</td>
-            </tr>            
+            </tr>        
             <tr>
                 <th>Titre</th>
                 <td>{{ notification.titre }}</td>
@@ -20,10 +16,7 @@
                 <th>Soustitre</th>
                 <td>{{ notification.sousTitre }}</td>
             </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ notification.url }}</td>
-            </tr>
+
             <tr>
                 <th>Date</th>
                 <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
