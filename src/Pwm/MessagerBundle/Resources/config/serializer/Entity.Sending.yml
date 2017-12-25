@@ -3,7 +3,7 @@ Pwm\MessagerBundle\Entity\Sending:
     properties:
         id:
              groups: ['sending', 'full']             
-        registrationId:
+        registration:
              groups: ['sending', 'full']
         readed:
              groups: ['sending', 'full']

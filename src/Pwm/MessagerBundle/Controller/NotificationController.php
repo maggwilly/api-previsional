@@ -93,14 +93,14 @@ class NotificationController extends Controller
     public function sendTo($registrations,Notification $notification)
     {
     $em = $this->getDoctrine()->getManager();
-    $registrationIds=array( );
+    $registrationIds='[';
    foreach ($registrations as $registration) {
-    $registrationIds[]=$registration->getRegistrationId();
+    $registrationIds=$registrationIds.$registration->getRegistrationId().', ';
         $sending=new Sending($registration,$notification);
           $em->persist($sending);  
        }
       $em->flush();
-     return  $registrationIds;
+     return  $registrationIds.']';
     }
 
 
@@ -117,7 +117,7 @@ class NotificationController extends Controller
   CURLOPT_TIMEOUT => 120,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"registration_ids\":[], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}",
+  CURLOPT_POSTFIELDS => "{\"registration_ids\":".$registrationIds.", \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}",
   CURLOPT_HTTPHEADER => array(
     "Authorization: key=AAAAJiQu4xo:APA91bH63R7-CeJ7jEgGtb2TNVkCx0TDWAYbu32mO1_4baLtrrFidNrbNy98Qngb6G67efbuJ8BpInpJiCeoTp-p5mt2706P2hXbXqrTXOWlaJFTDHza2QVWSlwsbF27eBhD2PZVJKuu",
     "content-type: application/json"
