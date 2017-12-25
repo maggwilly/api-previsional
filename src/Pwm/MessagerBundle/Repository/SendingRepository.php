@@ -16,15 +16,14 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   */
   public function findList($start,$registrationId){
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
-
           ->where('r.registrationId=:registrationId')
           ->orWhere('r.info=:registrationId')
           ->setParameter('registrationId',$registrationId)
          ->andWhere('a.sendDate<=:sendDate')
          ->setParameter('sendDate',new \DateTime())
-         ->orderBy('a.sendDate', 'asc'); 
+         ->orderBy('a.sendDate', 'desc'); 
          $query=$qb->getQuery();
-         $query->setFirstResult($start)->setMaxResults(10);
+         $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
   }
 
