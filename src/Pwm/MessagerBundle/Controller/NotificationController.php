@@ -64,18 +64,19 @@ class NotificationController extends Controller
         $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
         $sendForm->handleRequest($request);
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
-             $registrationIds=array( );
+             $registrationIds='[';
             //$this->getDoctrine()->getManager()->flush();
             if($notification->getSession()!=null){
                $destinations=$notification->getSession()->getInfos();   
              foreach ($destinations as $info) {
-                $registrationIds=array_merge($registrationIds, $this->sendTo($info->getRegistrations(),$notification))  ;
+                $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
             }
             }else{
                 $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-                 $registrationIds=array_merge($registrationIds, $this->sendTo($info->getRegistrations(),$notification))  ;
+               $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
             }
+            $registrationIds=$registrationIds.']'
            $this->firebaseSend($registrationIds ,$notification);
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
@@ -93,18 +94,18 @@ class NotificationController extends Controller
     public function sendTo($registrations,Notification $notification)
     {
     $em = $this->getDoctrine()->getManager();
-    $registrationIds='[';
+    $registrationIds='';
    foreach ($registrations as $registration) {
     $registrationIds=$registrationIds.$registration->getRegistrationId().', ';
         $sending=new Sending($registration,$notification);
           $em->persist($sending);  
        }
       $em->flush();
-     return  $registrationIds.']';
+     return  $registrationIds;
     }
 
 
-    public function firebaseSend($registrationIds,Notification $notification ){
+public function firebaseSend($registrationIds,Notification $notification ){
     $registrationIds = array_values($registrationIds);
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
