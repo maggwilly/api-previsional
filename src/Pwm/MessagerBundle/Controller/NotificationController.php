@@ -69,14 +69,14 @@ class NotificationController extends Controller
             if($notification->getSession()!=null){
                $destinations=$notification->getSession()->getInfos();   
              foreach ($destinations as $info) {
-                $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
+                $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification)  ;
             }
             }else{
                 $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
             }
-            $registrationIds=$registrationIds.']'
+            $registrationIds=$registrationIds.']';
            $this->firebaseSend($registrationIds ,$notification);
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
