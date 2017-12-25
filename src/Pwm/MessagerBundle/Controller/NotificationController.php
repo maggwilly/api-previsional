@@ -97,7 +97,7 @@ class NotificationController extends Controller
     $em = $this->getDoctrine()->getManager();
     $registrationIds='';
    foreach ($registrations as $registration) {
-    $registrationIds=$registrationIds.$registration->getRegistrationId().', ';
+    $registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
         $sending=new Sending($registration,$notification);
           $em->persist($sending);  
        }
