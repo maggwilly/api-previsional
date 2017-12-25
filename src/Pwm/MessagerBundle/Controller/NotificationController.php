@@ -5,9 +5,9 @@ use Pwm\MessagerBundle\Entity\Sending;
 use Pwm\MessagerBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Notification controller.
  *
@@ -65,20 +65,21 @@ class NotificationController extends Controller
         $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
         $sendForm->handleRequest($request);
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
-             $registrationIds=array( );
+             $registrationIds='[';
             //$this->getDoctrine()->getManager()->flush();
             if($notification->getSession()!=null){
                $destinations=$notification->getSession()->getInfos();   
              foreach ($destinations as $info) {
-                $registrationIds=array_merge($registrationIds, $this->sendTo($info->getRegistrations(),$notification))  ;
+                $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification)  ;
             }
             }else{
                 $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-                 $registrationIds=array_merge($registrationIds, $this->sendTo($info->getRegistrations(),$notification))  ;
+               $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
             }
-          
-            return $this->firebaseSend($registrationIds ,$notification) ; //$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            $registrationIds=$registrationIds.']';
+
+            return $this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -94,9 +95,9 @@ class NotificationController extends Controller
     public function sendTo($registrations,Notification $notification)
     {
     $em = $this->getDoctrine()->getManager();
-    $registrationIds=array( );
+    $registrationIds='';
    foreach ($registrations as $registration) {
-    $registrationIds[]=$registration->getRegistrationId();
+    $registrationIds=$registrationIds.$registration->getRegistrationId().', ';
         $sending=new Sending($registration,$notification);
           $em->persist($sending);  
        }
@@ -105,8 +106,8 @@ class NotificationController extends Controller
     }
 
 
-    public function firebaseSend($registrationIds,Notification $notification ){
-    $registrationIds = array_values($registrationIds);
+public function firebaseSend($registrationIds,Notification $notification ){
+ //   $registrationIds = array_values($registrationIds);
     $data="{\"registration_ids\":".$registrationIds.", \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
@@ -119,7 +120,7 @@ class NotificationController extends Controller
   CURLOPT_TIMEOUT => 120,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => $data,
+  CURLOPT_POSTFIELDS =>$data ,
   CURLOPT_HTTPHEADER => array(
     "Authorization: key=AAAAJiQu4xo:APA91bH63R7-CeJ7jEgGtb2TNVkCx0TDWAYbu32mO1_4baLtrrFidNrbNy98Qngb6G67efbuJ8BpInpJiCeoTp-p5mt2706P2hXbXqrTXOWlaJFTDHza2QVWSlwsbF27eBhD2PZVJKuu",
     "content-type: application/json"
@@ -130,9 +131,9 @@ $response = curl_exec($curl);
 $err = curl_error($curl);
 curl_close($curl);
 if ($err) {
-  return  new Response($err);
+  return new Response( $err);
 } 
-   return new Response($data);
+  return new Response( $data);
         
 }
 
