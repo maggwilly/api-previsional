@@ -22,7 +22,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('registrationId',$registrationId)
          ->andWhere('a.sendDate<=:sendDate')
          ->setParameter('sendDate',new \DateTime())
-         ->orderBy('a.sendDate', 'desc'); 
+         ->orderBy('a.id', 'desc'); 
          $query=$qb->getQuery();
          $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
