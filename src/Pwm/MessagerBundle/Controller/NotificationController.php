@@ -5,6 +5,7 @@ use Pwm\MessagerBundle\Entity\Sending;
 use Pwm\MessagerBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 /**
@@ -76,8 +77,8 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                  $registrationIds=array_merge($registrationIds, $this->sendTo($info->getRegistrations(),$notification))  ;
             }
-           $this->firebaseSend($registrationIds ,$notification);
-            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+          
+            return $this->firebaseSend($registrationIds ,$notification) ; //$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -128,9 +129,9 @@ $response = curl_exec($curl);
 $err = curl_error($curl);
 curl_close($curl);
 if ($err) {
-  return  $err;
+  return  new Response($err);
 } 
-   return  $response;
+   return new Response( $response);
         
 }
 
