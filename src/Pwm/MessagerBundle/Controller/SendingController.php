@@ -46,9 +46,12 @@ class SendingController extends Controller
      *@Rest\View(serializerGroups={"sending"})
      */
     public function editJsonAction(Request $request, Sending $sending){
-            $sending->setReaded(true);
+            $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($sending->getNotification(),$sending->getRegistration());
+            foreach ($sendings as  $sending) {
+                 $sending->setReaded(true);
+                }
             $this->getDoctrine()->getManager()->flush();
-            return $sending;
+            return $sendings;
     }
 
 

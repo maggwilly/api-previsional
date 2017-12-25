@@ -1,7 +1,8 @@
 <?php
 
 namespace Pwm\MessagerBundle\Repository;
-
+use Pwm\MessagerBundle\Entity\Notification;
+use Pwm\MessagerBundle\Entity\Registration;
 /**
  * SendingRepository
  *
@@ -25,6 +26,18 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
          $query=$qb->getQuery();
          $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
+  }
+
+      /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findByNotInfo(Notification $notification,Registration $registration){
+         $qb = $this->createQueryBuilder('a')->join('a.registration','r')
+          ->where('r.info=:info')
+          ->setParameter('info',$registration->getInfo())
+          ->andWhere('a.notification=:notification')
+          ->setParameter('notification',$notification);
+          return $qb->getQuery()->getResult();
   }
 
   	  /**
