@@ -100,7 +100,7 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct($type='public')
+    public function __construct($type=null)
     {
         $this->date =new \DateTime();
         $this->sendDate =new \DateTime();
