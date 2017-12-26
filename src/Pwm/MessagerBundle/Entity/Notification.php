@@ -78,6 +78,13 @@ class Notification
      */
     private $sendNow;
 
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
   /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session")
    */
@@ -93,10 +100,11 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($type='public')
     {
         $this->date =new \DateTime();
         $this->sendDate =new \DateTime();
+         $this->type =$type;
     }
 
     /**
@@ -160,6 +168,30 @@ class Notification
         return $this;
     }
 
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Pub
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
     /**
      * Get text
      *

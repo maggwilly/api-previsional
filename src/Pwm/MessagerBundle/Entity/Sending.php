@@ -109,29 +109,7 @@ class Sending
         return $this->date;
     }
 
-    /**
-     * Set registrationId
-     *
-     * @param string $registrationId
-     *
-     * @return Sending
-     */
-    public function setRegistrationId($registrationId)
-    {
-        $this->registrationId = $registrationId;
 
-        return $this;
-    }
-
-    /**
-     * Get registrationId
-     *
-     * @return string
-     */
-    public function getRegistrationId()
-    {
-        return $this->registrationId;
-    }
 
     /**
      * Set readed

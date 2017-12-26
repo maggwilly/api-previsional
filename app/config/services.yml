@@ -26,6 +26,12 @@ services:
           tags:
             - { name: kernel.event_listener, event: object.created, method: onObjetCreated }
 
+      commande_listener:
+          class: AppBundle\Event\CreateListener
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
+          tags:
+            - { name: kernel.event_listener, event: commande.confirmed, method: onCommandeConfirmed }
+
       user_picture_listener:
           class: AppBundle\Event\CreateListener
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]

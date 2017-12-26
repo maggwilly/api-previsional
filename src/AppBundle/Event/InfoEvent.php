@@ -2,7 +2,7 @@
 // src/Sdz/BlogBundle/Bigbrother/MessagePostEvent.php
 namespace AppBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
-use AppBundle\Entity\Info;
+use Pwm\AdminBundle\Event\InfoEvent;
 class InfoEvent extends Event
 {
 

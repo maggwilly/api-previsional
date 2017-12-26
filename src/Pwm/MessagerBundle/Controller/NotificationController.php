@@ -65,7 +65,7 @@ class NotificationController extends Controller
         $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
         $sendForm->handleRequest($request);
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
-             $registrationIds='[';
+             $registrationIds='';
             //$this->getDoctrine()->getManager()->flush();
             if($notification->getSession()!=null){
                $destinations=$notification->getSession()->getInfos();   
@@ -77,7 +77,6 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                $registrationIds=$registrationIds. $this->sendTo($info->getRegistrations(),$notification)  ;
             }
-            $registrationIds=$registrationIds.']';
 
             return $this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
@@ -108,7 +107,7 @@ class NotificationController extends Controller
 
 public function firebaseSend($registrationIds,Notification $notification ){
  //   $registrationIds = array_values($registrationIds);
-    $data="{\"registration_ids\":".$registrationIds.", \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
+    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
