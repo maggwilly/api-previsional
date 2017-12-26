@@ -10,4 +10,12 @@ namespace Pwm\MessagerBundle\Repository;
  */
 class NotificationRepository extends \Doctrine\ORM\EntityRepository
 {
+		  /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findList(){
+         $qb = $this->createQueryBuilder('a')
+          ->where("a.type<>'private'");
+          return $qb->getQuery()->getResult();
+  }
 }
