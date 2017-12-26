@@ -97,9 +97,9 @@ $response = curl_exec($curl);
 $err = curl_error($curl);
 curl_close($curl);
 if ($err) {
-  return new Response( $err);
+  return  $err;
 } 
-  return new Response( $response);
+  return $response;
         
 }
 
