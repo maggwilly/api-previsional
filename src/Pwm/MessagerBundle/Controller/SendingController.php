@@ -52,7 +52,7 @@ class SendingController extends Controller
                  $sending->setReaded(true);
                 }
             $em->flush();
-            return $sendings;
+            return true;
     }
 
 
