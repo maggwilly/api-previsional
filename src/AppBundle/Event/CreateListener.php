@@ -60,14 +60,14 @@ public function onCommandeConfirmed(InfoEvent $event)
      */
     public function sendTo($registrations,Notification $notification)
     {
-    $em = $this->getDoctrine()->getManager();
+   
     $registrationIds='';
    foreach ($registrations as $registration) {
     $registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
         $sending=new Sending($registration,$notification);
-          $em->persist($sending);  
+          $this->_em->persist($sending);  
        }
-      $em->flush();
+      $this->_em->flush();
      return  $registrationIds;
     }
 
