@@ -22,8 +22,7 @@ class NotificationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $notifications = $em->getRepository('MessagerBundle:Notification')->findAll();
-
+        $notifications = $em->getRepository('MessagerBundle:Notification')->findList();
         return $this->render('MessagerBundle:notification:index.html.twig', array(
             'notifications' => $notifications,
         ));
