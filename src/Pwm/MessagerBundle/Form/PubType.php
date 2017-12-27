@@ -5,7 +5,7 @@ namespace Pwm\MessagerBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class PubType extends AbstractType
 {
     /**
@@ -13,7 +13,17 @@ class PubType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nomDeCampagne')->add('type')->add('text')->add('base64Image')->add('date')->add('html')->add('description')->add('startDate')->add('endDate');
+        $builder->add('nomDeCampagne')
+        ->add('type', ChoiceType::class, array(
+                                 'choices'  => array(
+                                  'html_image' => 'HTML + Image', 'html' => 'HTML centré'),
+                                   ))
+        ->add('text')
+        ->add('base64Image')
+        ->add('html')
+        ->add('description')
+        ->add('startDate')
+        ->add('endDate');
     }
     
     /**
