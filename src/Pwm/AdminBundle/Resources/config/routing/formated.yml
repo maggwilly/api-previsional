@@ -29,6 +29,12 @@ abonnent_show_json:
     defaults: { _controller: "AdminBundle:Abonnement:showJson"}
     methods:  [GET,POST] 
 
+abonnent_show_one_json:
+    path:     /abonnement/one/{id}/json
+    defaults: { _controller: "AdminBundle:Abonnement:showOneJson"}
+    methods:  [GET,POST] 
+
+
 
 info_edit_json:
     path:     /info/{id}/edit/json

@@ -218,6 +218,14 @@ if ($err) {
         return $abonnement;
     }
 
+        /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"abonnement"})
+     */
+    public function showOneJsonAction(Abonnement $abonnement){
+        return $abonnement;
+    }
+
     /**
      * Creates a new abonnement entity.
      *
