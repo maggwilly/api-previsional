@@ -18,7 +18,6 @@ class PubType extends AbstractType
                                  'choices'  => array(
                                   'html_image' => 'HTML + Image', 'html' => 'HTML centré'),
                                    ))
-        ->add('text')
         ->add('base64Image')
         ->add('html')
         ->add('description')
