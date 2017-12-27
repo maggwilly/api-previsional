@@ -213,7 +213,7 @@ class Analyse
      *
      * @return Analyse
      */
-    public function setStudentId($studentId)
+    public function setStudentId(\Pwm\AdminBundle\Entity\Info $studentId = null)
     {
         $this->studentId = $studentId;
 
