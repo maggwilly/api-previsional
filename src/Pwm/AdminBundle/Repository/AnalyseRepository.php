@@ -5,6 +5,7 @@ use AppBundle\Entity\Session;
 use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Partie;
 use Doctrine\ORM\NoResultException;
+use Pwm\AdminBundle\Entity\Info;
 /**
  * AnalyseRepository
  *
@@ -16,7 +17,7 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
 		 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findOneOrNull($studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
+  public function findOneOrNull(Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.uid=:studentId')->setParameter('studentId',$studentId)
             ->andWhere('a.session=:session')->setParameter('session',$session);
@@ -32,7 +33,7 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
   }
 
 
-    public function findOllFor($studentId, Session $session, Matiere $matiere=null){
+    public function findOllFor(Info $studentId, Session $session, Matiere $matiere=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.uid=:studentId')->setParameter('studentId',$studentId)
             ->andWhere('a.session=:session')->setParameter('session',$session)->andWhere('a.matiere is not null');

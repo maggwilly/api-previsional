@@ -99,11 +99,11 @@ class Analyse
    */
     private $partie;
 
-      /**
-     * @var string
-     *
-     * @ORM\Column(name="studentId", type="string", length=255,nullable=true)
-     */
+
+    /**
+   * @ORM\ManyToOne(targetEntity="Info" )
+    * @ORM\JoinColumn(name="studentId",referencedColumnName="uid")
+   */
     private $studentId;
 
 

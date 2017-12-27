@@ -6,6 +6,7 @@ use Pwm\AdminBundle\Entity\Analyse;
 use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Partie;
 use AppBundle\Entity\Session;
+use Pwm\AdminBundle\Entity\Info;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -58,7 +59,7 @@ class AnalyseController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"analyse"})
      */
-    public function newJsonAction(Request $request,$studentId, Session $session, Matiere $matiere, Partie $partie)
+    public function newJsonAction(Request $request,Info $studentId, Session $session, Matiere $matiere, Partie $partie)
     {   $em = $this->getDoctrine()->getManager();
          $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie);
          if($analyse!=null)
@@ -76,7 +77,7 @@ class AnalyseController extends Controller
     }
 
     
-    public function newParent($studentId,Session $session, Matiere $matiere=null){
+    public function newParent(Info $studentId,Session $session, Matiere $matiere=null){
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere);
             if($analyse==null){
@@ -113,7 +114,7 @@ class AnalyseController extends Controller
      * Displays a form to edit an existing analyse entity.
      *
      */
-    public function editAction(Request $request, Analyse $analyse,$studentId, Session $session, Matiere $matiere=null, Partie $partie=null)
+    public function editAction(Request $request, Analyse $analyse,Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null)
     {
         $form = $this->createForm('Pwm\AdminBundle\Form\AnalyseType', $analyse);
          $form->submit($request->request->all(),false);
@@ -129,7 +130,7 @@ class AnalyseController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"analyse"})
      */
-    public function showJsonAction($studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
+    public function showJsonAction(Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie); 
          if($analyse!=null){
