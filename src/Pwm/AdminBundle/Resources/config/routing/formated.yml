@@ -30,7 +30,7 @@ abonnent_show_json:
     methods:  [GET,POST] 
 
 abonnent_show_one_json:
-    path:     /abonnement/one/{id}/json
+    path:     /abonnement/one/{abonnement}/json
     defaults: { _controller: "AdminBundle:Abonnement:showOneJson"}
     methods:  [GET,POST] 
 
