@@ -12,7 +12,9 @@ AppBundle\Entity\Partie:
         qcm:
              groups: ['partie', 'full']  
         type:
-             groups: ['partie', 'full']                         
+             groups: ['partie', 'full']   
+        sources:
+             groups: ['partie', 'full']                                     
         matiere:
              groups: ['partie']
         objectif:

@@ -41,6 +41,13 @@ class Partie
      */
     private $type;
 
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="sources", type="string", length=255, nullable=true)
+     */
+    private $sources;
+
     /**
      * @var string
      *
@@ -224,6 +231,30 @@ class Partie
     {
         return $this->type;
     }
+
+      /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Session
+     */
+    public function setSources($type)
+    {
+        $this->sources = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }  
     /**
      * Get prerequis
      *

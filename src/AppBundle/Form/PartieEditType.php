@@ -14,9 +14,10 @@ class PartieEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre')
-        ->add('prerequis')
         ->add('cours')
         ->add('objectif')
+        ->add('sources')
+        ->add('prerequis')
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
               'choice_label' => 'titre',
