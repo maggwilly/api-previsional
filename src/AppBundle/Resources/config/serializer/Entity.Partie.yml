@@ -10,7 +10,9 @@ AppBundle\Entity\Partie:
         prerequis:
              groups: ['partie', 'full']
         qcm:
-             groups: ['partie', 'full']            
+             groups: ['partie', 'full']  
+        type:
+             groups: ['partie', 'full']                         
         matiere:
              groups: ['partie']
         objectif:
