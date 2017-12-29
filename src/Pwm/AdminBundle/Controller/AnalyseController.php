@@ -112,6 +112,7 @@ class AnalyseController extends Controller
     public function compare(Analyse $analyse=null)
     {
         if($analyse!=null){
+        $em = $this->getDoctrine()->getManager();
         $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
           foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
