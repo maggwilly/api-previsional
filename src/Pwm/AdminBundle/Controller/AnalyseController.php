@@ -121,7 +121,7 @@ class AnalyseController extends Controller
                 $analyse->setRang($key+1);     
               }
         } }
-        return array('analyse'=>$analyse,'analyseData'=>$analyseData);
+        return $analyse;
     }
 
     /**
