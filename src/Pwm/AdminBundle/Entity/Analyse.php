@@ -102,16 +102,8 @@ class Analyse
 
     /**
    * @ORM\ManyToOne(targetEntity="Info" )
-    * @ORM\JoinColumn(name="studentId",referencedColumnName="uid")
+    * @ORM\JoinColumn(name="uid",referencedColumnName="uid")
    */
-    private $studentId;
-
-
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="uid", type="string", length=255)
-     */
     private $uid;
 
      /**
