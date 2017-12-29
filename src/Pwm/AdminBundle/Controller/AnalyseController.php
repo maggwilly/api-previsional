@@ -95,7 +95,7 @@ class AnalyseController extends Controller
              $programme+=($value->getProgramme())?$value->getProgramme():0;
              $objectif+=$value->getObjectif()?$value->getObjectif():0;
             }
-               $analyse->setNote($nombre>0?$note/$poids:$note);
+               $analyse->setNote(round($nombre>0?$note/$poids:$note,1));
               $analyse->setObjectif($nombre>0?$objectif/$nombre:null);
               if($matiere!=null){
                  $analyse->setProgramme($nombre*100/$matiere->getParties()->count());
