@@ -111,6 +111,7 @@ class AnalyseController extends Controller
 
     public function compare(Analyse $analyse=null)
     {
+         $analyseData =array();
         if($analyse!=null){
         $em = $this->getDoctrine()->getManager();
         $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
@@ -120,7 +121,7 @@ class AnalyseController extends Controller
                 $analyse->setRang($key+1);     
               }
         } }
-        return $analyse;
+        return array('analyse'=>$analyse,'analyseData'=>$analyseData);
     }
 
     /**
@@ -147,17 +148,10 @@ class AnalyseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie); 
          if($analyse!=null){
-             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+125;
+              $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+125;
               $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1200;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-            /*  $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
-             foreach ($analyseData as $key => $value) {
-            if($value['note']==$analyse->getNote()){
-                $analyse->setDememe($value['dememe']+3);
-                $analyse->setRang($key+1);     
-              }
-        } */
     }
         return  $this->compare($analyse);
            
