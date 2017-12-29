@@ -83,7 +83,7 @@ class AnalyseController extends Controller
             if($analyse==null){
                  $analyse = new Analyse($studentId, $session, $matiere);
                  $em->persist($analyse);
-              //   $em->flush();
+                 $em->flush();
             }
           $analyses = $em->getRepository('AdminBundle:Analyse')->findOllFor($studentId,$session,$matiere);
           $nombre= count($analyses);
@@ -139,11 +139,12 @@ class AnalyseController extends Controller
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
               $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
-        foreach ($analyseData as $key => $value) {
+          foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+3);
-                $analyse->setRang($key+1);
-          }
+                $analyse->setRang($key+1);     
+              }
+           
         } 
     }
         return  $analyse;
