@@ -17,7 +17,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   */
   public function findList($start,$registrationId){
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
-          ->where('r.registrationId=:registrationId')
+          ->where('r.registrationId=:registrationId and r.info is NULL')
           ->orWhere('r.info=:registrationId')
           ->setParameter('registrationId',$registrationId)
          ->andWhere('a.sendDate<=:sendDate')

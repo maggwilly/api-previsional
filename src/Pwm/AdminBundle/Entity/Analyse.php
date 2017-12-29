@@ -117,7 +117,7 @@ class Analyse
      /**
      * Constructor
      */
-    public function __construct($studentId=null, Session $session = null, Matiere $matiere=null, Partie $partie=null)
+    public function __construct(Info $studentId=null, Session $session = null, Matiere $matiere=null, Partie $partie=null)
     {
         $this->uid =$studentId;
         $this->partie=$partie;
