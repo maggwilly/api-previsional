@@ -109,6 +109,18 @@ class AnalyseController extends Controller
           
       }
 
+    public function compare(Analyse $analyse=null)
+    {
+        if($analyse!=null){
+        $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
+          foreach ($analyseData as $key => $value) {
+            if($value['note']==$analyse->getNote()){
+                $analyse->setDememe($value['dememe']+3);
+                $analyse->setRang($key+1);     
+              }
+        } }
+        return $analyse;
+    }
 
     /**
      * Displays a form to edit an existing analyse entity.
@@ -138,16 +150,15 @@ class AnalyseController extends Controller
               $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1200;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
-          foreach ($analyseData as $key => $value) {
+            /*  $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
+             foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+3);
                 $analyse->setRang($key+1);     
               }
-           
-        } 
+        } */
     }
-        return  $analyse;
+        return  $this->compare($analyse);
            
     }
 
