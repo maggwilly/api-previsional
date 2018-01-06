@@ -172,7 +172,7 @@ public function getPayementUrl(Commande $commande)
      }",
   CURLOPT_HTTPHEADER => array(
     "accept: application/json",
-    "authorization: Bearer GtWdcBoMrlF2Zv82oiUAvlpmEiRS",
+    "authorization: Bearer 4Gr9NokwhZQR4PllYZsiK4Y8Bnh0",
     "cache-control: no-cache",
     "content-type: application/json"
   ),
