@@ -1,0 +1,9 @@
+AppBundle\Entity\Resultat:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['resultat', 'full']
+        url:
+             groups: ['resultat', 'full']
+        description:
+             groups: ['resultat', 'full']

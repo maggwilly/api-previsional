@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Resultats list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Url</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for resultat in resultats %}
+            <tr>
+                <td><a href="{{ path('resultat_show', { 'id': resultat.id }) }}">{{ resultat.id }}</a></td>
+                <td>{{ resultat.url }}</td>
+                <td>{{ resultat.description }}</td>
+                <td>{% if resultat.date %}{{ resultat.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('resultat_show', { 'id': resultat.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('resultat_edit', { 'id': resultat.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('resultat_new') }}">Create a new resultat</a>
+        </li>
+    </ul>
+{% endblock %}

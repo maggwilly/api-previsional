@@ -21,6 +21,14 @@ AppBundle\Entity\Session:
              groups: ['session', 'full','abonnement']
              expose: true
              type: DateTime<'Y-m-d'>  
+        serie:
+             groups: ['session', 'full']
+        niveau:
+             groups: ['session', 'full']
+        dateMax:
+             groups: ['session', 'full']   
+             expose: true
+             type: DateTime<'Y-m-d'>                                      
         dateLancement:
              groups: ['full','abonnement']
              expose: true

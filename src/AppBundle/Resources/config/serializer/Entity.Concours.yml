@@ -12,7 +12,8 @@ AppBundle\Entity\Concours:
         descriptionConcours:
              groups: ['session','concours','full'] 
         abreviation:
-             groups: ['session','concours', 'full' ,'abonnement']                               
+             groups: ['session','concours', 'full' ,'abonnement']   
+                                         
         image:
              groups: ['session', 'concours','full','abonnement']
         contacts:

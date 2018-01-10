@@ -80,6 +80,28 @@ class Concours
    */
     private $sessions;
 
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="serie", type="string", length=255, nullable=true)
+     */
+    private $serie;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="niveau", type="string", length=255, nullable=true)
+     */
+    private $niveau;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_max", type="date", nullable=true)
+     */
+    private $dateMax;
+
     /**
      * Constructor
      */
@@ -342,4 +364,76 @@ class Concours
     {
         return $this->sessions;
     }
+
+     /**
+     * Set serie
+     *
+     * @param string $serie
+     *
+     * @return Session
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * Get serie
+     *
+     * @return string
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * Set niveau
+     *
+     * @param string $niveau
+     *
+     * @return Session
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * Get niveau
+     *
+     * @return string
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * Set dateMax
+     *
+     * @param \DateTime $dateMax
+     *
+     * @return Session
+     */
+    public function setDateMax($dateMax)
+    {
+        $this->dateMax = $dateMax;
+
+        return $this;
+    }
+
+    /**
+     * Get dateMax
+     *
+     * @return \DateTime
+     */
+    public function getDateMax()
+    {
+        return $this->dateMax;
+    }   
 }
