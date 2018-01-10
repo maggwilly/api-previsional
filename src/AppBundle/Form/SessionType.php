@@ -18,8 +18,22 @@ class SessionType extends AbstractType
         ->add('nom')
         ->add('nomConcours')
         ->add('abreviation')
-        ->add('serie')
-        ->add('niveau')
+        ->add('serie', ChoiceType::class, array(
+                                  'choices'  => array(
+                                         'science' => 'science',
+                                         'Lettres' => 'Lettres',
+                                         'economie' => 'economie', 
+                                         'droit' => 'droit', 
+                                         'technique' => 'technique'),
+                                   ))
+        ->add('niveau', ChoiceType::class, array(
+                                  'choices'  => array(
+                                         'CEPE' => 'CEPE',
+                                         'BEPC - GCE O/L' => 'BEPC - GCE O/L',
+                                         'BAC - GCE A/L' => 'BAC - GCE A/L', 
+                                         'Licence & equiv' => 'Licence & equiv', 
+                                         'Master & equiv' => 'Master & equiv'),
+                                   ))
         ->add('dateMax')        
         ->add('price')
         ->add('nombrePlace')
