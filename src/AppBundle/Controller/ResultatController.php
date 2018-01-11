@@ -37,6 +37,7 @@ class ResultatController extends Controller
           $resultats =$em->getRepository('AppBundle:Resultat')->findList($start,$all);
          return  $resultats;
      }
+     
     /**
      * Creates a new resultat entity.
      *

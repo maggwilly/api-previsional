@@ -34,12 +34,36 @@ class SessionController extends Controller
      public function jsonIndexAction(Request $request,$start=0)
      {
         $all=$request->query->get('all');
+        $order=$request->query->get('order');
          $em = $this->getDoctrine()->getManager();
-          $sessions =$em->getRepository('AppBundle:Session')->findList($start,$all);
+          $sessions =$em->getRepository('AppBundle:Session')->findList($start,$all,$orde);
          return  $sessions;
      }
 
         /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"session"})
+     */
+     public function jsonRecentsAction(Request $request)
+     {
+         $em = $this->getDoctrine()->getManager();
+          $sessions =$em->getRepository('AppBundle:Session')->findRecents();
+         return  $sessions;
+     }
+
+
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"session"})
+     */
+     public function jsonEnVusAction(Request $request)
+     {
+         $em = $this->getDoctrine()->getManager();
+          $sessions =$em->getRepository('AppBundle:Session')->findEnVus();
+         return  $sessions;
+     }
+
+     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"full"})
      */
@@ -47,8 +71,6 @@ class SessionController extends Controller
         
         return $session;
     }
-
-
 
 
     /**

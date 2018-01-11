@@ -14,8 +14,20 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
    /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findList($start,$all){
-    $qb = $this->createQueryBuilder('s')->orderBy('s.nomConcours', 'asc'); 
+  public function findList($start,$all,$order=null){
+    $qb = $this->createQueryBuilder('s');
+    switch ($order) {
+      case 'dateLancement':
+        $qb ->orderBy('s.dateLancement', 'desc'); 
+        break;
+      case 'nombreInscrit':
+        $qb ->orderBy('s.nombreInscrit', 'desc'); 
+        break;      
+      default:
+         $qb ->orderBy('s.nomConcours', 'asc'); 
+        break;
+    }
+   
     $query=$qb->getQuery();
       if($all!='true')
     $query->setFirstResult($start)->setMaxResults(8);
@@ -29,4 +41,25 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findRecents(){
+    $qb = $this->createQueryBuilder('s')->orderBy('s.dateLancement', 'desc'); 
+    $query=$qb->getQuery();
+    $query->setFirstResult(0)->setMaxResults(4);
+     return $query->getResult();
+} 
+
+     /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findEnVus(){
+    $qb = $this->createQueryBuilder('s')->orderBy('s.nombreInscrit', 'desc'); 
+    $query=$qb->getQuery();
+    $query->setFirstResult(0)->setMaxResults(4);
+     return $query->getResult();
+} 
+
 }

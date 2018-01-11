@@ -1,21 +1,21 @@
-article_index_json:
-    path:     /article/{start}/json
-    defaults: { _controller: "AppBundle:Article:jsonIndex", start:0 }
-    methods:  GET
-
-programme_index_json:
-    path:     /concours/{start}/json
-    defaults: { _controller: "AppBundle:Programme:jsonIndex", start:0}
-    methods:  GET
-
-programme_show_json:
-    path:     /concours/{id}/show/json
-    defaults: { _controller: "AppBundle:Programme:showJson" }
+resultat_index_json:
+    path:     /resultat/{start}/json
+    defaults: { _controller: "AppBundle:Resultat:jsonIndex", start:0}
     methods:  GET
 
 session_index_json:
     path:     /session/{start}/json
     defaults: { _controller: "AppBundle:Session:jsonIndex", start:0}
+    methods:  GET
+
+session_recents_json:
+    path:     /session/recentment/lances/json
+    defaults: { _controller: "AppBundle:Session:jsonRecents"}
+    methods:  GET
+
+session_envus_json:
+    path:     /session/plus/en/vus/json
+    defaults: { _controller: "AppBundle:Session:jsonEnVus"}
     methods:  GET
 
 session_show_json:
