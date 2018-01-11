@@ -30,7 +30,7 @@ AppBundle\Entity\Session:
              expose: true
              type: DateTime<'Y-m-d'>                                      
         dateLancement:
-             groups: ['full','abonnement']
+             groups: ['session','full','abonnement']
              expose: true
              type: DateTime<'Y-m-d'>  
         abreviation:
