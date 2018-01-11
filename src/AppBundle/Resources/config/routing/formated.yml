@@ -18,6 +18,12 @@ session_envus_json:
     defaults: { _controller: "AppBundle:Session:jsonEnVus"}
     methods:  GET
 
+session_for_user_json:
+    path:     /session/for/user/{id}/json
+    defaults: { _controller: "AppBundle:Session:jsonForUser"}
+    methods:  GET
+
+
 session_show_json:
     path:     /session/{id}/show/json
     defaults: { _controller: "AppBundle:Session:showJson" }

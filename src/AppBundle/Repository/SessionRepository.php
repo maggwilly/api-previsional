@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
-
+use Pwm\AdminBundle\Entity\Info;
 /**
  * SessionRepository
  *
@@ -35,11 +35,9 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
 }
 
     function findByUser($session, $uid){
-       $qb =$this->createQueryBuilder('a')->where('a.id=:session') ->setParameter('session', $session) ->leftJoin('a.infos', 'i');
-        return   $qb
-             ->andWhere('i.uid=:uid')  ->setParameter('uid', $uid) 
-            ->getQuery()
-            ->getResult();
+       $qb =$this->createQueryBuilder('a')
+       ->where('a.id=:session') ->setParameter('session', $session) ->leftJoin('a.infos', 'i');
+        return   $qb->andWhere('i.uid=:uid')  ->setParameter('uid', $uid)->getQuery()->getResult();
     }
 
     /**
@@ -62,4 +60,17 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
      return $query->getResult();
 } 
 
+     /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findForUser(Info $user){
+    $qb = $this->createQueryBuilder('s')
+    ->where('s.niveau=:niveau')->setParameter('niveau', $user->getNiveau())
+    ->andWhere('s.serie=:serie')->setParameter('serie', $user->getSerie())
+    ->andWhere('s.dateMax>=:dateMax')->setParameter('dateMax', $user->getDateMax())
+    ->orderBy('s.nomConcours', 'asc'); 
+   // $query=$qb->getQuery();
+   // $query->setFirstResult(0)->setMaxResults(4);
+     return $qb->getQuery()->getResult();
+} 
 }
