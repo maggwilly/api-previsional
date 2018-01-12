@@ -15,7 +15,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findList($start,$all,$order=null){
-    $qb = $this->createQueryBuilder('s');
+    $qb = $this->createQueryBuilder('s')->where('s.archived is NULL');
     switch ($order) {
       case 'dateLancement':
         $qb ->orderBy('s.dateLancement', 'desc'); 
@@ -33,6 +33,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
     $query->setFirstResult($start)->setMaxResults(8);
      return $query->getResult();
 }
+
 
     function findByUser($session, $uid){
        $qb =$this->createQueryBuilder('a')
