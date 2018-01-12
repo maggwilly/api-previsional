@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Resultat;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use FOS\RestBundle\View\View; 
 /**
  * Resultat controller.
  *
