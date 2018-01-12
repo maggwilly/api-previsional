@@ -45,7 +45,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findRecents(){
-    $qb = $this->createQueryBuilder('s')->orderBy('s.dateLancement', 'desc'); 
+    $qb = $this->createQueryBuilder('s')->orderBy('s.dateLancement', 'desc')->where('s.archived=:archived')->setParameter('archived',false); 
     $query=$qb->getQuery();
     $query->setFirstResult(0)->setMaxResults(4);
      return $query->getResult();
@@ -55,7 +55,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findEnVus(){
-    $qb = $this->createQueryBuilder('s')->orderBy('s.nombreInscrit', 'desc'); 
+    $qb = $this->createQueryBuilder('s')->orderBy('s.nombreInscrit', 'desc')->where('s.archived=:archived')->setParameter('archived',false); 
     $query=$qb->getQuery();
     $query->setFirstResult(0)->setMaxResults(4);
      return $query->getResult();
@@ -65,7 +65,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findForUser(Info $user){
-    $qb = $this->createQueryBuilder('s')
+    $qb = $this->createQueryBuilder('s')->where('s.archived=:archived')->setParameter('archived',false)
     ->where('s.niveau=:niveau')->setParameter('niveau', $user->getNiveau())
     ->andWhere('s.serie=:serie')->setParameter('serie', $user->getSerie())
     ->andWhere('s.dateMax<=:dateMax')->setParameter('dateMax', $user->getDateMax())
