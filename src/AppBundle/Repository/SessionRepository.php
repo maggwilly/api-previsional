@@ -15,7 +15,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findList($start,$all,$order=null){
-    $qb = $this->createQueryBuilder('s')->where('s.archived:=archived')->setParameter('archived',false);
+    $qb = $this->createQueryBuilder('s')->where('s.archived=:archived')->setParameter('archived',false);
     switch ($order) {
       case 'dateLancement':
         $qb ->orderBy('s.dateLancement', 'desc'); 
