@@ -1,8 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Resultat{% endblock %}
 
 {% block body %}
-    <h1>Resultat edit</h1>
-
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />

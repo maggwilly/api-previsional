@@ -1,8 +1,6 @@
-{% extends 'base.html.twig' %}
-
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Resultats{% endblock %}
 {% block body %}
-    <h1>Resultats list</h1>
-
     <table>
         <thead>
             <tr>
@@ -34,7 +32,6 @@
         {% endfor %}
         </tbody>
     </table>
-
     <ul>
         <li>
             <a href="{{ path('resultat_new') }}">Create a new resultat</a>
