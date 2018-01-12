@@ -43,7 +43,7 @@ class Objectif
 
 
        /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere" ,inversedBy="liens")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" ,inversedBy="liens")
    */
     private $programme;
 

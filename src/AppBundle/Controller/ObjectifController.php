@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Controller;
-use AppBundle\Entity\Matiere;
+use AppBundle\Entity\Session;
 use AppBundle\Entity\Objectif;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,14 +17,11 @@ class ObjectifController extends Controller
      *
      */
 
-    public function indexAction(Matiere $partie)
+    public function indexAction(Session $session)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $objectifs = $em->getRepository('AppBundle:Objectif')->findAll();
-
         return $this->render('matiere/showFromMobile.html.twig', array(
-            'objectifs' =>  $partie->getObjectifs(),  'matiere' => $partie,
+            'liens' =>  $session->getLiens(),  'session' => $session,
         ));
     }
 
@@ -32,23 +29,21 @@ class ObjectifController extends Controller
      * Creates a new objectif entity.
      *
      */
-    public function newAction(Matiere $partie,Request $request)
+    public function newAction(Session $session,Request $request)
     {
         $objectif = new Objectif();
         $form = $this->createForm('AppBundle\Form\ObjectifType', $objectif);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $objectif->setMatiere($partie);
+            $objectif->setProgramme($session);
             $em->persist($objectif);
             $em->flush($objectif);
-
-            return $this->redirectToRoute('matiere_show', array('id' => $partie->getId()));
+            return $this->redirectToRoute('session_show', array('id' => $session->getId()));
         }
 
         return $this->render('objectif/new.html.twig', array(
-            'objectif' => $objectif,'matiere' => $partie,
+            'objectif' => $objectif,'session' => $session,
             'form' => $form->createView(),
         ));
     }

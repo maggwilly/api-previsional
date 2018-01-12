@@ -33,7 +33,6 @@
             </tr>
         </tbody>
     </table>
-
     <ul>
         <li>
             <a href="{{ path('session_index', { 'id': session.concours.id }) }}">Back to the list</a>
@@ -41,10 +40,23 @@
         <li>
             <a href="{{ path('session_edit', { 'id': session.id }) }}">Edit</a>
         </li>
+    </ul>
+
+    <h2> Les lien utils</h2>
+    <table>
+        <tbody>
+        {% for objectif in session.liens %}
+            <tr>
+                <td>{{ objectif.titre }}</td>
+                <td><a href="{{ objectif.description }}"> Ouvrir</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <ul>
         <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
+    <a href="{{ path('objectif_new',{ 'id': session.id }) }}" class="btn btn-default ">Créer un lien util</a>
         </li>
     </ul>
+
 {% endblock %}

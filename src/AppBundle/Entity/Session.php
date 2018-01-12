@@ -152,6 +152,11 @@ class Session
      * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Price", cascade={"persist", "remove"})
      */
     private $price;
+
+        /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="programme", cascade={"persist","remove"})
+   */
+    private $liens; 
   /**
      * Constructor
      */
@@ -164,6 +169,7 @@ class Session
      $this->concours= $concours;
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
+     $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
       if($programme!=null){
           $this->preparation= $programme;
             $this->dateConcours= $programme->getDateConcours();
@@ -701,4 +707,38 @@ class Session
         $this->concours->getDateMax();
         return $this->dateMax;
     }
+
+     /**
+     * Add lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     *
+     * @return Programme
+     */
+    public function addLien(\AppBundle\Entity\Objectif $lien)
+    {
+        $lien->setProgramme( $this);
+        $this->liens[] = $lien;
+        return $this;
+    }
+
+    /**
+     * Remove lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     */
+    public function removeLien(\AppBundle\Entity\Objectif $lien)
+    {
+        $this->liens->removeElement($lien);
+    }
+
+    /**
+     * Get liens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLiens()
+    {
+        return $this->liens;
+    }   
 }

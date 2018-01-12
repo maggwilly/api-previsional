@@ -8,8 +8,6 @@ user_homepage:
     defaults: { _controller: "AppBundle:Programme:index" }
     methods:  GET
 
-    
-
 app_user:
     resource: "@AppBundle/Resources/config/routing/user.yml"
     prefix:   /user
