@@ -645,6 +645,8 @@ class Session
      */
     public function getSerie()
     {
+         if($this->serie==null)
+              $this->concours->getSerie();
         return $this->serie;
     }
 
@@ -669,6 +671,8 @@ class Session
      */
     public function getNiveau()
     {
+        if($this->niveau==null)
+              $this->concours->getNiveau();
         return $this->niveau;
     }
 
@@ -693,6 +697,8 @@ class Session
      */
     public function getDateMax()
     {
+        if($this->dateMax==null)
+        $this->concours->getDateMax();
         return $this->dateMax;
     }
 }
