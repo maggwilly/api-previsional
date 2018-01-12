@@ -4,8 +4,8 @@ pub_index_json:
     methods:  GET
 
 sending_index_json:
-    path:     /sending/{registrationId}/{start}/json
-    defaults: { _controller: "MessagerBundle:Sending:jsonIndex", start:0 }
+    path:     /sending/json
+    defaults: { _controller: "MessagerBundle:Sending:jsonIndex" }
     methods:  GET
 
 sending_edit_json:

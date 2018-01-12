@@ -32,8 +32,10 @@ class SendingController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"sending"})
      */
-    public function jsonIndexAction($start=0,$registrationId)
+    public function jsonIndexAction(Request $request)
     {
+        $start=$request->query->get('start');
+        $registrationId=$request->query->get('registrationId');
         $em = $this->getDoctrine()->getManager();
         $messages = $em->getRepository('MessagerBundle:Sending')->findList($start,$registrationId);
         $count = $em->getRepository('MessagerBundle:Sending')->findCount($registrationId);

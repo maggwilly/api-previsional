@@ -23,7 +23,6 @@ commende_cancel_json:
     defaults: { _controller: "AdminBundle:Abonnement:cancelCommande"}
     methods:  DELETE 
 
-
 abonnent_show_json:
     path:     /abonnement/{info}/{id}/json
     defaults: { _controller: "AdminBundle:Abonnement:showJson"}
@@ -34,8 +33,6 @@ abonnent_show_one_json:
     defaults: { _controller: "AdminBundle:Abonnement:showOneJson"}
     methods:  [GET,POST] 
 
-
-
 info_edit_json:
     path:     /info/{id}/edit/json
     defaults: { _controller: "AdminBundle:Info:editJson" }
@@ -45,7 +42,6 @@ info_show_json:
     path:     /info/{uid}/show/json
     defaults: { _controller: "AdminBundle:Info:showJson"}
     methods:  [GET,POST] 
-
 
 analyse_new_json:
     path:     /analyse/{studentId}/{session}/{matiere}/{partie}/new/json

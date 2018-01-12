@@ -30,14 +30,15 @@ class ResultatController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"resultat"})
      */
-     public function jsonIndexAction(Request $request,$start=0)
+     public function jsonIndexAction(Request $request)
      {
         $all=$request->query->get('all');
+        $start=$request->query->get('start');
          $em = $this->getDoctrine()->getManager();
           $resultats =$em->getRepository('AppBundle:Resultat')->findList($start,$all);
          return  $resultats;
      }
-     
+
     /**
      * Creates a new resultat entity.
      *

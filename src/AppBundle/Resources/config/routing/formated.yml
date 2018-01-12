@@ -1,11 +1,11 @@
 resultat_index_json:
-    path:     /resultat/{start}/json
-    defaults: { _controller: "AppBundle:Resultat:jsonIndex", start:0}
+    path:     /resultat/json
+    defaults: { _controller: "AppBundle:Resultat:jsonIndex"}
     methods:  GET
 
 session_index_json:
-    path:     /session/{start}/json
-    defaults: { _controller: "AppBundle:Session:jsonIndex", start:0}
+    path:     /session/json
+    defaults: { _controller: "AppBundle:Session:jsonIndex"}
     methods:  GET
 
 session_recents_json:

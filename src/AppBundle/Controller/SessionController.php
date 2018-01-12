@@ -31,12 +31,13 @@ class SessionController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"session"})
      */
-     public function jsonIndexAction(Request $request,$start=0)
+     public function jsonIndexAction(Request $request)
      {
         $all=$request->query->get('all');
         $order=$request->query->get('order');
+        $start=$request->query->get('start');
          $em = $this->getDoctrine()->getManager();
-          $sessions =$em->getRepository('AppBundle:Session')->findList($start,$all,$orde);
+          $sessions =$em->getRepository('AppBundle:Session')->findList($start,$all,$order);
          return  $sessions;
      }
 
