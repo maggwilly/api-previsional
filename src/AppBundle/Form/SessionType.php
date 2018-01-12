@@ -20,6 +20,7 @@ class SessionType extends AbstractType
         ->add('abreviation')
         ->add('serie', ChoiceType::class, array(
                                   'choices'  => array(
+                                         '' => 'Toute series',
                                          'science' => 'science',
                                          'Lettres' => 'Lettres',
                                          'economie' => 'economie', 
@@ -28,6 +29,7 @@ class SessionType extends AbstractType
                                    ))
         ->add('niveau', ChoiceType::class, array(
                                   'choices'  => array(
+                                         '' => 'Tous les niveaux',
                                          'CEPE' => 'CEPE',
                                          'BEPC - GCE O/L' => 'BEPC - GCE O/L',
                                          'BAC - GCE A/L' => 'BAC - GCE A/L', 

@@ -21,6 +21,7 @@ class ConcoursType extends AbstractType
         ->add('descriptionConcours')
         ->add('serie', ChoiceType::class, array(
                                   'choices'  => array(
+                                          '' => 'Toute series',
                                          'science' => 'science',
                                          'Lettres' => 'Lettres',
                                          'economie' => 'economie', 
@@ -29,6 +30,7 @@ class ConcoursType extends AbstractType
                                    ))
         ->add('niveau', ChoiceType::class, array(
                                   'choices'  => array(
+                                          '' => 'Tous les niveaux',
                                          'CEPE' => 'CEPE',
                                          'BEPC - GCE O/L' => 'BEPC - GCE O/L',
                                          'BAC - GCE A/L' => 'BAC - GCE A/L', 
