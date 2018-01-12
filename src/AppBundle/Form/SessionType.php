@@ -34,7 +34,7 @@ class SessionType extends AbstractType
                                          'Licence & equiv' => 'Licence & equiv', 
                                          'Master & equiv' => 'Master & equiv'),
                                    ))
-        ->add('dateMax')        
+        ->add('dateMax', 'date', array('years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))        
         ->add('price')
         ->add('nombrePlace')
         ->add('nombreInscrit')
