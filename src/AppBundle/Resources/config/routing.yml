@@ -14,6 +14,10 @@ app_user:
     resource: "@AppBundle/Resources/config/routing/user.yml"
     prefix:   /user
 
+app_resultat:
+    resource: "@AppBundle/Resources/config/routing/resultat.yml"
+    prefix:   /resultat
+    
 app_article:
     resource: "@AppBundle/Resources/config/routing/article.yml"
     prefix:   /article
