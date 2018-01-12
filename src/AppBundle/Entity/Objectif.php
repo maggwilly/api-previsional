@@ -31,7 +31,7 @@ class Objectif
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -133,7 +133,7 @@ class Objectif
      * @param \AppBundle\Entity\Programme $concours
      * @return Matiere
      */
-    public function setProgramme(\AppBundle\Entity\Programme $concours = null)
+    public function setProgramme(\AppBundle\Entity\Session $concours = null)
     {
         $this->programme = $concours;
 
