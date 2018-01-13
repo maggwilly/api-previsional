@@ -11,8 +11,10 @@ AppBundle\Entity\Session:
              groups: ['session', 'full']             
         nombreInscrit:
              groups: [ 'session','full','abonnement']                              
+        nomConcours:
+             groups: ['session', 'full','abonnement']  
         nombrePlace:
-             groups: ['session', 'full','abonnement']              
+             groups: ['session', 'full','abonnement']                          
         dateConcours:
              groups: ['session', 'full','abonnement']
              expose: true

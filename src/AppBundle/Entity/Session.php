@@ -436,7 +436,9 @@ class Session
      */
     public function getNomConcours()
     {
-    return $this->concours->getNom().' '.$this->getNom();  
+         if($this->nomConcours!=null)
+             return $this->nomConcours;
+    return $this->concours->getNomConcours();  
     }
 
     /**
