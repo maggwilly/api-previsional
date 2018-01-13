@@ -15,11 +15,12 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
 	  /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findList($start,$registrationId){
+  public function findList($registrationId,$uid,$start){
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
-          ->where('r.registrationId=:registrationId and r.info is NULL')
-          ->orWhere('r.info=:registrationId')
+          ->where('r.registrationId=:registrationId and r.info=:uid')
+          ->orWhere('r.registrationId=:registrationId and r.info is NULL')
           ->setParameter('registrationId',$registrationId)
+          ->setParameter('uid',$uid)
          ->andWhere('a.sendDate<=:sendDate')
          ->setParameter('sendDate',new \DateTime())
          ->orderBy('a.id', 'desc'); 
@@ -43,12 +44,12 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   	  /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findCount($registrationId){
+  public function findCount($registrationId,$uid){
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
-          ->where('r.registrationId=:registrationId')
-          ->orWhere('r.info=:registrationId')
+          ->where('r.registrationId=:registrationId and r.info=:uid')
+          ->orWhere('r.registrationId=:registrationId and r.info is NULL')
           ->andWhere('a.readed is NULL')
-          ->setParameter('registrationId',$registrationId)
+          ->setParameter('registrationId',$registrationId) ->setParameter('uid',$uid)
          ->select('count(a.id)');
           return $qb->getQuery()->getSingleScalarResult();
   }

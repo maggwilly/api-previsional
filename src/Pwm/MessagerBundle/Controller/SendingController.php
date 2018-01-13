@@ -36,9 +36,10 @@ class SendingController extends Controller
     {
         $start=$request->query->get('start');
         $registrationId=$request->query->get('registrationId');
+        $uid=$request->query->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $messages = $em->getRepository('MessagerBundle:Sending')->findList($start,$registrationId);
-        $count = $em->getRepository('MessagerBundle:Sending')->findCount($registrationId);
+        $messages = $em->getRepository('MessagerBundle:Sending')->findList($registrationId,$uid,$start);
+        $count = $em->getRepository('MessagerBundle:Sending')->findCount($registrationId,$uid);
         return array('messages' => $messages,'count' => $count ) ;
     }
 
