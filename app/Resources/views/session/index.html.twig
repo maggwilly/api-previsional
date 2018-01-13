@@ -12,6 +12,7 @@
         <thead>
             <tr>
                 <th>Nom</th>
+
                 <th>Abreviation</th>
                 <th>Nombreplace</th>
                 <th>Nombreinscrit</th>
@@ -22,7 +23,7 @@
         <tbody>
         {% for session in sessions %}
             <tr>
-                <td>{{ session.nom }}</td>
+                <td>{{ session.nomConcours }}&mdash;{{ session.nom }}</td>
                 <td>{{ session.abreviation }}</td>
                 <td>{{ session.nombrePlace }}</td>
                 <td>{{ session.nombreInscrit }}</td>

@@ -1,5 +1,5 @@
 {% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{session.concours.nom|upper}} - {{ session.nom|upper }}{% endblock %}
+{% block title %}{{session.nomConcours|upper}} &mdash; {{ session.nom|upper }}{% endblock %}
 {% block body %}
   {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}

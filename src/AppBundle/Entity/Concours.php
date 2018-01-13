@@ -107,6 +107,7 @@ class Concours
      */
     public function __construct(Programme $programme=null)
     {
+         
         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
         if($programme!=null){
         $this->nom=$programme->getNom();
