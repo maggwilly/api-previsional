@@ -438,7 +438,7 @@ class Session
     {
          if($this->nomConcours!=null)
              return $this->nomConcours;
-    return $this->concours->getNomConcours();  
+    return $this->concours->getNom();  
     }
 
     /**
