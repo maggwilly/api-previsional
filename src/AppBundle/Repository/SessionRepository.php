@@ -70,8 +70,8 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
     ->andWhere('s.serie=:serie')->setParameter('serie', $user->getSerie())
     ->andWhere('s.dateMax<=:dateMax')->setParameter('dateMax', $user->getDateMax())
     ->orderBy('s.nomConcours', 'asc'); 
-   // $query=$qb->getQuery();
-   // $query->setFirstResult(0)->setMaxResults(4);
-     return $qb->getQuery()->getResult();
+    $query=$qb->getQuery();
+    $query->setFirstResult(0)->setMaxResults(6);
+     return $query->getResult();
 } 
 }
