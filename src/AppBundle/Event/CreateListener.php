@@ -1,5 +1,4 @@
 <?php
-// src/Sdz/BlogBundle/Bigbrother/CensureListener.php
 namespace AppBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Misteio\CloudinaryBundle\Wrapper\CloudinaryWrapper;

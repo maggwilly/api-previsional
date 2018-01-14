@@ -1,5 +1,4 @@
 <?php
-// src/Sdz/BlogBundle/Bigbrother/MessagePostEvent.php
 namespace AppBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Pwm\AdminBundle\Entity\Info;
