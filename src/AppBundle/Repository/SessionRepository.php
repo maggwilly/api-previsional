@@ -71,7 +71,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
     ->andWhere('s.dateMax<=:dateMax')->setParameter('dateMax', $user->getDateMax())
     ->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();
-    $query->setFirstResult(0)->setMaxResults(6);
+    $query->setFirstResult(0)->setMaxResults(4);
      return $query->getResult();
 } 
 }
