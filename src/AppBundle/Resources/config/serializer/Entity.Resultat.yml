@@ -7,3 +7,7 @@ AppBundle\Entity\Resultat:
              groups: ['resultat', 'full']
         description:
              groups: ['resultat', 'full']
+        date:
+             groups: ['resultat', 'full']
+             expose: true
+             type: DateTime<'Y-m-d'>      

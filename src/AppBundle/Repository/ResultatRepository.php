@@ -18,7 +18,7 @@ class ResultatRepository extends \Doctrine\ORM\EntityRepository
     $qb = $this->createQueryBuilder('a')->orderBy('a.id', 'desc');
     $query=$qb->getQuery();
       if($all!='true')
-    $query->setFirstResult($start)->setMaxResults(8);
+    $query->setFirstResult($start)->setMaxResults(20);
      return $query->getResult();
 }	
 }
