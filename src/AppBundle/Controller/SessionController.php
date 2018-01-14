@@ -116,7 +116,7 @@ class SessionController extends Controller
     public function showFromMobileAction(Session $session)
     {
         return $this->render('programme/showFromMobile.html.twig', array(
-            'concours' => $session->getPreparation(),
+            'concours' => $session,
         ));
     }
 
