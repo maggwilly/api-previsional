@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use AppBundle\Entity\Session;
-use AppBundle\Event\InfoEvent;
+use AppBundle\Event\CommandeEvent;
 /**
  * Abonnement controller.
  *
@@ -134,7 +134,7 @@ if ($err) {
                 }
             $abonnement->setPlan($commande->getPackage());
             $em->flush();
-              $event= new InfoEvent($commande->getInfo());
+              $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
             return $commande;
         }

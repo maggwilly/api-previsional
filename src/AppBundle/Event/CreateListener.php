@@ -45,11 +45,12 @@ public function onUserPictureSubmited(InfoEvent $event)
      
 }
 
-public function onCommandeConfirmed(InfoEvent $event)
+public function onCommandeConfirmed(CommandeEvent $event)
 {
-    $info=$event->getInfo();
+   $commande=$event->getCommande();
+    $info= $commande->getInfo();
     $notification=new Notification('private');
-    $notification->setTitre('Inscription validée')->setSousTitre('Inscription prise en compte')->setText('Votre inscription a été prise en compte.');
+    $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText('Votre inscription au programme de préparation a été prise en compte.');
     $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
     $this->firebaseSend($registrationIds, $notification); 
 }
