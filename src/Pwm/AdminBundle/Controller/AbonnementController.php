@@ -22,12 +22,12 @@ class AbonnementController extends Controller
 {
 
     private   $authorization='Bearer CEtL18aEK8gpRjoGgOvApVryNpG1';
-    private  $merchant_key='1b357b8f';
-    private  $currency='OUV';
+    private  $merchant_key='027d30fb';
+    private  $currency='XAF';
     private  $id_prefix='CENTOR_';
     private  $return_url='http://payement.centor.org/return';
     private  $cancel_url='http://payement.centor.org/cancel';
-    private  $base_url='https://entrances.herokuapp.com/v1/formated/commende/';
+    private  $base_url='https://concours.centor.org/v1/formated/commende/';
     /**
      * Lists all abonnement entities.
      *
@@ -70,7 +70,7 @@ class AbonnementController extends Controller
   CURLOPT_CUSTOMREQUEST => "POST",
   CURLOPT_POSTFIELDS => "grant_type=client_credentials",
   CURLOPT_HTTPHEADER => array(
-    "Authorization: Basic S0pQOWdlSU92MzVsdlJ3T3M3WmJYS1I1VnRvb1dIN3Y6YTQzMHZKWldDeEViaHNZbw=="
+    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6VklwRWhKU1lmeUFRY3NDcw=="
   ),
 ));
 
@@ -161,7 +161,7 @@ public function getPayementUrl(Commande $commande)
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.orange.com/orange-money-webpay/dev/v1/webpayment",
+  CURLOPT_URL => "https://api.orange.com/orange-money-webpay/cm/v1/webpayment",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,
@@ -172,7 +172,7 @@ public function getPayementUrl(Commande $commande)
      }",
   CURLOPT_HTTPHEADER => array(
     "accept: application/json",
-    "authorization: Bearer 4Gr9NokwhZQR4PllYZsiK4Y8Bnh0",
+    "authorization: ".$this->authorization."\"",
     "cache-control: no-cache",
     "content-type: application/json"
   ),
