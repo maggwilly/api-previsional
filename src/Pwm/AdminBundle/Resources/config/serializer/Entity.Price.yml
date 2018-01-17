@@ -7,3 +7,15 @@ Pwm\AdminBundle\Entity\Price:
              groups: ['price', 'session','full','abonnement']
         premium:
              groups: ['price', 'session','full','abonnement']
+        starterDesc:
+             groups: ['price', 'session','full','abonnement']            
+        standardDesc:
+             groups: ['price', 'session','full','abonnement']
+        premiumDesc:
+             groups: ['price', 'session','full','abonnement']
+        starterDelay:
+             groups: ['price', 'session','full','abonnement']            
+        standardDelay:
+             groups: ['price', 'session','full','abonnement']
+        premiumDlay:
+             groups: ['price', 'session','full','abonnement']

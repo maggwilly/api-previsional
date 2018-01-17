@@ -49,9 +49,11 @@ public function onCommandeConfirmed(CommandeEvent $event)
    $commande=$event->getCommande();
     $info= $commande->getInfo();
     $notification=new Notification('private');
+     if ($commande->getStatus()=='SUCCESS') {
     $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText('Votre inscription au programme de préparation a été prise en compte.');
-    $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
-    $this->firebaseSend($registrationIds, $notification); 
+     $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
+     $this->firebaseSend($registrationIds, $notification); 
+  }
 }
 
      /**

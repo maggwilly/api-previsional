@@ -143,13 +143,13 @@ class Abonnement
            $this->startDate=new \DateTime();
            switch ($this->plan) {
                case 'starter':
-                 $this->endDate->modify('+15 day');
+                 $this->endDate->modify('+'.$this->session->getPrice()->getStarterDelay().' day');
                    break;
                case 'standard':
-                     $this->endDate->modify('+45 day');
+                     $this->endDate->modify('+'.$this->session->getPrice()->getStandardDelay().' day');
                    break;               
                default:
-                   $this->endDate->modify('+240 day');
+                   $this->endDate->modify('+'.$this->session->getPrice()->getPremiumDelay().' day');
                    break;
            }
     }

@@ -16,7 +16,13 @@ class PriceType extends AbstractType
         $builder->add('nom')
         ->add('starter')
         ->add('standard')
-        ->add('premium');
+        ->add('premium')
+        ->add('starterDesc')
+        ->add('standardDesc')
+        ->add('premiumDesc')
+        ->add('starterDelay')
+        ->add('standardDelay')
+        ->add('premiumDelay');
     }
     
     /**

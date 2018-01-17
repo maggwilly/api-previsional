@@ -49,7 +49,48 @@ class Price
      */
     private $premium;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="starter_delay", type="integer", options={"default" : 10})
+     */
+    private $starterDelay;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="standard_delay", type="integer", options={"default" : 45})
+     */
+    private $standardDelay;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="premium_delay", type="integer", options={"default" : 100})
+     */
+    private $premiumDelay;
+
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="starter_desc", type="text", nullable=true, options={"default" : "Cours, TD, et anciens sujets, évaluation"})
+     */
+    private $starterDesc;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="standard_desc", type="text", nullable=true, options={"default" : "Cours,TD, et anciens sujets, évaluation, assistance des professeurs."})
+     */
+    private $standardDesc;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="premium_desc", type="text", nullable=true, options={"default" : "Accès à toutes les ressources, conseils et astuces par mail."})
+     */
+    private $premiumDesc;
     /**
      * Get id
      *
@@ -155,5 +196,148 @@ class Price
     {
         return $this->premium;
     }
-}
 
+    /**
+     * Set starterDelay
+     *
+     * @param integer $starterDelay
+     *
+     * @return Price
+     */
+    public function setStarterDelay($starterDelay)
+    {
+        $this->starterDelay = $starterDelay;
+
+        return $this;
+    }
+
+    /**
+     * Get starterDelay
+     *
+     * @return integer
+     */
+    public function getStarterDelay()
+    {
+        return $this->starterDelay;
+    }
+
+    /**
+     * Set standardDelay
+     *
+     * @param integer $standardDelay
+     *
+     * @return Price
+     */
+    public function setStandardDelay($standardDelay)
+    {
+        $this->standardDelay = $standardDelay;
+
+        return $this;
+    }
+
+    /**
+     * Get standardDelay
+     *
+     * @return integer
+     */
+    public function getStandardDelay()
+    {
+        return $this->standardDelay;
+    }
+
+    /**
+     * Set premiumDelay
+     *
+     * @param integer $premiumDelay
+     *
+     * @return Price
+     */
+    public function setPremiumDelay($premiumDelay)
+    {
+        $this->premiumDelay = $premiumDelay;
+
+        return $this;
+    }
+
+    /**
+     * Get premiumDelay
+     *
+     * @return integer
+     */
+    public function getPremiumDelay()
+    {
+        return $this->premiumDelay;
+    }
+
+    /**
+     * Set starterDesc
+     *
+     * @param string $starterDesc
+     *
+     * @return Price
+     */
+    public function setStarterDesc($starterDesc)
+    {
+        $this->starterDesc = $starterDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get starterDesc
+     *
+     * @return string
+     */
+    public function getStarterDesc()
+    {
+        return $this->starterDesc;
+    }
+
+    /**
+     * Set standardDesc
+     *
+     * @param string $standardDesc
+     *
+     * @return Price
+     */
+    public function setStandardDesc($standardDesc)
+    {
+        $this->standardDesc = $standardDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get standardDesc
+     *
+     * @return string
+     */
+    public function getStandardDesc()
+    {
+        return $this->standardDesc;
+    }
+
+    /**
+     * Set premiumDesc
+     *
+     * @param string $premiumDesc
+     *
+     * @return Price
+     */
+    public function setPremiumDesc($premiumDesc)
+    {
+        $this->premiumDesc = $premiumDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get premiumDesc
+     *
+     * @return string
+     */
+    public function getPremiumDesc()
+    {
+        return $this->premiumDesc;
+    }
+}
