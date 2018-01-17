@@ -21,10 +21,10 @@ use AppBundle\Event\CommandeEvent;
 class AbonnementController extends Controller
 {
 
-    private   $authorization='Bearer CEtL18aEK8gpRjoGgOvApVryNpG1';
+    private   $authorization='Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt';
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
-    private  $id_prefix='CENTOR_';
+    private  $id_prefix='CMD.CM.';
     private  $return_url='http://payement.centor.org/return';
     private  $cancel_url='http://payement.centor.org/cancel';
     private  $base_url='https://concours.centor.org/v1/formated/commende/';
@@ -168,7 +168,7 @@ public function getPayementUrl(Commande $commande)
   CURLOPT_TIMEOUT => 120,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"merchant_key\":\"".$this->merchant_key."\", \"currency\":\"".$this->currency."\",\"order_id\": \"CMD." .$commande->getId()."\",\"amount\": \"".$commande->getAmount()."\", \"return_url\": \"".$this->return_url."\",\"cancel_url\": \"".$this->cancel_url."\",\"notif_url\": \"".$this->base_url.$commande->getId()."/confirm/json\",\"lang\": \"fr\"
+  CURLOPT_POSTFIELDS => "{\"merchant_key\":\"".$this->merchant_key."\", \"currency\":\"".$this->currency."\",\"order_id\": \"".$this->id_prefix.$commande->getId()."\",\"amount\": \"".$commande->getAmount()."\", \"return_url\": \"".$this->return_url."\",\"cancel_url\": \"".$this->cancel_url."\",\"notif_url\": \"".$this->base_url.$commande->getId()."/confirm/json\",\"lang\": \"fr\",\"reference\": \"CENTOR .inc\"
      }",
   CURLOPT_HTTPHEADER => array(
     "accept: application/json",
