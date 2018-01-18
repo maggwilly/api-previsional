@@ -322,9 +322,9 @@ class Session
      */
     public function getAbreviation()
     {
-        if($this->abreviation!=null)
-             return $this->abreviation;
-        return $this->concours->getAbreviation();
+        if($this->abreviation==null)
+             return $this->concours->getAbreviation();
+        return $this->abreviation;
     }
 
     /**
@@ -425,9 +425,9 @@ class Session
      */
     public function getNomConcours()
     {
-         if($this->nomConcours!=null)
-             return $this->nomConcours;
-    return $this->concours->getNom();  
+         if($this->nomConcours==null)
+             return $this->concours->getNom();  
+    return  $this->nomConcours;
     }
 
     /**
