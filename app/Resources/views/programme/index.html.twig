@@ -23,7 +23,6 @@
             <tr>
                 <td><a href="{{ path('matiere_index', { 'id': concour.id }) }}">{{ concour.nom }}</a></td>
                 <td>{{ concour.abreviation }}</td>
-                <td>{{ concour.session }}</td>
                 <td>{% if concour.matieres is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
                     <ul>
