@@ -65,7 +65,7 @@ class ProgrammeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($concours);
             $em->flush($concours);
-            return $this->redirectToRoute('concours_show', array('id' => $concours->getId()));
+            return $this->redirectToRoute('programme_show', array('id' => $concours->getId()));
         }
         return $this->render('programme/new.html.twig', array(
             'concour' => $concours,
