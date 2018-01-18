@@ -14,15 +14,8 @@ class ProgrammeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom')
-        ->add('ecole')
         ->add('abreviation')
-        ->add('type')
-        ->add('session')
-        ->add('descriptionConcours')
-        ->add('dateConcours')
-        ->add('dateDossier')
-        ->add('image')
-        ->add('contact');
+        ->add('type');
     }
     
     /**

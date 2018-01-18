@@ -163,23 +163,12 @@ class Session
     public function __construct(Concours $concours,Programme $programme=null)
     {
      $date=new \DateTime();
-    // $this->annee=$date->getYear();
      $this->date=$date;
      $this->archived=false;
      $this->concours= $concours;
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
-      if($programme!=null){
-          $this->preparation= $programme;
-            $this->dateConcours= $programme->getDateConcours();
-             $this->dateDossier= $programme->getDateDossier();
-              $this->nombrePlace= $programme->getNombrePlace();
-               $this->nombreInscrit= $programme->getNombreInscrit();
-                $this->type= $programme->getType();
-                 $this->nom= $programme->getSession();
-      }
-
     }
     /**
      * Get id

@@ -14,19 +14,8 @@ class ProgrammeEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom')
-        ->add('ecole')
         ->add('abreviation')
         ->add('type')
-        ->add('session')
-         ->add('price')
-        ->add('descriptionEcole')
-        ->add('descriptionConcours')
-        ->add('nombrePlace')
-        ->add('dateConcours')
-        ->add('dateDossier')
-        ->add('image')
-        ->add('contact')
-        ->add('nombreInscrit')
         ->add('auMoinsdeMemeQue', 
             EntityType::class,
              array('class' => 'AppBundle:Programme',   'choice_label' => 'nom', 'empty_data' => null,'label'=>'Le même programme  que')
