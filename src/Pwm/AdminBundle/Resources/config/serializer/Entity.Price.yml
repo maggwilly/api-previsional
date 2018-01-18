@@ -17,5 +17,5 @@ Pwm\AdminBundle\Entity\Price:
              groups: ['price', 'session','full','abonnement']            
         standardDelay:
              groups: ['price', 'session','full','abonnement']
-        premiumDlay:
+        premiumDelay:
              groups: ['price', 'session','full','abonnement']
