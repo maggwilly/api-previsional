@@ -31,6 +31,12 @@ class Resultat
     /**
      * @var string
      *
+     * @ORM\Column(name="image", type="text",  nullable=true)
+     */
+    private $imageUrl;
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text", length=255)
      */
     private $description;
@@ -124,5 +130,29 @@ class Resultat
     {
         return $this->date;
     }
+    /**
+     * Set imageUrl
+     *
+     * @param string $imageUrl
+     *
+     * @return Concours
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get imageUrl
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
 }
 

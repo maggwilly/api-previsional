@@ -13,7 +13,7 @@ class ResultatType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('url')->add('description')->add('date');
+        $builder->add('url')->add('imageUrl')->add('description')->add('date');
     }
     
     /**

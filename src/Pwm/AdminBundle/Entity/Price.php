@@ -74,21 +74,21 @@ class Price
     /**
      * @var int
      *
-     * @ORM\Column(name="starter_desc", type="text", nullable=true, options={"default" : "Cours, TD, et anciens sujets, évaluation"})
+     * @ORM\Column(name="starter_desc", type="text", options={"default" : "Cours, TD, et anciens sujets, évaluation"})
      */
     private $starterDesc;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="standard_desc", type="text", nullable=true, options={"default" : "Cours,TD, et anciens sujets, évaluation, assistance des professeurs."})
+     * @ORM\Column(name="standard_desc", type="text", options={"default" : "Cours,TD, et anciens sujets, évaluation, assistance des professeurs."})
      */
     private $standardDesc;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="premium_desc", type="text", nullable=true, options={"default" : "Accès à toutes les ressources, conseils et astuces par mail."})
+     * @ORM\Column(name="premium_desc", type="text",  options={"default" : "Accès à toutes les ressources, conseils et astuces par mail."})
      */
     private $premiumDesc;
     /**
