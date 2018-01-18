@@ -51,7 +51,7 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="abreviation", type="string", length=255, nullable=true)
+     * @ORM\Column(name="abreviation", type="string", length=255)
      */
     private $abreviation;
 

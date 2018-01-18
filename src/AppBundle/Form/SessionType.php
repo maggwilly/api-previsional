@@ -16,7 +16,7 @@ class SessionType extends AbstractType
     {
         $builder
         ->add('nom')
-        ->add('nomConcours')
+        ->add('nomConcours','text')
         ->add('abreviation')
         ->add('serie', ChoiceType::class, array(
                                   'choices'  => array(
