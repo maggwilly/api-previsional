@@ -24,7 +24,7 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_concours", type="string", length=255, nullable=true)
+     * @ORM\Column(name="nom_concours", type="string", length=512, nullable=true)
      */
     private $nomConcours;
 
