@@ -9,7 +9,7 @@ resultat_show:
     methods:  GET
 
 resultat_get:
-    path:     /{id}/get
+    path:     /{id}/get/mobile
     defaults: { _controller: "AppBundle:Resultat:get" }
     methods:  GET    
 
