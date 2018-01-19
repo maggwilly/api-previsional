@@ -18,13 +18,9 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   public function findList($registration,$uid,$start){
         //connected and registed
        $qb = $this->createQueryBuilder('a')->join('a.registration','r');
-    if(!is_null($registration)&&!is_null($uid)){
        $qb->where('a.registration=:registration or r.info=:uid')
-      ->setParameter('registration',$registration)->setParameter('uid',$uid);
-     }elseif (is_null($uid)) {
-       $qb->where('a.registration=:registration and r.info is not NULL')->setParameter('registration',$registration);
-     }
-   $qb->andWhere('a.sendDate<=:sendDate') ->setParameter('sendDate',new \DateTime())->orderBy('a.id', 'desc'); 
+      ->setParameter('registration',$registration)->setParameter('uid',$uid)->addSelect('DISTINCT a.notification as notificationId');
+       $qb->andWhere('a.sendDate<=:sendDate') ->setParameter('sendDate',new \DateTime())->orderBy('a.id', 'desc'); 
          $query=$qb->getQuery();
          $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
@@ -48,12 +44,8 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   public function findCount($registration,$uid){
           //connected and registed
        $qb = $this->createQueryBuilder('a')->join('a.registration','r');
-    if(!is_null($registration)&&!is_null($uid)){
-       $qb->where('a.registration=:registration and r.info=:uid')->orWhere('a.registration=:registration and r.info is NULL')
-      ->setParameter('registration',$registration)->setParameter('uid',$uid);
-     }elseif (is_null($uid)) {
-       $qb->where('a.registration=:registration and r.info is not NULL')->setParameter('registration',$registration);
-     }
+       $qb->where('a.registration=:registration or r.info=:uid')
+      ->setParameter('registration',$registration)->setParameter('uid',$uid)->addSelect('DISTINCT a.notification as notificationId');
        $qb->andWhere('a.readed is NULL')->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
   }
