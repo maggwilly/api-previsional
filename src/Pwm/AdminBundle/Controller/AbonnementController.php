@@ -132,7 +132,10 @@ if ($err) {
                  $abonnement=new Abonnement($commande);  
                  $em->persist($abonnement);
                 }
+
             $abonnement->setPlan($commande->getPackage());
+             $commande->getSession()->removeInfo($commande->getInfo());
+             $commande->getSession()->addInfo($commande->getInfo());
             $em->flush();
               $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
