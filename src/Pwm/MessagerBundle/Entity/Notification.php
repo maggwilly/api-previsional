@@ -35,6 +35,13 @@ class Notification
      */
     private $text;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
     /**
      * @var string
      *
@@ -55,7 +62,7 @@ class Notification
      */
     private $imageEntity;
 
-      private $image;
+    private $image;
 
     /**
      * @var \DateTime
@@ -393,5 +400,27 @@ class Notification
     {
         return $this->imageEntity;
     }
-   
+       /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Session
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

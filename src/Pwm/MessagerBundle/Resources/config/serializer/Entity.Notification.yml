@@ -9,6 +9,8 @@ Pwm\MessagerBundle\Entity\Notification:
              groups: ['sending', 'full']
         text:
              groups: ['sending', 'full']
+        type:
+             groups: ['sending', 'full']             
         url:
              groups: ['sending', 'full']
         image:

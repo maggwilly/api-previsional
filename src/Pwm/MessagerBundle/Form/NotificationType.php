@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\ImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class NotificationType extends AbstractType
 {
     /**
@@ -17,6 +18,10 @@ class NotificationType extends AbstractType
         $builder
         ->add('titre')
         ->add('text')->add('sousTitre')
+        ->add('type', ChoiceType::class, array(
+                                 'choices'  => array(
+                                  'html' => 'HTML', 'math' => 'MATH', 'text' => 'TEXT'),
+                                   ))
         ->add('session', EntityType::class,
              array('class' => 'AppBundle:Session', 
                    'choice_label' => 'getNomConcours', 
