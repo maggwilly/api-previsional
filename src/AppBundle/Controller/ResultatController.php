@@ -78,6 +78,17 @@ class ResultatController extends Controller
         ));
     }
 
+        /**
+     * Finds and displays a resultat entity.
+     *
+     */
+    public function getAction(Resultat $resultat)
+    {
+        $deleteForm = $this->createDeleteForm($resultat);
+
+        return $this->redirect($resultat->getUrl());
+    }
+
     /**
      * Displays a form to edit an existing resultat entity.
      *

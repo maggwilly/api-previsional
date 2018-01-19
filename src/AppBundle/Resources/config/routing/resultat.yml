@@ -8,6 +8,11 @@ resultat_show:
     defaults: { _controller: "AppBundle:Resultat:show" }
     methods:  GET
 
+resultat_get:
+    path:     /{id}/get
+    defaults: { _controller: "AppBundle:Resultat:get" }
+    methods:  GET    
+
 resultat_new:
     path:     /new
     defaults: { _controller: "AppBundle:Resultat:new" }
