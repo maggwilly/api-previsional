@@ -9,7 +9,7 @@ Pwm\MessagerBundle\Entity\Notification:
              groups: ['sending', 'full']
         text:
              groups: ['sending', 'full']
-        type:
+        format:
              groups: ['sending', 'full']             
         url:
              groups: ['sending', 'full']

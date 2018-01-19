@@ -85,7 +85,12 @@ class Notification
      */
     private $sendNow;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="format", type="string", length=255, nullable=true)
+     */
+    private $format;
   /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session")
    */
@@ -395,4 +400,28 @@ class Notification
         return $this->imageEntity;
     }
 
+
+    /**
+     * Set format
+     *
+     * @param string $format
+     *
+     * @return Notification
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
+
+        return $this;
+    }
+
+    /**
+     * Get format
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
 }
