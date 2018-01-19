@@ -19,7 +19,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
         //connected and registed
        $qb = $this->createQueryBuilder('a')->join('a.registration','r');
     if(!is_null($registration)&&!is_null($uid)){
-       $qb->where('a.registration=:registration and r.info=:uid')->orWhere('a.registration=:registration and r.info is NULL')
+       $qb->where('a.registration=:registration or r.info=:uid')
       ->setParameter('registration',$registration)->setParameter('uid',$uid);
      }elseif (is_null($uid)) {
        $qb->where('a.registration=:registration and r.info is not NULL')->setParameter('registration',$registration);
