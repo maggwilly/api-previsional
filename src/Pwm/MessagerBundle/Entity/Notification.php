@@ -85,12 +85,6 @@ class Notification
      */
     private $sendNow;
 
-        /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=true)
-     */
-    private $type;
 
   /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session")
@@ -400,27 +394,5 @@ class Notification
     {
         return $this->imageEntity;
     }
-       /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Session
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
 
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 }
