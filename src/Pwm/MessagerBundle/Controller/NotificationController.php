@@ -105,8 +105,7 @@ class NotificationController extends Controller
 
 
 public function firebaseSend($registrationIds,Notification $notification ){
- //   $registrationIds = array_values($registrationIds);
-    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
+    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
