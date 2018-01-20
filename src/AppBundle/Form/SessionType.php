@@ -57,7 +57,9 @@ class SessionType extends AbstractType
         ->add('preparation', EntityType::class,
              array('class' => 'AppBundle:Programme', 
                    'choice_label' => 'nom', 
-                   'empty_data' => null,
+                   'placeholder' => 'Please choose',
+                   'empty_data'  => null,
+                    'required' => false
                    'label'=>'Progrmme de prépa')
              );
     }

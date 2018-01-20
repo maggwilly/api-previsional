@@ -19,7 +19,9 @@ class NotificationSendType extends AbstractType
         ->add('session', EntityType::class,
              array('class' => 'AppBundle:Session', 
                    'choice_label' => 'getNomConcours', 
-                   'empty_data' => null,
+                   'placeholder' => 'Please choose',
+                   'empty_data'  => null,
+                    'required' => false
                    'label'=>'Groupe')
              );
     }
