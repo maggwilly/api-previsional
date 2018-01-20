@@ -134,6 +134,7 @@ if ($err) {
                 }
 
             $abonnement->setPlan($commande->getPackage());
+            $abonnement->setPrice($commande->getAmount());
              $commande->getSession()->removeInfo($commande->getInfo());
              $commande->getSession()->addInfo($commande->getInfo());
             $em->flush();

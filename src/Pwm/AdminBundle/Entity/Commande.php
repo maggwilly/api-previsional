@@ -96,7 +96,7 @@ class Commande
           $this->session =$session; 
             $this->package =$package; 
               $this->amount =$amount; 
-               $this->currency ='OUV'; 
+               $this->currency ='XAF'; 
     }
     /**
      * Get id
