@@ -21,7 +21,7 @@ class NotificationSendType extends AbstractType
                    'choice_label' => 'getNomConcours', 
                    'placeholder' => 'Please choose',
                    'empty_data'  => null,
-                    'required' => false
+                    'required' => false,
                    'label'=>'Groupe')
              );
     }

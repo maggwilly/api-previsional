@@ -59,7 +59,7 @@ class SessionType extends AbstractType
                    'choice_label' => 'nom', 
                    'placeholder' => 'Please choose',
                    'empty_data'  => null,
-                    'required' => false
+                    'required' => false,
                    'label'=>'Progrmme de prépa')
              );
     }
