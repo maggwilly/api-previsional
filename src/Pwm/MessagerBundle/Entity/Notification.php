@@ -46,7 +46,7 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255, options={"default" : "public"})
+     * @ORM\Column(name="tag", type="string", length=255, options={"default" : "public"})
      */
     private $tag; 
 
