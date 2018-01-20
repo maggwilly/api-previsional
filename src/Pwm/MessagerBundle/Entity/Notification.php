@@ -114,11 +114,12 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct($type=null)
+    public function __construct($type=null,$tag='public')
     {
         $this->date =new \DateTime();
         $this->sendDate =new \DateTime();
          $this->type =$type;
+        $this->tag =$tag;
     }
 
     /**
