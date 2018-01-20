@@ -32,8 +32,8 @@ services:
           tags:
             - { name: kernel.event_listener, event: commande.confirmed, method: onCommandeConfirmed }
 
-      user_picture_listener:
+      registration_listener:
           class: AppBundle\Event\CreateListener
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
           tags:
-            - { name: kernel.event_listener, event: user.picture.submited, method: onUserPictureSubmited }
+            - { name: kernel.event_listener, event: user.registration, method: onRegistration }

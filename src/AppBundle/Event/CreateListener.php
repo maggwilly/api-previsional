@@ -32,17 +32,15 @@ public function onObjetCreated(QuestionEvent $event)
      }
 }
 
-public function onUserPictureSubmited(InfoEvent $event)
+public function onRegistration(RegistrationEvent $event)
 {
-     $info=$event->getInfo();
-       if( $info->upload()){
-        $results=  $this->cloudinaryWrapper-> upload($info->getPath(), '_user_'.$info->getEmail(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
-         $info->setPhotoURL($results['url']);
-          $this->_em->flush();
-          $info->remove();
-       }
-     
+     $registrations= array($event->getRegistration());
+     $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
+      $registrationIds=$this->sendTo($registrations, $notification);
+      $this->firebaseSend($registrationIds, $notification); 
 }
+
+
 
 public function onCommandeConfirmed(CommandeEvent $event)
 {
@@ -75,7 +73,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
 
 
 public function firebaseSend($registrationIds,Notification $notification ){
- //   $registrationIds = array_values($registrationIds);
     $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getText()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);

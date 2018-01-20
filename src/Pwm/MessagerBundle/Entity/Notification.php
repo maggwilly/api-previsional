@@ -42,6 +42,14 @@ class Notification
      * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, options={"default" : "public"})
+     */
+    private $tag; 
+
     /**
      * @var string
      *
@@ -159,6 +167,31 @@ class Notification
     {
         return $this->titre;
     }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Notification
+     */
+    public function setTag($titre)
+    {
+        $this->tag = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
 
     /**
      * Set text

@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use AppBundle\Event\RegistrationEvent;
 /**
  * Sending controller.
  *
@@ -74,6 +75,8 @@ class SendingController extends Controller
           if ($form->isValid()) {
               $em->persist($registrqtion);
               $em->flush();
+              $event= new RegistrationEvent($registrqtion);
+              $this->get('event_dispatcher')->dispatch('user.registration', $event);
             return array('success'=>true);
         }
         return $form;
