@@ -125,13 +125,7 @@ class SessionController extends Controller
      */
     public function showAction(Session $session)
     {
-        $deleteForm = $this->createDeleteForm($session);
-        if(is_null($session->getGroupe())){
-        $em = $this->getDoctrine()->getManager();
-        $groupe= new Groupe($session->getNomConcours(),$session);
-        $em->persist($groupe);
-        $em->flush(); 
-    }       
+        $deleteForm = $this->createDeleteForm($session);       
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),

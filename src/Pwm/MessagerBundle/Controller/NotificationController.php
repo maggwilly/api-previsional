@@ -65,8 +65,25 @@ class NotificationController extends Controller
         $sendForm->handleRequest($request);
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
              $registrationIds='';
-            if($notification->getSession()!=null){
-               $destinations=$notification->getGroupe()->getInfos();   
+            $groupe= $notification->getGroupe();
+            if($groupe!=null){
+                $destinations=new \Doctrine\Common\Collections\ArrayCollection();  
+               switch ($groupe->getTag()) {
+                   case 'is.registred.not.singup':
+
+                    break; 
+                   case 'singup.not.subscribed':
+
+                    break; 
+                   case 'singup.not.profil.filled':
+
+                    break;                                      
+                   default:
+                       if ($groupe->getSession()!=null) {
+                           $destinations=$groupe->getSession()->getInfos();
+                       }.
+                       break;
+               }
              foreach ($destinations as $info) {
                   $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
               }
@@ -75,7 +92,6 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                 $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);
             }
-
             return $this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(

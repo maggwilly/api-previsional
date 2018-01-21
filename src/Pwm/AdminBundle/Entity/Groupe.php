@@ -41,7 +41,6 @@ class Groupe
     private $session;
 
 
-    private $infos;
 
         /**
      * @var string
@@ -58,7 +57,6 @@ class Groupe
         $this->date =new \DateTime();
         $this->nom =$nom;
         $this->session =$session;
-        //$this->infos = !is_null($session)?$session->getInfos():new \Doctrine\Common\Collections\ArrayCollection();
         $this->tag =$tag;
     }
 
@@ -144,42 +142,7 @@ class Groupe
         return $this->session;
     } 
 
-     /**
-     * Add info
-     *
-     * @param \Pwm\AdminBundle\Entity\Info $info
-     *
-     * @return Session
-     */
-    public function addInfo(\Pwm\AdminBundle\Entity\Info $info)
-    {
-        $this->infos[] = $info;
-
-        return $this;
-    }
-
-    /**
-     * Remove info
-     *
-     * @param \Pwm\AdminBundle\Entity\Info $info
-     */
-    public function removeInfo(\Pwm\AdminBundle\Entity\Info $info)
-    {
-        foreach ($this->infos as $key => $value) {
-            if($info->getUid()==$value->getUid())
-                unset($this->infos[$key]);
-        }  
-    }
-
-    /**
-     * Get infos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInfos()
-    {
-        return $this->infos;
-    }   
+    
 
     /**
      * Set titre
