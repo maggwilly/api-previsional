@@ -130,7 +130,8 @@ class SessionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $groupe= new Groupe($session->getNomConcours(),$session);
         $em->persist($groupe);
-        $em->flush(); }       
+        $em->flush(); 
+    }       
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),
