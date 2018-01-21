@@ -126,7 +126,7 @@ class SessionController extends Controller
     public function showAction(Session $session)
     {
         $deleteForm = $this->createDeleteForm($session);
-        if(is_null($session->getGroup())){
+        if(is_null($session->getGroupe())){
         $em = $this->getDoctrine()->getManager();
         $groupe= new Groupe($session->getNomConcours(),$session);
         $em->persist($groupe);
