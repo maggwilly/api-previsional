@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Pwm\AdminBundle\Entity\Groupe;
 /**
  * Session
  *
  * @ORM\Table(name="session")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SessionRepository")
+  * @ORM\HasLifecycleCallbacks
  */
 class Session
 {
@@ -24,7 +25,7 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_concours", type="string", length=512)
+     * @ORM\Column(name="nom_concours", type="string", length=512, options={"default" : "groupe"})
      */
     private $nomConcours;
 
@@ -143,8 +144,7 @@ class Session
       /**
    * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist"})
    * @ORM\JoinTable(joinColumns={ @ORM\JoinColumn(name="session_id",referencedColumnName="id")},
-                    inverseJoinColumns={ @ORM\JoinColumn(name="info_uid",referencedColumnName="uid")}
-             )
+                    inverseJoinColumns={ @ORM\JoinColumn(name="info_uid",referencedColumnName="uid")})
    */
     private $infos;  
 
@@ -157,10 +157,16 @@ class Session
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="programme", cascade={"persist","remove"})
    */
     private $liens; 
+
+        /**
+   * @ORM\OneToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe", mappedBy="session", cascade={"persist","remove"})
+   */
+    private $groupe; 
+
   /**
      * Constructor
      */
-    public function __construct(Concours $concours,Programme $programme=null)
+    public function __construct(Concours $concours, Programme $programme=null)
     {
      $date=new \DateTime();
      $this->date=$date;
@@ -170,6 +176,15 @@ class Session
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+
+      /**
+    * @ORM\PrePersist()
+    */
+    public function PrePersist(){
+
+      $this->groupe= new Groupe($this->nomConcours,$this);
+    }   
     /**
      * Get id
      *
@@ -731,5 +746,30 @@ class Session
     public function getLiens()
     {
         return $this->liens;
-    }   
+    } 
+
+
+    /**
+     * Set groupe
+     *
+     * @param \Pwm\AdminBundle\Entity\Groupe $groupe
+     *
+     * @return Notification
+     */
+    public function setGroupe(\Pwm\AdminBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \Pwm\AdminBundle\Entity\Groupe
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }    
 }

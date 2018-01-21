@@ -66,11 +66,11 @@ class NotificationController extends Controller
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
              $registrationIds='';
             if($notification->getSession()!=null){
-               $destinations=$notification->getSession()->getInfos();   
+               $destinations=$notification->getGroupe()->getInfos();   
              foreach ($destinations as $info) {
-                $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
-            }
-            }else{
+                  $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+              }
+              }else{
                 $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                 $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);

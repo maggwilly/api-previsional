@@ -99,11 +99,11 @@ class Notification
      * @ORM\Column(name="format", type="string", length=255, nullable=true)
      */
     private $format;
-  /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session")
-   */
-    private $session;
 
+    /**
+   * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe")
+   */
+    private $groupe;
     /**
      * @var \DateTime
      *
@@ -386,29 +386,7 @@ class Notification
         return $this->sendDate;
     }
 
-    /**
-     * Set session
-     *
-     * @param \AppBundle\Entity\Session $session
-     *
-     * @return Notification
-     */
-    public function setSession(\AppBundle\Entity\Session $session = null)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return \AppBundle\Entity\Session
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
+  
 
    /**
      * Set imageEntity
@@ -457,5 +435,29 @@ class Notification
     public function getFormat()
     {
         return $this->format;
+    }
+
+    /**
+     * Set groupe
+     *
+     * @param \Pwm\AdminBundle\Entity\Groupe $groupe
+     *
+     * @return Notification
+     */
+    public function setGroupe(\Pwm\AdminBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \Pwm\AdminBundle\Entity\Groupe
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
     }
 }

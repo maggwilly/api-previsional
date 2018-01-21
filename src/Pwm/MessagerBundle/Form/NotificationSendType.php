@@ -16,13 +16,13 @@ class NotificationSendType extends AbstractType
     {
         $builder
         ->add('includeMail')
-        ->add('session', EntityType::class,
-             array('class' => 'AppBundle:Session', 
-                   'choice_label' => 'getNomConcours', 
-                   'placeholder' => 'Please choose',
+        ->add('groupe', EntityType::class,
+             array('class' => 'AdminBundle:Groupe', 
+                   'choice_label' => 'getNom', 
+                   'placeholder' => 'Tout le monde',
                    'empty_data'  => null,
-                    'required' => false,
-                   'label'=>'Groupe')
+                    'required' => false ,                  
+                    'label'=>'Groupe')
              );
     }
     

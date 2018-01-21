@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 use Pwm\AdminBundle\Entity\Info;
+use Pwm\AdminBundle\Entity\Groupe;
 use AppBundle\Entity\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,12 +95,10 @@ class SessionController extends Controller
         $session = new Session($concour);
         $form = $this->createForm('AppBundle\Form\SessionType', $session);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($session);
-            $em->flush();
-
+             $em->persist($session);
+             $em->flush();
             return $this->redirectToRoute('session_show', array('id' => $session->getId()));
         }
 
@@ -127,7 +126,11 @@ class SessionController extends Controller
     public function showAction(Session $session)
     {
         $deleteForm = $this->createDeleteForm($session);
-
+        if(is_null($session->getGroup())){
+        $em = $this->getDoctrine()->getManager();
+        $groupe= new Groupe($session->getNomConcours(),$session);
+        $em->persist($groupe);
+        $em->flush(); }       
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),
