@@ -40,10 +40,7 @@ class Groupe
    */
     private $session;
 
-      /**
-   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist","remove"})
-   * @ORM\JoinTable(inverseJoinColumns={ @ORM\JoinColumn(name="info_uid",referencedColumnName="uid")})
-   */
+
     private $infos;
 
         /**
@@ -61,7 +58,7 @@ class Groupe
         $this->date =new \DateTime();
         $this->nom =$nom;
         $this->session =$session;
-        $this->infos = !is_null($session)?$session->getInfos():new \Doctrine\Common\Collections\ArrayCollection();
+        //$this->infos = !is_null($session)?$session->getInfos():new \Doctrine\Common\Collections\ArrayCollection();
         $this->tag =$tag;
     }
 
