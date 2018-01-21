@@ -102,6 +102,7 @@ class Notification
 
     /**
    * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe")
+    * @ORM\JoinColumn(referencedColumnName="id")
    */
     private $groupe;
     /**
