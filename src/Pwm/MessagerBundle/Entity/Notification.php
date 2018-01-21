@@ -100,11 +100,7 @@ class Notification
      */
     private $format;
 
-    /**
-   * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe")
-    * @ORM\JoinColumn(referencedColumnName="id")
-   */
-    private $groupe;
+
     /**
      * @var \DateTime
      *
