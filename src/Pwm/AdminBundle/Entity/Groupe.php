@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Groupe
  *
- * @ORM\Table(name="groupe")
+ * @ORM\Table(name="desc_groupe")
  * @ORM\Entity(repositoryClass="Pwm\AdminBundle\Repository\GroupeRepository")
  */
 class Groupe
