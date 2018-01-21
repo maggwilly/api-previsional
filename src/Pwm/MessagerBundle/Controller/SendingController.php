@@ -52,9 +52,10 @@ class SendingController extends Controller
     public function editJsonAction(Request $request, Sending $sending){
             $em = $this->getDoctrine()->getManager();
             $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($sending->getNotification(),$sending->getRegistration());
-            foreach ($sendings as  $sending) {
+           /* foreach ($sendings as  $sending) {
                  $sending->setReaded(true);
-                }
+                }*/
+           $sending->setReaded(true);
             $em->flush();
             return true;
     }
