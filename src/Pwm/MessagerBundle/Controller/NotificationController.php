@@ -81,7 +81,7 @@ class NotificationController extends Controller
                    default:
                        if ($groupe->getSession()!=null) {
                            $destinations=$groupe->getSession()->getInfos();
-                       }.
+                       }
                        break;
                }
              foreach ($destinations as $info) {
