@@ -42,8 +42,6 @@ class Groupe
 
       /**
    * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist","remove"})
-   * @ORM\JoinTable(joinColumns={ @ORM\JoinColumn(name="groupe_id",referencedColumnName="id")},
-                    inverseJoinColumns={ @ORM\JoinColumn(name="info_uid",referencedColumnName="uid")})
    */
     private $infos;
 
