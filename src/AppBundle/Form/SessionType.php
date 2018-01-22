@@ -46,7 +46,8 @@ class SessionType extends AbstractType
         ->add('dateDossier')
         ->add('type', ChoiceType::class, array(
                                  'choices'  => array(
-                                  'écrit' => 'Epreuves écrites', 'direct' => 'Etude de dossier', 'sport' => 'Epreuves sportives'),
+                                  'écrit' => 'Epreuves écrites', 'direct' => 'Etude de dossier', 'sport' => 'Epreuves sportives', 
+                                  'Olympiades' => 'Olympiades'),
                                    ))
         ->add('price', EntityType::class,
              array('class' => 'AdminBundle:Price', 

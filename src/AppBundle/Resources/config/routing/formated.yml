@@ -13,6 +13,11 @@ session_recents_json:
     defaults: { _controller: "AppBundle:Session:jsonRecents"}
     methods:  GET
 
+session_owards_json:
+    path:     /session/owards/json
+    defaults: { _controller: "AppBundle:Session:jsonOwards"}
+    methods:  GET
+
 session_envus_json:
     path:     /session/plus/en/vus/json
     defaults: { _controller: "AppBundle:Session:jsonEnVus"}
