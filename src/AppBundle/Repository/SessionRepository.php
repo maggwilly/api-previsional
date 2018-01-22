@@ -52,11 +52,11 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
      return $query->getResult();
 } 
 
-findjsonOwards(){
+  public function findOwards(){
     $qb = $this->createQueryBuilder('s')->orderBy('s.dateLancement', 'desc')
     ->where('s.archived=:archived and s.dateLancement is not NULL')
     ->andWhere('s.type=:type')
-    ->setParameter('type','Olympiades'); 
+    ->setParameter('type','owards'); 
     $query=$qb->getQuery();
    // $query->setFirstResult(0)->setMaxResults(3);
      return $query->getResult();

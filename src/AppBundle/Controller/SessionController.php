@@ -72,7 +72,7 @@ class SessionController extends Controller
      public function jsonOwardsAction(Request $request)
      {
          $em = $this->getDoctrine()->getManager();
-          $sessions =$em->getRepository('AppBundle:Session')->findjsonOwards();
+          $sessions =$em->getRepository('AppBundle:Session')->findOwards();
          return  $sessions;
      }     
 
