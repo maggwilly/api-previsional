@@ -117,7 +117,7 @@ class AnalyseController extends Controller
         $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
           foreach ($analyseData as $key => $value) {
             if(round($value['note'],1)==round($analyse->getNote(),1)){
-                $analyse->setDememe($value['dememe']+3);
+                $analyse->setDememe($value['dememe']);
                 $analyse->setRang($key+1);     
               }
         } }
