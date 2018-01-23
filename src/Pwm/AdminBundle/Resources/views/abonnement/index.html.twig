@@ -69,7 +69,6 @@
                 <th>Plan</th>
                 <th>Price</th>
                 <th>Status</th>
-                <th>Telpaidnumber</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -77,14 +76,13 @@
         <tbody>
         {% for abonnement in abonnements %}
             <tr>
-                <td>{{ abonnement.session.concours.nom }}</td>
+                <td>{{ abonnement.session.nonConcours }}</td>
                 <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                  <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ abonnement.method }}</td>
                 <td>{{ abonnement.plan }}</td>
                 <td>{{ abonnement.price }}</td>
                 <td>{{ abonnement.status }}</td>
-                <td>{{ abonnement.telPaidNumber }}</td>
                 <td>
   <a href="{{ path('abonnement_show', { 'id': abonnement.id }) }}">show</a>
                 </td>

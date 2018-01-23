@@ -137,6 +137,7 @@ if ($err) {
             $abonnement->setPrice($commande->getAmount());
              $commande->getSession()->removeInfo($commande->getInfo());
              $commande->getSession()->addInfo($commande->getInfo());
+             $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1);
             $em->flush();
               $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);

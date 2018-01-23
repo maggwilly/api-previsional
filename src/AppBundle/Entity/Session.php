@@ -170,6 +170,7 @@ class Session
     {
      $date=new \DateTime();
      $this->date=$date;
+      $this->nombreInscrit=0;
      $this->archived=false;
      $this->concours= $concours;
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
