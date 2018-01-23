@@ -76,7 +76,7 @@
         <tbody>
         {% for abonnement in abonnements %}
             <tr>
-                <td>{{ abonnement.session.nonConcours }}</td>
+                <td>{{ abonnement.session.nomConcours }}</td>
                 <td>{% if abonnement.startDate %}{{ abonnement.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                  <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ abonnement.method }}</td>
