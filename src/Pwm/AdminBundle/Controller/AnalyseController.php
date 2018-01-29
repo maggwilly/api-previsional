@@ -154,11 +154,11 @@ class AnalyseController extends Controller
               $analyse->setEvalues($nombre);
 
          if($session->getId()==69||$session->getId()==70||$session->getId()==71){
-             $sup10=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+300;
-              $nombre=$em->getRepository('AppBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1454;
+             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+300;
+              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1454;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-              $analyseData = $em->getRepository('AppBundle:Analyse')->getIndex($session,$matiere,$partie);
+              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
         foreach ($analyseData as $key => $value) {
             if($value['note']==$analyse->getNote()){
                 $analyse->setDememe($value['dememe']+11);
