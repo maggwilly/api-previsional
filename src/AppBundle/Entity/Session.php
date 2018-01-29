@@ -184,7 +184,7 @@ class Session
     */
     public function PrePersist(){
 
-      $this->groupe= new Groupe('Utilisateurs qui suivent '.$this->nomConcours,$this);
+      $this->groupe= new Groupe($this->nomConcours,$this);
     }   
     /**
      * Get id

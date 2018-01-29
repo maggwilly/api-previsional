@@ -71,35 +71,35 @@ class NotificationController extends Controller
                switch ($groupe->getTag()) {
                    case 'is.registred.not.singup':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findNotsingup();
-                     //$registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                     $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
                     break;
                    case 'loaded.too.long.time':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findTooLongTimeLogin();
-                     //$registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                     $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
                     break;                     
                    case 'singup.subscribed.starter':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('starter');
                         foreach ($destinations as $info) {
-                      //   $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break; 
                    case 'singup.subscribed.standard':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('standard');
                         foreach ($destinations as $info) {
-                       //  $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                        $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;                    
                    case 'singup.subscribed.expired':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersExpired();
                         foreach ($destinations as $info) {
-                        // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;
                                                              
                    case 'singup.not.profil.filled':
                        $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
                         foreach ($destinations as $info) {
-                         //$registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;                                      
                    default:
@@ -113,11 +113,11 @@ class NotificationController extends Controller
                }
 
               }else{
-                $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                 $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);
             }
-            return $this->redirectToRoute('notification_show', array('id' => $notification->getId())); //$this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+             $em->flush();
+            return $this->firebaseSend($registrationIds ,$notification);// $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -139,7 +139,7 @@ class NotificationController extends Controller
         $sending=new Sending($registration,$notification);
           $em->persist($sending);  
        }
-      $em->flush();
+         $em->flush();
      return  $registrationIds;
     }
 

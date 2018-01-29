@@ -68,8 +68,11 @@ class SendingController extends Controller
     public function newJsonAction(Request $request,  $registrationId)
     {     $em = $this->getDoctrine()->getManager();
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-           if(!is_null($registrqtion))
-                return array('success'=>true);
+           if(!is_null($registrqtion)){
+               $registrqtion->setLatLoginDate(new \DateTime());
+                $em->flush();
+            return array('success'=>true);
+           }
             $registrqtion = new Registration($registrationId);
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registrqtion);
             $form->submit($request->request->all(),false);
