@@ -120,47 +120,17 @@ class AnalyseController extends Controller
                 $analyse->setDememe($value['dememe']);
                 $analyse->setRang($key+1);     
               }
-        } }
-        return $analyse;
-    }
-
-    /**
-     * Displays a form to edit an existing analyse entity.
-     *
-     */
-    public function editAction(Request $request, Analyse $analyse,Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null)
-    {
-        $form = $this->createForm('Pwm\AdminBundle\Form\AnalyseType', $analyse);
-         $form->submit($request->request->all(),false);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            return array('partie'=>$this->showJsonAction($studentId, $session, $matiere, $partie), 'parents'=>$this->newParent($studentId,$session,$matiere));
         }
-        return $form;
-    }
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"analyse"})
-     */
-    public function showJsonAction(Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
-        $em = $this->getDoctrine()->getManager();
-        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie); 
-         if($analyse!=null){
-              $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10'];
-              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre'];
+
+         if($analyse->getSession()->getId()==69||$analyse->getSession()->getId()==70||$analyse->getSession()->getId()==71){
+             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie())[0]['sup10']+300;
+              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie())[0]['nombre']+1454;
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-
-         if($session->getId()==69||$session->getId()==70||$session->getId()==71){
-             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10']+300;
-              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre']+1454;
-              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
-              $analyse->setEvalues($nombre);
-              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($session,$matiere,$partie);
+              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
         foreach ($analyseData as $key => $value) {
-            if($value['note']==$analyse->getNote()){
+            if(round($value['note'],1)==round($analyse->getNote(),1)){
                 $analyse->setDememe($value['dememe']+11);
                 if($analyse->getNote()<=1)
                    $analyse->setRang($key+1+1310);
@@ -200,7 +170,40 @@ class AnalyseController extends Controller
                    $analyse->setRang($key+1+3);
           }
         }
-      }
+         }
+
+         }
+        return $analyse;
+    }
+
+    /**
+     * Displays a form to edit an existing analyse entity.
+     *
+     */
+    public function editAction(Request $request, Analyse $analyse,Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null)
+    {
+        $form = $this->createForm('Pwm\AdminBundle\Form\AnalyseType', $analyse);
+         $form->submit($request->request->all(),false);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return array('partie'=>$this->showJsonAction($studentId, $session, $matiere, $partie), 'parents'=>$this->newParent($studentId,$session,$matiere));
+        }
+        return $form;
+    }
+
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"analyse"})
+     */
+    public function showJsonAction(Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
+        $em = $this->getDoctrine()->getManager();
+        $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($studentId,$session,$matiere,$partie); 
+         if($analyse!=null){
+              $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10'];
+              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre'];
+              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+              $analyse->setEvalues($nombre);
 
     }
         return  $this->compare($analyse);
