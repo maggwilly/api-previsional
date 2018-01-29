@@ -18,7 +18,7 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
 	 
 	 public function findTooLongTimeLogin(){
 	 	$delay=new \DateTime();
-	 	$delay->modify('-15 day')
+	 	$delay->modify('-15 day');
          $qb = $this->createQueryBuilder('r')
          ->where('r.latLoginDate>=:latLoginDate') ->setParameter('latLoginDate',$delay); 
           return $qb->getQuery()->getResult();
