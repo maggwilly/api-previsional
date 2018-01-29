@@ -97,8 +97,8 @@ class Abonnement
 
 
     /**
-   * @ORM\ManyToOne(targetEntity="Info" )
-    * @ORM\JoinColumn(name="uid",referencedColumnName="uid",inversedBy="abonnements")
+   * @ORM\ManyToOne(targetEntity="Info" ,inversedBy="abonnements")
+    * @ORM\JoinColumn(name="uid",referencedColumnName="uid" )
    */
     private $info;
 
