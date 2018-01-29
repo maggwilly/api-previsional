@@ -29,7 +29,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
       /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findByNotInfo(Notification $notification,Registration $registration){
+  public function findByNotInfo(Notification $notification, Registration $registration){
          $qb = $this->createQueryBuilder('a')->join('a.registration','r')
           ->where('r.info=:info')
           ->setParameter('info',$registration->getInfo())

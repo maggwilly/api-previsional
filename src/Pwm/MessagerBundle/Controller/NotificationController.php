@@ -67,32 +67,56 @@ class NotificationController extends Controller
              $registrationIds='';
             $groupe= $notification->getGroupe();
             if($groupe!=null){
-                $destinations=new \Doctrine\Common\Collections\ArrayCollection();  
                switch ($groupe->getTag()) {
                    case 'is.registred.not.singup':
-
+                     $registrations = $em->getRepository('MessagerBundle:Registration')->findNotsingup();
+                     //$registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                    break;
+                   case 'loaded.too.long.time':
+                     $registrations = $em->getRepository('MessagerBundle:Registration')->findTooLongTimeLogin();
+                     //$registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                    break;                     
+                   case 'singup.subscribed.starter':
+                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUID('starter');
+                        foreach ($destinations as $info) {
+                      //   $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                     }
                     break; 
-                   case 'singup.not.subscribed':
-
-                    break; 
+                   case 'singup.subscribed.standard':
+                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUID('standard');
+                        foreach ($destinations as $info) {
+                       //  $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                     }
+                    break;                    
+                   case 'singup.subscribed.expired':
+                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUIDExpired();
+                        foreach ($destinations as $info) {
+                        // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                     }
+                    break;
+                                                             
                    case 'singup.not.profil.filled':
-
+                       $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
+                        foreach ($destinations as $info) {
+                         //$registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                     }
                     break;                                      
                    default:
                        if ($groupe->getSession()!=null) {
                            $destinations=$groupe->getSession()->getInfos();
+                        foreach ($destinations as $info) {
+                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                          }
                        }
                        break;
                }
-             foreach ($destinations as $info) {
-                  $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
-              }
+
               }else{
                 $em = $this->getDoctrine()->getManager();
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                 $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);
             }
-            return $this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId())); //$this->firebaseSend($registrationIds ,$notification);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -120,7 +144,7 @@ class NotificationController extends Controller
 
 
 public function firebaseSend($registrationIds,Notification $notification ){
-    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";
+    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"},\"priority\":\"high\"}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);

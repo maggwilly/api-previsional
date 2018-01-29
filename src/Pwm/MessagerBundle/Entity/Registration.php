@@ -28,6 +28,13 @@ class Registration
      */
     private $date;
 
+        /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
+     */
+    private $latLoginDate;
+
      /**
    * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Info", inversedBy="registrations", cascade={"persist"})
    * @ORM\JoinColumn(referencedColumnName="uid")
@@ -40,6 +47,7 @@ class Registration
     public function __construct()
     {
         $this->date =new \DateTime();  
+        $this->latLoginDate =new \DateTime();  
         
     }
 
@@ -115,5 +123,29 @@ class Registration
     public function getInfo()
     {
         return $this->info;
+    }
+
+    /**
+     * Set latLoginDate
+     *
+     * @param \DateTime $latLoginDate
+     *
+     * @return Registration
+     */
+    public function setLatLoginDate($latLoginDate)
+    {
+        $this->latLoginDate = $latLoginDate;
+
+        return $this;
+    }
+
+    /**
+     * Get latLoginDate
+     *
+     * @return \DateTime
+     */
+    public function getLatLoginDate()
+    {
+        return $this->latLoginDate;
     }
 }

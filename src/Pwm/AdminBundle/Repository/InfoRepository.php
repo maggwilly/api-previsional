@@ -18,4 +18,10 @@ class InfoRepository extends \Doctrine\ORM\EntityRepository
          ->where('a.email=:studentId')->setParameter('studentId',$studentId);
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
+
+   public function findNotProfilFilled(){
+         $qb = $this->createQueryBuilder('a')
+         ->where('a.serie is NULL or a.niveau is NULL or a.dateMax is NULL');
+          return $qb->getQuery()->getResult();
+  }
 }
