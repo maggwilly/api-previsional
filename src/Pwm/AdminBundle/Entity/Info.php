@@ -112,6 +112,10 @@ class Info
    */
     private $registrations;
 
+    /**
+   * @ORM\OneToMany(targetEntity="Pwm\AdminBundle\Entity\Abonnement", mappedBy="info", cascade={"persist","remove"})
+   */
+    private $abonnements;
 
     private $file;
 
@@ -476,4 +480,38 @@ class Info
     {
         return $this->dateMax;
     }   
+   /**
+     * Add abonnement
+     *
+     * @param \Pwm\AdminBundle\Entity\Abonnement $abonnement
+     *
+     * @return Session
+     */
+    public function addAbonnement(\Pwm\AdminBundle\Entity\Abonnement $abonnement)
+    {
+        $this->abonnements[] = $abonnement;
+
+        return $this;
+    }
+
+    /**
+     * Remove abonnement
+     *
+     * @param \Pwm\AdminBundle\Entity\Abonnement $abonnement
+     */
+    public function removeAbonnement(\Pwm\AdminBundle\Entity\Abonnement $abonnement)
+    {
+        $this->abonnements->removeElement($abonnement);
+    }
+
+    /**
+     * Get abonnements
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAbonnements()
+    {
+        return $this->abonnements;
+    }
+    
 }

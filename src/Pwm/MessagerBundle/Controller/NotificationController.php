@@ -78,19 +78,19 @@ class NotificationController extends Controller
                      //$registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
                     break;                     
                    case 'singup.subscribed.starter':
-                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUID('starter');
+                        $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('starter');
                         foreach ($destinations as $info) {
                       //   $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break; 
                    case 'singup.subscribed.standard':
-                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUID('standard');
+                        $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('standard');
                         foreach ($destinations as $info) {
                        //  $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;                    
                    case 'singup.subscribed.expired':
-                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findUsersUIDExpired();
+                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findSubscribersExpired();
                         foreach ($destinations as $info) {
                         // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }

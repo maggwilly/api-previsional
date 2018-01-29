@@ -23,22 +23,6 @@ class AbonnementRepository extends EntityRepository
           return $qb->getQuery()->getResult();
   }
 
-  public function findUsersUID($package){
-         $qb = $this->createQueryBuilder('a')->leftJoin('a.session', 's')->leftJoin('a.info', 'i')
-         ->where('a.plan=:plan')->setParameter('plan',$package)
-         ->andWhere('s.archived=:archived')->setParameter('archived',false)
-         ->select('i'); 
-          return $qb->getQuery()->getResult();
-  }
-
-    public function findUsersUIDExpired(){
-         $qb = $this->createQueryBuilder('a')->leftJoin('a.session', 's')
-         ->where('a.endDate<=:endDate')->setParameter('endDate',new \DateTime())
-         ->andWhere('s.archived=:archived')->setParameter('archived',false)
-         ->select('DISTINCT a.info'); 
-          return $qb->getQuery()->getResult();
-  }
-
 	 /**
   *Nombre de synchro effectue par utilisateur 
   */

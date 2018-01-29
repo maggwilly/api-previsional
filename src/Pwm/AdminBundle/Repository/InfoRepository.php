@@ -24,4 +24,17 @@ class InfoRepository extends \Doctrine\ORM\EntityRepository
          ->where('a.serie is NULL or a.niveau is NULL or a.dateMax is NULL');
           return $qb->getQuery()->getResult();
   }
+
+   public function findSubscribersByBundle($package){
+         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a')
+          ->where('a.endDate<=:endDate')->setParameter('endDate',new \DateTime())
+         ->andWhere('s.archived=:archived')->setParameter('archived',false);
+          return $qb->getQuery()->getResult();
+  }
+   public function findSubscribersByBundle($package){
+         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a')
+          ->where('a.plan=:plan')->setParameter('plan',$package)
+         ->andWhere('s.archived=:archived')->setParameter('archived',false);
+          return $qb->getQuery()->getResult();
+  }
 }
