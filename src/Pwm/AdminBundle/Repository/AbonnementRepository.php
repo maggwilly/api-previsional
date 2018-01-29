@@ -24,10 +24,10 @@ class AbonnementRepository extends EntityRepository
   }
 
   public function findUsersUID($package){
-         $qb = $this->createQueryBuilder('a')->leftJoin('a.session', 's')
+         $qb = $this->createQueryBuilder('a')->leftJoin('a.session', 's')->leftJoin('a.info', 'i')
          ->where('a.plan=:plan')->setParameter('plan',$package)
          ->andWhere('s.archived=:archived')->setParameter('archived',false)
-         ->select('DISTINCT a.info'); 
+         ->select('i'); 
           return $qb->getQuery()->getResult();
   }
 
