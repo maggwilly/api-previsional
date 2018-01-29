@@ -26,14 +26,14 @@ class InfoRepository extends \Doctrine\ORM\EntityRepository
   }
 
    public function findSubscribersExpired(){
-         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a')
+         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a') ->leftJoin('a.session', 's')
           ->where('a.endDate<=:endDate')->setParameter('endDate',new \DateTime())
           ->andWhere('s.archived=:archived')->setParameter('archived',false);
           return $qb->getQuery()->getResult();
   }
   
    public function findSubscribersByBundle($package){
-         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a')
+         $qb = $this->createQueryBuilder('i')->join('i.abonnements', 'a') ->leftJoin('a.session', 's')
           ->where('a.plan=:plan')->setParameter('plan',$package)
          ->andWhere('s.archived=:archived')->setParameter('archived',false);
           return $qb->getQuery()->getResult();
