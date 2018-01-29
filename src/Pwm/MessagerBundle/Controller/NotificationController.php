@@ -60,7 +60,7 @@ class NotificationController extends Controller
      */
     public function showAction(Request $request,Notification $notification)
     {
-        em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($notification);
         $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
         $sendForm->handleRequest($request);
