@@ -90,7 +90,7 @@ class NotificationController extends Controller
                      }
                     break;                    
                    case 'singup.subscribed.expired':
-                        $destinations=$em->getRepository('AdminBundle:Abonnement')->findSubscribersExpired();
+                        $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersExpired();
                         foreach ($destinations as $info) {
                         // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
                      }
