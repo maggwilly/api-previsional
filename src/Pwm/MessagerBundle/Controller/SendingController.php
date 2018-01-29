@@ -69,8 +69,8 @@ class SendingController extends Controller
     {     $em = $this->getDoctrine()->getManager();
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registrqtion)){
-              // $registrqtion->setLatLoginDate(new \DateTime());
-            //    $em->flush();
+               $registrqtion->setLatLoginDate(new \DateTime());
+               $em->flush();
             return array('success'=>true);
            }
             $registrqtion = new Registration($registrationId);
