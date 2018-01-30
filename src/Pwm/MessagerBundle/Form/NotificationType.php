@@ -22,7 +22,7 @@ class NotificationType extends AbstractType
         ->add('tag')
         ->add('format', ChoiceType::class, array(
                                  'choices'  => array(
-                                  'html' => 'HTML', 'math' => 'MATH', 'text' => 'TEXT'),
+                                  'notifications' => 'Notifications', 'paper' => 'Annonce', 'alarm' => 'Alerte temps'),
                                    ))
         ->add('groupe', EntityType::class,
              array('class' => 'AdminBundle:Groupe', 

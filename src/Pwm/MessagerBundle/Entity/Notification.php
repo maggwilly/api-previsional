@@ -120,6 +120,7 @@ class Notification
         $this->sendDate =new \DateTime();
          $this->type =$type;
         $this->tag =$tag;
+         $this->format ='notifications';
     }
 
     /**
