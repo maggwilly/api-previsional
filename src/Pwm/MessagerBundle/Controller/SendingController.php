@@ -70,13 +70,13 @@ class SendingController extends Controller
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registrqtion)){
                $registrqtion
-               ->setLatLoginDate(new \DateTime())
-               ->setUserAgent($request->headers->get('User-Agent'));
+               ->setLatLoginDate(new \DateTime());
+              // ->setUserAgent($request->headers->get('User-Agent'));
                $em->flush();
             return array('success'=>true);
            }
-            $registrqtion = new Registration($registrationId)
-            ->setUserAgent($request->headers->get('User-Agent'));
+            $registrqtion = new Registration($registrationId);
+           // ->setUserAgent($request->headers->get('User-Agent'));
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registrqtion);
             $form->submit($request->request->all(),false);
           if ($form->isValid()) {
