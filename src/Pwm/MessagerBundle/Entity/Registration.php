@@ -21,6 +21,15 @@ class Registration
      */
     private $registrationId;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent", type="string", length=255, nullable=true)
+     * @ORM\Id
+     */
+    private $userAgent;
+
     /**
      * @var \DateTime
      *
@@ -51,7 +60,29 @@ class Registration
         
     }
 
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Registration
+     */
+    public function setUserAgent($date)
+    {
+        $this->userAgent = $date;
 
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
 
     /**
      * Set registrationId
