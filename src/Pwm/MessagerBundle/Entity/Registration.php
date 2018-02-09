@@ -26,7 +26,6 @@ class Registration
      * @var string
      *
      * @ORM\Column(name="user_agent", type="string", length=255, nullable=true)
-     * @ORM\Id
      */
     private $userAgent;
 
