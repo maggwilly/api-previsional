@@ -9,7 +9,7 @@
 									Votre inscription au programme de préparation pour le concours de
                                     {% if commande is not  null %} {{commande.session.nomConcours}}{% endif %} a été prise en compte.
                                     Elle sera valable jusqu'à
-                                     {% if commande is not  null %}	{{commande.abonnement.endDate|date('d/m/Y à H:i:s') }}{% endif %}. Date à la quelle vous devriez la renouveller si vous n'avez pas terminé votre préparation.						
+                                     {% if commande is not null  and commande.abonnement is not  null %}	{{commande.abonnement.endDate|date('d/m/Y à H:i:s') }}{% endif %}. Date à la quelle vous devriez la renouveller si vous n'avez pas terminé votre préparation.						
 									</p>
                                 </td>
                             </tr>
