@@ -46,6 +46,7 @@ class NotificationController extends Controller
     public function newAction(Request $request)
     {
         $notification = new Notification();
+       $em = $this->getDoctrine()->getManager();
         $commande=$em->getRepository('AdminBundle:Commande')->findOneById(69);
             
         $event= new CommandeEvent($commande);
@@ -54,7 +55,7 @@ class NotificationController extends Controller
         $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+ 
             $em->persist($notification);
             $em->flush();
 
