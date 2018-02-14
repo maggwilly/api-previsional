@@ -29,7 +29,15 @@ class NotificationController extends Controller
     }
 
 
-
+    public function renderTemplate(\Pwm\AdminBundle\Entity\Commande $commande=null)
+    {
+        return $this->renderView(
+            'MessagerBundle:notification:confirmation.html.twig',
+            array(
+                'commande' => $commande
+            )
+        );
+    }
     /**
      * Creates a new notification entity.
      *
@@ -37,9 +45,10 @@ class NotificationController extends Controller
     public function newAction(Request $request)
     {
         $notification = new Notification();
+         $body = $this->renderTemplate($commande);
+        $notification ->setText($body);
         $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($notification);
