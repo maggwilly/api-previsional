@@ -1,12 +1,15 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block title %}Question edit{% endblock %}
 {% block body %}
-<div class="card"> 
-<div class="col-md-4">
+
+<div class="col-md-6">
+    <div class="card"> 
+          <div class="card-content">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
+ </div>
 </div>
     <ul>
         <li>

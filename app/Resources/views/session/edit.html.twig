@@ -2,10 +2,12 @@
 {% block title %}{{session.nomConcours|upper}} &mdash; {{ session.nom|upper }}{% endblock %}
 {% block body %}
     <div class="card"> 
+          <div class="card-content">
   {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
+</div>
 </div>
     <ul>
         <li>
