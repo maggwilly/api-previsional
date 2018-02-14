@@ -133,11 +133,12 @@ if ($err) {
                  $em->persist($abonnement);
                 }
 
-            $abonnement->setPlan($commande->getPackage());
-            $abonnement->setPrice($commande->getAmount());
+             $abonnement->setPlan($commande->getPackage());
+             $abonnement->setPrice($commande->getAmount());
              $commande->getSession()->removeInfo($commande->getInfo());
              $commande->getSession()->addInfo($commande->getInfo());
-             $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1);
+             $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
+             $commande ->setAbonnement($abonnement);
             $em->flush();
               $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);

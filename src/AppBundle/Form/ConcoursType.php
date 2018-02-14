@@ -40,7 +40,7 @@ class ConcoursType extends AbstractType
         ->add('dateMax', 'date', array('years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))    
         ->add('contacts')
         ->add('imageUrl')
-        ->add('imageEntity',   new ImageType(), array('label'=>'Image de la question','required'=>false));
+        ->add('imageEntity',   new ImageType(), array('label'=>'Image du concours','required'=>false));
     }
     
     /**

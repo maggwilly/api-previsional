@@ -107,28 +107,20 @@ class Abonnement
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" ,inversedBy="abonnements")
    */
     private $session;
-  /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme")
-   */
-    private $programme;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Commande")
-   */
-    private $commande;
 
 
      /**
      * Constructor
      */
-    public function __construct(\Pwm\AdminBundle\Entity\Commande $commande )
+    public function __construct(\Pwm\AdminBundle\Entity\Commande $commande)
     {
        $this->status=$commande->getStatus();
         $this->plan=$commande->getPackage();
         $this->price=$commande->getAmount();
         $this->info=$commande->getInfo();
         $this->session=$commande->getSession();
-        $this->commande=$commande;
+      //  $this->commande=$commande;
         $this->method='OM';
         $this->date=new \DateTime();
     }
@@ -444,28 +436,7 @@ class Abonnement
     }
 
 
-         /**
-     * Set concours
-     *
-     * @param \AppBundle\Entity\Programme $concours
-     * @return Matiere
-     */
-    public function setProgramme(\AppBundle\Entity\Programme $concours = null)
-    {
-        $this->programme = $concours;
 
-        return $this;
-    }
-
-    /**
-     * Get concours
-     *
-     * @return \AppBundle\Entity\Programme 
-     */
-    public function getProgramme()
-    {
-        return $this->programme;
-    }   
 
     /**
      * Set session
@@ -491,29 +462,7 @@ class Abonnement
         return $this->session;
     }
 
-    /**
-     * Set commande
-     *
-     * @param \Pwm\AdminBundle\Entity\Commande $commande
-     *
-     * @return Abonnement
-     */
-    public function setCommande(\Pwm\AdminBundle\Entity\Commande $commande = null)
-    {
-        $this->commande = $commande;
 
-        return $this;
-    }
-
-    /**
-     * Get commande
-     *
-     * @return \Pwm\AdminBundle\Entity\Commande
-     */
-    public function getCommande()
-    {
-        return $this->commande;
-    }
 
     /**
      * Set info

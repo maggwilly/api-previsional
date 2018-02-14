@@ -11,11 +11,13 @@ class CreateListener
 
 protected $cloudinaryWrapper;
 protected $_em;
-public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em)
+ protected $twig;
+public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $twig)
 {
 
 $this->cloudinaryWrapper = $cloudinaryWrapper;
 $this->_em=$_em;
+$this->twig=$twig;
 }
 
 public function onObjetCreated(QuestionEvent $event)
@@ -47,8 +49,10 @@ public function onCommandeConfirmed(CommandeEvent $event)
    $commande=$event->getCommande();
     $info= $commande->getInfo();
     $notification=new Notification('private');
+    $body = $this->renderTemplate($commande);
      if ($commande->getStatus()=='SUCCESS') {
-    $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText('Votre inscription au programme de préparation a été prise en compte.');
+       $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())
+     ->setText($body);
      $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
      $this->firebaseSend($registrationIds, $notification); 
   }
@@ -60,7 +64,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
      */
     public function sendTo($registrations,Notification $notification)
     {
-   
     $registrationIds='';
    foreach ($registrations as $registration) {
     $registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
@@ -102,5 +105,14 @@ if ($err) {
         
 }
 
+    public function renderTemplate(\Pwm\AdminBundle\Entity\Commande $commande)
+    {
+        return $this->twig->render(
+            'MessagerBundle:notification:confirmation.html.twig',
+            array(
+                'commande' => $commande
+            )
+        );
+    }
 
 }

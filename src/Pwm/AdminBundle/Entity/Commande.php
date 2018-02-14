@@ -79,6 +79,10 @@ class Commande
    */
     private $session;
 
+  /**
+   * @ORM\ManyToOne(targetEntity="Abonnement")
+   */
+    private $abonnement;
 
       /**
    * @ORM\ManyToOne(targetEntity="Info" )
@@ -324,5 +328,29 @@ class Commande
     public function getOrderId()
     {
         return $this->order_id;
+    }
+
+    /**
+     * Set abonnement
+     *
+     * @param \Pwm\AdminBundle\Entity\Abonnement $abonnement
+     *
+     * @return Commande
+     */
+    public function setAbonnement(\Pwm\AdminBundle\Entity\Abonnement $abonnement = null)
+    {
+        $this->abonnement = $abonnement;
+
+        return $this;
+    }
+
+    /**
+     * Get abonnement
+     *
+     * @return \Pwm\AdminBundle\Entity\Abonnement
+     */
+    public function getAbonnement()
+    {
+        return $this->abonnement;
     }
 }
