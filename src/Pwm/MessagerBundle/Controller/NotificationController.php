@@ -47,7 +47,7 @@ class NotificationController extends Controller
     {
         $notification = new Notification();
        $em = $this->getDoctrine()->getManager();
-        $commande=$em->getRepository('AdminBundle:Commande')->findOneById(69);
+        $commande=$em->getRepository('AdminBundle:Commande')->findOneById(212);
             
         $event= new CommandeEvent($commande);
         $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
