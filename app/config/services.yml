@@ -22,7 +22,7 @@ services:
                     - { name: twig.extension }
       create_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig"]
           tags:
             - { name: kernel.event_listener, event: object.created, method: onObjetCreated }
 
