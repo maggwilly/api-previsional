@@ -28,12 +28,12 @@ services:
 
       commande_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@templating"]
           tags:
             - { name: kernel.event_listener, event: commande.confirmed, method: onCommandeConfirmed }
 
       registration_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@templating"]
           tags:
             - { name: kernel.event_listener, event: user.registration, method: onRegistration }
