@@ -12,12 +12,12 @@ class CreateListener
 protected $cloudinaryWrapper;
 protected $_em;
  protected $twig;
-public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $twig)
+public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $templating)
 {
 
 $this->cloudinaryWrapper = $cloudinaryWrapper;
 $this->_em=$_em;
-$this->twig=$twig;
+$this->twig=$templating;
 }
 
 public function onObjetCreated(QuestionEvent $event)

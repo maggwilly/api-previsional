@@ -45,8 +45,6 @@ class NotificationController extends Controller
     public function newAction(Request $request)
     {
         $notification = new Notification();
-         $body = $this->renderTemplate($commande);
-        $notification ->setText($body);
         $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
