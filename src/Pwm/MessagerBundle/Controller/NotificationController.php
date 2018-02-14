@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Event\CommandeEvent;
 /**
  * Notification controller.
  *
@@ -45,6 +46,11 @@ class NotificationController extends Controller
     public function newAction(Request $request)
     {
         $notification = new Notification();
+        $commande=$em->getRepository('AdminBundle:Commande')->findOneById(69);
+            
+        $event= new CommandeEvent($commande);
+        $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
+
         $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
