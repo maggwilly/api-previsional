@@ -173,6 +173,7 @@ class Session
       $this->nombreInscrit=0;
      $this->archived=false;
      $this->concours= $concours;
+    $this->nomConcours=$concours->getNom();
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
@@ -440,9 +441,7 @@ class Session
      * @return string
      */
     public function getNomConcours()
-    {
-         if($this->nomConcours==null)
-             return $this->concours->getNom();  
+    { 
     return  $this->nomConcours;
     }
 
