@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Resultat controller.
  *
@@ -54,15 +55,37 @@ class ResultatController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($resultat);
             $em->flush();
-
-            return $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
+           $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
+            $registrationIds=array();
+            foreach ($registrations as $registration) {
+                $registrationIds[]=$registration->getRegistrationId();
+                }
+            return return $this->firebaseSend($registrationIds, $resultat); //$this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
-
         return $this->render('resultat/new.html.twig', array(
             'resultat' => $resultat,
             'form' => $form->createView(),
         ));
     }
+
+
+public function firebaseSend($registrationIds,Resultat $resultat ){
+
+$data=array(
+        'registration_ids' => array_values($registrationIds),
+        'title' => 'Resultat disponible',
+        'body' => $resultat->getDescription(),
+        'badge' => 1,
+        'tag' => 'confirm',
+        'priority' => 'high',
+        'data' => array(
+               'action' => "new_message"
+        )
+    );
+
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
+  return new Response($fmc_response);
+}
 
     /**
      * Finds and displays a resultat entity.

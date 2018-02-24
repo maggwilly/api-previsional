@@ -6,8 +6,8 @@ parameters:
      logout.target: /
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
+      fmc_manager:
+         class: AppBundle\Service\FMCManager
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     
       app.form.registration:
@@ -22,18 +22,18 @@ services:
                     - { name: twig.extension }
       create_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: object.created, method: onObjetCreated }
 
       commande_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: commande.confirmed, method: onCommandeConfirmed }
 
       registration_listener:
           class: AppBundle\Event\CreateListener
-          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig"]
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: user.registration, method: onRegistration }

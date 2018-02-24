@@ -59,6 +59,8 @@ class Resultat
         return $this->id;
     }
 
+
+
     /**
      * Set url
      *
@@ -153,6 +155,8 @@ class Resultat
     {
         return $this->imageUrl;
     }
+
+
 
 }
 

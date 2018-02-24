@@ -4,6 +4,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Misteio\CloudinaryBundle\Wrapper\CloudinaryWrapper;
 use Pwm\MessagerBundle\Entity\Notification;
 use Pwm\MessagerBundle\Entity\Sending;
+use AppBundle\Service\FMCManager;
 use Doctrine\ORM\EntityManager;
 class CreateListener
 {
@@ -12,18 +13,20 @@ class CreateListener
 protected $cloudinaryWrapper;
 protected $_em;
 protected $twig;
+protected $fcm;
 const HEADERS=array(
     "Authorization: key=AAAAJiQu4xo:APA91bH63R7-CeJ7jEgGtb2TNVkCx0TDWAYbu32mO1_4baLtrrFidNrbNy98Qngb6G67efbuJ8BpInpJiCeoTp-p5mt2706P2hXbXqrTXOWlaJFTDHza2QVWSlwsbF27eBhD2PZVJKuu",
     "content-type: application/json"
   );
 const FCM_URL = "https://fcm.googleapis.com/fcm/send";
  
-public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $templating)
+public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $templating,FMCManager $fcm)
 {
 
 $this->cloudinaryWrapper = $cloudinaryWrapper;
 $this->_em=$_em;
 $this->twig=$templating;
+$this->fcm=$fcm;
 }
 
 public function onObjetCreated(QuestionEvent $event)
@@ -50,7 +53,7 @@ public function onRegistration(RegistrationEvent $event)
       if($info!=null){
         $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
         $data = array($registrations->getRegistrationId() => true);
-        $this->sendPostRequest($url,$data,array(),'PATCH');
+        $this->fcm->sendOrGetData($url,$data,'PATCH');
      } 
 }
 
@@ -65,13 +68,14 @@ public function onCommandeConfirmed(CommandeEvent $event)
      if ($commande->getStatus()=='SUCCESS') {
        $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())
      ->setText($body);
-      $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
-      $this->firebaseSend($registrationIds, $notification); 
-    }
+      $this->sendTo($info->getRegistrations(), $notification);
+      //$this->firebaseSend($registrationIds, $notification); 
+     }
       if ($info!=null) {
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => true);
-         $this->sendPostRequest($url,$data,array(),'PATCH');
+        $this->fcm->sendOrGetData($url,$data,'PATCH');
+         //$this->sendPostRequest($url,$data,array(),'PATCH');
         }
 }
 
@@ -84,7 +88,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
    // $registrationIds='';
       $registrationIds=array();
    foreach ($registrations as $registration) {
-   // $registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
     $registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
           $this->_em->persist($sending);  
@@ -106,7 +109,7 @@ $data=array(
         )
     );
 
-  return $this->sendPostRequest(self::FCM_URL,$data,self::HEADERS);      
+  return $this->fcm->sendMessage($data);//$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS);      
 }
 
     public function renderTemplate(\Pwm\AdminBundle\Entity\Commande $commande)

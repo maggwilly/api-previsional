@@ -172,7 +172,9 @@ $data=array(
                'action' => "new_message"
         )
     );
- $fmc_response=$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS,false);
+
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
+     //$fmc_response=$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS,false);
   return new Response($fmc_response);
 }
 
