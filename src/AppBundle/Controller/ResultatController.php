@@ -60,7 +60,7 @@ class ResultatController extends Controller
             foreach ($registrations as $registration) {
                 $registrationIds[]=$registration->getRegistrationId();
                 }
-            return return $this->firebaseSend($registrationIds, $resultat); //$this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
+            return  $this->firebaseSend($registrationIds, $resultat); //$this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
         return $this->render('resultat/new.html.twig', array(
             'resultat' => $resultat,
