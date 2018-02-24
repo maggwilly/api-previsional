@@ -228,4 +228,28 @@ class Registration
         return $json_decode?$response:$json_response;
     }
 
+
+    /**
+     * Set appVersion
+     *
+     * @param string $appVersion
+     *
+     * @return Registration
+     */
+    public function setAppVersion($appVersion)
+    {
+        $this->appVersion = $appVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get appVersion
+     *
+     * @return string
+     */
+    public function getAppVersion()
+    {
+        return $this->appVersion;
+    }
 }

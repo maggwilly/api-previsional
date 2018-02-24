@@ -827,4 +827,52 @@ class Session
         $response = json_decode($json_response, true);
         return $json_decode?$response:$json_response;
     }    
+
+    /**
+     * Set discussionName
+     *
+     * @param string $discussionName
+     *
+     * @return Session
+     */
+    public function setDiscussionName($discussionName)
+    {
+        $this->discussionName = $discussionName;
+
+        return $this;
+    }
+
+    /**
+     * Get discussionName
+     *
+     * @return string
+     */
+    public function getDiscussionName()
+    {
+        return $this->discussionName;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Pwm\AdminBundle\Entity\Info $owner
+     *
+     * @return Session
+     */
+    public function setOwner(\Pwm\AdminBundle\Entity\Info $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Pwm\AdminBundle\Entity\Info
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
 }
