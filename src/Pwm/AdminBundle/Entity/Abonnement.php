@@ -146,7 +146,7 @@ class Abonnement
            }
     }
       /**
-    * @ORM\PostPersist()
+    * @ORM\PreFlush()
     */
     public function PostPersist(){
         if ($this->info!=null) {
