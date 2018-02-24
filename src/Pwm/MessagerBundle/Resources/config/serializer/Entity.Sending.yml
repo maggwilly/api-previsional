@@ -10,6 +10,6 @@ Pwm\MessagerBundle\Entity\Sending:
         sendDate:
              groups: ['sending', 'full']
              expose: true
-             type: DateTime<'yyyy-MM-ddTHH:mm'>               
+             type: DateTime<'Y-m-dTH:i'>               
         notification:
              groups: ['sending', 'full']
