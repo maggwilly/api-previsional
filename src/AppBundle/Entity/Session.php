@@ -202,7 +202,7 @@ class Session
     }
 
       /**
-      * @ORM\PreUpdate()
+      * @ORM\PostUpdate()
     */
     public function PostPersist(){
         if ($this->owner!=null) {
