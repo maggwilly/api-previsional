@@ -63,19 +63,24 @@ class Registration
     public function __construct()
     {
         $this->date =new \DateTime();  
-        $this->latLoginDate =new \DateTime();  
-        
+        $this->latLoginDate =new \DateTime();    
     }
 
 
-      /**
-    * @ORM\PostPersist()
+    /**
     * @ORM\PostUpdate()
     */
     public function PostPersist(){
-
+     if($this->info!=null){
+        $url="https://trainings-fa73e.firebaseio.com/users/".$this->$info->getUid()."/registrationsId/.json";
+        $data = array($this->registrationId => true);
+         $this->sendPostRequest($url,$data);
+     }
         //create inscrir au groupe
-    }  
+    } 
+
+
+
     /**
      * Set date
      *
@@ -195,4 +200,32 @@ class Registration
     {
         return $this->latLoginDate;
     }
+
+  public function sendPostRequest($url,$data,$headers=array(),$json_decode=true)
+    {
+        $content = json_encode($data);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+//        curl_setopt($curl, CURLOPT_PATCH , true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST , "PATCH");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+        $json_response = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $err = curl_error($curl);
+         curl_close($curl);
+       if ($err) {
+            $json_err = json_decode($err, true);
+            return $json_decode?$json_err:$err;
+        }
+        $response = json_decode($json_response, true);
+        return $json_decode?$response:$json_response;
+    }
+
 }

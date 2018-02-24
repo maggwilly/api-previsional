@@ -149,7 +149,11 @@ class Info
      * @return string
      */
     public function getDisplayName()
-    {
+    {         if($this->displayName==null) 
+                  if($this->email==null) 
+                      return $this->uid;
+                  else
+                     return $this->email;         
         return $this->displayName;
     }
 

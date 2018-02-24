@@ -84,9 +84,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
 
 
 public function firebaseSend($registrationIds, Notification $notification ){
-
-   /* $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"}}";*/
- 
 $data=array(
         'registration_ids' => array_values($registrationIds),
         'title' => $notification->getTitre(),
@@ -98,34 +95,7 @@ $data=array(
         )
     );
 
-  return $this->sendPostRequest(self::FCM_URL,$data,self::HEADERS);
-
-  /*$curl = curl_init();
-  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 120,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS =>$data ,
-  CURLOPT_HTTPHEADER => array(
-    "Authorization: key=AAAAJiQu4xo:APA91bH63R7-CeJ7jEgGtb2TNVkCx0TDWAYbu32mO1_4baLtrrFidNrbNy98Qngb6G67efbuJ8BpInpJiCeoTp-p5mt2706P2hXbXqrTXOWlaJFTDHza2QVWSlwsbF27eBhD2PZVJKuu",
-    "content-type: application/json"
-  ),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  return $err;
-} 
-  return  $response;*/
-        
+  return $this->sendPostRequest(self::FCM_URL,$data,self::HEADERS);      
 }
 
     public function renderTemplate(\Pwm\AdminBundle\Entity\Commande $commande)

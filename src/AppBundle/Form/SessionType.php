@@ -62,7 +62,15 @@ class SessionType extends AbstractType
                    'empty_data'  => null,
                     'required' => false,
                    'label'=>'Progrmme de prépa')
-             );
+             )
+      ->add('owner', EntityType::class,
+             array('class' => 'AdminBundle:Info', 
+                   'choice_label' => 'getDisplayName', 
+                   'placeholder' => 'Please choose',
+                   'empty_data'  => null,
+                    'required' => false,
+                   ' label'=>'Responsable')
+             )   ;
     }
     
     /**
