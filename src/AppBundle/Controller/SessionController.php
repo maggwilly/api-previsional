@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Concours;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Session controller.
  *
@@ -179,6 +180,14 @@ class SessionController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+        if ($session->getOwner()!=null) {
+          $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
+          $data = array(
+            'info'=>array('groupName' => $session->getNomConcours()),
+            'owner'=>$session->getOwner()->getUid()
+              );
+              return new Response($this->sendPostRequest($url,$data,array(),false);
+        }
             return $this->redirectToRoute('session_edit', array('id' => $session->getId()));
         }
 
@@ -188,7 +197,32 @@ class SessionController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
+   public function sendPostRequest($url,$data,$headers=array(),$json_decode=true)
+    {
+        $content = json_encode($data);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+//        curl_setopt($curl, CURLOPT_PATCH , true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST , "PATCH");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+        $json_response = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $err = curl_error($curl);
+         curl_close($curl);
+       if ($err) {
+            $json_err = json_decode($err, true);
+            return $json_decode?$json_err:$err;
+        }
+        $response = json_decode($json_response, true);
+        return $json_decode?$response:$json_response;
+    } 
     /**
      * Deletes a session entity.
      *
