@@ -151,7 +151,6 @@ class SessionController extends Controller
     public function followsAction(Request $request,Session $session, Info $info)
     {
          $status=$request->query->get('status');
-
           if ($session!=null && $info!=null) {
                 switch ($status) {
                     case 'true':
@@ -165,7 +164,6 @@ class SessionController extends Controller
                     default:
                     return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info));  
                 }
-     
           }
          return  false;
     }
@@ -179,10 +177,8 @@ class SessionController extends Controller
         $deleteForm = $this->createDeleteForm($session);
         $editForm = $this->createForm('AppBundle\Form\SessionType', $session);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('session_edit', array('id' => $session->getId()));
         }
 
@@ -201,13 +197,11 @@ class SessionController extends Controller
     {
         $form = $this->createDeleteForm($session);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($session);
             $em->flush();
         }
-
         return $this->redirectToRoute('session_index');
     }
 

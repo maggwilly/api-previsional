@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="registration")
  * @ORM\Entity(repositoryClass="Pwm\MessagerBundle\Repository\RegistrationRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Registration
 {
@@ -28,6 +29,13 @@ class Registration
      * @ORM\Column(name="user_agent", type="string", length=255, nullable=true)
      */
     private $userAgent;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="app_version", type="string", length=255, nullable=true)
+     */
+    private $appVersion;
 
     /**
      * @var \DateTime
@@ -59,6 +67,15 @@ class Registration
         
     }
 
+
+      /**
+    * @ORM\PostPersist()
+    * @ORM\PostUpdate()
+    */
+    public function PostPersist(){
+
+        //create inscrir au groupe
+    }  
     /**
      * Set date
      *

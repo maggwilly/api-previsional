@@ -145,6 +145,14 @@ class Abonnement
                    break;
            }
     }
+      /**
+    * @ORM\PostPersist()
+    * @ORM\PostUpdate()
+    */
+    public function PostPersist(){
+
+        //create inscrir au groupe
+    }  
 
 
         /**

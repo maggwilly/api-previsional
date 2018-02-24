@@ -163,6 +163,19 @@ class Session
    */
     private $groupe; 
 
+    /**
+   * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Info")
+    * @ORM\JoinColumn(name="uid",referencedColumnName="uid" )
+   */
+    private $owner;
+
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="discussionName", type="string", length=255, options={"default" : "Groupe"})
+     */
+    private $discussionName;
+
   /**
      * Constructor
      */
@@ -170,10 +183,11 @@ class Session
     {
      $date=new \DateTime();
      $this->date=$date;
-      $this->nombreInscrit=0;
+     $this->nombreInscrit=0;
      $this->archived=false;
      $this->concours= $concours;
-    $this->nomConcours=$concours->getNom();
+     $this->nomConcours=$concours->getNom();
+     $this->abreviation=$concours->getAbreviation();
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
@@ -186,7 +200,17 @@ class Session
     public function PrePersist(){
 
       $this->groupe= new Groupe($this->nomConcours,$this);
-    }   
+    }
+
+      /**
+    * @ORM\PostPersist()
+    * @ORM\PostUpdate()
+    */
+    public function PostPersist(){
+
+        //create update discussion groupe
+    }  
+
     /**
      * Get id
      *

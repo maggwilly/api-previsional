@@ -28,6 +28,8 @@ class Groupe
      */
     private $nom;
 
+
+
     /**
      * @var \DateTime
      *
@@ -39,7 +41,6 @@ class Groupe
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session", inversedBy="groupe")
    */
     private $session;
-
 
 
         /**

@@ -99,7 +99,7 @@ class ProgrammeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('concours_edit', array('id' => $concour->getId()));
+            return $this->redirectToRoute('programme_edit', array('id' => $concour->getId()));
         }
 
         return $this->render('programme/edit.html.twig', array(
@@ -124,7 +124,7 @@ class ProgrammeController extends Controller
             $em->flush($concour);
         }
 
-        return $this->redirectToRoute('concours_index');
+        return $this->redirectToRoute('programme_index');
     }
 
     /**

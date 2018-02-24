@@ -19,6 +19,14 @@ class NotificationController extends Controller
      * Lists all notification entities.
      *
      */
+    private $registrationIds=array();
+    const HEADERS=array(
+    "Authorization: key=AAAAJiQu4xo:APA91bH63R7-CeJ7jEgGtb2TNVkCx0TDWAYbu32mO1_4baLtrrFidNrbNy98Qngb6G67efbuJ8BpInpJiCeoTp-p5mt2706P2hXbXqrTXOWlaJFTDHza2QVWSlwsbF27eBhD2PZVJKuu",
+    "content-type: application/json"
+  );
+  const FCM_URL = "https://fcm.googleapis.com/fcm/send";
+ 
+
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -80,42 +88,49 @@ class NotificationController extends Controller
                switch ($groupe->getTag()) {
                    case 'is.registred.not.singup':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findNotsingup();
-                     $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                    // $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                         $this->sendTo($registrations ,$notification);
                     break;
                    case 'loaded.too.long.time':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findTooLongTimeLogin();
-                     $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                    // $registrationIds=$registrationIds.$this->sendTo($registrations ,$notification);
+                     $this->sendTo($registrations ,$notification);
                     break;                     
                    case 'singup.subscribed.starter':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('starter');
                         foreach ($destinations as $info) {
-                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                        // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                             $this->sendTo($info->getRegistrations(),$notification);
                      }
                     break; 
                    case 'singup.subscribed.standard':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('standard');
                         foreach ($destinations as $info) {
-                        $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                       // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                          $this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;                    
                    case 'singup.subscribed.expired':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersExpired();
                         foreach ($destinations as $info) {
-                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                         //$registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                          $this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;
                                                              
                    case 'singup.not.profil.filled':
                        $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
                         foreach ($destinations as $info) {
-                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                         //$registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                          $this->sendTo($info->getRegistrations(),$notification);
                      }
                     break;                                      
                    default:
                        if ($groupe->getSession()!=null) {
                            $destinations=$groupe->getSession()->getInfos();
                         foreach ($destinations as $info) {
-                         $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                        // $registrationIds=$registrationIds.$this->sendTo($info->getRegistrations(),$notification);
+                            $this->sendTo($info->getRegistrations(),$notification);
                           }
                        }
                        break;
@@ -123,10 +138,11 @@ class NotificationController extends Controller
 
               }else{
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-                $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);
+               // $registrationIds=$registrationIds. $this->sendTo($registrations,$notification);
+                   $this->sendTo($registrations,$notification);
             }
-             $em->flush();
-            return $this->firebaseSend($registrationIds ,$notification);// $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+             //$em->flush();
+            return $this->firebaseSend($this->registrationIds ,$notification);// $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -142,19 +158,20 @@ class NotificationController extends Controller
     public function sendTo($registrations,Notification $notification)
     {
     $em = $this->getDoctrine()->getManager();
-    $registrationIds='';
+   // $registrationIds='';
    foreach ($registrations as $registration) {
-    $registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
+    //$registrationIds=$registrationIds.'"'.$registration->getRegistrationId().'", ';
+     $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          $em->persist($sending);  
+          //$em->persist($sending);  
        }
-         $em->flush();
-     return  $registrationIds;
+        // $em->flush();
+     return  $this->registrationIds;
     }
 
 
 public function firebaseSend($registrationIds,Notification $notification ){
-    $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"},\"priority\":\"high\"}";
+ /*   $data="{\"registration_ids\":[".$registrationIds."], \"notification\":{\"title\":\"".$notification->getTitre()."\",\"body\":\"".$notification->getSousTitre()."\",\"subtitle\":\"".$notification->getSousTitre()."\",\"tag\":\"tag\"},\"priority\":\"high\"}";
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -179,9 +196,50 @@ curl_close($curl);
 if ($err) {
   return new Response( $err);
 } 
-  return new Response( $response);
-        
+  return new Response( $response);*/
+   
+$data=array(
+        'registration_ids' => array_values($registrationIds),
+        'title' => $notification->getTitre(),
+        'body' => $notification->getSousTitre(),
+        'badge' => 1,
+        'tag' => 'confirm',
+        'priority' => 'high',
+        'data' => array(
+               'action' => "new_message"
+        )
+    );
+ $fmc_response=$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS,false);
+  return new Response($fmc_response);
 }
+
+
+  public function sendPostRequest($url,$data,$headers,$json_decode=true)
+    {
+        $content = json_encode($data);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+        $json_response = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $err = curl_error($curl);
+         curl_close($curl);
+       if ($err) {
+            $json_err = json_decode($err, true);
+            return $json_decode?$json_err:$err;
+        }
+        $response = json_decode($json_response, true);
+        return $json_decode?$response:$json_response;
+    }
+
 
     /**
      * Displays a form to edit an existing notification entity.
