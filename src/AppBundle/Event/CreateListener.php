@@ -50,7 +50,7 @@ public function onRegistration(RegistrationEvent $event)
       if($info!=null){
         $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
         $data = array($registrations->getRegistrationId() => true);
-         $this->sendPostRequest($url,$data);
+        $this->sendPostRequest($url,$data,array(),'PATCH');
      } 
 }
 
@@ -71,7 +71,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
       if ($info!=null) {
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => true);
-         $this->sendPostRequest($url,$data);
+         $this->sendPostRequest($url,$data,array(),'PATCH');
         }
 }
 
@@ -120,7 +120,7 @@ $data=array(
     }
 
 
-  public function sendPostRequest($url,$data,$headers=array(),$json_decode=true)
+  public function sendPostRequest($url,$data,$headers=array(),$costum_method='POST',$json_decode=true)
     {
         $content = json_encode($data);
         $curl = curl_init($url);
@@ -132,7 +132,8 @@ $data=array(
         curl_setopt($curl, CURLOPT_TIMEOUT, 120);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_POST, true);
+      //  curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST , $costum_method);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
         $json_response = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
