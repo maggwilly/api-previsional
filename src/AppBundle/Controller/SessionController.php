@@ -186,7 +186,7 @@ class SessionController extends Controller
             'info'=>array('groupName' => $session->getNomConcours()),
             'owner'=>$session->getOwner()->getUid()
               );
-              return new Response($this->sendPostRequest($url,$data,array(),false);
+              return new Response($this->sendPostRequest($url,$data,array(),false));
         }
             return $this->redirectToRoute('session_edit', array('id' => $session->getId()));
         }
