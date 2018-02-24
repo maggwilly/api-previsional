@@ -65,7 +65,7 @@ class SessionType extends AbstractType
              )
       ->add('owner', EntityType::class,
              array('class' => 'AdminBundle:Info', 
-                   'choice_label' => 'getDisplayName', 
+                   'choice_label' => 'nom', 
                    'placeholder' => 'Please choose',
                    'empty_data'  => null,
                     'required' => false,
