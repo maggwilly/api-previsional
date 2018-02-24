@@ -43,9 +43,15 @@ public function onObjetCreated(QuestionEvent $event)
 public function onRegistration(RegistrationEvent $event)
 {
      $registrations= array($event->getRegistration());
+     $info=$registrations->getInfo();
      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
       $registrationIds=$this->sendTo($registrations, $notification);
       $this->firebaseSend($registrationIds, $notification); 
+      if($info!=null){
+        $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
+        $data = array($registrations->getRegistrationId() => true);
+         $this->sendPostRequest($url,$data);
+     } 
 }
 
 
@@ -59,9 +65,14 @@ public function onCommandeConfirmed(CommandeEvent $event)
      if ($commande->getStatus()=='SUCCESS') {
        $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())
      ->setText($body);
-     $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
-     $this->firebaseSend($registrationIds, $notification); 
-  }
+      $registrationIds=$this->sendTo($info->getRegistrations(), $notification);
+      $this->firebaseSend($registrationIds, $notification); 
+    }
+      if ($info!=null) {
+        $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
+        $data = array($info->getUid() => true);
+         $this->sendPostRequest($url,$data);
+        }
 }
 
      /**
@@ -109,7 +120,7 @@ $data=array(
     }
 
 
-  public function sendPostRequest($url,$data,$headers)
+  public function sendPostRequest($url,$data,$headers=array(),$json_decode=true)
     {
         $content = json_encode($data);
         $curl = curl_init($url);
