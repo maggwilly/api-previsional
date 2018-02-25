@@ -124,8 +124,8 @@ public function onMessageEnd(ResultEvent $event)
  public function  removeFakesTokens($fcmResult,$descTokens){
 
         foreach ($descTokens as $key => $registrationId) {
+                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
                 if(array_key_exists('error', $fcmResult[$key])){
-                    $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
                     $registration->setIsFake(true);
                 }
                  $registration->setLastControlDate(new \DateTime());
