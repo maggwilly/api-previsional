@@ -93,15 +93,15 @@ class InfoController extends Controller
      *@Rest\View(serializerGroups={"info"})
      */
     public function showJsonAction(Request $request,$uid){
-        /* $em = $this->getDoctrine()->getManager();
+         $em = $this->getDoctrine()->getManager();
+         $url= "https://trainings-fa73e.firebaseio.com/users/".$uid.".json";
+         $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');        
          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
          $registrationId=$request->query->get('registrationId');
          $registration = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(is_null($info)){
             $info = new Info($uid);
             $form = $this->createForm('Pwm\AdminBundle\Form\InfoType',$info);
-            $url= "https://trainings-fa73e.firebaseio.com/users/".$uid.".json";
-            $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');//$this-> findFirebase($uid);
             $form->submit($res,false);
             if (!$form->isValid())
                  return $form; 
@@ -114,10 +114,9 @@ class InfoController extends Controller
                  $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
                  $data = array($registration->getRegistrationId() => true);
                   $fmc_response= $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');           
-              } */
-               $url= "https://trainings-fa73e.firebaseio.com/users/".$uid.".json";
-            $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');//$this-> findFirebase($uid);
-        return   $res;
+              } 
+         
+        return $info->getEmail()!=null?$info:$res;
     }
 
     
