@@ -19,4 +19,6 @@ admin_info:
     resource: "@AdminBundle/Resources/config/routing/info.yml"
     prefix:   /info
 
-
+admin_ambassador:
+    resource: "@AdminBundle/Resources/config/routing/ambassador.yml"
+    prefix:   /ambassador
