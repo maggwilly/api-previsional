@@ -133,13 +133,13 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                    $this->sendTo($registrations,$notification);
             }
-             $em->flush();
+            // $em->flush();
 
             $resultats= $this->firebaseSend($this->registrationIds ,$notification);
-            $event= new ResultEvent($this->registrationIds, $resultats);
+            //$event= new ResultEvent($this->registrationIds, $resultats);
 
-            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
-            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            //$this->get('event_dispatcher')->dispatch('fcm.result', $event);
+            return new Response($resultats);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -159,10 +159,10 @@ class NotificationController extends Controller
         if (!$registration->getIsFake()) {
         $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          $this->_em->persist($sending);
+         // $this->_em->persist($sending);
         } 
        }
-         $em->flush();
+       //  $em->flush();
      return  $this->registrationIds;
     }
 
@@ -172,7 +172,7 @@ $data=array(
         'registration_ids' => array_values($registrationIds),
         'title' => $notification->getTitre(),
         'body' => $notification->getSousTitre(),
-        'badge' => 1,
+        'dry_run' => true,
         'tag' => 'confirm',
         'priority' => 'high',
         'data' => array(
@@ -180,7 +180,7 @@ $data=array(
         )
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
   return $fmc_response;
 }
 
