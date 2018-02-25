@@ -12,4 +12,4 @@ AppBundle\Entity\Resultat:
         date:
              groups: ['resultat', 'full']
              expose: true
-             type: DateTime<'Y-m-dTH:i'>      
+             type: DateTime<'Y-m-d'>      
