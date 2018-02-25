@@ -134,12 +134,15 @@ class NotificationController extends Controller
                    $this->sendTo($registrations,$notification);
             }
             // $em->flush();
+            $result= $this->firebaseSend($this->registrationIds ,$notification);
+            $resultats= $result['results'];
+            $success=$result['success'];
+            $failure=$result['failure'];
+            
+            $event= new ResultEvent($this->registrationIds, $resultats);
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
 
-            $resultats= $this->firebaseSend($this->registrationIds ,$notification);
-            //$event= new ResultEvent($this->registrationIds, $resultats);
-
-            //$this->get('event_dispatcher')->dispatch('fcm.result', $event);
-            return new Response($resultats);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -180,7 +183,7 @@ $data=array(
         )
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
   return $fmc_response;
 }
 
