@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Event\CommandeEvent;
+use AppBundle\Event\ResultEvent;
 /**
  * Notification controller.
  *
@@ -134,7 +134,12 @@ class NotificationController extends Controller
                    $this->sendTo($registrations,$notification);
             }
              $em->flush();
-            return $this->firebaseSend($this->registrationIds ,$notification);// $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+
+            $resultats= $this->firebaseSend($this->registrationIds ,$notification);
+            $event= new ResultEvent($this->registrationIds, $resultats);
+
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -151,9 +156,11 @@ class NotificationController extends Controller
     {
     $em = $this->getDoctrine()->getManager();
    foreach ($registrations as $registration) {
-     $this->registrationIds[]=$registration->getRegistrationId();
+        if (!$registration->getIsFake()) {
+        $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          $em->persist($sending);  
+          $this->_em->persist($sending);
+        } 
        }
          $em->flush();
      return  $this->registrationIds;
@@ -173,8 +180,8 @@ $data=array(
         )
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
-  return new Response($fmc_response);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
+  return $fmc_response;
 }
 
 

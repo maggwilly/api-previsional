@@ -37,3 +37,9 @@ services:
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: user.registration, method: onRegistration }
+
+      fcm_result:
+          class: AppBundle\Event\CreateListener
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
+          tags:
+            - { name: kernel.event_listener, event: fcm.result, method: onMessageEnd }

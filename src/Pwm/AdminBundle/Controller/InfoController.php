@@ -120,31 +120,6 @@ class InfoController extends Controller
     }
 
     
-public function findFirebase($uid)
-{
- 
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://trainings-fa73e.firebaseio.com/users/".$uid.".json",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 120,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "GET",
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) 
-  return new $err;
-
-   return $response;
-        
-}
     /**
      * Finds and displays a info entity.
      *

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Event\ResultEvent;
 /**
  * Resultat controller.
  *
@@ -60,7 +61,10 @@ class ResultatController extends Controller
             foreach ($registrations as $registration) {
                 $registrationIds[]=$registration->getRegistrationId();
                 }
-            return  $this->firebaseSend($registrationIds, $resultat); //$this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
+            $resultats=$this->firebaseSend($registrationIds, $resultat);
+            $event= new ResultEvent($this->registrationIds, $resultats);
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);   
+            return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
         return $this->render('resultat/new.html.twig', array(
             'resultat' => $resultat,
@@ -83,8 +87,8 @@ $data=array(
         )
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
-  return new Response($fmc_response);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
+  return $fmc_response;
 }
 
     /**

@@ -51,11 +51,24 @@ class Registration
      */
     private $latLoginDate;
 
+        /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_control_date", type="datetime", nullable=true)
+     */
+    private $lastControlDate;
      /**
    * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Info", inversedBy="registrations", cascade={"persist"})
    * @ORM\JoinColumn(referencedColumnName="uid")
    */
      private  $info;
+
+         /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_fake", type="boolean", nullable=true)
+     */
+    private $isFake;
 
     /**
      * Constructor
@@ -63,7 +76,8 @@ class Registration
     public function __construct()
     {
         $this->date =new \DateTime();  
-        $this->latLoginDate =new \DateTime();    
+        $this->latLoginDate =new \DateTime(); 
+         $this->lastControlDate =new \DateTime();       
     }
 
 
@@ -214,5 +228,53 @@ class Registration
     public function getAppVersion()
     {
         return $this->appVersion;
+    }
+
+    /**
+     * Set isFake
+     *
+     * @param boolean $isFake
+     *
+     * @return Registration
+     */
+    public function setIsFake($isFake)
+    {
+        $this->isFake = $isFake;
+
+        return $this;
+    }
+
+    /**
+     * Get isFake
+     *
+     * @return boolean
+     */
+    public function getIsFake()
+    {
+        return $this->isFake;
+    }
+
+    /**
+     * Set lastControlDate
+     *
+     * @param \DateTime $lastControlDate
+     *
+     * @return Registration
+     */
+    public function setLastControlDate($lastControlDate)
+    {
+        $this->lastControlDate = $lastControlDate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastControlDate
+     *
+     * @return \DateTime
+     */
+    public function getLastControlDate()
+    {
+        return $this->lastControlDate;
     }
 }

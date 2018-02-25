@@ -46,7 +46,7 @@ public function onObjetCreated(QuestionEvent $event)
 public function onRegistration(RegistrationEvent $event)
 {
      $registrations= array($event->getRegistration());
-     $info=$registrations->getInfo();
+     $info=$event->getRegistration()->getInfo();
      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
       $registrationIds=$this->sendTo($registrations, $notification);
       $this->firebaseSend($registrationIds, $notification); 
@@ -64,18 +64,16 @@ public function onCommandeConfirmed(CommandeEvent $event)
    $commande=$event->getCommande();
     $info= $commande->getInfo();
     $notification=new Notification('private');
-    $body = $this->renderTemplate($commande);
+    $body =  $this->twig->render('MessagerBundle:notification:confirmation.html.twig',  array('commande' => $commande ));
      if ($commande->getStatus()=='SUCCESS') {
        $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())
      ->setText($body);
-      $this->sendTo($info->getRegistrations(), $notification);
-      //$this->firebaseSend($registrationIds, $notification); 
+      $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
      }
       if ($info!=null) {
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => true);
         $this->fcm->sendOrGetData($url,$data,'PATCH');
-         //$this->sendPostRequest($url,$data,array(),'PATCH');
         }
 }
 
@@ -88,10 +86,13 @@ public function onCommandeConfirmed(CommandeEvent $event)
    // $registrationIds='';
       $registrationIds=array();
    foreach ($registrations as $registration) {
-    $registrationIds[]=$registration->getRegistrationId();
+    if (!$registration->getIsFake()) {
+     $registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          $this->_em->persist($sending);  
-       }
+          $this->_em->persist($sending);
+      }
+   
+      }
       $this->_em->flush();
      return  $registrationIds;
     }
@@ -109,41 +110,28 @@ $data=array(
         )
     );
 
-  return $this->fcm->sendMessage($data);//$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS);      
+  return $this->fcm->sendMessage($data);
 }
 
-    public function renderTemplate(\Pwm\AdminBundle\Entity\Commande $commande)
-    {
-        return $this->twig->render(
-            'MessagerBundle:notification:confirmation.html.twig',
-            array(
-                'commande' => $commande
-            )
-        );
-    }
 
+public function onMessageEnd(ResultEvent $event)
+{
+     $fcmResult= $event->getFCMResult();
+     $descTokens= $event->getFCMDescsTokens();
+     $this->removeFakesTokens($fcmResult,$descTokens);
+}
 
-  public function sendPostRequest($url,$data,$headers=array(),$costum_method='POST',$json_decode=true)
-    {
-        $content = json_encode($data);
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-      //  curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST , $costum_method);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-        $json_response = curl_exec($curl);
-        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if ( $status != 200 ) {}
-        curl_close($curl);
-        $response = json_decode($json_response, true);
-        return $response;
-    }
+ public function  removeFakesTokens($fcmResult,$descTokens){
+
+        foreach ($descTokens as $key => $registrationId) {
+                if(array_key_exists('Error', $fcmResult[$key])){
+                    $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+                    $registration->setIsFake(true);
+                }
+                 $registration->setLastControlDate(new \DateTime());
+        }
+           $this->_em->flush();
+     }
+
 
 }

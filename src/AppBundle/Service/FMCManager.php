@@ -9,11 +9,10 @@ const HEADERS=array(
       "content-type: application/json"
    );
 const FCM_URL = "https://fcm.googleapis.com/fcm/send";
- 
+protected $_em;
 public function __construct()
 {
-
-
+$this->_em=$_em;
 }
 
   public function sendMessage($data, $json_decode=true)
