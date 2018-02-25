@@ -138,10 +138,14 @@ class NotificationController extends Controller
             $resultats= $result['results'];
             $success=$result['success'];
             $failure=$result['failure'];
-            
+
             $event= new ResultEvent($this->registrationIds, $resultats);
             $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+        $this->addFlash(
+            'result',
+            ' success: '.$success.' failure:'.$failure
 
+        );
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(

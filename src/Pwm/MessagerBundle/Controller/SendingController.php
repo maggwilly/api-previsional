@@ -70,9 +70,10 @@ class SendingController extends Controller
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registrqtion)){
                $registrqtion
-               ->setLatLoginDate(new \DateTime());
+               ->setLatLoginDate(new \DateTime()); $registrqtion->setIsFake(null);
               $registrqtion ->setUserAgent($request->headers->get('User-Agent'));
                $em->flush();
+
             return array('success'=>true);
            }
             $registrqtion = new Registration($registrationId);
