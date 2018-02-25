@@ -40,8 +40,9 @@ public function __construct()
 
 
     public function sendOrGetData($url,$data,$costum_method,$json_decode=true)
-    {
-        $content = json_encode($data);
+    {    $content ='';
+        if(!is_null($data))
+           $content = json_encode($data);
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -52,7 +53,8 @@ public function __construct()
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array());
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST , $costum_method);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+        if(!is_null($data))
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
         $json_response = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         if ( $status != 200 ) {}

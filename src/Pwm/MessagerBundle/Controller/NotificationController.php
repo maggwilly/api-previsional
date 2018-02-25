@@ -174,36 +174,9 @@ $data=array(
     );
 
      $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
-     //$fmc_response=$this->sendPostRequest(self::FCM_URL,$data,self::HEADERS,false);
   return new Response($fmc_response);
 }
 
-
-  public function sendPostRequest($url,$data,$headers,$json_decode=true)
-    {
-        $content = json_encode($data);
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-        $json_response = curl_exec($curl);
-        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $err = curl_error($curl);
-         curl_close($curl);
-       if ($err) {
-            $json_err = json_decode($err, true);
-            return $json_decode?$json_err:$err;
-        }
-        $response = json_decode($json_response, true);
-        return $json_decode?$response:$json_response;
-    }
 
 
     /**

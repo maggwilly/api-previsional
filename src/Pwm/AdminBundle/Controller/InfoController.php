@@ -100,16 +100,20 @@ class InfoController extends Controller
            if(is_null($info)){
             $info = new Info($uid);
             $form = $this->createForm('Pwm\AdminBundle\Form\InfoType',$info);
-            $json = $this-> findFirebase($uid);
-            $form->submit(json_decode($json, true),false);
+            $url= "https://trainings-fa73e.firebaseio.com/users/".$uid.".json";
+            $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');//$this-> findFirebase($uid);
+            $form->submit($res,false);
             if (!$form->isValid())
                  return $form; 
                 $em->persist($info); 
                  $em->flush(); 
-            }
+              }
             if($registration!=null){
                 $registration->setInfo($info);
                   $em->flush();
+                 $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
+                 $data = array($registration->getRegistrationId() => true);
+                  $fmc_response= $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');           
               } 
         return  $info;
     }
