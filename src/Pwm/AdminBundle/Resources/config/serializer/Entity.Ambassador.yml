@@ -1,0 +1,5 @@
+Pwm\AdminBundle\Entity\Ambassador:
+    exclusion_policy: none
+    properties:
+        id:
+             groups: ['ambassador']         

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ambassador</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ambassador.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ ambassador.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ ambassador.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ ambassador.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ ambassador.email }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ ambassador.ville }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ambassador_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('ambassador_edit', { 'id': ambassador.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

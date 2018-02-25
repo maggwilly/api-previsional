@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Pwm\MessagerBundle\Form\RegistrationType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class InfoType extends AbstractType
 {
     /**
@@ -34,6 +35,7 @@ class InfoType extends AbstractType
             ))        
         ->add('branche')
         ->add('paymentMethod')
+        ->add('ambassador', EntityType::class, array('class' => 'AdminBundle:Ambassador'))
         ->add('enableNotifications');        
     }
     

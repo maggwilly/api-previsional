@@ -43,6 +43,12 @@ info_show_json:
     defaults: { _controller: "AdminBundle:Info:showJson"}
     methods:  [GET,POST] 
 
+info_show_ambassador:
+    path:     /info/{uid}/ambassador/json
+    defaults: { _controller: "AdminBundle:Info:getAmbassadorJson"}
+    methods:  [GET,POST] 
+
+
 analyse_new_json:
     path:     /analyse/{studentId}/{session}/{matiere}/{partie}/new/json
     defaults: { _controller: "AdminBundle:Analyse:newJson" ,matiere:0,partie:0}

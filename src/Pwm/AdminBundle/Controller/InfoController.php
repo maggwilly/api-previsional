@@ -78,6 +78,15 @@ class InfoController extends Controller
         return $form;
     }
 
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"ambassador"})
+     */
+    public function getAmbassadorJsonAction( Info $info){
+
+        return  $info->getAmbassador();
+    }
+
 
     /**
      * Lists all Produit entities.

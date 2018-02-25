@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ambassadors list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Ville</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ambassador in ambassadors %}
+            <tr>
+                <td><a href="{{ path('ambassador_show', { 'id': ambassador.id }) }}">{{ ambassador.id }}</a></td>
+                <td>{{ ambassador.nom }}</td>
+                <td>{{ ambassador.prenom }}</td>
+                <td>{{ ambassador.telephone }}</td>
+                <td>{{ ambassador.email }}</td>
+                <td>{{ ambassador.ville }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ambassador_show', { 'id': ambassador.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ambassador_edit', { 'id': ambassador.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ambassador_new') }}">Create a new ambassador</a>
+        </li>
+    </ul>
+{% endblock %}

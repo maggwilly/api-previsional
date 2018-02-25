@@ -119,7 +119,10 @@ class Info
 
     private $file;
 
-
+    /**
+   * @ORM\ManyToOne(targetEntity="Ambassador" )
+   */
+    private $ambassador;
     /**
      * Constructor
      */
@@ -518,4 +521,28 @@ class Info
         return $this->abonnements;
     }
     
+
+    /**
+     * Set ambassador
+     *
+     * @param \Pwm\AdminBundle\Entity\Ambassador $ambassador
+     *
+     * @return Info
+     */
+    public function setAmbassador(\Pwm\AdminBundle\Entity\Ambassador $ambassador = null)
+    {
+        $this->ambassador = $ambassador;
+
+        return $this;
+    }
+
+    /**
+     * Get ambassador
+     *
+     * @return \Pwm\AdminBundle\Entity\Ambassador
+     */
+    public function getAmbassador()
+    {
+        return $this->ambassador;
+    }
 }
