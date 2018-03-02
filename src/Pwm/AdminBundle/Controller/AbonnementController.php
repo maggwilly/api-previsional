@@ -166,7 +166,7 @@ public function getPayementUrl(Commande $commande)
     );
     $fmc_response= $this->get('fmc_manager')->sendOrGetData(self::PAY_URL,$data,'POST',true,self::PAY_HEADER);
     $res=array('data'=>$fmc_response, 'id'=>$commande->getId());
-    return new Response(json_encode($res));
+    return new Response(json_encode($data));
         
 }
 
