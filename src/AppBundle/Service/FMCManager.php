@@ -38,7 +38,7 @@ $this->_em=$_em;
     }
 
 
-    public function sendOrGetData($url,$data,$costum_method,$json_decode=true)
+    public function sendOrGetData($url,$data,$costum_method,$json_decode=true,$headers=array())
     {    $content ='';
         if(!is_null($data))
            $content = json_encode($data);
@@ -50,7 +50,7 @@ $this->_em=$_em;
         curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
         curl_setopt($curl, CURLOPT_TIMEOUT, 120);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array());
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST , $costum_method);
         if(!is_null($data))
             curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
