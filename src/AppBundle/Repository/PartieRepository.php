@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use AppBundle\Entity\Session;
 /**
  * PartieRepository
  *
@@ -19,4 +19,11 @@ class PartieRepository extends EntityRepository
        ->where('a.id=:partie')->setParameter('partie', $partie)->leftJoin('a.sessions', 's');
         return   $qb->andWhere('s.id=:sesion')->setParameter('sesion', $sesion)->getQuery()->getResult();
     }
+
+
+    function findPartieBy(Session $session){
+       $qb =$this->createQueryBuilder('a')->join('a.matiere','m')->where('m.programme=:programme')
+       ->setParameter('programme',$session->getPreparation()->getId());
+        return   $qb->getQuery()->getResult();
+    }   
 }

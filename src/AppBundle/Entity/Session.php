@@ -171,7 +171,7 @@ class Session
 
 
     /**
-   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", inversedBy="sessions", cascade={"persist","remove"})
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", inversedBy="sessions", cascade={"persist"})
    */
     private $parties; 
 

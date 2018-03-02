@@ -6,7 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use AppBundle\Repository\PartieRepository;
 class SessionType extends AbstractType
 {
     /**
@@ -69,6 +71,18 @@ class SessionType extends AbstractType
                    'placeholder' => 'Please choose',
                    'empty_data'  => null,
                     'required' => false)
+             )
+           ->add('parties', CollectionType::class,
+             array('class' => 'AppBundle:Partie', 
+                   'multiple' => true,
+                    'expanded' => true,
+                    'property' => 'id',
+                    'empty_data'  => null,
+                    'required' => false,
+                     'query_builder' => function(PartieRepository $er) use ($session) {
+                                         return $er->findPartieBy($session);
+                         },
+                  )
              ) ;
     }
     
