@@ -25,8 +25,8 @@ class AbonnementController extends Controller
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
     private  $id_prefix='CMD.CM.';
-    private  $return_url='http://payement.centor.org/return';
-    private  $cancel_url='http://payement.centor.org/cancel';
+    private  $return_url='http://help.centor.org/return.html';
+    private  $cancel_url='http://help.centor.org/cancel.html';
     private  $base_url='https://concours.centor.org/v1/formated/commende/';
     /**
      * Lists all abonnement entities.
