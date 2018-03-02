@@ -61,9 +61,14 @@ class ResultatController extends Controller
             foreach ($registrations as $registration) {
                 $registrationIds[]=$registration->getRegistrationId();
                 }
-            $resultats=$this->firebaseSend($registrationIds, $resultat);
-            $event= new ResultEvent($this->registrationIds, $resultats);
-            $this->get('event_dispatcher')->dispatch('fcm.result', $event);   
+            $result= $this->firebaseSend($registrationIds ,$notification);
+            $resultats= $result['results'];
+            $success=$result['success'];
+            $failure=$result['failure'];
+
+            $event= new ResultEvent($registrationIds, $resultats);
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+
             return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
         return $this->render('resultat/new.html.twig', array(
