@@ -21,13 +21,27 @@ use AppBundle\Event\CommandeEvent;
 class AbonnementController extends Controller
 {
 
-    private   $authorization='Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt';
+
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
     private  $id_prefix='CMD.CM.';
-    private  $return_url='http://payement.centor.org/return';
-    private  $cancel_url='http://payement.centor.org/cancel';
-    private  $base_url='https://concours.centor.org/v1/formated/commende/';
+    private  $return_url='http://payement.centor.org/return.html';
+    private  $cancel_url='http://help.centor.org/cancel.html';
+
+    const BASE_URL='https://concours.centor.org/v1/formated/commende/';
+    const PAY_HEADER= array(
+    "accept: application/json",
+    "authorization: Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt",
+    "cache-control: no-cache",
+    "content-type: application/json"
+  );
+      const TOKEN_HEADER= array(
+    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6VklwRWhKU1lmeUFRY3NDcw=="
+  );
+
+    const PAY_URL=  "https://api.orange.com/orange-money-webpay/cm/v1/webpayment";
+     const MERCHANT_KEY=  "027d30fb";
+      
     /**
      * Lists all abonnement entities.
      *
@@ -56,34 +70,10 @@ class AbonnementController extends Controller
 
     public function tokenAction()
     {
- 
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.orange.com/oauth/v2/token",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 120,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "grant_type=client_credentials",
-  CURLOPT_HTTPHEADER => array(
-    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6VklwRWhKU1lmeUFRY3NDcw=="
-  ),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  return new Response( $err);
-} else {
-   return new Response( $response);
-        
-}
-  return '';
+      $url= "https://api.orange.com/oauth/v2/token";
+      $data="grant_type=client_credentials";
+      $fmc_response= $this->get('fmc_manager')->sendOrGetData($url,$data,'POST',false, self::TOKEN_HEADER);
+      return new Response($fmc_response);
 }
 
 
@@ -163,7 +153,24 @@ if ($err) {
 
 public function getPayementUrl(Commande $commande)
   {
-  $curl = curl_init();
+   $data= array(
+    'merchant_key' => self::MERCHANT_KEY, 
+    'currency' => 'XAF', 
+    'order_id' => 'CMD.o'.$commande->getId(), 
+    'amount' => $commande->getAmount(), 
+    'return_url' =>'http://help.centor.org/return.html', 
+    'cancel_key' =>'http://help.centor.org/cancel.html', 
+    'notif_url' => self::BASE_URL.$commande->getId()."/confirm/json",
+    'lang' => 'fr', 
+    'reference' => 'CENTOR .inc'
+    );
+    $fmc_response= $this->get('fmc_manager')->sendOrGetData(self::PAY_URL,$data,'POST',true,self::PAY_HEADER);
+    $res=array('data'=>$fmc_response, 'id'=>.$commande->getId());
+    return new Response(json_encode($res));
+        
+}
+
+/*  $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt_array($curl, array(
@@ -194,7 +201,7 @@ if ($err) {
         
 }
   return '';
-}
+}*/
 
         /**
      * Displays a form to edit an existing analyse entity.
