@@ -14,4 +14,9 @@ class PartieRepository extends EntityRepository
 {
 
 
+    function findByMatiere($partie,$session){
+       $qb =$this->createQueryBuilder('a')
+       ->where('a.id=:partie') ->setParameter('partie', $partie) ->leftJoin('a.session', 's');
+        return   $qb->andWhere('s.id=:sesion')->setParameter('sesion', $sesion)->getQuery()->getResult();
+    }
 }

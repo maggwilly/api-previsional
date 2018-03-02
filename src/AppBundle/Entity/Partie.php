@@ -93,6 +93,11 @@ class Partie
    */
     private $article;
 
+    /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="parties")
+   */
+    private $sessions; 
+
        /**
      * Constructor
      */
@@ -407,4 +412,38 @@ class Partie
     {
         return $this->date;
     } 
+
+    /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Partie
+     */
+    public function addSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions[] = $session;
+
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\Session $session
+     */
+    public function removeSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
 }

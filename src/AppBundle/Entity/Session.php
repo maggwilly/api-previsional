@@ -25,7 +25,7 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_concours", type="string", length=512, options={"default" : "groupe"})
+     * @ORM\Column(name="nom_concours", type="string", length=512, options={"default" : "groupe"},  nullable=true)
      */
     private $nomConcours;
 
@@ -168,6 +168,12 @@ class Session
     * @ORM\JoinColumn(name="uid",referencedColumnName="uid" )
    */
     private $owner;
+
+
+    /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", inversedBy="sessions", cascade={"persist","remove"})
+   */
+    private $parties; 
 
    /**
      * @var string
@@ -874,5 +880,39 @@ class Session
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * Add party
+     *
+     * @param \AppBundle\Entity\Partie $party
+     *
+     * @return Session
+     */
+    public function addParty(\AppBundle\Entity\Partie $party)
+    {
+        $this->parties[] = $party;
+
+        return $this;
+    }
+
+    /**
+     * Remove party
+     *
+     * @param \AppBundle\Entity\Partie $party
+     */
+    public function removeParty(\AppBundle\Entity\Partie $party)
+    {
+        $this->parties->removeElement($party);
+    }
+
+    /**
+     * Get parties
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParties()
+    {
+        return $this->parties;
     }
 }

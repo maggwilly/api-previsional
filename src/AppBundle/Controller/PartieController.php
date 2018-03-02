@@ -32,12 +32,23 @@ class PartieController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"partie"})
      */
-    public function jsonIndexAction(Matiere $matiere)
+    public function jsonIndexAction(Request $request,Matiere $matiere)
     {
-       $parties= $matiere->getParties();
-        return   $parties;
+        return   $matiere->getParties();
     }
     
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"partie"})
+     */
+    public function isAvalableAction(Request $request)
+    {
+         $partie=$request->query->get('partie');
+          $session=$request->query->get('session');
+         return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findByMatiere( $partie,$session); 
+    }
+
+
     public function sortCollection($collection){
     $iterator = $collection->getIterator();
     $iterator->uasort(function ($a, $b) {
@@ -47,7 +58,6 @@ class PartieController extends Controller
  }
     /**
      * Creates a new partie entity.
-     *
      */
     public function newAction(Matiere $matiere,Request $request)
     {
@@ -75,7 +85,6 @@ class PartieController extends Controller
     public function showAction(Partie $partie)
     {
         $deleteForm = $this->createDeleteForm($partie);
-
         return $this->render('partie/show.html.twig', array(
             'partie' => $partie,
             'delete_form' => $deleteForm->createView(),
@@ -84,20 +93,16 @@ class PartieController extends Controller
 
     /**
      * Displays a form to edit an existing partie entity.
-     *
      */
     public function editAction(Request $request, Partie $partie)
     {
         $deleteForm = $this->createDeleteForm($partie);
         $editForm = $this->createForm('AppBundle\Form\PartieEditType', $partie);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('partie_edit', array('id' => $partie->getId()));
         }
-
         return $this->render('partie/edit.html.twig', array(
             'partie' => $partie,
             'edit_form' => $editForm->createView(),
@@ -113,21 +118,17 @@ class PartieController extends Controller
     {
         $form = $this->createDeleteForm($partie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($partie);
             $em->flush($partie);
         }
-
         return $this->redirectToRoute('partie_index');
     }
 
     /**
      * Creates a form to delete a partie entity.
-     *
      * @param Partie $partie The partie entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Partie $partie)

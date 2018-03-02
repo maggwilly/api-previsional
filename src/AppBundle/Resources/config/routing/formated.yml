@@ -55,6 +55,11 @@ partie_index_json:
     defaults: { _controller: "AppBundle:Partie:jsonIndex" }
     methods:  GET
 
+partie_is_avalable_json:
+    path:     /partie/is/avalable/json
+    defaults: { _controller: "AppBundle:Partie:isAvalable" }
+    methods:  GET
+
 question_index_json:
     path:     /question/{id}/json
     defaults: { _controller: "AppBundle:Question:jsonIndex" }
