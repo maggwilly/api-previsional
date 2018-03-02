@@ -45,7 +45,7 @@ class PartieController extends Controller
     {
          $partie=$request->query->get('partie');
           $session=$request->query->get('session');
-         return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findByMatiere( $partie,$session); 
+         return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findByMatiere( $partie,$session)); 
     }
 
 
