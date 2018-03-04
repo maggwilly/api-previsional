@@ -225,7 +225,7 @@ if ($err) {
           $info= $abonnement->getInfo();
           $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
           $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-          $this->fcm->sendOrGetData($url,$data,'PATCH');
+           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
         }
         return $abonnement;
     }
