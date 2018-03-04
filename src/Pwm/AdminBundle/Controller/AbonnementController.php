@@ -221,6 +221,12 @@ if ($err) {
     public function showJsonAction(Info $info,Session $session){
         $em = $this->getDoctrine()->getManager();
          $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
+          if ( $abonnement!=null) {
+          $info= $abonnement->getInfo();
+          $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
+          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
+          $this->fcm->sendOrGetData($url,$data,'PATCH');
+        }
         return $abonnement;
     }
 

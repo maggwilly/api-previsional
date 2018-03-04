@@ -180,14 +180,15 @@ class SessionController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-        /*if ($session->getOwner()!=null) {
+        if ($session->getOwner()!=null) {
           $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
           $data = array(
             'info'=>array('groupName' => $session->getNomConcours()),
             'owner'=>$session->getOwner()->getUid()
               );
-              return new Response($this->sendPostRequest($url,$data,array(),false));
-        }*/
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+             // return new Response($this->sendPostRequest($url,$data,array(),false));
+        }
             return $this->redirectToRoute('session_edit', array('id' => $session->getId()));
         }
 
