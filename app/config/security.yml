@@ -25,7 +25,7 @@ security:
         
         public:
       # since anonymous is allowed users will not be forced to login
-           pattern:   ^/(login|register|ambassador)$
+           pattern:   ^/(login|register|v1/ambassador)$
            anonymous:      true
 
         home:
