@@ -39,7 +39,7 @@ class ArticleController extends Controller
 
         /**
      * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"article"})
+     *@Rest\View(serializerGroups={"full"})
      */
     public function showJsonAction( $id){
         $em = $this->getDoctrine()->getManager();
@@ -56,7 +56,6 @@ class ArticleController extends Controller
         $article = new Article();
         $form = $this->createForm('AppBundle\Form\ArticleType', $article);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $article->setUser($this->getUser());

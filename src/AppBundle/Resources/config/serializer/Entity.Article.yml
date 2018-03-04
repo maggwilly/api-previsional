@@ -2,7 +2,7 @@ AppBundle\Entity\Article:
     exclusion_policy: none
     properties:
         id:
-            groups: ['article', 'full']
+            groups: ['article', 'partie', 'full']
         titre:
              groups: ['article', 'full']
         introduction:

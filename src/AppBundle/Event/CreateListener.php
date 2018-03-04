@@ -50,7 +50,11 @@ public function onRegistration(RegistrationEvent $event)
      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
       $registrationIds=$this->sendTo($registrations, $notification);
       $this->firebaseSend($registrationIds, $notification); 
- 
+      if($info!=null){
+        $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
+        $data = array($registrations->getRegistrationId() => true);
+        $this->fcm->sendOrGetData($url,$data,'PATCH');
+     } 
 }
 
 

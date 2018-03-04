@@ -28,6 +28,10 @@ class Partie
 
     private $qcm;
 
+    private $isAvalable;
+
+     private $analyse;
+
     /**
      * @var \DateTime
      *
@@ -40,6 +44,14 @@ class Partie
      * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="endDate", type="datetime", nullable=true)
+     */
+    private $endDate;
+
 
         /**
      * @var string
@@ -65,6 +77,14 @@ class Partie
     /**
      * @var string
      *
+     * @ORM\Column(name="index_number", type="integer",nullable=true)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $index;
+
+        /**
+     * @var string
+     *
      * @ORM\Column(name="prerequis", type="text",nullable=true)
      */
     private $prerequis;
@@ -81,6 +101,8 @@ class Partie
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere",inversedBy="parties")
    */
     private $matiere;
+
+
 
             /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="partie", cascade={"persist","remove"})
@@ -295,7 +317,6 @@ class Partie
     {
         return $this->matiere;
     }
-
     /**
      * Set matiere
      *
@@ -317,6 +338,29 @@ class Partie
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /**
+     * Set matiere
+     *
+     * @param \AppBundle\Entity\Article $matiere
+     * @return Partie
+     */
+    public function setAnalyse(\Pwm\AdminBundle\Entity\Analyse $analyse = null)
+    {
+        $this->analyse = $analyse;
+
+        return $this;
+    }
+
+    /**
+     * Get matiere
+     *
+     * @return \AppBundle\Entity\Article 
+     */
+    public function getAnalyse()
+    {
+        return $this->analyse;
     }
 
     /**
@@ -390,6 +434,29 @@ class Partie
         return $this->qcm=$this->id;
     }
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getIsAvalable()
+    {
+        return $this->isAvalable;
+    }
+
+        /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Etape
+     */
+    public function setIsAvalable($isAvalable)
+    {
+        $this->isAvalable = $isAvalable;
+
+        return $this;
+    }
     /**
      * Set date
      *
@@ -446,4 +513,28 @@ class Partie
     {
         return $this->sessions;
     }
+
+      /**
+     * Set endDate
+     *
+     * @param \DateTime $endDate
+     *
+     * @return Pub
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }  
 }

@@ -2,9 +2,9 @@ Pwm\AdminBundle\Entity\Analyse:
     exclusion_policy: none
     properties:
         id:
-            groups: ['analyse', 'full']
+            groups: ['analyse', 'partie']
         time:
-             groups: ['analyse', 'full']
+             groups: ['analyse', 'partie']
         failedNb:
              groups: ['analyse', 'full']             
         trueNb:
@@ -12,16 +12,16 @@ Pwm\AdminBundle\Entity\Analyse:
         dememe:
              groups: ['analyse', 'full']
         rang:
-             groups: ['analyse', 'full']             
+             groups: ['analyse', 'partie']             
         sup10:
              groups: ['analyse', 'full']
         firstNote:
              groups: ['analyse', 'full']
         note:
-             groups: ['analyse', 'full']             
+             groups: ['analyse', 'partie']             
         objectif:
              groups: ['analyse', 'full']
         programme:
-             groups: ['analyse', 'full']
+             groups: ['analyse', 'partie']
         evalues:
              groups: ['analyse', 'full']

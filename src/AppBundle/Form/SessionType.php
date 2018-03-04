@@ -71,18 +71,6 @@ class SessionType extends AbstractType
                    'placeholder' => 'Please choose',
                    'empty_data'  => null,
                     'required' => false)
-             )
-           ->add('parties', CollectionType::class,
-             array('class' => 'AppBundle:Partie', 
-                   'multiple' => true,
-                    'expanded' => true,
-                    'property' => 'id',
-                    'empty_data'  => null,
-                    'required' => false,
-                     'query_builder' => function(PartieRepository $er) use ($session) {
-                                         return $er->findPartieBy($session);
-                         },
-                  )
              ) ;
     }
     

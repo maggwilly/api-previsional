@@ -140,7 +140,7 @@ class Article
      */
     public function getwebLink()
     {
-        return 'https://entrances.herokuapp.com/v1/article/'.$this->id.'/show/from/mobile'; //link to view on line
+        return 'https://concours.centor.org/v1/article/'.$this->id.'/show/from/mobile'; //link to view on line
     }
 
     /**

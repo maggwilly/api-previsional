@@ -12,6 +12,12 @@ AppBundle\Entity\Partie:
         qcm:
              groups: ['partie', 'full']  
         type:
+             groups: ['partie', 'full'] 
+        analyse:
+             groups: ['partie', 'full']  
+        article:
+             groups: ['partie', 'full']             
+        isAvalable:
              groups: ['partie', 'full']   
         sources:
              groups: ['partie', 'full']                                     

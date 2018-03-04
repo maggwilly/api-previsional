@@ -17,7 +17,7 @@ class AnalyseRepository extends \Doctrine\ORM\EntityRepository
 		 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findOneOrNull(Info $studentId, Session $session, Matiere $matiere=null, Partie $partie=null){
+  public function findOneOrNull($studentId, $session, Matiere $matiere=null, Partie $partie=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.uid=:studentId')->setParameter('studentId',$studentId)
             ->andWhere('a.session=:session')->setParameter('session',$session);

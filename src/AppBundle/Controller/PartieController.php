@@ -34,7 +34,16 @@ class PartieController extends Controller
      */
     public function jsonIndexAction(Request $request,Matiere $matiere)
     {
-        return   $matiere->getParties();
+        $em = $this->getDoctrine()->getManager();
+         $session=$request->query->get('session');
+         $uid=$request->query->get('uid');
+         $parties=$matiere->getParties();
+         foreach ($parties as $key => $partie) {
+             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findByMatiere( $partie,$session)));
+            // $partie->setIsAvalable(true);
+             $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull($uid,$session,$matiere,$partie)); 
+         }
+        return   $parties;
     }
     
     /**

@@ -18,6 +18,7 @@ class PartieEditType extends AbstractType
         ->add('objectif')
         ->add('sources')
         ->add('prerequis')
+         ->add('index')
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
               'choice_label' => 'titre',
