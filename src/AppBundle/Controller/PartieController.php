@@ -35,16 +35,16 @@ class PartieController extends Controller
     public function jsonIndexAction(Request $request,Matiere $matiere)
     {
         $em = $this->getDoctrine()->getManager();
-         $session=$request->query->get('session');
-         $uid = $request->query->get('uid');
+         $session=$em->getRepository('AppBundle:Session')->findOneById($request->query->get('session'));
+         $info = $em->getRepository('AdminBundle:Info')->findOneByUid($request->query->get('uid'));
          $mat = $em->getRepository('AppBundle:Matiere')->findOneById($request->query->get('matiere'));
          $parties=$matiere->getParties();
          foreach ($parties as $key => $partie) {
-             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability( $partie->getId(),$session)));
+             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability( $partie->getId(),$request->query->get('session'))));
             // $partie->setIsAvalable(true);
-             $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $uid,$session,$mat,$partie)); 
+             $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,$partie)); 
          }
-        return   $parties;
+        return $em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,2);//  $parties;
     }
     
     /**
