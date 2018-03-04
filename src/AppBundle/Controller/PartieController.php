@@ -37,11 +37,12 @@ class PartieController extends Controller
         $em = $this->getDoctrine()->getManager();
          $session=$em->getRepository('AppBundle:Session')->findOneById($request->query->get('session'));
          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($request->query->get('uid'));
+         $mat = $em->getRepository('AppBundle:Matiere')->findOneById($request->query->get('matiere'));
          $parties=$matiere->getParties();
          foreach ($parties as $key => $partie) {
-             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findByMatiere( $partie->getId(),$request->query->get('session'))));
+             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability( $partie->getId(),$request->query->get('session'))));
             // $partie->setIsAvalable(true);
-             $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$matiere,$partie)); 
+             $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,$partie)); 
          }
         return   $parties;
     }
@@ -54,7 +55,7 @@ class PartieController extends Controller
     {
          $partie=$request->query->get('partie');
           $session=$request->query->get('session');
-         return true;//!empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findByMatiere( $partie,$session)); 
+         return true;//!empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findAvalability( $partie,$session)); 
     }
 
 
