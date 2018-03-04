@@ -25,7 +25,7 @@ security:
         
         public:
       # since anonymous is allowed users will not be forced to login
-           pattern:   ^/(login|register|v1/ambassador)$
+           pattern:   ^/(login|register)$
            anonymous:      true
 
         home:
@@ -34,7 +34,7 @@ security:
            anonymous:    true 
         mobile:
       # since anonymous is allowed users will not be forced to login
-            pattern:   auth-token|mobile|formated|apk|update|xml
+            pattern:   auth-token|mobile|formated|apk|update|xml|ambassador
             anonymous: true
             security: false
             stateless: true
