@@ -223,7 +223,7 @@ if ($err) {
          $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
           if ( $abonnement!=null) {
           $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
+          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
           $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
            $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
         }
