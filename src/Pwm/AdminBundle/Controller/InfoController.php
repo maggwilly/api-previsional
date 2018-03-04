@@ -24,7 +24,17 @@ class InfoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $infos = $em->getRepository('AdminBundle:Info')->findAll();
+        foreach ($infos as $key => $info) {
+            foreach ($info->getRegistrations() as $key => $registration) {
+                 if(!$registration->getIsFake()){
+                  $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
+                  $data = array($registration->getRegistrationId() => true);
+                  $fmc_response= $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');           
+              }
+            }
 
+        }
+ 
         return $this->render('AdminBundle:info:index.html.twig', array(
             'infos' => $infos,
         ));
