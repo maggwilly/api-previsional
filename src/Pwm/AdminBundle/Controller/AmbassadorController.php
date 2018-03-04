@@ -78,7 +78,7 @@ class AmbassadorController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('ambassador_edit', array('id' => $ambassador->getId()));
+            return $this->redirectToRoute('ambassador_show', array('id' => $ambassador->getId()));
         }
 
         return $this->render('ambassador/edit.html.twig', array(

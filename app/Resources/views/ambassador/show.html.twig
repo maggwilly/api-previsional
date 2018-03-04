@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
-
+{% block page_title %}{{ ambassador.nom }}{% endblock %}
 {% block body %}
-    <h1>Ambassador</h1>
-
     <table>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ ambassador.id }}</td>
+                <th>Code de réference</th>
+                <td><b>{{ ambassador.id }}</b></td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -31,18 +29,5 @@
             </tr>
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('ambassador_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('ambassador_edit', { 'id': ambassador.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+     <a href="{{ path('ambassador_edit', { 'id': ambassador.id }) }}">edit</a>
 {% endblock %}
