@@ -45,7 +45,7 @@ class PartieController extends Controller
              $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,$partie)); 
          }
           $partie=$em->getRepository('AppBundle:Partie')->findOneById(2);
-        return $em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat, $partie);//  $parties;
+        return   $partie;
     }
     
     /**
