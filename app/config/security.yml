@@ -7,7 +7,8 @@ security:
          ROLE_ADMIN:   [ ROLE_RESTAURATEUR]
         
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }   
+        - { path: ^/v1/admin, roles: ROLE_ADMIN }   
+        - { path: ^/v1/ambassador, roles: IS_AUTHENTICATED_ANONYMOUSLY }   
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
 
     encoders:
@@ -24,7 +25,7 @@ security:
         
         public:
       # since anonymous is allowed users will not be forced to login
-           pattern:   ^/(login|register)$
+           pattern:   ^/(login|register|ambassador)$
            anonymous:      true
 
         home:
