@@ -235,6 +235,12 @@ if ($err) {
      *@Rest\View(serializerGroups={"abonnement"})
      */
     public function showOneJsonAction(Abonnement $abonnement){
+          if ( $abonnement!=null) {
+          $info= $abonnement->getInfo();
+          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
+          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
+           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+        }
         return $abonnement;
     }
 
@@ -266,6 +272,13 @@ if ($err) {
      */
     public function showAction(Abonnement $abonnement)
     {
+
+        if ( $abonnement!=null) {
+          $info= $abonnement->getInfo();
+          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
+          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
+           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+        } 
         $deleteForm = $this->createDeleteForm($abonnement);
         return $this->render('AdminBundle:abonnement:show.html.twig', array(
             'abonnement' => $abonnement,
