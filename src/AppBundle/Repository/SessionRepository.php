@@ -65,9 +65,9 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findEnVus(){
-    $qb = $this->createQueryBuilder('s')->orderBy('s.nombreInscrit', 'desc')->where('s.archived=:archived and s.dateLancement is not NULL')->setParameter('archived',false); 
+    $qb = $this->createQueryBuilder('s')->orderBy('s.nombreInscrit', 'desc')->where('s.archived=:archived')->setParameter('archived',false); 
     $query=$qb->getQuery();
-    $query->setFirstResult(0)->setMaxResults(2);
+    $query->setFirstResult(0)->setMaxResults(4);
      return $query->getResult();
 } 
 
