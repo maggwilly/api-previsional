@@ -181,10 +181,10 @@ $data=array(
         'body' => $notification->getSousTitre(),
         //'sound'=> "default",
         'tag' => 'message',
-        'priority' => 'high',
+       /* 'priority' => 'high',
         'data' => array(
                'action' => "new_message"
-        )
+        )*/
     );
 
      $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
