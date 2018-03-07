@@ -133,7 +133,7 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                    $this->sendTo($registrations,$notification);
             }
-            // $em->flush();
+             $em->flush();
             $result= $this->firebaseSend($this->registrationIds ,$notification);
             $resultats= $result['results'];
             $success=$result['success'];
@@ -166,10 +166,10 @@ class NotificationController extends Controller
         if (!$registration->getIsFake()) {
         $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-         // $this->_em->persist($sending);
+          $this->_em->persist($sending);
         } 
        }
-       //  $em->flush();
+         $em->flush();
      return  $this->registrationIds;
     }
 
@@ -181,7 +181,7 @@ $data=array(
         'body' => $notification->getSousTitre(),
         'sound'=> "default",
         'tag' => 'message',
-        'priority' => 'high',
+        'priority' => 'hight',
         'data' => array(
                'action' => "new_message"
         )
