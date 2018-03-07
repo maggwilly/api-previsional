@@ -87,7 +87,7 @@ $data=array(
         'badge' => 1,
         'sound'=> "default",
         'tag' => 'resultat',
-       // 'priority' => 'high',
+        'priority' => 'high',
         'data' => array(
                'action' => "new_message"
         )
