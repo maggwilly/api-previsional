@@ -181,7 +181,7 @@ $data=array(
         'body' => $notification->getSousTitre(),
         'sound'=> "default",
         'tag' => 'message',
-        'priority' => 'hight',
+        //'priority' => 'high',
         'data' => array(
                'action' => "new_message"
         )
