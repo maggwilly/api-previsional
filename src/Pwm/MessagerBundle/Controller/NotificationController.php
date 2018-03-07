@@ -179,9 +179,9 @@ $data=array(
         'registration_ids' => array_values($registrationIds),
         'title' => $notification->getTitre(),
         'body' => $notification->getSousTitre(),
-        'sound'=> "default",
+        //'sound'=> "default",
         'tag' => 'message',
-        //'priority' => 'high',
+        'priority' => 'high',
         'data' => array(
                'action' => "new_message"
         )
