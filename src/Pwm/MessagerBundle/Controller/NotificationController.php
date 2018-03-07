@@ -135,9 +135,9 @@ class NotificationController extends Controller
             }
              //$em->flush();
             $result= $this->firebaseSend($this->registrationIds ,$notification);
-            $resultats= $result['results'];
-            $success=$result['success'];
-            $failure=$result['failure'];
+           // $resultats= $result['results'];
+            //$success=$result['success'];
+           // $failure=$result['failure'];
 
             //$event= new ResultEvent($this->registrationIds, $resultats);
           //  $this->get('event_dispatcher')->dispatch('fcm.result', $event);
