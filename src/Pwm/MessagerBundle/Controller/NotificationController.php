@@ -166,7 +166,7 @@ class NotificationController extends Controller
         if (!$registration->getIsFake()) {
         $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          $this->_em->persist($sending);
+          $em->persist($sending);
         } 
        }
          $em->flush();
