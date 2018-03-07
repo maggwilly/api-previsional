@@ -146,7 +146,7 @@ class NotificationController extends Controller
             ' success: '.$success.' failure:'.$failure
 
         );
-            return new Response(json_encode($result));//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            return new Response($result);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -187,7 +187,7 @@ $data=array(
         )
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
   return $fmc_response;
 }
 
