@@ -146,7 +146,7 @@ class NotificationController extends Controller
             ' success: '.$success.' failure:'.$failure
 
         );
-            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            return new Response(json_encode($result));//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
