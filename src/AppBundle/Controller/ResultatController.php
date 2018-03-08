@@ -82,15 +82,11 @@ public function firebaseSend($registrationIds,Resultat $resultat ){
 
 $data=array(
         'registration_ids' => array_values($registrationIds),
-        'title' => 'Resultat disponible',
-        'body' => $resultat->getDescription(),
-        'badge' => 1,
-       // 'sound'=> "default",
-        'tag' => 'resultat',
-        'priority' => 'high',
-        'data' => array(
-               'action' => "new_message"
-        )
+         'notification'=>array('title' => 'Resultats',
+                      'body' => $notification->getSousTitre(),
+                       'badge' => 1,
+                       'sound'=> "default",
+                       'tag' => 'resultats')
     );
 
      $fmc_response= $this->get('fmc_manager')->sendMessage($data);

@@ -101,13 +101,11 @@ public function onCommandeConfirmed(CommandeEvent $event)
 public function firebaseSend($registrationIds, Notification $notification ){
 $data=array(
         'registration_ids' => array_values($registrationIds),
-        'title' => $notification->getTitre(),
-        'body' => $notification->getSousTitre(),
-        'badge' => 1,
-        'tag' => 'confirm',
-        'data' => array(
-               'action' => "new_message"
-        )
+         'notification'=>array('title' => $notification->getTitre(),
+                      'body' => $notification->getSousTitre(),
+                       'badge' => 1,
+                       'sound'=> "default",
+                       'tag' => 'confirm')
     );
 
   return $this->fcm->sendMessage($data);
