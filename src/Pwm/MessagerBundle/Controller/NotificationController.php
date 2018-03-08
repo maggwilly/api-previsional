@@ -133,6 +133,8 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                    $this->sendTo($registrations,$notification);
             }
+            $notification->setSendDate(new \DateTime());
+             $em->flush();
             $result= $this->firebaseSend($this->registrationIds ,$notification);
             $resultats= $result['results'];
             $event= new ResultEvent($this->registrationIds, $resultats);
