@@ -133,20 +133,19 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                    $this->sendTo($registrations,$notification);
             }
-             //$em->flush();
             $result= $this->firebaseSend($this->registrationIds ,$notification);
-           // $resultats= $result['results'];
-            //$success=$result['success'];
-           // $failure=$result['failure'];
+            $resultats= $result['results'];
+            $success=$result['success'];
+           $failure=$result['failure'];
 
-            //$event= new ResultEvent($this->registrationIds, $resultats);
-          //  $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+            $event= new ResultEvent($this->registrationIds, $resultats);
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
         $this->addFlash(
             'result',
             ' success: '.$success.' failure:'.$failure
 
         );
-            return new Response($result);//$this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
@@ -166,10 +165,10 @@ class NotificationController extends Controller
         if (!$registration->getIsFake()) {
         $this->registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
-          //$em->persist($sending);
+          $em->persist($sending);
         } 
        }
-         //$em->flush();
+         $em->flush();
      return  $this->registrationIds;
     }
 
