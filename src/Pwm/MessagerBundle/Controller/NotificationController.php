@@ -135,11 +135,8 @@ class NotificationController extends Controller
             }
             $result= $this->firebaseSend($this->registrationIds ,$notification);
             $resultats= $result['results'];
-            $success=$result['success'];
-           $failure=$result['failure'];
-
             $event= new ResultEvent($this->registrationIds, $resultats);
-            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+           $this->get('event_dispatcher')->dispatch('fcm.result', $event);
         $this->addFlash(
             'result',
             ' success: '.$success.' failure:'.$failure
@@ -183,7 +180,7 @@ $data=array(
                        'tag' => 'message')
     );
 
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data,false);
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
   return $fmc_response;
 }
 
