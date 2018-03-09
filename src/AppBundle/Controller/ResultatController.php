@@ -55,7 +55,7 @@ class ResultatController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($resultat);
-         //   $em->flush();
+            $em->flush();
            $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
             $registrationIds=array();
             foreach ($registrations as $registration) {
