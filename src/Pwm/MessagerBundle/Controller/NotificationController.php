@@ -175,11 +175,12 @@ class NotificationController extends Controller
 public function firebaseSend($registrationIds,Notification $notification ){
 $data=array(
         'registration_ids' => array_values($registrationIds),
+        'collapse_key': "Notifications",
          'notification'=>array('title' => $notification->getTitre(),
                       'body' => $notification->getSousTitre(),
                        'badge' => 1,
                        'sound'=> "default",
-                       'tag' => 'message')
+                       'tag' => 'notification')
     );
 
      $fmc_response= $this->get('fmc_manager')->sendMessage($data);

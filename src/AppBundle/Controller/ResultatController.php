@@ -55,13 +55,13 @@ class ResultatController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($resultat);
-            $em->flush();
+         //   $em->flush();
            $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
             $registrationIds=array();
             foreach ($registrations as $registration) {
                 $registrationIds[]=$registration->getRegistrationId();
                 }
-            $result= $this->firebaseSend($registrationIds ,$notification);
+            $result= $this->firebaseSend($registrationIds ,$resultat);
             $resultats= $result['results'];
             $success=$result['success'];
             $failure=$result['failure'];
@@ -82,6 +82,7 @@ public function firebaseSend($registrationIds,Resultat $resultat ){
 
 $data=array(
         'registration_ids' => array_values($registrationIds),
+        'collapse_key': "Resultats disponibles",
          'notification'=>array('title' => 'Resultats',
                       'body' => $notification->getSousTitre(),
                        'badge' => 1,
