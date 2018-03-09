@@ -83,7 +83,7 @@ public function firebaseSend($registrationIds,Resultat $resultat ){
 $data=array(
         'registration_ids' => array_values($registrationIds),
         'collapse_key'=>  "Resultats disponibles",
-         'notification'=>array('title' => 'Resultats',
+         'notification'=>array('title' => $resultat->getDescription(),
                       'body' => $resultat->getDescription(),
                        'badge' => 1,
                        'sound'=> "default",
