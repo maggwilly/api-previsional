@@ -175,7 +175,7 @@ class NotificationController extends Controller
 public function firebaseSend($registrationIds,Notification $notification ){
 $data=array(
         'registration_ids' => array_values($registrationIds),
-        'collapse_key': "Notifications",
+        'collapse_key'=>  "Notifications",
          'notification'=>array('title' => $notification->getTitre(),
                       'body' => $notification->getSousTitre(),
                        'badge' => 1,
