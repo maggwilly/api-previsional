@@ -61,7 +61,7 @@ class ResultatController extends Controller
             foreach ($registrations as $registration) {
                 $registrationIds[]=$registration->getRegistrationId();
                 }
-            $result= $this->firebaseSend($registrationIds ,$notification);
+            $result= $this->firebaseSend($registrationIds ,$resultat);
             $resultats= $result['results'];
             $success=$result['success'];
             $failure=$result['failure'];
