@@ -84,7 +84,7 @@ $data=array(
         'registration_ids' => array_values($registrationIds),
         'collapse_key'=>  "Resultats disponibles",
          'notification'=>array('title' => 'Resultats',
-                      'body' => $notification->getSousTitre(),
+                      'body' => $resultat->getDescription(),
                        'badge' => 1,
                        'sound'=> "default",
                        'tag' => 'resultats')
