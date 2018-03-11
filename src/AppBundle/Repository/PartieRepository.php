@@ -18,7 +18,7 @@ class PartieRepository extends EntityRepository
     function findAvalability($partie,$session){
        $qb =$this->createQueryBuilder('a')
        ->where('a.id=:partie')->setParameter('partie', $partie)->leftJoin('a.sessions', 's');
-        return   $qb->andWhere('s.id=:sesion')->setParameter('sesion', $sesion)->getQuery()->getResult();
+        return   $qb->andWhere('s.id=:sesion')->setParameter('sesion', $session)->getQuery()->getResult();
     }
 
 

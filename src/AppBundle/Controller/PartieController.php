@@ -40,11 +40,11 @@ class PartieController extends Controller
          $mat = $em->getRepository('AppBundle:Matiere')->findOneById($request->query->get('matiere'));
          $parties=$matiere->getParties();
        foreach ($parties as $key => $partie) {
-             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability(5,83)));
+             $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability($partie->getId(),$session->getId())));
             // $partie->setIsAvalable(true);
              $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,$partie)); 
          };
-        return  $em->getRepository('AppBundle:Partie')->findAvalability(5,83);
+        return  $parties;
     }
     
     /**
