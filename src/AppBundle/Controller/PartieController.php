@@ -44,7 +44,7 @@ class PartieController extends Controller
             // $partie->setIsAvalable(true);
              $partie->setAnalyse($em->getRepository('AdminBundle:Analyse')->findOneOrNull( $info,$session,$mat,$partie)); 
          };
-        return  $parties;
+        return  $em->getRepository('AppBundle:Partie')->findAvalability(5,83);
     }
     
     /**
