@@ -22,5 +22,9 @@ class ArticleRepository extends EntityRepository
          $query->setFirstResult($start)->setMaxResults(2);
           return $query->getResult();
   }
-
+    function findByUser($article, $uid){
+       $qb =$this->createQueryBuilder('a')
+       ->where('a.id=:article') ->setParameter('article', $article) ->leftJoin('a.infos', 'i');
+        return   $qb->andWhere('i.uid=:uid')->setParameter('uid', $uid)->getQuery()->getResult();
+    }
 }

@@ -72,6 +72,9 @@ class Article
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
     private $user;
+
+
+
    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
@@ -321,4 +324,5 @@ class Article
     {
         return $this->validateur;
     }
+
 }

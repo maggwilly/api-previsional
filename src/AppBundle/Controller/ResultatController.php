@@ -65,10 +65,8 @@ class ResultatController extends Controller
             $resultats= $result['results'];
             $success=$result['success'];
             $failure=$result['failure'];
-
             $event= new ResultEvent($registrationIds, $resultats);
             $this->get('event_dispatcher')->dispatch('fcm.result', $event);
-
             return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
         return $this->render('resultat/new.html.twig', array(
@@ -79,7 +77,6 @@ class ResultatController extends Controller
 
 
 public function firebaseSend($registrationIds,Resultat $resultat ){
-
 $data=array(
         'registration_ids' => array_values($registrationIds),
         'collapse_key'=>  "Resultats disponibles",

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use Pwm\AdminBundle\Entity\Info;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -37,7 +38,7 @@ class ArticleController extends Controller
         return  $articles;
     }
 
-        /**
+    /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"full"})
      */
@@ -45,6 +46,31 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository('AppBundle:Article')->findOneById($id);
         return $article;
+    }
+
+
+    /**
+     * Lists all Produit entities.
+     *@Rest\View()
+     */
+    public function lireCoursAction(Request $request,Article $article, Info $info)
+    {
+         $status=$request->query->get('status');
+          if ($session!=null && $info!=null) {
+                switch ($status) {
+                    case 'true':
+                        $article->addInfo($info);
+                         $this->getDoctrine()->getManager()->flush();
+                         return  true;
+                    case 'false':
+                          $article->removeInfo($info);
+                           $this->getDoctrine()->getManager()->flush();
+                        return  false;                    
+                    default:
+                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Article')->findByUser($article,,$info));  
+                }
+          }
+         return  false;
     }
 
     /**
@@ -61,10 +87,8 @@ class ArticleController extends Controller
             $article->setUser($this->getUser());
             $em->persist($article);
             $em->flush($article);
-
             return $this->redirectToRoute('article_show', array('id' => $article->getId()));
         }
-
         return $this->render('article/new.html.twig', array(
             'article' => $article,
             'form' => $form->createView(),
@@ -112,7 +136,6 @@ class ArticleController extends Controller
 
             return $this->redirectToRoute('article_show', array('id' => $article->getId()));
         }
-
         return $this->render('article/edit.html.twig', array(
             'article' => $article,
             'edit_form' => $editForm->createView(),
