@@ -67,7 +67,7 @@ class ArticleController extends Controller
                            $this->getDoctrine()->getManager()->flush();
                         return  false;                    
                     default:
-                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Article')->findByUser($article,,$info));  
+                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Article')->findByUser($article,$info));  
                 }
           }
          return  false;

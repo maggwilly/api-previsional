@@ -36,13 +36,6 @@ class Content
     private $image;
 
     /**
-   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Info",  cascade={"persist"})
-   * @ORM\JoinTable(joinColumns={ @ORM\JoinColumn(name="content_id",referencedColumnName="id")},
-                    inverseJoinColumns={ @ORM\JoinColumn(name="lecteur_uid",referencedColumnName="uid")})
-   */
-    private $lecteurs;  
-
-    /**
      * @var string
      *
      * @ORM\Column(name="text", type="text")
