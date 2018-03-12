@@ -80,7 +80,7 @@ class Commande
     private $session;
 
     /**
-   * @ORM\ManyToOne(targetEntity="Ressource" )
+   * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Ressource" )
    */
     private $ressource; 
 
@@ -105,7 +105,7 @@ class Commande
         /**
      * Constructor
      */
-    public function __construct(Info $info, \AppBundle\Entity\Session $session=null, $package=null, $amount, \AdminBundle\Entity\Ressource $ressource = null)
+    public function __construct(Info $info, \AppBundle\Entity\Session $session=null, $package=null, $amount, \Pwm\AdminBundle\Entity\Ressource $ressource = null)
     {
         $this->date =new \DateTime();  
          $this->info = $info; 
@@ -398,7 +398,7 @@ class Commande
      *
      * @return Commande
      */
-    public function setRessource(\AdminBundle\Entity\Ressource $ressource = null)
+    public function setRessource(\Pwm\AdminBundle\Entity\Ressource $ressource = null)
     {
         $this->ressource = $ressource;
 
