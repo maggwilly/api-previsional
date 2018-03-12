@@ -59,7 +59,9 @@ class ResultatController extends Controller
            $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
             $registrationIds=array();
             foreach ($registrations as $registration) {
+                if (!$registration->getIsFake()) {
                 $registrationIds[]=$registration->getRegistrationId();
+            }
                 }
             $result= $this->firebaseSend($registrationIds ,$resultat);
             $resultats= $result['results'];

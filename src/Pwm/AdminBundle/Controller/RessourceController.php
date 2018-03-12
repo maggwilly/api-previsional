@@ -9,6 +9,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use AppBundle\Entity\Session;
 use Pwm\AdminBundle\Entity\Commande;
+use AppBundle\Event\ResultEvent;
 /**
  * Ressource controller.
  *
@@ -41,6 +42,32 @@ class RessourceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($ressource);
             $em->flush();
+            $registrationIds=array();
+            if($ressource->getIsPublic()){
+           $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
+            foreach ($registrations as $registration) {
+                if (!$registration->getIsFake()) {
+                $registrationIds[]=$registration->getRegistrationId();
+                  }
+                }
+              }else{
+                  $destinations=$session->getInfos();
+                  foreach ($destinations as $info) {
+                    foreach ($info->getRegistrations() as $registration) {
+                        if (!$registration->getIsFake()) {
+                            $registrationIds[]=$registration->getRegistrationId();
+                          }
+                    }
+                           
+                }
+              }
+            $result= $this->firebaseSend($registrationIds ,$ressource);
+            $resultats= $result['results'];
+            $success=$result['success'];
+            $failure=$result['failure'];
+            $event= new ResultEvent($registrationIds, $resultats);
+            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
+
             return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
         }
         return $this->render('ressource/new.html.twig', array(
@@ -49,13 +76,28 @@ class RessourceController extends Controller
         ));
     }
 
+
+public function firebaseSend($registrationIds,Ressource $ressource ){
+$data=array(
+        'registration_ids' => array_values($registrationIds),
+        'dry_run'=>true,
+         'notification'=>array('title' => $ressource->getIsPublic()?'Ressource':'Ressource ~'.$ressource->getSession()->getNomConcours(),
+                      ' body' => $ressource->getDescription(),
+                       'badge' => 1,
+                       'sound'=> "default",
+                       'tag' => 'ressources')
+    );
+     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
+  return $fmc_response;
+}
     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"ressource"})
      */
     public function indexJsonAction(Session $session)
-    {
-        return  $session->getRessources();
+    {     $em = $this->getDoctrine()->getManager();
+          $sessions= $em->getRepository('AdminBundle:Ressource')->findRessources($session);
+        return  $sessions;
     }
 
     /**
@@ -65,9 +107,10 @@ class RessourceController extends Controller
     public function showJsonAction(Ressource $ressource)
     {
          $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
+         $em = $this->getDoctrine()->getManager();
           $em->persist( $commande);
           $em->flush();
-         $response=$this->get('payment_service')->getPayementUrl($commande);
+          $response=$this->get('payment_service')->getPayementUrl($commande);
         return $ressource->setPaymentUrl($response['payment_url']);
     }
 

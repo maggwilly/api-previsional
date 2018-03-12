@@ -94,7 +94,7 @@ class SessionController extends Controller
      */
     public function showJsonAction(Session $session){
         $em = $this->getDoctrine()->getManager();
-         $ressources =$em->getRepository('AppBundle:Session')->findHasNewRessource($session);
+         $ressources =$em->getRepository('AdminBundle:Ressource')->findNewRessources($session);
          $session->setNewressource(!empty( $ressources));
         return $session;
     }
