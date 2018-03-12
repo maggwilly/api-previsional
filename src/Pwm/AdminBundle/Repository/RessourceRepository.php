@@ -15,7 +15,7 @@ class RessourceRepository extends \Doctrine\ORM\EntityRepository
        $now->modify('-15 day');
          $qb = $this->createQueryBuilder('r')
          ->where('r.session=:session or r.isPublic=:ispublic')->setParameter('session',$session)->setParameter('ispublic',true)
-          ->andWhere('a.date>:date')->setParameter('date',$now);
+          ->andWhere('r.date>:date')->setParameter('date',$now);
           return $qb->getQuery()->getResult();
   }
 
