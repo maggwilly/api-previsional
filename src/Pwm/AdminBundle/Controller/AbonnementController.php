@@ -53,37 +53,15 @@ class AbonnementController extends Controller
         $abonnements = $em->getRepository('AdminBundle:Abonnement')->findForMe($info);
         return  $abonnements;
     }
-
+    /**
+     * Lists all Produit entities.
+     *@Rest\View()
+     */
     public function tokenAction()
     {
+    $res=$this->get('payment_service')->getToken();
 
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.orange.com/oauth/v2/token",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 120,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "grant_type=client_credentials",
-  CURLOPT_HTTPHEADER => array(
-    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6VklwRWhKU1lmeUFRY3NDcw=="
-  ),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  return new Response( $err);
-} else {
-   return new Response( $response);
-        
-}
-  return '';
+  return new $res;
 }
 
 
@@ -111,10 +89,15 @@ if ($err) {
       }    
           $session->removeInfo($info);
           $session->addInfo($info);
+           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
+            if(is_null($commande)||!is_null($commande->getStatus())){
           $commande= new Commande($info, $session, $package, $amount);
           $em->persist( $commande);
           $em->flush();
-        return $this->getPayementUrl($commande);
+        }
+          $res=$this->get('payment_service')->getPayementUrl($commande);
+          $response= array('data' =>$res ,'id' =>$commande->getId());
+        return $response;
     }
 
     /**

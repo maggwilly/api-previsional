@@ -105,16 +105,19 @@ $data=array(
      *@Rest\View(serializerGroups={"full"})
      */
     public function showJsonAction(Request $request,Ressource $ressource)
-    {     $uid=$request->query->get('uid');
+    {    
+          if(is_null($ressource->getPrice())||$ressource->getPrice()==0)
+            return $ressource;
+          $uid=$request->query->get('uid');
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
-          if(is_null($commande)||is_null($commande->getStatus())){
-              $commande= new Commande($info, null, null, 500,$ressource);
+          if(is_null($commande)||!is_null($commande->getStatus())){
+              $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
                 $em->persist( $commande);
                 $em->flush();
             }
-          $response=$this->get('payment_service')->getPayementUrl($commande);
+             $response=$this->get('payment_service')->getPayementUrl($commande);
         return $ressource->setPaymentUrl($response['payment_url']);
     }
 
