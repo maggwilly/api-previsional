@@ -106,11 +106,14 @@ $data=array(
      */
     public function showJsonAction(Ressource $ressource)
     {     $uid=$request->query->get('uid');
-         $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
-         $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
-         $em = $this->getDoctrine()->getManager();
-          $em->persist( $commande);
-          $em->flush();
+          $em = $this->getDoctrine()->getManager();
+          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
+          $commande=$em->getRepository('AdminBundle:Commande'->findOneByUserRessource($info,$ressource);
+          if(is_null($commande)||is_null($commande->getStatus())){
+              $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
+                $em->persist( $commande);
+                $em->flush();
+            }
           $response=$this->get('payment_service')->getPayementUrl($commande);
         return $ressource->setPaymentUrl($response['payment_url']);
     }

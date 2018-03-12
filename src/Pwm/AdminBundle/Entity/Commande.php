@@ -125,6 +125,10 @@ class Commande
         return $this->id;
     }
 
+public function getUId() {
+
+        return uniqid();
+    }
     /**
      * Set date
      *
