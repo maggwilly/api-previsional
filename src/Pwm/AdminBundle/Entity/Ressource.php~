@@ -500,28 +500,4 @@ class Ressource
     {
         return $this->paymentUrl;
     }
-
-    /**
-     * Set isPublic
-     *
-     * @param boolean $isPublic
-     *
-     * @return Ressource
-     */
-    public function setIsPublic($isPublic)
-    {
-        $this->isPublic = $isPublic;
-
-        return $this;
-    }
-
-    /**
-     * Get isPublic
-     *
-     * @return boolean
-     */
-    public function getIsPublic()
-    {
-        return $this->isPublic;
-    }
 }
