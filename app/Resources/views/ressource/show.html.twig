@@ -1,5 +1,5 @@
-{% extends 'base.html.twig' %}
-
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Ressource{% endblock %}
 {% block body %}
     <h1>Ressource</h1>
 
@@ -43,10 +43,9 @@
             </tr>
         </tbody>
     </table>
-
     <ul>
         <li>
-            <a href="{{ path('ressource_index') }}">Back to the list</a>
+            <a href="{{ path('ressource_index', { 'session': ressource.session.id }) }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">Edit</a>

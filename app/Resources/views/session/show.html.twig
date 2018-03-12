@@ -57,6 +57,9 @@
         <li>
     <a href="{{ path('objectif_new',{ 'id': session.id }) }}" class="btn btn-default ">Créer un lien util</a>
         </li>
+        <li>
+    <a href="{{ path('ressource_index',{ 'session': session.id }) }}" class="btn btn-default ">Créer une ressource</a>
+        </li>        
     </ul>
 
 {% endblock %}

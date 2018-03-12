@@ -1,13 +1,10 @@
-{% extends 'base.html.twig' %}
-
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Ressource{% endblock %}
 {% block body %}
-    <h1>Ressource creation</h1>
-
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
-
     <ul>
         <li>
             <a href="{{ path('ressource_index') }}">Back to the list</a>

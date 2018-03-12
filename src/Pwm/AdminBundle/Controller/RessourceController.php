@@ -19,7 +19,7 @@ class RessourceController extends Controller
      * Lists all ressource entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Session $session)
     {
         $em = $this->getDoctrine()->getManager();
         $ressources = $em->getRepository('AdminBundle:Ressource')->findAll();

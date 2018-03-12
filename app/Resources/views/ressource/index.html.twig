@@ -1,8 +1,7 @@
-{% extends 'base.html.twig' %}
-
+{% extends "AppBundle::layout.html.twig" %}
+{% block title %}Ressources{% endblock %}
 {% block body %}
-    <h1>Ressources list</h1>
-
+ 
     <table>
         <thead>
             <tr>
@@ -47,7 +46,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('ressource_new') }}">Create a new ressource</a>
+            <a href="{{ path('ressource_new', { 'session': ressource.session.id }) }}">Create a new ressource</a>
         </li>
     </ul>
 {% endblock %}
