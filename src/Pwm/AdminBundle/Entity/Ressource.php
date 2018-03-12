@@ -114,12 +114,15 @@ class Ressource
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" )
    */
     private $session;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="paymentUrl", type="string", length=255)
-     */
+
     private $paymentUrl; 
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="isPublic", type="boolean", nullable=true)
+     */
+    private $isPublic;   
     /**
      * Constructor
      */
