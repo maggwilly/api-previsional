@@ -95,6 +95,10 @@ class AbonnementController extends Controller
           $em->persist( $commande);
           $em->flush();
         }
+        else{
+            $commande->setDate(new \DateTime());
+             $em->flush();   
+            }
           $res=$this->get('payment_service')->getPayementUrl($commande);
           $response= array('data' =>$res ,'id' =>$commande->getId());
         return $response;

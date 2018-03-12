@@ -116,6 +116,9 @@ $data=array(
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
                 $em->persist( $commande);
                 $em->flush();
+            }else{
+             $commande->setDate(new \DateTime());
+             $em->flush();   
             }
              $response=$this->get('payment_service')->getPayementUrl($commande);
         return $ressource->setPaymentUrl($response['payment_url']);
