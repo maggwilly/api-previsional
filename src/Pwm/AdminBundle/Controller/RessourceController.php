@@ -110,7 +110,7 @@ $data=array(
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
           if(is_null($commande)||is_null($commande->getStatus())){
-              $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
+              $commande= new Commande($info, null, null, 500,$ressource);
                 $em->persist( $commande);
                 $em->flush();
             }
