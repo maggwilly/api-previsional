@@ -106,12 +106,13 @@ $data=array(
      */
     public function showJsonAction(Request $request,Ressource $ressource)
     {    
-          if(is_null($ressource->getPrice())||$ressource->getPrice()==0)
-            return $ressource;
+
           $uid=$request->query->get('uid');
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
+            if((!is_null($commande)&&$commande->getStatus()=='SUCCESS')||(is_null($ressource->getPrice())||$ressource->getPrice()==0))
+                 return $ressource;
           if(is_null($commande)||!is_null($commande->getStatus())){
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
                 $em->persist( $commande);
