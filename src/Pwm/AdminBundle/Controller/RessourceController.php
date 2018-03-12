@@ -121,7 +121,7 @@ $data=array(
              $em->flush();   
             }
              $response=$this->get('payment_service')->getPayementUrl($commande);
-        return $ressource->setPaymentUrl($response['payment_url']);
+        return $response;//$ressource->setPaymentUrl($response['payment_url']);
     }
 
     /**
