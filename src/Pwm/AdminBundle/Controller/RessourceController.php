@@ -104,7 +104,7 @@ $data=array(
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"full"})
      */
-    public function showJsonAction(Ressource $ressource)
+    public function showJsonAction(Request $request,Ressource $ressource)
     {     $uid=$request->query->get('uid');
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
