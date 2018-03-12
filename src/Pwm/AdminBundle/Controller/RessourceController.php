@@ -24,7 +24,7 @@ class RessourceController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ressources = $em->getRepository('AdminBundle:Ressource')->findAll();
         return $this->render('ressource/index.html.twig', array(
-            'ressources' => $ressources,
+            'ressources' => $ressources, 'session' => $session,
         ));
     }
 
