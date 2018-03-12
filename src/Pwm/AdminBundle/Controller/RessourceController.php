@@ -44,7 +44,7 @@ class RessourceController extends Controller
             return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
         }
         return $this->render('ressource/new.html.twig', array(
-            'ressource' => $ressource,
+            'ressource' => $ressource,'session' => $session,
             'form' => $form->createView(),
         ));
     }

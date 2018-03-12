@@ -7,7 +7,7 @@
     {{ form_end(form) }}
     <ul>
         <li>
-            <a href="{{ path('ressource_index') }}">Back to the list</a>
+            <a href="{{ path('ressource_index', { 'session': session.id }) }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}
