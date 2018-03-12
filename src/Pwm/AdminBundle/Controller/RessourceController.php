@@ -105,7 +105,8 @@ $data=array(
      *@Rest\View(serializerGroups={"full"})
      */
     public function showJsonAction(Ressource $ressource)
-    {
+    {     $uid=$request->query->get('uid');
+         $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
          $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
          $em = $this->getDoctrine()->getManager();
           $em->persist( $commande);
