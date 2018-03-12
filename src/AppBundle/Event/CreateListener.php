@@ -61,20 +61,24 @@ public function onRegistration(RegistrationEvent $event)
 
 public function onCommandeConfirmed(CommandeEvent $event)
 {
-   $commande=$event->getCommande();
+    $commande=$event->getCommande();
     $info= $commande->getInfo();
-    $notification=new Notification('private');
-    $body =  $this->twig->render('MessagerBundle:notification:confirmation.html.twig',  array('commande' => $commande ));
      if ($commande->getStatus()=='SUCCESS') {
-       $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())
-     ->setText($body);
-      $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
-     }
-      if ($info!=null) {
+        $notification=new Notification('private');
+        if ($commande-> getSession()!=null) {
+         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
+         $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
+        $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
         $this->fcm->sendOrGetData($url,$data,'PATCH');
-        }
+        }elseif($commande-> getRessource()!=null){
+              $body =  $this->twig->render('MessagerBundle:notification:confirmation_ressource.html.twig',  array('commande' => $commande ));
+              $notification->setTitre($commande-> getRessource()->getNom())->setSousTitre($commande-> getRessource()->getNom())->setText($body);
+               $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
+        }   
+     }
+
 }
 
      /**
