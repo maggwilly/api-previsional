@@ -80,7 +80,7 @@ class Commande
     private $session;
 
     /**
-   * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Ressource" )
+   * @ORM\ManyToOne(targetEntity="Ressource" )
    */
     private $ressource; 
 
