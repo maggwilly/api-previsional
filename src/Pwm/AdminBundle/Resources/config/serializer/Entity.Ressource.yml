@@ -13,7 +13,7 @@ Pwm\AdminBundle\Entity\Ressource:
              groups: ['ressource', 'full']  
         style:
              groups: ['ressource', 'full']    
-        siwe:
+        size:
              groups: ['ressource', 'full']  
         detail4:
              groups: ['ressource', 'full']               
@@ -23,7 +23,7 @@ Pwm\AdminBundle\Entity\Ressource:
              groups: ['ressource', 'full']              
         url:
              groups: ['full']   
-        imagrUrl:
+        imageUrl:
              groups: ['ressource', 'full']  
         paymentUrl:
              groups: ['ressource', 'full']                                                                                                 
