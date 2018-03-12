@@ -22,7 +22,9 @@ AppBundle\Entity\Session:
         dateDossier:
              groups: ['session', 'full','abonnement']
              expose: true
-             type: DateTime<'Y-m-d'>  
+             type: DateTime<'Y-m-d'>                 
+        newressource:
+             groups: ['session', 'full','abonnement']             
         serie:
              groups: ['session', 'full']
         niveau:

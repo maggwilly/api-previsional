@@ -83,7 +83,9 @@ class Session
      * @ORM\Column(name="archived", type="boolean", nullable=true)
      */
     private $archived;   
+    
 
+    private $newressource; 
     /**
      * @var int
      *
@@ -169,6 +171,10 @@ class Session
    */
     private $owner;
 
+        /**
+   * @ORM\OneToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource", mappedBy="session", cascade={"persist","remove"})
+   */
+    private $ressources; 
 
     /**
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", inversedBy="sessions", cascade={"persist"})
@@ -211,14 +217,6 @@ class Session
       * @ORM\PostUpdate()
     */
     public function PostPersist(){
-        if ($this->owner!=null) {
-        $url="https://trainings-fa73e.firebaseio.com/session/".$this->getId()."/.json";
-        $data = array(
-            'info'=>array('groupName' => $this->getNomConcours()),
-            'owner'=>$this->owner->getUid()
-              );
-         $this->sendPostRequest($url,$data);
-        }
     }  
 
     /**
@@ -807,32 +805,7 @@ class Session
         return $this->groupe;
     }   
 
-   public function sendPostRequest($url,$data,$headers=array(),$json_decode=true)
-    {
-        $content = json_encode($data);
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-//        curl_setopt($curl, CURLOPT_PATCH , true);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST , "PATCH");
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-        $json_response = curl_exec($curl);
-        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $err = curl_error($curl);
-         curl_close($curl);
-       if ($err) {
-            $json_err = json_decode($err, true);
-            return $json_decode?$json_err:$err;
-        }
-        $response = json_decode($json_response, true);
-        return $json_decode?$response:$json_response;
-    }    
+
 
     /**
      * Set discussionName
@@ -914,5 +887,63 @@ class Session
     public function getParties()
     {
         return $this->parties;
+    }
+
+    /**
+     * Set newressource
+     *
+     * @param boolean $newressource
+     *
+     * @return Session
+     */
+    public function setNewressource($newressource)
+    {
+        $this->newressource = $newressource;
+
+        return $this;
+    }
+
+    /**
+     * Get newressource
+     *
+     * @return boolean
+     */
+    public function getNewressource()
+    {
+        return $this->newressource;
+    }
+
+    /**
+     * Add ressource
+     *
+     * @param \Pwm\AdminBundle\Entity\Ressource $ressource
+     *
+     * @return Session
+     */
+    public function addRessource(\Pwm\AdminBundle\Entity\Ressource $ressource)
+    {
+        $this->ressources[] = $ressource;
+
+        return $this;
+    }
+
+    /**
+     * Remove ressource
+     *
+     * @param \Pwm\AdminBundle\Entity\Ressource $ressource
+     */
+    public function removeRessource(\Pwm\AdminBundle\Entity\Ressource $ressource)
+    {
+        $this->ressources->removeElement($ressource);
+    }
+
+    /**
+     * Get ressources
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRessources()
+    {
+        return $this->ressources;
     }
 }

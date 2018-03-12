@@ -56,7 +56,7 @@ class AbonnementController extends Controller
 
     public function tokenAction()
     {
- 
+
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -109,11 +109,11 @@ if ($err) {
                $amount=$session->getPrice()-> getPremium();
               break;
       }    
-            $session->removeInfo($info);
-            $session->addInfo($info);
-           $commande= new Commande($info, $session, $package, $amount);
-           $em->persist( $commande);
-           $em->flush();
+          $session->removeInfo($info);
+          $session->addInfo($info);
+          $commande= new Commande($info, $session, $package, $amount);
+          $em->persist( $commande);
+          $em->flush();
         return $this->getPayementUrl($commande);
     }
 
@@ -132,7 +132,6 @@ if ($err) {
                  $abonnement=new Abonnement($commande);  
                  $em->persist($abonnement);
                 }
-
              $abonnement->setPlan($commande->getPackage());
              $abonnement->setPrice($commande->getAmount());
              $commande->getSession()->removeInfo($commande->getInfo());

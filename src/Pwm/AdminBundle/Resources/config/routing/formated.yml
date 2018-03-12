@@ -43,6 +43,16 @@ info_show_json:
     defaults: { _controller: "AdminBundle:Info:showJson"}
     methods:  [GET,POST] 
 
+ressource_index_json:
+    path:     /ressource/{session}/json
+    defaults: { _controller: "AdminBundle:Ressource:indexJson"}
+    methods:  [GET,POST]    
+
+ressource_show_json:
+    path:     /ressource/{id}/show/json
+    defaults: { _controller: "AdminBundle:Ressource:showJson"}
+    methods:  [GET,POST]    
+
 info_show_ambassador:
     path:     /info/{uid}/ambassador/json
     defaults: { _controller: "AdminBundle:Info:getAmbassadorJson"}

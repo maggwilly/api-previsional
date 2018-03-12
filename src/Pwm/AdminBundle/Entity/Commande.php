@@ -70,7 +70,7 @@ class Commande
     /**
      * @var string
      *
-     * @ORM\Column(name="package", type="string", length=255)
+     * @ORM\Column(name="package", type="string", length=255, nullable=true)
      */
     private $package;
 
@@ -78,6 +78,18 @@ class Commande
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" )
    */
     private $session;
+
+    /**
+   * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Ressource" )
+   */
+    private $ressource; 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ressource_url", type="string", length=255, nullable=true)
+     */
+    private $ressourcesUrl;
 
   /**
    * @ORM\ManyToOne(targetEntity="Abonnement")
@@ -93,7 +105,7 @@ class Commande
         /**
      * Constructor
      */
-    public function __construct(Info $info, \AppBundle\Entity\Session $session, $package, $amount)
+    public function __construct(Info $info, \AppBundle\Entity\Session $session=null, $package=null, $amount, \AdminBundle\Entity\Ressource $ressource = null)
     {
         $this->date =new \DateTime();  
          $this->info = $info; 
@@ -101,6 +113,7 @@ class Commande
             $this->package =$package; 
               $this->amount =$amount; 
                $this->currency ='XAF'; 
+                $this->ressource =$ressource; 
     }
     /**
      * Get id
@@ -352,5 +365,53 @@ class Commande
     public function getAbonnement()
     {
         return $this->abonnement;
+    }
+
+    /**
+     * Set ressourcesUrl
+     *
+     * @param string $ressourcesUrl
+     *
+     * @return Commande
+     */
+    public function setRessourcesUrl($ressourcesUrl)
+    {
+        $this->ressourcesUrl = $ressourcesUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get ressourcesUrl
+     *
+     * @return string
+     */
+    public function getRessourcesUrl()
+    {
+        return $this->ressourcesUrl;
+    }
+
+    /**
+     * Set ressource
+     *
+     * @param \AdminBundle\Entity\Ressource $ressource
+     *
+     * @return Commande
+     */
+    public function setRessource(\AdminBundle\Entity\Ressource $ressource = null)
+    {
+        $this->ressource = $ressource;
+
+        return $this;
+    }
+
+    /**
+     * Get ressource
+     *
+     * @return \AdminBundle\Entity\Ressource
+     */
+    public function getRessource()
+    {
+        return $this->ressource;
     }
 }

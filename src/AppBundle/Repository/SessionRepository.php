@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use Pwm\AdminBundle\Entity\Info;
+use AppBundle\Entity\Session;
 /**
  * SessionRepository
  *
@@ -84,4 +85,13 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
     $query->setFirstResult(0)->setMaxResults(4);
      return $query->getResult();
 } 
+
+     public function findHasNewRessource(Session $session){
+       $now=new \DateTime();
+       $now->modify('-15 day');
+         $qb = $this->createQueryBuilder('a')->join('a.ressources','r')
+         ->where('r.session=:session')->setParameter('session',$session)
+          ->andWhere('a.date>:date')->setParameter('date',$now);
+          return $qb->getQuery()->getResult();
+  }
 }

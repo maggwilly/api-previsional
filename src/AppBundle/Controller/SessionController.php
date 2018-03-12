@@ -93,7 +93,9 @@ class SessionController extends Controller
      *@Rest\View(serializerGroups={"full"})
      */
     public function showJsonAction(Session $session){
-        
+        $em = $this->getDoctrine()->getManager();
+         $ressources =$em->getRepository('AppBundle:Session')->findHasNewRessource($session);
+         $session->setNewressource(!empty( $ressources));
         return $session;
     }
 
@@ -163,7 +165,7 @@ class SessionController extends Controller
                            $this->getDoctrine()->getManager()->flush();
                         return  false;                    
                     default:
-                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser( $session,$info));  
+                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser($session,$info));  
                 }
           }
          return  false;

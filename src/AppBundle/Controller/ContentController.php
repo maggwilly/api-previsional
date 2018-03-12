@@ -52,29 +52,7 @@ class ContentController extends Controller
         ));
     }
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View()
-     */
-    public function lireAction(Request $request,Session $session, Info $info)
-    {
-         $status=$request->query->get('status');
-          if ($session!=null && $info!=null) {
-                switch ($status) {
-                    case 'true':
-                        $session->addInfo($info);
-                         $this->getDoctrine()->getManager()->flush();
-                         return  true;
-                    case 'false':
-                          $session->removeInfo($info);
-                           $this->getDoctrine()->getManager()->flush();
-                        return  false;                    
-                    default:
-                    return !empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findByUser($session,$info));  
-                }
-          }
-         return  false;
-    }
+
 
     /**
      * Finds and displays a content entity.

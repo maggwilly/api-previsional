@@ -1,0 +1,31 @@
+Pwm\AdminBundle\Entity\Ressource:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['ressource', 'full']
+        description:
+             groups: ['ressource', 'full']
+        detail1:
+             groups: ['ressource', 'full']    
+        detail2:
+             groups: ['ressource', 'full']  
+        detail3:
+             groups: ['ressource', 'full']  
+        style:
+             groups: ['ressource', 'full']    
+        siwe:
+             groups: ['ressource', 'full']  
+        detail4:
+             groups: ['ressource', 'full']               
+        nom:
+             groups: ['ressource', 'full'] 
+        label:
+             groups: ['ressource', 'full']              
+        url:
+             groups: ['full']   
+        imagrUrl:
+             groups: ['ressource', 'full']  
+        paymentUrl:
+             groups: ['ressource', 'full']                                                                                                 
+        price:
+             groups: ['full']

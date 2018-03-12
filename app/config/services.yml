@@ -9,7 +9,11 @@ services:
       fmc_manager:
          class: AppBundle\Service\FMCManager
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    
+
+      payment_service:
+         class: AppBundle\Service\PayementService
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+      
       app.form.registration:
                 class: AppBundle\Form\RegistrationType
                 tags:

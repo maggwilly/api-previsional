@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ressources list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Price</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Detail1</th>
+                <th>Detail2</th>
+                <th>Detail3</th>
+                <th>Url</th>
+                <th>Imageurl</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ressource in ressources %}
+            <tr>
+                <td><a href="{{ path('ressource_show', { 'id': ressource.id }) }}">{{ ressource.id }}</a></td>
+                <td>{{ ressource.price }}</td>
+                <td>{{ ressource.nom }}</td>
+                <td>{{ ressource.description }}</td>
+                <td>{{ ressource.detail1 }}</td>
+                <td>{{ ressource.detail2 }}</td>
+                <td>{{ ressource.detail3 }}</td>
+                <td>{{ ressource.url }}</td>
+                <td>{{ ressource.imageUrl }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ressource_show', { 'id': ressource.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ressource_new') }}">Create a new ressource</a>
+        </li>
+    </ul>
+{% endblock %}
