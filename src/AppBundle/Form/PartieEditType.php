@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 class PartieEditType extends AbstractType
 {
     /**
@@ -13,16 +15,13 @@ class PartieEditType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')
-        ->add('cours')
-        ->add('objectif')
-        ->add('sources')
-        ->add('prerequis')
-         ->add('index')
+        $builder->add('titre','text',array('label'=>'Titre de la partie'))
+        ->add('objectif', TextareaType::class,array('label'=>'Brève description '))
+        ->add('sources', TextareaType::class ,array('label'=>'Description complete'))
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
               'choice_label' => 'titre',
-                'label'=>'Les même questions que', 'empty_data' => null,
+                'label'=>'Selectionnez un contenu', 'empty_data' => null,
                 'group_by' => function($val, $key, $index) {
                             return $val->getMatiere()->getDisplayName();
                }));
