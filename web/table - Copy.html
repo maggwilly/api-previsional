@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<!-- start: Meta -->
+	<meta charset="utf-8">
+	  <title>{% block page_title %} CENTOR {% endblock %} </title>
+	<meta name="description" content="Bootstrap Metro Dashboard">
+	<meta name="author" content="Dennis Ji">
+	<meta name="keyword" content="">
+	<!-- end: Meta -->
+	
+	<!-- start: Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- end: Mobile Specific -->
+
+     {% block stylesheets %}
+        <link id="bootstrap-style" rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min.css') }}"  type="text/css" />
+        <link id="base-style" rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css"  />   
+		<link id="base-style-responsive" rel="stylesheet" href="{{ asset('css/style-responsive.css') }}" type="text/css"  />  
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+        <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+      {% endblock %}   		
+		
+		
+</head>
+{% block fos_user_content %}
+
+{% endblock fos_user_content %}   
+</html>

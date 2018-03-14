@@ -290,7 +290,7 @@ class Partie
     public function getPrerequis()
     { 
         if($this->prerequis==null&&$this->matiere!=null)
-      return $this->prerequis='Avoir Maitrisé le programme de : .'.$this->matiere->getTitre().' du niveau requis pour ce concours';
+      return $this->prerequis='Avoir Maitrisé le programme de '.$this->matiere->getTitre().' du niveau requis pour ce concours';
     return $this->prerequis;
     }
  
@@ -382,7 +382,7 @@ class Partie
     {
         if($this->objectif!=null)
           return  $this->objectif;
-      return $this->objectif='Evaluer les acquis sur cette partie';
+      return $this->objectif=$this->getTitre();
     }
 
     /**

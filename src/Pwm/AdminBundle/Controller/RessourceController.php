@@ -80,11 +80,11 @@ class RessourceController extends Controller
 public function firebaseSend($registrationIds,Ressource $ressource ){
 $data=array(
         'registration_ids' => array_values($registrationIds),
-        'dry_run'=>true,
+        //'dry_run'=>true,
          'notification'=>array('title' => $ressource->getIsPublic()?'Ressource':'Ressource ~'.$ressource->getSession()->getNomConcours(),
                       ' body' => $ressource->getDescription(),
                        'badge' => 1,
-                       'sound'=> "default",
+                      // 'sound'=> "default",
                        'tag' => 'ressources')
     );
      $fmc_response= $this->get('fmc_manager')->sendMessage($data);
