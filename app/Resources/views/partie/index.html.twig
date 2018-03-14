@@ -1,14 +1,18 @@
 {% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ matiere.titre }} #ID  {{ matiere.id }}{% endblock %}
+{% block title %}Parties{% endblock %}
 {% block body %}
-<div class="col-md-12">
-<div class="card">
-  <div class="card-header" data-background-color="purple">
-   <h4 class="title">Les parties</h4>
-	  <p class="category">Les differentes parties de cette matiere</p>
-	</div>
-	 <div class="card-content table-responsive">
-	     <table class="table" id="my-table">
+      <div class="row-fluid sortable">    
+        <div class="box span12">
+          <div class="box-header" data-original-title>
+            <h2><i class="halflings-icon white user"></i><span class="break"></span>Members</h2>
+            <div class="box-icon">
+              <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+              <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+              <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+            </div>
+          </div>
+          <div class="box-content">
+        <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table">
         <thead>
             <tr>
                 <th>Titre</th>
@@ -41,23 +45,11 @@
         {% endfor %}
         </tbody>
     </table>
-    <p>
-   {% if matiere.auMoinsdeMemeQue%}
-            <tr>
-                <th>Même contenu que</th>
-                <td><a href="{{ path('matiere_show', { 'id': matiere.auMoinsdeMemeQue.id }) }}">
-                {{ matiere.auMoinsdeMemeQue.titre }} 
-                <br>->{{ matiere.auMoinsdeMemeQue.programme.nom }}
-                </a></td>
-            </tr>  
-            {% endif %}  
-    </p>
-    {% if  matiere.auMoinsdeMemeQue is null %}  
-      <a  class="btn btn-default "href="{{ path('partie_new', { 'id': matiere.id }) }}">Create a new partie</a>
+          </div>
+        </div><!--/span-->
+    {% if  matiere is not null and  matiere.auMoinsdeMemeQue is null %}  
+      <a  class="btn btn-default "href="{{ path('partie_new', { 'id': matiere.id }) }}">Créer une partie</a>
      {% endif %}
-      <a  href="{{ path('partie_index_json', { 'id': matiere.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>
+    
  </div 
- </div>
- </div>
-
 {% endblock %}
