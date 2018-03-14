@@ -1,6 +1,6 @@
 partie_index:
     path:     /{id}/list
-    defaults: { _controller: "AppBundle:Partie:index", matiere:0 }
+    defaults: { _controller: "AppBundle:Partie:index", id:0 }
     methods:  GET
 
 
