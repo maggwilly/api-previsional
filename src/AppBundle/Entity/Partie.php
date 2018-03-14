@@ -30,7 +30,7 @@ class Partie
 
     private $isAvalable;
 
-     private $analyse;
+    private $analyse;
 
     /**
      * @var \DateTime
@@ -103,8 +103,7 @@ class Partie
     private $matiere;
 
 
-
-            /**
+    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="partie", cascade={"persist","remove"})
   * @ORM\OrderBy({ "id" = "ASC"})
    */
@@ -120,7 +119,20 @@ class Partie
    */
     private $sessions; 
 
-       /**
+
+        /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+   */
+    private $user;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="contain_math", type="boolean",nullable=true)
+     */
+    private $containMath;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -537,4 +549,28 @@ class Partie
     {
         return $this->endDate;
     }  
+
+       /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Question
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+ 
 }

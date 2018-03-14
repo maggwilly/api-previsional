@@ -174,7 +174,11 @@ class User extends BaseUser
      */
     protected $credentialsExpireAt;
 
-
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="matiere", cascade={"persist","remove"})
+   * @ORM\OrderBy({ "id" = "ASC"})
+   */
+    private $parties;
     /**
      * Get id
      *
@@ -250,6 +254,7 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
  
@@ -259,7 +264,15 @@ class User extends BaseUser
         return $this->getUsername();
     }
 
-  
+      /**
+     * Get parties
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getParties()
+    {
+        return $this->parties;
+    }
 
     /**
      * Get enabled

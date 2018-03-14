@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 use AppBundle\Entity\Matiere;
 use AppBundle\Entity\Partie;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
@@ -20,8 +21,9 @@ class PartieController extends Controller
     /**
      * Lists all partie entities.
      */
-    public function indexAction(Matiere $matiere)
-    {
+    public function indexAction(Matiere $matiere=null)
+    {   $parties= $this->getUser()->getParties();
+        if($matiere!=null)
         $parties= $matiere->getParties();
         return $this->render('partie/index.html.twig', array(
             'parties' => $parties, 'matiere' => $matiere,
