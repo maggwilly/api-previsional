@@ -4,7 +4,7 @@
        <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="index.html">Home</a> 
+          <a href="{{ path('partie_index',{'id':0})}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li>
         <li><a href="#">Edtion de contenu</a></li>
@@ -30,7 +30,11 @@
                 <th class="col-md-2">Présentation</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> 
+            {% set parties=app.user.parties %}
+            {% if matiere is not null %}
+            {% set parties=matiere.parties %}
+             {% endif %}
         {% for partie in parties %}
             <tr>
                 <td>
