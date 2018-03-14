@@ -24,7 +24,7 @@ class PartieEditType extends AbstractType
                 'label'=>'Selectionnez une évaluation',
                 'empty_data' => null,
                 'placeholder' => 'Aucune',
-                'required' => false                 
+                'required' => false   ,              
                 'group_by' => function($val, $key, $index) {
                             return $val->getMatiere()->getDisplayName();
                }));
