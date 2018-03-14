@@ -17,11 +17,14 @@ class PartieEditType extends AbstractType
     {
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
         ->add('objectif', TextareaType::class,array('label'=>'Brève description '))
-        ->add('sources', TextareaType::class ,array('label'=>'Description complete'))
+        ->add('sources', TextareaType::class ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
-              'choice_label' => 'titre',
-                'label'=>'Selectionnez un contenu', 'empty_data' => null,
+                'choice_label' => 'titre',
+                'label'=>'Selectionnez une évaluation',
+                'empty_data' => null,
+                'placeholder' => 'Aucune',
+                'required' => false                 
                 'group_by' => function($val, $key, $index) {
                             return $val->getMatiere()->getDisplayName();
                }));
