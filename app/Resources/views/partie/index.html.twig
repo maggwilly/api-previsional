@@ -1,6 +1,15 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block title %}Parties{% endblock %}
 {% block body %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="index.html">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">Edtion de contenu</a></li>
+      </ul>
+   
       <div class="row-fluid sortable">    
         <div class="box span12">
           <div class="box-header" data-original-title>
@@ -15,31 +24,29 @@
         <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table">
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Prerequis</th>
-                 <th>Objectif</th>
+                <th>Désignation </th>
                  <th>Cours</th>
-                  <th>Questions dispo</th>
-                <th>Actions</th>
+                <th>Evaluation</th>
+                <th>Présentation</th>
             </tr>
         </thead>
         <tbody>
         {% for partie in parties %}
             <tr>
-                <td><a href="{{ path('question_index', { 'id': partie.id }) }}">{{ partie.titre }}</a></td>
-                <td>{{ partie.prerequis }}</td>
-                <td>{{ partie.objectif }}</td>
-                <td>{% if partie.cours %}<a href="{{ partie.cours }}">Diso{% endif %}</td>
-                <td>{% if partie.questions is empty %}No{% else %}Yes{% endif %}</td> 
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('partie_show', { 'id': partie.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('partie_edit', { 'id': partie.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                   <h2> {{ partie.titre }}</h2>
+                    <p>{{ partie.objectif }}</p>
+                </td>
+                <td><a href="{{ path('article_show', { 'id': partie.article.id }) }}">{{ partie.titre }}</a></td>
+                <td>{% if partie.article %}
+                    <a href="{{ path('article_show', { 'id': partie.article.id }) }}">Cours</a>
+                   {% else %}
+                    <a href="{{ path('article_new', { 'id': partie.id }) }}">Créer un cours
+                    {% endif %}
+                    </td>
+                <td><a href="{{ path('question_index', { 'id': partie.id }) }}">Evaluation</a></td> 
+                <td>
+                    <a href="{{ path('partie_edit', { 'id': partie.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}

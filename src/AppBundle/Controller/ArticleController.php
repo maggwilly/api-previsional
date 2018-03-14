@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Partie;
 use Pwm\AdminBundle\Entity\Info;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,12 +78,13 @@ class ArticleController extends Controller
      * Creates a new article entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Partie $partie)
     {
         $article = new Article();
         $form = $this->createForm('AppBundle\Form\ArticleType', $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $partie->setArticle($article);
             $em = $this->getDoctrine()->getManager();
             $article->setUser($this->getUser());
             $em->persist($article);
