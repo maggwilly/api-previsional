@@ -108,6 +108,7 @@ $data=array(
     {    
 
           $uid=$request->query->get('uid');
+          $paymentUrl=$request->query->get('paymentUrl');
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
@@ -121,6 +122,8 @@ $data=array(
              $commande->setDate(new \DateTime())->setAmount($ressource->getPrice());
              $em->flush();   
             }
+            if($paymentUrl)
+                return $ressource->setPaymentUrl($paymentUrl);
              $response=$this->get('payment_service')->getPayementUrl($commande);
         return $ressource->setPaymentUrl($response['payment_url']);
     }
