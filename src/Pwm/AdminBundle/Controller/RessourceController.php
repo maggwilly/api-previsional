@@ -111,7 +111,7 @@ $data=array(
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
-            if((($commande!=null)&&$commande->getStatus()==='SUCCESS')||($ressource->getPrice()==null||$ressource->getPrice()==0))
+            if((($commande!=null)&&$commande->getStatus()=='SUCCESS')||($ressource->getPrice()==null||$ressource->getPrice()==0))
                  return $ressource;
           if(is_null($commande)||!is_null($commande->getStatus())){
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
