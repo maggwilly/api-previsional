@@ -127,7 +127,7 @@ class Commande
 
 public function getUId() {
 
-        return uniqid();
+        return strtoupper(uniqid());
     }
     /**
      * Set date
