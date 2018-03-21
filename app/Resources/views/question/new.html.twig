@@ -16,6 +16,7 @@
    {% endblock %}
    {% block table_title %}Création de question{% endblock %}    
 {% block table %}
+   <div class="row">
 <div class="col-md-6">
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -32,5 +33,6 @@
  </div>
  <button onclick="myFunction()">Obtenir la traduction</button>
  <p><strong>Note !</strong>Les touches de direction permettent de passer d'une case à l'autre plus facilement.</p>
+</div>
 </div>        
 {% endblock %}

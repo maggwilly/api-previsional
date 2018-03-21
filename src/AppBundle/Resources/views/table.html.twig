@@ -1,5 +1,28 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block page_title %}Edition de contenu{% endblock %}
+ {% block stylesheets %}
+{{parent()}}
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+ <script src="http://www.wiris.net/demo/editor/editor"></script>
+  <script>
+    var editor;
+    window.onload = function () {
+      editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'en'});
+            editor.insertInto(document.getElementById('editorContainer'));                
+    }
+
+ </script>  
+ <script>
+function myFunction() {
+  //alert(editor.getMathML());
+   window.prompt("Copy to clipboard: Ctrl+C, Enter", editor.getMathML());
+}
+</script> 
+{% endblock %} 
 {% block body %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
