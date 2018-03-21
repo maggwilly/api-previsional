@@ -1,17 +1,34 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}Objectif creation{% endblock %}
-{% block body %}
-	<div class="card"> 
-		  <div class="card-content">
+{% extends "AppBundle::table.html.twig" %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="#">Home</a> 
+          <i class="icon-angle-right"></i>         
+        </li>
+        <li>
+      <a href="{{ path('session_show', { 'id': session.id }) }}">{{session.nomConcours}} ~ {{session.nom}} </a> 
+          <i class="icon-angle-right"></i>          
+        </li>  
+        <li>        
+        <li> 
+      <a href="{{ path('objectif_index', { 'id': session.id  }) }}">Liens utils</a> 
+          <i class="icon-angle-right"></i>          
+        </li>  
+        <li>
+      <a href="#">Création</a>           
+        </li>               
+      </ul>
+   {% endblock %}
+ {% block table_title %}Création d'un lien util pour {{session.nomConcours}}{% endblock %}  
+{% block table %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Enrégistrer" class="btn btn-primary"/>
     {{ form_end(form) }}
-</div>
-</div>
     <ul>
         <li>
-            <a href="{{ path('session_show', { 'id': session.id }) }}">Back to the list</a>
+            <a href="{{ path('objectif_index', { 'id': session.id }) }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
+* @ORM\HasLifecycleCallbacks
  */
 class Article
 {
@@ -79,6 +80,22 @@ class Article
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
     private $validateur;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->date=new \DateTime();
+    }
+
+      /**
+    * @ORM\PrePersist()
+    */
+    public function PrePersist(){
+       $this->addContent(new Content( $this->introduction,'Introduction'));
+    }
     /**
      * Get id
      *
@@ -237,14 +254,7 @@ class Article
     {
         return $this->date;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->date=new \DateTime();
-    }
+
 
     /**
      * Add contents
@@ -254,8 +264,8 @@ class Article
      */
     public function addContent(\AppBundle\Entity\Content $contents)
     {
+        $contents->setArticle($this);
         $this->contents[] = $contents;
-
         return $this;
     }
 

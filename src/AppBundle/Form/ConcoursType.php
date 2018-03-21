@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 class ConcoursType extends AbstractType
 {
     /**
@@ -15,10 +16,10 @@ class ConcoursType extends AbstractType
     {
         $builder
         ->add('nom')
-        ->add('ecole')
-        ->add('abreviation')
-        ->add('descriptionEcole')
-        ->add('descriptionConcours')
+        ->add('ecole','textarea', array('label'=>"Le nom de l'école"))
+        ->add('abreviation','text', array('label'=>"Le nom abrégé de l'école"))
+        ->add('descriptionEcole','textarea', array('label'=>"Une brève description de l'école"))
+        ->add('descriptionConcours','textarea', array('label'=>"Une brève description du concours"))
         ->add('serie', ChoiceType::class, array(
                                   'choices'  => array(
                                           '' => 'Toute series',
@@ -27,6 +28,7 @@ class ConcoursType extends AbstractType
                                          'economie' => 'economie', 
                                          'droit' => 'droit', 
                                          'technique' => 'technique'),
+                                  'label'=>"La série concernée par le concours"
                                    ))
         ->add('niveau', ChoiceType::class, array(
                                   'choices'  => array(
@@ -36,11 +38,11 @@ class ConcoursType extends AbstractType
                                          'BAC - GCE A/L' => 'BAC - GCE A/L', 
                                          'Licence & equiv' => 'Licence & equiv', 
                                          'Master & equiv' => 'Master & equiv'),
+                                  'label'=>"Le niveau récquis pour le concours"
                                    ))
-        ->add('dateMax', 'date', array('years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))    
-        ->add('contacts')
-        ->add('imageUrl')
-        ->add('imageEntity',   new ImageType(), array('label'=>'Image du concours','required'=>false));
+        ->add('dateMax', 'date', array('label'=>'Etre né après le ','years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))    
+        ->add('contacts','text', array('label'=>"Des contacts séparés par des point-virgule"))
+        ->add('imageUrl', UrlType::class, array('label'=>"L'url vers une image descriptive"));
     }
     
     /**

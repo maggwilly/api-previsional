@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 class ObjectifType extends AbstractType
 {
     /**
@@ -13,7 +13,9 @@ class ObjectifType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('description')       ;
+        $builder->add('titre')->add('description', UrlType::class, array(
+    'label' => 'Lien direct',
+))       ;
     }
     
     /**

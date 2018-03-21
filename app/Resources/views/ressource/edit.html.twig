@@ -1,11 +1,25 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}Ressource{% endblock %}
-{% block body %}
-    <h1>Ressource edit</h1>
-
+{% extends "AppBundle::table.html.twig" %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="#">Home</a> 
+          <i class="icon-angle-right"></i>         
+        </li>
+        <li>
+      <a href="{{ path('session_show', { 'id': ressource.session.id }) }}">{{ressource.session.nomConcours}} ~ {{ressource.session.nom}} </a> 
+          <i class="icon-angle-right"></i>          
+        </li>  
+        <li>        
+        <li>
+      <a href="{{ path('objectif_index', { 'id': ressource.session.id }) }}">{{objectif.titre}} </a>      
+        </li>                
+      </ul>
+   {% endblock %}
+ {% block table_title %}Edition de {{ressource.nom}}{% endblock %}  
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input type="submit" value="Enrégistrer" />
     {{ form_end(edit_form) }}
 
     <ul>
@@ -14,7 +28,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Supprimer">
             {{ form_end(delete_form) }}
         </li>
     </ul>

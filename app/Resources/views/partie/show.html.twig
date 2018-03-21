@@ -1,7 +1,6 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ partie.titre }}{% endblock %}
-{% block body %}
-<h2>Details</h2>
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Partie details{% endblock %}
+{% block table %}
     <table>
         <tbody>
             <tr>
@@ -15,17 +14,7 @@
              <tr>
                 <th>Cours</th>
                 <td><a href="{{ partie.cours }}">{{ partie.cours }}</a></td>
-            </tr> 
-            {% if partie.auMoinsdeMemeQue%}
-            <tr>
-                <th>Les Même questions que que</th>
-                <td><a href="{{ path('question_index', { 'id': partie.auMoinsdeMemeQue.id }) }}">
-                {{ partie.auMoinsdeMemeQue.titre }} 
-                <br>->{{ partie.auMoinsdeMemeQue.matiere.titre }}
-                <br>->{{ partie.auMoinsdeMemeQue.matiere.programme.nom }}
-                </a></td>
-            </tr>  
-            {% endif %}                     
+            </tr>                     
         </tbody>
     </table>
     <ul>

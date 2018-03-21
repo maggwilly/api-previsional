@@ -1,65 +1,55 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{session.nomConcours|upper}} &mdash; {{ session.nom|upper }}{% endblock %}
-{% block body %}
-    <table>
+{% extends "AppBundle::table.html.twig" %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="#">Home</a> 
+          <i class="icon-angle-right"></i>         
+        </li> 
+        <li>
+      <a href="{{ path('session_index',{ 'id': session.concours.id }) }}">Sessions de {{session.concours.nom}}</a> 
+          <i class="icon-angle-right"></i>          
+        </li>                
+        <li><a href="#">Détails</a></li>
+      </ul>
+   {% endblock %}
+ {% block table_title %}Détails d'une session de  {{session.concours.nom}} ~{{session.nom}}{% endblock %}  
+{% block table %}
+    <table> 
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ session.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
+                <th>Nom de session</th>
                 <td>{{ session.nom }}</td>
             </tr>
             <tr>
-                <th>Nombreplace</th>
+                <th>Nombre de places </th>
                 <td>{{ session.nombrePlace }}</td>
             </tr>
             <tr>
-                <th>Nombreinscrit</th>
+                <th>Nombre d'inscrit</th>
                 <td>{{ session.nombreInscrit }}</td>
             </tr>
             <tr>
-                <th>Datelancement</th>
+                <th>Date de lancement</th>
                 <td>{% if session.dateLancement %}{{ session.dateLancement|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Dateconcours</th>
+                <th>Date du concours</th>
                 <td>{% if session.dateConcours %}{{ session.dateConcours|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Datedossier</th>
+                <th>Date limite des dossiers</th>
                 <td>{% if session.dateDossier %}{{ session.dateDossier|date('Y-m-d') }}{% endif %}</td>
             </tr>
         </tbody>
     </table>
     <ul>
         <li>
-            <a href="{{ path('session_index', { 'id': session.concours.id }) }}">Back to the list</a>
+            <a href="{{ path('session_index', { 'id': session.concours.id }) }}" >Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('session_edit', { 'id': session.id }) }}">Edit</a>
+            <a href="{{ path('session_edit', { 'id': session.id }) }}">Modifier</a>
         </li>
-    </ul>
-
-    <h2> Les lien utils</h2>
-    <table>
-        <tbody>
-        {% for objectif in session.liens %}
-            <tr>
-                <td>{{ objectif.titre }}</td>
-                <td><a href="{{ objectif.description }}"> Ouvrir</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-        <ul>
-        <li>
-    <a href="{{ path('objectif_new',{ 'id': session.id }) }}" class="btn btn-default ">Créer un lien util</a>
-        </li>
-        <li>
-    <a href="{{ path('ressource_index',{ 'session': session.id }) }}" class="btn btn-default ">Créer une ressource</a>
-        </li>        
     </ul>
 
 {% endblock %}

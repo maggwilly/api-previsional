@@ -20,7 +20,7 @@ class ObjectifController extends Controller
     public function indexAction(Session $session)
     {
         $em = $this->getDoctrine()->getManager();
-        return $this->render('matiere/showFromMobile.html.twig', array(
+        return $this->render('objectif/index.html.twig', array(
             'liens' =>  $session->getLiens(),  'session' => $session,
         ));
     }
@@ -39,7 +39,7 @@ class ObjectifController extends Controller
             $objectif->setProgramme($session);
             $em->persist($objectif);
             $em->flush($objectif);
-            return $this->redirectToRoute('session_show', array('id' => $session->getId()));
+            return $this->redirectToRoute('objectif_index', array('id' => $session->getId()));
         }
 
         return $this->render('objectif/new.html.twig', array(

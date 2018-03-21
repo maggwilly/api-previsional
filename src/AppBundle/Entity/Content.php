@@ -24,7 +24,7 @@ class Content
     /**
      * @var string
      *
-     * @ORM\Column(name="subtitle", type="string", length=255)
+     * @ORM\Column(name="subtitle", type="string", length=255 , nullable=true)
      */
     private $subtitle;
 
@@ -46,6 +46,17 @@ class Content
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article"  ,inversedBy="contents")
    */
     private $article;
+
+    /**
+     * Constructor
+     */
+    public function __construct($text=null,$subtitle=null)
+    {
+        $this->text = $text;
+         $this->subtitle = $subtitle;
+    }
+
+
     /**
      * Get id
      *

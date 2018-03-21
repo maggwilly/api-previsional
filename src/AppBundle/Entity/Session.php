@@ -203,6 +203,7 @@ class Session
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
 
@@ -211,6 +212,7 @@ class Session
     */
     public function PrePersist(){
       $this->groupe= new Groupe($this->nomConcours,$this);
+        $this->discussionName =  $this->nomConcours;
     }
 
       /**
