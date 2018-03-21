@@ -14,15 +14,7 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $partie=$options['partie'];
-        $builder->add('type', ChoiceType::class, array('label'=>'Type de question',
-                                 'choices'  => array(
-                                         'text' => 'Texte uniquement',
-                                         'image_text' => 'Image et texte',
-                                          'math_text' => 'Math et text',
-                                          'math' => 'Math & prop Maths',
-             ),
-          ))
-        ->add('text','textarea',array('label'=>'Enonce de la question','attr'=>array('class'=>'cleditor')))
+        $builder->add('text','textarea',array('label'=>'Enonce de la question','attr'=>array('class'=>'cleditor')))
         ->add('imageEntity',   new ImageType(), array('label'=>'Image de la question','required'=>false))
         ->add('propA')
         ->add('propB')
