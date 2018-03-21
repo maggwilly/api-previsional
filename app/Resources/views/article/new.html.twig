@@ -1,6 +1,6 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}Article creation{% endblock %}
-{% block body %}
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Nouveau article{% endblock %}
+{% block table %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />

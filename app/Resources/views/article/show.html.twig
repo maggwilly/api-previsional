@@ -1,9 +1,6 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ article.titre }} #ID {{ article.id }} {% endblock %}
-{% block body %}
-<div class="col-md-12">
-<div class="card">
-	 <div class="card-content table-responsive">
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Nouveau article{% endblock %}
+{% block table %}
     <table class="table">
         <tbody>
              {% if article.user %}
@@ -52,21 +49,4 @@
             </tr>
         </tbody>
     </table>
- {% if not article.validated %}<a  href="{{ path('article_valid', { 'id': article.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
-    <ul>
-        <li>
-            <a href="{{ path('article_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('article_edit', { 'id': article.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
-    </div>
- </div 
-  </div>    
 {% endblock %}

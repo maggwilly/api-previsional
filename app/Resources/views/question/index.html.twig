@@ -1,14 +1,7 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ partie.titre }} #ID {{ partie.id }}{% endblock %}
-{% block body %}
-<div class="col-md-12">
-<div class="card">
-  <div class="card-header" data-background-color="purple">
-   <h4 class="title">Les questions</h4>
-	  <p class="category">Questions de cette partie</p>
-	</div>
-	 <div class="card-content table-responsive">
-	     <table class="table" id="my-table">
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Matieres{% endblock %}
+{% block table %}
+         <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table-1">
         <thead>
             <tr>
                 <th>Enonce</th>
@@ -44,24 +37,6 @@
         {% endfor %}
         </tbody>
     </table>
-    <p>
-    {% if partie.auMoinsdeMemeQue%}
-            <tr>
-                <th>Les Même questions que que</th>
-                <td><a href="{{ path('partie_show', { 'id': partie.auMoinsdeMemeQue.id }) }}">
-                {{ partie.auMoinsdeMemeQue.titre }} 
-                <br>->{{ partie.auMoinsdeMemeQue.matiere.titre }}
-                <br>->{{ partie.auMoinsdeMemeQue.matiere.programme.nom }}
-                </a></td>
-            </tr>  
-        {% endif %}
-    </p>
-{% if partie.auMoinsdeMemeQue is null%}  
- <a  href="{{ path('question_index_json', { 'id': partie.id }) }}" target="_blank" class="btn btn-primary pull-right" >Export to .json</a>  
- {% endif %}
  <a  class="btn btn-default" href="{{ path('question_new', { 'id': partie.id }) }}">Create a new question</a>   
-
- </div   
- </div>
- </div       
+      
 {% endblock %}

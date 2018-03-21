@@ -1,35 +1,10 @@
 {% extends "AppBundle::table.html.twig" %}
 {% block page_title %}Partie edit{% endblock %}
 {% block table %}
-            <ul class="breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="icon-angle-right"></i> 
-                </li>
-                <li>
-                    <i class="icon-edit"></i>
-                    <a href="#">Forms</a>
-                </li>
-            </ul>
-            <div class="row-fluid sortable">
-                <div class="box span12">
-                    <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white edit"></i><span class="break"></span>Form Elements</h2>
-                        <div class="box-icon">
-                            <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
-                            <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-                            <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
-                        </div>
-                    </div>
-                    <div class="box-content">
-
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
-</div>
-</div>
     <ul>
     <li>
             <a href="{{ path('partie_index', { 'id': 0}) }}">Back to the list</a>

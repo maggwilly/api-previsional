@@ -1,14 +1,10 @@
 {% extends "AppBundle::table.html.twig" %}
 {% block page_title %}Partie edit{% endblock %}
 {% block table %}
-	<div class="card"> 
-		  <div class="card-content">
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
-</div>
-</div>
     <ul>
         <li>
             <a href="{{ path('partie_index', { 'id': matiere.id }) }}">Back to the list</a>

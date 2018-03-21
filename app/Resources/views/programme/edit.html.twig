@@ -1,15 +1,25 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}Concours edit{% endblock %}
-{% block body %}
-
-<div class="card"> 
-	  <div class="card-content">
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Question{% endblock %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="#">Home</a> 
+          <i class="icon-angle-right"></i>       
+        </li>
+        <li>
+          <a href="#">Question</a> 
+          <i class="icon-angle-right"></i>        
+        </li>        
+        <li><a href="#">Création</a></li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}Création de question{% endblock %}    
+{% block table %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
-</div>
-</div>
     <ul>
         <li>
             <a href="{{ path('programme_index') }}">Back to the list</a>

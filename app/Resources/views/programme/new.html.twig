@@ -1,14 +1,20 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}Concour creation{% endblock %}
-{% block body %}
-	<div class="card"> 
-		  <div class="card-content">
+{% extends "AppBundle::table.html.twig" %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('partie_index',{'id':0})}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">Unités de préparation</a></li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}Unités de préparation{% endblock %}  
+{% block table %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
-</div>
-</div>
     <ul>
         <li>
             <a href="{{ path('programme_index') }}">Back to the list</a>
