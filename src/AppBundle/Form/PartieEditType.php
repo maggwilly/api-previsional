@@ -16,12 +16,12 @@ class PartieEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
-        ->add('objectif', TextareaType::class,array('label'=>'Brève description '))
-        ->add('sources', TextareaType::class ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
+        ->add('objectif','textarea',array('label'=>'Brève description '))
+        ->add('sources', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
                 'choice_label' => 'titre',
-                'label'=>'Selectionnez une évaluation',
+                'label'=>'Selectionnez une évaluation existante',
                 'empty_data' => null,
                 'placeholder' => 'Aucune',
                 'required' => false   ,              
