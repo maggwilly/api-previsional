@@ -37,9 +37,10 @@ class MatiereController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"matiere"})
      */
-    public function jsonIndexAction(Programme $concours)
-    {
-       $matieres= $concours->getMatieres();
+    public function jsonIndexAction(Programme $concours=null)
+    {   if(is_null($concours))
+              return array();
+         $matieres= $concours->getMatieres();
         return   $matieres;
     }
     /**

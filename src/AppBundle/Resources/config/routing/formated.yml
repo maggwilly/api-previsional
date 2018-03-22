@@ -52,12 +52,12 @@ articlefollow_json:
 
 matiere_index_json:
     path:     /matiere/{id}/json
-    defaults: { _controller: "AppBundle:Matiere:jsonIndex" }
+    defaults: { _controller: "AppBundle:Matiere:jsonIndex", id:0  }
     methods:  GET
 
 partie_index_json:
     path:     /partie/{id}/json
-    defaults: { _controller: "AppBundle:Partie:jsonIndex" }
+    defaults: { _controller: "AppBundle:Partie:jsonIndex", id:0  }
     methods:  GET
 
 partie_is_avalable_json:

@@ -32,8 +32,10 @@ class PartieController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"partie"})
      */
-    public function jsonIndexAction(Request $request,Matiere $matiere)
+    public function jsonIndexAction(Request $request,Matiere $matiere=null)
     {
+         if(is_null($matiere))
+              return array();
         $em = $this->getDoctrine()->getManager();
          $session=$em->getRepository('AppBundle:Session')->findOneById($request->query->get('session'));
          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($request->query->get('uid'));
