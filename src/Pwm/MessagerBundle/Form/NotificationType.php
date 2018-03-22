@@ -18,7 +18,7 @@ class NotificationType extends AbstractType
         $builder
         ->add('titre')
         ->add('sousTitre')
-        ->add('text')
+        ->add('text', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
         ->add('tag')
         ->add('format', ChoiceType::class, array(
                                  'choices'  => array(

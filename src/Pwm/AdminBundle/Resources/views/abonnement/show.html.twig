@@ -1,14 +1,9 @@
-{% extends "AppBundle::layout.html.twig" %}
-
+{% extends "AdminBundle::table.html.twig" %}
+{% block page_title %}Abonnement{% endblock %}
 {% block body %}
     <h1>{{ abonnement.session.nomConcours }}</h1>
-
     <table>
         <tbody>
-            <tr>
-                <th>studentId</th>
-                <td>{{ abonnement.studentId }}</td>
-            </tr>
             <tr>
                 <th>Enddate</th>
                 <td>{% if abonnement.endDate %}{{ abonnement.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
