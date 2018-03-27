@@ -19,10 +19,10 @@ class NotificationType extends AbstractType
         ->add('titre')
         ->add('sousTitre', 'textarea' ,array('label'=>'Corps du message en texte simple'))
         ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche','attr'=>array('class'=>'cleditor')))
-        ->add('tag')
+       // ->add('tag')
         ->add('format', ChoiceType::class, array(
                                  'choices'  => array(
-                                  'notifications' => 'Notifications', 'paper' => 'Annonce', 'alarm' => 'Alerte temps'),
+                                 'ios-mail' => 'Message', 'notifications' => 'Notifications', 'paper' => 'Annonce', 'alarm' => 'Alerte temps','ios-bulb' => 'Astuce'),
                                    ))
         ->add('groupe', EntityType::class,
              array('class' => 'AdminBundle:Groupe', 
@@ -31,10 +31,7 @@ class NotificationType extends AbstractType
                    'empty_data'  => null,
                     'required' => false ,                  
                     'label'=>'Groupe')
-             )
-        ->add('includeMail')
-        ->add('sendDate')
-        ->add('sendNow');
+             );
     }
     
     /**
