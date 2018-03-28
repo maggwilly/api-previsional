@@ -2,28 +2,30 @@ session_index:
     path:     /{id}/
     defaults: { _controller: "AppBundle:Session:index" }
     methods:  GET
+    schemes:    [https]
 
 session_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Session:show" }
     methods:  GET
-
+    schemes:    [https]
 session_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Session:new" }
     methods:  [GET, POST]
-
+    schemes:    [https]
 session_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Session:edit" }
     methods:  [GET, POST]
-
+    schemes:    [https]
 session_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Session:delete" }
     methods:  DELETE
-
+    schemes:    [https]
 session_show_from_mobile:
     path:     /{id}/show/from/mobile
     defaults: { _controller: "AppBundle:Session:showFromMobile" }
     methods:  GET
+    schemes:    [https]    

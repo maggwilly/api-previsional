@@ -2,28 +2,34 @@ resultat_index:
     path:     /
     defaults: { _controller: "AppBundle:Resultat:index" }
     methods:  GET
+    schemes:    [https]
 
 resultat_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Resultat:show" }
     methods:  GET
+    schemes:    [https]
 
 resultat_get:
     path:     /{id}/get/mobile
     defaults: { _controller: "AppBundle:Resultat:get" }
     methods:  GET    
+    schemes:    [https]
 
 resultat_new:
     path:     /new
     defaults: { _controller: "AppBundle:Resultat:new" }
     methods:  [GET, POST]
+    schemes:    [https]
 
 resultat_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Resultat:edit" }
     methods:  [GET, POST]
-
+    schemes:    [https]
+    
 resultat_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Resultat:delete" }
     methods:  DELETE
+    schemes:    [https]
