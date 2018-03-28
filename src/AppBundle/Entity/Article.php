@@ -46,7 +46,7 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="text")
+     * @ORM\Column(name="image", type="text", nullable=true)
      */
     private $image;
 
