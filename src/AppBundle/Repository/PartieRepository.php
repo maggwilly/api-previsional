@@ -30,7 +30,7 @@ class PartieRepository extends EntityRepository
     }  
 
       function findByUser(User $user){
-       $qb =$this->createQueryBuilder('a')->where('a.user=:user')->setParameter('user',$user));
+       $qb =$this->createQueryBuilder('a')->where('a.user=:user')->setParameter('user',$user);
         return   $qb->getQuery()->getResult();
     }  
 }
