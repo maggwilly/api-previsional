@@ -17,13 +17,19 @@ class AppController extends Controller
      *
      */
     public function indexAction()
-    {     if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
-                return $this->redirectToRoute('abonnement_index');
-         elseif ($this->get('security.authorization_checker')->isGranted('ROLE_SAISIE')) {
-                return $this->redirectToRoute('partie_index', array('id' => 0));
-          }elseif ($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
-              return $this->redirectToRoute('notification_index');  
-        return $this->redirectToRoute('notification_index');             
+
+    {   
+   switch ($this->getUser()) {
+    case 'SAISIE':
+        # code...
+        return $this->redirectToRoute('partie_index', array('id' => 0));
+    case 'COMM':
+         return $this->redirectToRoute('notification_index');     
+    default:
+        # code...
+         return $this->redirectToRoute('notification_index');   
+}
+          
     }
 
 
