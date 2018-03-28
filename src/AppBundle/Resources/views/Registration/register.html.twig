@@ -14,73 +14,48 @@
    {% block table %}               
 
 	                                <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST">
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Non complet</label>
 													{{ form_widget(form.nom,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                 </div>
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Email</label>
 													{{ form_widget(form.email,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>	
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Phone</label>
 													{{ form_widget(form.phone,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>	      
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Psedo</label>
 													{{ form_widget(form.username,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Domaine</label>
 													{{ form_widget(form.type,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>
-	                                    <div class="row">
-	                                        <div class="col-md-12">
+
 												<div class="form-group label-floating">
 													<label class="control-label">Password</label>
 													{{ form_widget(form.plainPassword.first,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>
 
-	                                    <div class="row">
-	                                        <div class="col-md-12">
 												<div class="form-group label-floating">
 													<label class="control-label">Verification</label>
 													{{ form_widget(form.plainPassword.second,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>
 
-	                                    <div class="row">
-	                                        <div class="col-md-12">
 												<div class="form-group label-floating">
 													<label class="control-label">Ville</label>
 													{{ form_widget(form.ville,{attr:{'class':'form-control'}}) }}
 												</div>
-	                                        </div>
-	                                    </div>
-	                                    
+
+	                     
 	                                    <button type="submit" class="btn btn-danger pull-right">Creer un compte</button>
 	                                    <div class="clearfix"></div>
 	                                  {{ form_end(form) }}
