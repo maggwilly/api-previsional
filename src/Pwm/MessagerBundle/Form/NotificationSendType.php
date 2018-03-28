@@ -15,7 +15,6 @@ class NotificationSendType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('includeMail')
         ->add('groupe', EntityType::class,
              array('class' => 'AdminBundle:Groupe', 
                    'choice_label' => 'getNom', 

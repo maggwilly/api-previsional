@@ -96,6 +96,24 @@ class NotificationController extends Controller
         return  new Response("".$reading);
     }
 
+    public function getDestNumberAction(Notification $notification)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $nuberDesc=count($em->getRepository('MessagerBundle:Registration')->findAll()) ;
+          $groupe= $notification->getGroupe();
+         if(!is_null($groupe)){
+             $numberDestTmp=0;
+             foreach ($groupe->getSession()->getInfos() as $info) {
+               foreach ($info->getRegistrations() as $registration) {
+                 if (!$registration->getIsFake()) {
+                     $numberDestTmp++;
+                    } 
+                 }
+             }
+            $nuberDesc=$numberDestTmp;
+            }
+        return  new Response("".$nuberDesc);
+    }
     /**
      * Finds and displays a notification entity.
      *

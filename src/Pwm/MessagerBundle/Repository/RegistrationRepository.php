@@ -24,4 +24,10 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getResult();
   }
 
+    public function findAll(){
+         $qb = $this->createQueryBuilder('r')
+         ->where('r.isFake is NULL'); 
+          return $qb->getQuery()->getResult();
+  }
+   
 }

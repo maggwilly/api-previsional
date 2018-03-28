@@ -18,7 +18,10 @@ notification_reading:
     defaults: { _controller: "MessagerBundle:Notification:getReading" }
     methods:  [GET, POST]
 
-
+notification_number_dest:
+    path:     /{id}/number/dest
+    defaults: { _controller: "MessagerBundle:Notification:getDestNumber" }
+    methods:  [GET, POST]
 
 notification_new:
     path:     /new
