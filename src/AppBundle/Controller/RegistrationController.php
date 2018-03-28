@@ -6,10 +6,23 @@ use FOS\UserBundle\Controller\RegistrationController as BaseController;
 
 class RegistrationController extends BaseController
     {
+
+            /**
+     * Lists all article entities.
+     *
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+         $users = $em->getRepository('AppBundle:User')->findAll();
+        return $this->render('user/index.html.twig', array(
+            'users' => $users,
+        ));
+    }
         public function registerAction()
         {
             $em = $this->container->get('doctrine.orm.entity_manager');
-            $users = $em->getRepository('AppBundle:User')->findAll();
+          
             $form = $this->container->get('fos_user.registration.form');
             $formHandler = $this->container->get('fos_user.registration.form.handler');
             $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
@@ -40,7 +53,7 @@ class RegistrationController extends BaseController
             }
 
             return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.twig', array(
-                'form' => $form->createView(),'users'=>$users
+                'form' => $form->createView()
             ));
         }
     }

@@ -1,69 +1,40 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-{% block title %}Activités des commerciaux{% endblock %}
-{% block body %}
-	                <div class="row">
-	                    <div class="col-md-6">
-	                        <div class="card card-stats">
-	                            <div class="card-header" data-background-color="blue">
-	                                <h4 class="title">Les ventes</h4>
-	                                <p class="category">Ventes par commercial</p>
-	                            </div>
-                                <div class="card-content">
-									<p class="category">Total des ventes</p>
-									<h3 class="title">{{ventes|somme('montant')}} XAF</h3>
-								</div>
-	                            <div class="card-footer table-responsive">
-	                                <table class="table">
-	                                    <thead class="text-primary">
-	                                    	<th>Name du commercial</th>
-	                                    	<th>Nobre de tél vendu</th>
-	                                    	<th>Prix</th>										
-	                                    </thead>
-	                                    <tbody>
-											 {% for vente in ventes %}
-	                                        <tr>
-	                                        	<td>{{vente.username}}</td>
-	                                        	<td>{{vente.nombre}}</td>
-	                                        	<td>{{vente.montant}} XAF</td>
-	                                        </tr>
-                                           	{% endfor %}                                                                                                                                                                          
-	                                    </tbody>
-	                                </table>
-
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                    <div class="col-md-6">
-	                        <div class="card card-stats">
-	                            <div class="card-header" data-background-color="orange">
-	                                <h4 class="title">Les paramétrages</h4>
-	                                <p class="category">paramétrages par commercial</p>
-	                            </div> 
-                                <div class="card-content">
-									<p class="category">Nombre de migrations</p>
-									<h3 class="title">{{activations|somme('nombre')}}</h3>
-								</div>                               
-	                            <div class="card-footer table-responsive">
-	                                <table class="table">
-	                                    <thead class="text-primary">
-	                                    	<th>Name du commercial</th>
-	                                    	<th>Nbre de paramétrages</th>
-	                                    	<th>paramétrages reussi</th>										
-	                                    </thead>
-	                                    <tbody>
-										 {% for activation in activations %}
-	                                        <tr>
-	                                        	<td>{{activation.username}}</td>
-	                                        	<td>{{activation.nombre}}</td>
-	                                        	<td>{{activation.reussi}}</td>
-	                                        </tr>
-                                        {% endfor %}                                                                                                                                                                              
-	                                    </tbody>
-	                                </table>
-	                            </div>
-	                        </div>
-	                    </div>                        
-</div>
-
-{% endblock %}
+{% extends "AdminBundle::table.html.twig" %}
+{% block page_title %}Utilisateur{% endblock %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+        <li><a href="#">Les utilisateurs</a></li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}Utilisateurs{% endblock %}  
+   {% block table %}               
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table-1">
+                                            <thead>
+                                                <th>Utilisateur</th>
+                                            	<th class="text-center">Tel</th>
+                                            	<th class="text-center">email</th>
+                                                <th class="text-center">Type</th>
+                                                <th class="text-center">Last login</th>
+                                            </thead>
+                                            <tbody>
+                                            	   {% for user in users %}
+                                                <tr>
+                                                	<td class="text-left">{{user.usename}}</td>
+                                                	<td class="text-center">{{user.phone}}</td>
+                                                	<td class="text-left">{{user.email}}</td>
+                                                	<td class="text-left">{{user.type}}</td>
+                                                	<td class="text-left">{{user.lastLogin|date('d/m/Y h:i')}}</td>
+                                                </tr>
+                                                     {% endfor %}
+                                            </tbody>
+                                        </table>
+          <ul>
+          <li>
+            <a href="{{ path('register') }}">Créer un utilisateur</a>
+          </li>
+         </ul>                                     
+	     {% endblock %}
