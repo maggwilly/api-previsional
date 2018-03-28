@@ -13,7 +13,9 @@ class ArticleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('image')->add('introduction')       ;
+        $builder
+        ->add('titre', 'textarea',array('label'=>'Titre du cours '))
+        ->add('introduction', 'textarea' ,array('label'=>'Introduction (première partie)','attr'=>array('class'=>'cleditor')))   ;
     }
     
     /**

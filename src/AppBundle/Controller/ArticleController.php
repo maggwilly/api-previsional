@@ -89,7 +89,7 @@ class ArticleController extends Controller
             $article->setUser($this->getUser());
             $em->persist($article);
             $em->flush($article);
-            return $this->redirectToRoute('article_show', array('id' => $article->getId()));
+            return $this->redirectToRoute('content_index', array('id' => $article->getId()));
         }
         return $this->render('article/new.html.twig', array(
             'article' => $article,
@@ -104,12 +104,7 @@ class ArticleController extends Controller
      */
     public function showAction(Article $article)
     {
-        $deleteForm = $this->createDeleteForm($article);
-
-        return $this->render('article/show.html.twig', array(
-            'article' => $article,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->redirectToRoute('content_index', array('id' => $article->getId()));
     }
 
 

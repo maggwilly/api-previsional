@@ -42,12 +42,11 @@ class ContentController extends Controller
              $content->setArticle( $article);
             $em->persist($content);
             $em->flush($content);
-
-            return $this->redirectToRoute('content_show', array('id' => $content->getId()));
+            return $this->redirectToRoute('content_new', array('id' => $article->getId() ));
         }
 
         return $this->render('content/new.html.twig', array(
-            'content' => $content,'article' => $article,
+            'article' => $article,
             'form' => $form->createView(),
         ));
     }

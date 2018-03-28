@@ -1,14 +1,21 @@
 {% extends "AppBundle::table.html.twig" %}
-{% block page_title %}Nouveau article{% endblock %}
+{% block page_title %}Nouveau Cours{% endblock %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+          <i class="icon-home"></i>
+             <a >Nouveau cours</a> 
+        </li>        
+      </ul>
+   {% endblock %}
+   {% block table_title %}Nouveau cours{% endblock %} 
 {% block table %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Enrégistrer" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('article_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}

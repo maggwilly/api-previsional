@@ -1,29 +1,31 @@
-{% extends "AppBundle::layout.html.twig" %}
-{% block title %}{{ content.subtitle }}{% endblock %}
-{% block body %}
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}{{ content.subtitle }}{% endblock %}
+  {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+          <i class="icon-home"></i>
+          <a href="{{ path('content_index', { 'id': content.article.id }) }}">{{content.article.titre}}</a> 
+          <i class="icon-angle-right"></i>
+        </li>        
+        <li><a href="#">{{ content.subtitle }}</a></li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}{{ content.subtitle }}{% endblock %}
+{% block table %}
     <table>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ content.id }}</td>
-            </tr>
-            <tr>
-                <th>Subtitle</th>
                 <td>{{ content.subtitle }}</td>
             </tr>
-            {% if content.image %}
             <tr>
-                <th>Image</th>
-                <td>{{ content.image }}</td>
-            </tr>
-            {% endif %}
-            <tr>
-                <th>Text</th>
                 <td>{{ content.text }}</td>
             </tr>
         </tbody>
     </table>
-
     <ul>
         <li>
             <a href="{{ path('content_index', { 'id': content.article.id }) }}">Back to the list</a>
@@ -33,7 +35,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Supprimer">
             {{ form_end(delete_form) }}
         </li>
     </ul>

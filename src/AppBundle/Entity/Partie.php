@@ -110,7 +110,7 @@ class Partie
     private $questions; 
 
    /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article")
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\Article", inversedBy="partie")
    */
     private $article;
 

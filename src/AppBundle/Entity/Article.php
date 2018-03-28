@@ -74,7 +74,10 @@ class Article
    */
     private $user;
 
-
+    /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\Partie", mappedBy="article", cascade={"persist","remove"})
+   */
+    private $partie;
 
    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -335,4 +338,28 @@ class Article
         return $this->validateur;
     }
 
+
+    /**
+     * Set partie
+     *
+     * @param \AppBundle\Entity\Partie $partie
+     *
+     * @return Article
+     */
+    public function setPartie(\AppBundle\Entity\Partie $partie = null)
+    {
+        $this->partie = $partie;
+
+        return $this;
+    }
+
+    /**
+     * Get partie
+     *
+     * @return \AppBundle\Entity\Partie
+     */
+    public function getPartie()
+    {
+        return $this->partie;
+    }
 }
