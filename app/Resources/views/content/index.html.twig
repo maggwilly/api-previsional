@@ -27,8 +27,8 @@
         <tbody>
         {% for content in contents %}
             <tr>
-                <td>{{ content.subtitle }}</td>
-                <td>{{ content.text }}</td>
+                <td>{{ content.subtitle | raw}}</td>
+                <td>{{ content.text| raw }}</td>
                 <td>
                     <ul>
                         <li>
