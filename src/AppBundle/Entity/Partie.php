@@ -573,4 +573,52 @@ class Partie
         return $this->user;
     }
  
+
+    /**
+     * Set index
+     *
+     * @param integer $index
+     *
+     * @return Partie
+     */
+    public function setIndex($index)
+    {
+        $this->index = $index;
+
+        return $this;
+    }
+
+    /**
+     * Get index
+     *
+     * @return integer
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
+     * Set containMath
+     *
+     * @param boolean $containMath
+     *
+     * @return Partie
+     */
+    public function setContainMath($containMath)
+    {
+        $this->containMath = $containMath;
+
+        return $this;
+    }
+
+    /**
+     * Get containMath
+     *
+     * @return boolean
+     */
+    public function getContainMath()
+    {
+        return $this->containMath;
+    }
 }
