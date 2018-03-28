@@ -2,12 +2,10 @@ user_index:
     path:     /
     defaults: { _controller: "AppBundle:Registration:index" }
     methods:  GET
-    schemes:    [https]
 
 user_toggle:
     path:     /{id}/toggle
     defaults: { _controller: "AppBundle:Registration:toggleUser" }
     methods:  GET
-    schemes:    [https]
 
 

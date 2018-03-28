@@ -2,28 +2,23 @@ content_index:
     path:     /{id}/list
     defaults: { _controller: "AppBundle:Content:index" }
     methods:  GET
-    schemes:    [https]
 
 content_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Content:show" }
     methods:  GET
-    schemes:    [https]
 
 content_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Content:new" }
     methods:  [GET, POST]
-    schemes:    [https]
 
 content_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Content:edit" }
     methods:  [GET, POST]
-    schemes:    [https]
-    
+
 content_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Content:delete" }
     methods:  DELETE
-    schemes:    [https]

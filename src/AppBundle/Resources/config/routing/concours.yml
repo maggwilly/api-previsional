@@ -2,34 +2,28 @@ concours_index:
     path:     /
     defaults: { _controller: "AppBundle:Concours:index" }
     methods:  GET
-    schemes:    [https]
 
 concours_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Concours:show" }
     methods:  GET
-    schemes:    [https]
 
 concours_new_from:
     path:     /new/from/programme
     defaults: { _controller: "AppBundle:Concours:newFromProgrmme" }
     methods:  [GET, POST]
-    schemes:    [https]
 
 concours_new:
     path:     /new
     defaults: { _controller: "AppBundle:Concours:new" }
     methods:  [GET, POST]
-    schemes:    [https]
 
 concours_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Concours:edit" }
     methods:  [GET, POST]
-    schemes:    [https]
-    
+
 concours_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Concours:delete" }
     methods:  DELETE
-    schemes:    [https]

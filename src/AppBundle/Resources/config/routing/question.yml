@@ -2,40 +2,34 @@ question_index:
     path:     /{id}/list
     defaults: { _controller: "AppBundle:Question:index" }
     methods:  GET
-    schemes:    [https]
+
 
 question_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Question:show" }
     methods:  GET
-    schemes:    [https]
 
 question_show_from_mobile:
     path:     /{id}/show/from/mobile
     defaults: { _controller: "AppBundle:Question:showFromMobile" }
     methods:  GET
-    schemes:    [https]
 
 question_valid:
     path:     /{id}/valid
     defaults: { _controller: "AppBundle:Question:valide" }
     methods:  GET
-    schemes:    [https]
 
 question_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Question:new" }
     methods:  [GET, POST]
-    schemes:    [https]
 
 question_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Question:edit" }
     methods:  [GET, POST]
-    schemes:    [https]
-    
+
 question_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Question:delete" }
     methods:  DELETE
-    schemes:    [https]

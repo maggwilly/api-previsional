@@ -2,28 +2,24 @@ partie_index:
     path:     /{id}/list
     defaults: { _controller: "AppBundle:Partie:index", id:0 }
     methods:  GET
-    schemes:    [https]
+
 
 partie_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Partie:show" }
     methods:  GET
-    schemes:    [https]
 
 partie_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Partie:new" }
     methods:  [GET, POST]
-    schemes:    [https]
-    
+
 partie_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Partie:edit" }
     methods:  [GET, POST]
-    schemes:    [https]
 
 partie_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Partie:delete" }
     methods:  DELETE
-    schemes:    [https]
