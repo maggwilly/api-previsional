@@ -13,6 +13,12 @@ notification_rate:
     defaults: { _controller: "MessagerBundle:Notification:getRate" }
     methods:  [GET, POST]
 
+notification_reading:
+    path:     /{id}/reading
+    defaults: { _controller: "MessagerBundle:Notification:getReading" }
+    methods:  [GET, POST]
+
+
 
 notification_new:
     path:     /new

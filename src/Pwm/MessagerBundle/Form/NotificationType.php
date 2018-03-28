@@ -31,7 +31,8 @@ class NotificationType extends AbstractType
                    'empty_data'  => null,
                     'required' => false ,                  
                     'label'=>'Groupe')
-             );
+             )
+         ->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant'));
     }
     
     /**

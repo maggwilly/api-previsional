@@ -18,14 +18,6 @@
                 <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Includemail</th>
-                <td>{% if notification.includeMail %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Sendnow</th>
-                <td>{% if notification.sendNow %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
                 <th>Text</th>
                 <td>{{ notification.text| raw }}</td>
             </tr>
@@ -37,19 +29,22 @@
         <li>
             <a href="{{ path('notification_index') }}">Back to the list</a>
         </li>
+
+        {% if not notification.sendNow %}
         <li>
-            <a href="{{ path('notification_edit', { 'id': notification.id }) }}">Edit</a>
+            <a href="{{ path('notification_edit', { 'id': notification.id }) }}" class="btn btn-secondary">Modifier</a>
         </li>
         <li>
             {{ form_start(send_form) }}
-                <input type="submit" value="SEND">
+                <input type="submit" value="Envoyer maintenant" class="btn btn-primary">
             {{ form_end(send_form) }}
         </li>
-
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Supprimer" class="btn btn-danger">
             {{ form_end(delete_form) }}
         </li>
+      
+        {% endif %}
     </ul>
 {% endblock %}

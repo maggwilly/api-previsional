@@ -43,17 +43,14 @@ class Sending
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="sendDate", type="datetime")
      */
     private $sendDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Notification", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Notification", inversedBy="sendings")
      */
     private $notification;
-
-
 
     /**
      * Constructor

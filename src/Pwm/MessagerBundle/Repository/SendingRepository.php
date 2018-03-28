@@ -38,6 +38,16 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getResult();
   }
 
+      /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findReading(Notification $notification){
+         $qb = $this->createQueryBuilder('a')
+          ->where('a.notification=:notification')
+          ->setParameter('notification',$notification)
+          ->select('count(a.readed) as readed');
+          return $qb->getQuery()->getSingleScalarResult();
+  }
   	  /**
   *Nombre de synchro effectue par utilisateur 
   */

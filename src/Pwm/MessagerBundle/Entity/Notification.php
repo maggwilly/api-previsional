@@ -111,6 +111,11 @@ class Notification
      */
     private $sendDate;
 
+    /**
+   * @ORM\OneToMany(targetEntity="Sending", mappedBy="notification", cascade={"remove"})
+   * @ORM\OrderBy({ "id" = "ASC"})
+   */
+    private $sendings;
 
     private $note;
 
@@ -125,7 +130,7 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct($type=null,$tag='public')
+    public function __construct($type='public',$tag='public')
     {
         $this->date =new \DateTime();
         $this->sendDate =new \DateTime();
@@ -540,5 +545,39 @@ class Notification
     public function getGroupe()
     {
         return $this->groupe;
+    }
+
+    /**
+     * Add sending
+     *
+     * @param \Pwm\MessagerBundle\Entity\Sending $sending
+     *
+     * @return Notification
+     */
+    public function addSending(\Pwm\MessagerBundle\Entity\Sending $sending)
+    {
+        $this->sendings[] = $sending;
+
+        return $this;
+    }
+
+    /**
+     * Remove sending
+     *
+     * @param \Pwm\MessagerBundle\Entity\Sending $sending
+     */
+    public function removeSending(\Pwm\MessagerBundle\Entity\Sending $sending)
+    {
+        $this->sendings->removeElement($sending);
+    }
+
+    /**
+     * Get sendings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSendings()
+    {
+        return $this->sendings;
     }
 }

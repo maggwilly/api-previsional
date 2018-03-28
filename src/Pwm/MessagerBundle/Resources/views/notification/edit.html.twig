@@ -5,7 +5,9 @@
       <div class="card-content">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+      {% if not notification.sendNow %}
+        <input type="submit" value="Enregistrer" />
+        {% endif %} 
     {{ form_end(edit_form) }}
 </div>
 </div>
@@ -13,10 +15,12 @@
         <li>
             <a href="{{ path('notification_index') }}">Back to the list</a>
         </li>
+        {% if not notification.sendNow %}
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Supprimer">
             {{ form_end(delete_form) }}
         </li>
+        {% endif %}        
     </ul>
 {% endblock %}

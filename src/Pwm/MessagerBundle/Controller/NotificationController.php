@@ -61,7 +61,8 @@ class NotificationController extends Controller
            $notification->setUser($this->getUser());
             $em->persist($notification);
             $em->flush();
-
+            if($notification->getSendNow())
+                  return $this->send($notification);
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
         }
 
@@ -83,6 +84,19 @@ class NotificationController extends Controller
     }
 
     /**
+     * Finds and displays a article entity.
+     *
+     */
+    public function getReadingAction(Notification $notification)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $readed= $em->getRepository('MessagerBundle:Sending')->findReading($notification);
+         $envois=$notification->getSendings();
+         $reading=empty($envois)?'--': $readed*100/count($envois);
+        return  new Response("".$reading);
+    }
+
+    /**
      * Finds and displays a notification entity.
      *
      */
@@ -93,6 +107,21 @@ class NotificationController extends Controller
         $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
         $sendForm->handleRequest($request);
         if ($sendForm->isSubmitted() && $sendForm->isValid()) {
+           return $this->send($notification);
+        }
+        return $this->render('MessagerBundle:notification:show.html.twig', array(
+            'notification' => $notification,
+            'send_form' => $sendForm->createView(),
+            'delete_form' => $deleteForm->createView()
+        ));
+    }
+    /**
+     * Displays a form to edit an existing notification entity.
+     *
+     */
+    public function send(Notification $notification)
+    {
+           $em = $this->getDoctrine()->getManager();
              $registrationIds='';
             $groupe= $notification->getGroupe();
             if($groupe!=null){
@@ -144,7 +173,7 @@ class NotificationController extends Controller
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
                    $this->sendTo($registrations,$notification);
             }
-            $notification->setSendDate(new \DateTime());
+            $notification->setSendDate(new \DateTime())->setSendNow(true);
              $em->flush();
             $result= $this->firebaseSend($this->registrationIds ,$notification);
             $resultats= $result['results'];
@@ -156,13 +185,8 @@ class NotificationController extends Controller
 
         );
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
-        }
-        return $this->render('MessagerBundle:notification:show.html.twig', array(
-            'notification' => $notification,
-            'send_form' => $sendForm->createView(),
-            'delete_form' => $deleteForm->createView()
-        ));
     }
+
 
     /**
      * Displays a form to edit an existing notification entity.
@@ -211,6 +235,8 @@ $data=array(
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+             if($notification->getSendNow())
+                  return $this->send($notification);
             return $this->redirectToRoute('notification_edit', array('id' => $notification->getId()));
         }
         return $this->render('MessagerBundle:notification:edit.html.twig', array(
