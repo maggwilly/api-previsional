@@ -26,7 +26,7 @@ class PartieController extends Controller
         if(!is_null($matiere))
              $parties=$matiere->getParties();
         return $this->render('partie/index.html.twig', array(
-              'parties' => $parties,
+              'parties' => $parties,'matiere' => $matiere,
         ));
     }
 
