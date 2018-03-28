@@ -28,7 +28,7 @@
                 <td>{{ notification.titre }}</td>
                 <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if notification.groupe %}{{notification.groupe.nom}}{% else %}Tout le monde{% endif %}</td>
-                <td><b>{{ render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id })) }}%</b></td>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id }))|number_format(0, ',', '.') }}%</b></td>
                 <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id })) }}/5</b></td>
                 <td>
                     <ul>
