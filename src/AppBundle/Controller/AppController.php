@@ -18,10 +18,12 @@ class AppController extends Controller
      */
     public function indexAction()
     {      
-          if ($this->get('security.context')->isGranted('ROLE_SUPER')) {
-               return      $this->redirectToRoute('abonnement_index');
-            }
-      return $this->redirectToRoute('partie_index', array('id' => 0)); //$this->redirectToRoute('concours_index');
+          if ($this->get('security.context')->isGranted('ROLE_SAISIE')) {
+               return $this->redirectToRoute('partie_index', array('id' => 0));
+          }elseif ($this->get('security.context')->isGranted('ROLE_MESSAGER')) {
+              return $this->redirectToRoute('notification_index');
+          }
+      return $this->redirectToRoute('abonnement_index');
     }
 
 

@@ -179,6 +179,8 @@ class User extends BaseUser
    * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $parties;
+
+    
     /**
      * Get id
      *
@@ -225,7 +227,20 @@ class User extends BaseUser
         return $this->nom;
     }
 
+
+
     /**
+     * Constructor
+     */
+ 
+ public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+     /**
   * @ORM\PrePersist
  */
  public function prePersist(){
@@ -245,19 +260,6 @@ class User extends BaseUser
 
  } 
   
-
-    /**
-     * Constructor
-     */
- 
- public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
- 
 
     public function __toString()
     {

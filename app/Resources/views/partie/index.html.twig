@@ -21,10 +21,6 @@
             </tr>
         </thead>
         <tbody> 
-            {% set parties=app.user.parties %}
-            {% if matiere is not null %}
-            {% set parties=matiere.parties %}
-             {% endif %}
         {% for partie in parties %}
             <tr>
                 <td>

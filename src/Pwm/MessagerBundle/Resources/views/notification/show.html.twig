@@ -14,7 +14,7 @@
             </tr>
             <tr>
                 <th>Auteur</th>
-                <td>{{ notification.user.usename }}</td>
+                <td>{% if notification.user %}{{ notification.user.usename }}{% else %}--{% endif %}</td>
             </tr>
             <tr>
                 <th>Destination</th>
