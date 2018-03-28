@@ -97,6 +97,7 @@ class ArticleController extends Controller
         ));
     }
 
+
     /**
      * Finds and displays a article entity.
      *
@@ -108,6 +109,17 @@ class ArticleController extends Controller
         return $this->render('article/show.html.twig', array(
             'article' => $article,
             'delete_form' => $deleteForm->createView(),
+        ));
+    }
+    /**
+     * Finds and displays a article entity.
+     *
+     */
+    public function getRateAction(Article $article)
+    {
+
+        return $this->render('article/show.html.twig', array(
+            'article' => $article
         ));
     }
 

@@ -58,7 +58,7 @@ class NotificationController extends Controller
         $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
- 
+           $notification->setUser($this->getUser());
             $em->persist($notification);
             $em->flush();
 
@@ -69,6 +69,17 @@ class NotificationController extends Controller
             'notification' => $notification,
             'form' => $form->createView(),
         ));
+    }
+    /**
+     * Finds and displays a article entity.
+     *
+     */
+    public function getRateAction(Notification $notification)
+    {
+         $url= "https://us-central1-trainings-fa73e.cloudfunctions.net/getRate?article=".$notification->getId();
+         $renderTemplate = $this->get('fmc_manager')->sendOrGetData($url,null,'GET'); 
+
+        return $this->render('<span>'.rate.'</span>');
     }
 
     /**

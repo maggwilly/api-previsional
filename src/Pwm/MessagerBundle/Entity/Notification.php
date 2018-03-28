@@ -111,6 +111,17 @@ class Notification
      */
     private $sendDate;
 
+
+    private $note;
+
+    private $taux;   
+
+    /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+   */
+    private $user;
+
+
     /**
      * Constructor
      */
@@ -170,6 +181,52 @@ class Notification
         return $this->titre;
     }
 
+    /**
+     * Set taux
+     *
+     * @param string $taux
+     *
+     * @return Notification
+     */
+    public function setTaux($taux)
+    {
+        $this->taux = $taux;
+
+        return $this;
+    }
+
+    /**
+     * Get taux
+     *
+     * @return string
+     */
+    public function getTaux()
+    {
+        return $this->taux;
+    }
+    /**
+     * Set taux
+     *
+     * @param string $note
+     *
+     * @return Notification
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
     /**
      * Set titre
      *
@@ -388,6 +445,29 @@ class Notification
     }
 
   
+      /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Question
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }    
+
 
    /**
      * Set imageEntity
