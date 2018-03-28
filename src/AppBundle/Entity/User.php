@@ -312,7 +312,7 @@ class User extends BaseUser
      */
     public function setLocked($locked)
     {
-        $this->lock=$locked;
+        $this->locked=$locked;
         return $this;
     }
 
