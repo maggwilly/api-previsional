@@ -26,7 +26,8 @@ class RegistrationController extends BaseController
     public function toggleUserAction( User $user)
     {
            $em = $this->container->get('doctrine.orm.entity_manager');
-           $user->setLocked(!$user->getLocked());
+           $locked=is_null($user->getLocked())?false:$user->getLocked();
+           $user->setLocked(!$locked);
            $em->flush();
             $users = $em->getRepository('AppBundle:User')->findAll();
         return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
