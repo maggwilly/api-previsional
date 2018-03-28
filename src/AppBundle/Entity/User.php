@@ -180,7 +180,7 @@ class User extends BaseUser
    */
     private $parties;
 
-    
+
     /**
      * Get id
      *
@@ -240,8 +240,9 @@ class User extends BaseUser
          $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-     /**
-  * @ORM\PrePersist
+ /**
+  * @ORM\PrePersist()
+ * @ORM\PreUpdate()
  */
  public function prePersist(){
  
