@@ -151,8 +151,6 @@ class User extends BaseUser
      */
     protected $expiresAt;
 
-
-   
      /**
      * @var array
      *
@@ -187,18 +185,18 @@ class User extends BaseUser
  public function __construct()
     {
         parent::__construct();
-        // your own logic
+          $this->expiresAt=new \DateTime();
          $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
  /**
   * @ORM\PrePersist()
-  * @ORM\PreUpdate()
  */
  public function prePersist(){
-
+      
     switch ( $this->type) {
         case 'SAISIE':
+            $this->expiresAt->modify('+15 day');
             $this->roles=['ROLE_USER','ROLE_SAISIE'];
             break;
          case 'COMM':
@@ -305,6 +303,17 @@ class User extends BaseUser
     public function getLocked()
     {
         return $this->locked;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean 
+     */
+    public function setLocked($locked)
+    {
+        $this->lock=$locked;
+        return $this;
     }
 
     /**

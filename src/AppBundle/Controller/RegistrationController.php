@@ -15,10 +15,24 @@ class RegistrationController extends BaseController
     {
         $em = $this->container->get('doctrine.orm.entity_manager');
          $users = $em->getRepository('AppBundle:User')->findAll();
-        return $this->render('user/index.html.twig', array(
+        return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
             'users' => $users,
         ));
     }
+
+    /**
+     * Displays a form to edit an existing partie entity.
+     */
+    public function toggleUserAction(Request $request, User $user)
+    {
+           $em = $this->container->get('doctrine.orm.entity_manager');
+           $user->setLocked(!$user->getLocked());
+           $em->flush();
+        return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
+            'users' => $users,
+        ));
+    }
+
         public function registerAction()
         {
             $em = $this->container->get('doctrine.orm.entity_manager');

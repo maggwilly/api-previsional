@@ -3,3 +3,9 @@ user_index:
     defaults: { _controller: "AppBundle:Registration:index" }
     methods:  GET
 
+user_toggle:
+    path:     /{id}/toggle
+    defaults: { _controller: "AppBundle:Registration:toggleUser" }
+    methods:  GET
+
+
