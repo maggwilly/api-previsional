@@ -23,7 +23,7 @@ class RegistrationController extends BaseController
     /**
      * Displays a form to edit an existing partie entity.
      */
-    public function toggleUserAction(Request $request, User $user)
+    public function toggleUserAction( User $user)
     {
            $em = $this->container->get('doctrine.orm.entity_manager');
            $user->setLocked(!$user->getLocked());
