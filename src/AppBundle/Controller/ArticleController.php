@@ -88,7 +88,7 @@ class ArticleController extends Controller
             $em = $this->getDoctrine()->getManager();
             $article->setUser($this->getUser());
             $em->persist($article);
-            $em->flush($article);
+            $em->flush();
             return $this->redirectToRoute('content_index', array('id' => $article->getId()));
         }
         return $this->render('article/new.html.twig', array(
