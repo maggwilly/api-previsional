@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
-
+use AppBundle\Entity\User;
 class RegistrationController extends BaseController
     {
 
