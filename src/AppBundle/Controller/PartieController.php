@@ -23,6 +23,7 @@ class PartieController extends Controller
      */
     public function indexAction(Matiere $matiere=null)
     {      $parties=array();//$this->getUser()->getParties();
+         $em = $this->getDoctrine()->getManager();
         if(!is_null($matiere))
                 $parties=$matiere->getParties();
            else
