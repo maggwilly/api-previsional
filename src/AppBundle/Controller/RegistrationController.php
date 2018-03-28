@@ -28,6 +28,7 @@ class RegistrationController extends BaseController
            $em = $this->container->get('doctrine.orm.entity_manager');
            $user->setLocked(!$user->getLocked());
            $em->flush();
+            $users = $em->getRepository('AppBundle:User')->findAll();
         return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
             'users' => $users,
         ));
