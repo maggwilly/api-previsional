@@ -180,7 +180,36 @@ class User extends BaseUser
    */
     private $parties;
 
+    /**
+     * Constructor
+     */
+ 
+ public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+ /**
+  * @ORM\PrePersist()
+  * @ORM\PreUpdate()
+ */
+ public function prePersist(){
+
+    switch ( $this->type) {
+        case 'SAISIE':
+            $this->roles=['ROLE_USER','ROLE_SAISIE'];
+            break;
+         case 'COMM':
+             $this->roles=['ROLE_USER','ROLE_MESSAGER'];
+            break  ;     
+        default:
+            $this->roles=['ROLE_USER','ROLE_ADMIN'];
+            break;
+    }
+ } 
+  
     /**
      * Get id
      *
@@ -213,7 +242,6 @@ class User extends BaseUser
     public function setUsername($username)
     {
         $this->username = $username;
-
         return $this;
     }
    
@@ -229,38 +257,7 @@ class User extends BaseUser
 
 
 
-    /**
-     * Constructor
-     */
- 
- public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
- /**
-  * @ORM\PrePersist()
- * @ORM\PreUpdate()
- */
- public function prePersist(){
- 
-    $this->id = $this->username;
-    switch ( $this->type) {
-        case 'SAISIE':
-            $this->roles=['ROLE_USER','ROLE_SAISIE'];
-            break;
-         case 'COMM':
-             $this->roles=['ROLE_USER','ROLE_MESSAGER'];
-            break  ;     
-        default:
-            $this->roles=['ROLE_USER','ROLE_ADMIN'];
-            break;
-    }
-
- } 
-  
 
     public function __toString()
     {
