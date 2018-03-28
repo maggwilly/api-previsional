@@ -12,13 +12,35 @@
                 <th>Soustitre</th>
                 <td>{{ notification.sousTitre }}</td>
             </tr>
-
+            <tr>
+                <th>Auteur</th>
+                <td>{{ notification.user.usename }}</td>
+            </tr>
+            <tr>
+                <th>Destination</th>
+                <td>{% if notification.groupe %}{{notification.groupe.nom}}{% else %}Tout le monde{% endif %}
+                    {% if not notification.sendNow %}
+                        <span class="label">
+                             {{ render(controller( 'MessagerBundle:Notification:getDestNumber', { 'id': notification.id }))|number_format(0, ',', '.') }}
+                        </span>
+                   {% else %}
+                       <span class="label label-success">{{notification.sendings|length}}</span>
+                   {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id })) }}/5</b></td>
+            </tr>
+            <tr>
+                <th>Lecture</th>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id }))|number_format(0, ',', '.') }}%</b></td>
+            </tr>                         
             <tr>
                 <th>Date</th>
                 <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Text</th>
                 <td>{{ notification.text| raw }}</td>
             </tr>
             
