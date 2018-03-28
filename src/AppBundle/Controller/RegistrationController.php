@@ -13,7 +13,7 @@ class RegistrationController extends BaseController
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->container->get('doctrine.orm.entity_manager');
          $users = $em->getRepository('AppBundle:User')->findAll();
         return $this->render('user/index.html.twig', array(
             'users' => $users,
