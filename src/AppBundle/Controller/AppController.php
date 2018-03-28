@@ -19,7 +19,7 @@ class AppController extends Controller
     public function indexAction()
 
     {   
-   switch ($this->getUser()) {
+   switch ($this->getUser()->getType()) {
     case 'SAISIE':
         # code...
         return $this->redirectToRoute('partie_index', array('id' => 0));
