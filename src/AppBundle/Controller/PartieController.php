@@ -25,6 +25,8 @@ class PartieController extends Controller
     {      $parties=array();//$this->getUser()->getParties();
         if(!is_null($matiere))
                 $parties=$matiere->getParties();
+           else
+              $partie= $em->getRepository('AppBundle:Partie')->findByUser($this->getUser());
         return $this->render('partie/index.html.twig', array(
               'parties' => $parties,'matiere' => $matiere,
         ));

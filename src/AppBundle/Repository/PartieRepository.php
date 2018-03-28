@@ -5,6 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Session;
 use AppBundle\Entity\Partie;
+use AppBundle\Entity\User;
 /**
  * PartieRepository
  *
@@ -26,5 +27,10 @@ class PartieRepository extends EntityRepository
        $qb =$this->createQueryBuilder('a')->join('a.matiere','m')->where('m.programme=:programme')
        ->setParameter('programme',$session->getPreparation()->getId());
         return   $qb->getQuery()->getResult();
-    }   
+    }  
+
+      function findByUser(User $user){
+       $qb =$this->createQueryBuilder('a')->where('a.user=:user')->setParameter('user',$user));
+        return   $qb->getQuery()->getResult();
+    }  
 }
