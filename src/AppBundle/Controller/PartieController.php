@@ -22,9 +22,9 @@ class PartieController extends Controller
      * Lists all partie entities.
      */
     public function indexAction(Matiere $matiere=null)
-    {      $parties=$this->getUser()->getParties();
+    {      $parties=array();//$this->getUser()->getParties();
         if(!is_null($matiere))
-             $parties=$matiere->getParties();
+                $parties=$matiere->getParties();
         return $this->render('partie/index.html.twig', array(
               'parties' => $parties,'matiere' => $matiere,
         ));
