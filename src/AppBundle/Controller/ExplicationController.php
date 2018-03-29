@@ -60,10 +60,12 @@ class ExplicationController extends Controller
      * Finds and displays a explication entity.
      *
      */
-    public function showAction(Explication $explication)
+    public function showAction(Explication $explication,Question $question=null,Content $content=null)
     {
         $deleteForm = $this->createDeleteForm($explication);
         return $this->render('explication/show.html.twig', array(
+            'question' => $question,
+            'content' => $content,
             'explication' => $explication,
             'delete_form' => $deleteForm->createView(),
         ));

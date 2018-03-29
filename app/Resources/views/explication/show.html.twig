@@ -8,15 +8,15 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li> 
- {% if explication.question is not null%}
+ {% if question is not null%}
          <li>
-          <a href="{{ path('question_show',{'id':explication.question.id})}}">{{explication.question.text | raw}}</a> 
+          <a href="{{ path('question_show',{'id':question.id})}}">{{question.text | raw}}</a> 
           <i class="icon-angle-right"></i>
         </li>
   {% else %}
-     {% if explication.content is not null%}
+     {% if content is not null%}
              <li>
-          <a href="{{ path('content_show',{'id':explication.content.id})}}">{{explication.content.subtitle | raw}}</a> 
+          <a href="{{ path('content_show',{'id':content.id})}}">{{content.subtitle | raw}}</a> 
           <i class="icon-angle-right"></i>
         </li>
     {% endif %}      
@@ -34,11 +34,11 @@
             </div>
           </div>
           <div class="box-content">
- {% if explication.question is not null%}
-          <a href="{{ path('question_show',{'id': explication.question.id})}}">{{explication.question.text | raw}}</a> 
+ {% if question is not null%}
+          <a href="{{ path('question_show',{'id': question.id})}}">{{question.text | raw}}</a> 
   {% else %}
      {% if explication.content is not null%}
-          <a href="{{ path('content_show',{'id':explication.content.id})}}">{{explication.content.text | raw}}</a> 
+          <a href="{{ path('content_show',{'id':content.id})}}">{{content.text | raw}}</a> 
     {% endif %}      
  {% endif %}  
        </div>            
@@ -57,12 +57,12 @@
           <ul>
          {% if explication.content is not null%}
         <li>
-            <a href="{{ path('content_index',{'id': explication.content.article.id}) }}">Retour à la liste</a>
+            <a href="{{ path('content_index',{'id': content.article.id}) }}">Retour à la liste</a>
         </li>
          {% endif %}   
         {% if explication.question is not null%}
         <li>
-            <a href="{{ path('question_index',{'id': explication.question.partie.id}) }}">Retour à la liste</a>
+            <a href="{{ path('question_index',{'id': question.partie.id}) }}">Retour à la liste</a>
         </li> 
         {% endif %}    
         <li>
@@ -75,3 +75,8 @@
    </div>  
 </div>    
 {% endblock %}
+ {% block helptext %}
+            <p>
+            Cette explication est envpyée aux candidats ayant signalé des difficultés sur le contenu.
+            </p>
+  {% endblock %}
