@@ -9,6 +9,11 @@ partie_show:
     defaults: { _controller: "AppBundle:Partie:show" }
     methods:  GET
 
+partie_difucult:
+    path:     /{id}/dificult/questions
+    defaults: { _controller: "AppBundle:Partie:getDificultQuestions" }
+    methods:  GET
+
 partie_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Partie:new" }

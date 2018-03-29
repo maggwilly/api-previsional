@@ -60,12 +60,6 @@ class Question
      * @ORM\Column(name="validated", type="boolean", nullable=true)
      */
     private $validated;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="explication", type="text", nullable=true)
-     */
-    private $explication;
 
 
     /**
@@ -151,7 +145,10 @@ class Question
      */
     private $imageEntity;
 
-
+        /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Explication")
+   */
+    private $explication;
     /**
      * Get id
      *
@@ -267,30 +264,7 @@ class Question
     return $this->showLink;
     }
 
-    /**
-     * Set explication
-     *
-     * @param string $explication
-     * @return Question
-     */
-    public function setExplication($explication)
-    {
-        $this->explication = $explication;
 
-        return $this;
-    }
-
-    /**
-     * Get explication
-     *
-     * @return string 
-     */
-    public function getExplication()
-    {   
-        if($this->explication!=null&&$this->partie!=null)
-              return $this->explication=$this->partie->getCours();
-   return $this->explication; // url to cours
-    }
 
     /**
      * Set time
@@ -637,4 +611,28 @@ class Question
         return $this->imageEntity;
     }
 
+
+    /**
+     * Set explication
+     *
+     * @param \AppBundle\Entity\Explication $explication
+     *
+     * @return Question
+     */
+    public function setExplication(\AppBundle\Entity\Explication $explication = null)
+    {
+        $this->explication = $explication;
+
+        return $this;
+    }
+
+    /**
+     * Get explication
+     *
+     * @return \AppBundle\Entity\Explication
+     */
+    public function getExplication()
+    {
+        return $this->explication;
+    }
 }

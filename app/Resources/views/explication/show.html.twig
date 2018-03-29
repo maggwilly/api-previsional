@@ -1,0 +1,77 @@
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Explication{% endblock %}
+{% block body %}
+    <ul class="breadcrumb">
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li> 
+ {% if explication.question is not null%}
+         <li>
+          <a href="{{ path('question_show',{'id':explication.question.id})}}">{{explication.question.text | raw}}</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+  {% else %}
+     {% if explication.content is not null%}
+             <li>
+          <a href="{{ path('content_show',{'id':explication.content.id})}}">{{explication.content.subtitle | raw}}</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+    {% endif %}      
+ {% endif %}           
+        <li><a href="#">Explication</a></li>
+      </ul>   
+<div class="row-fluid">  
+ <div class="box span6">
+          <div class="box-header" data-original-title>
+            <h2><i class="halflings-icon white user"></i><span class="break"></span>Objet</h2>
+            <div class="box-icon">
+              <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+              <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+              <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+            </div>
+          </div>
+          <div class="box-content">
+ {% if explication.question is not null%}
+          <a href="{{ path('question_show',{'id': explication.question.id})}}">{{explication.question.text | raw}}</a> 
+  {% else %}
+     {% if explication.content is not null%}
+          <a href="{{ path('content_show',{'id':explication.content.id})}}">{{explication.content.text | raw}}</a> 
+    {% endif %}      
+ {% endif %}  
+       </div>            
+ </div>   
+   <div class="box span6">
+        <div class="box-header" data-original-title>
+            <h2><i class="halflings-icon white user"></i><span class="break"></span>Explication</h2>
+            <div class="box-icon">
+              <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+              <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+              <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+            </div>
+          </div>
+          <div class="box-content">
+           {{ explication.text| raw }}
+          <ul>
+         {% if explication.content is not null%}
+        <li>
+            <a href="{{ path('content_index',{'id': explication.content.article.id}) }}">Retour à la liste</a>
+        </li>
+         {% endif %}   
+        {% if explication.question is not null%}
+        <li>
+            <a href="{{ path('question_index',{'id': explication.question.partie.id}) }}">Retour à la liste</a>
+        </li> 
+        {% endif %}    
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+     </div> 
+   </div>  
+</div>    
+{% endblock %}

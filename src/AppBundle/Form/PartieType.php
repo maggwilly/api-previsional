@@ -16,7 +16,8 @@ class PartieType extends AbstractType
     {
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
         ->add('objectif', 'textarea',array('label'=>'Brève description '))
-        ->add('sources', 'textarea' ,array('label'=>'Description complete'))
+        ->add('sources', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
+        ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules'))
         ->add('type', ChoiceType::class, array(
                                  'choices'  => array(
                                   'TD' => 'Travaux dirigés', 'EP' => 'Ancienne épreuve'),

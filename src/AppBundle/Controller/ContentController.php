@@ -5,7 +5,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Entity\Content;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Content controller.
  *
@@ -19,9 +19,7 @@ class ContentController extends Controller
     public function indexAction(Article $article)
     {
         $em = $this->getDoctrine()->getManager();
-
         $contents = $em->getRepository('AppBundle:Content')->findAll();
-
         return $this->render('content/index.html.twig', array(
             'contents' => $article->getContents(),'article' => $article
         ));
@@ -31,12 +29,11 @@ class ContentController extends Controller
      * Creates a new content entity.
      *
      */
-    public function newAction(Article $article,Request $request)
+    public function newAction(Request $request,Article $article)
     {
         $content = new Content();
         $form = $this->createForm('AppBundle\Form\ContentType', $content);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
              $content->setArticle( $article);
@@ -44,13 +41,22 @@ class ContentController extends Controller
             $em->flush($content);
             return $this->redirectToRoute('content_new', array('id' => $article->getId() ));
         }
-
         return $this->render('content/new.html.twig', array(
             'article' => $article,
             'form' => $form->createView(),
         ));
     }
 
+    /**
+     * Finds and displays a partie entity.
+     *
+     */
+    public function getBlockedPersonsAction(Content $content)
+    {
+         $url="https://trainings-fa73e.firebaseio.com/status/content/".$content->getArticle()->getId().'/'.$content->getId()."/.json";
+         $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
+        return  new Response(''.count($res));
+    }
 
 
     /**
@@ -60,7 +66,6 @@ class ContentController extends Controller
     public function showAction(Content $content)
     {
         $deleteForm = $this->createDeleteForm($content);
-
         return $this->render('content/show.html.twig', array(
             'content' => $content,
             'delete_form' => $deleteForm->createView(),

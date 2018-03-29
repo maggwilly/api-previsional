@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Article controller.
  *
@@ -37,6 +38,17 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository('AppBundle:Article')->findList($start);
         return  $articles;
+    }
+
+    /**
+     * Finds and displays a partie entity.
+     *
+     */
+    public function getDificultContentsAction(Article $article)
+    {
+         $url="https://trainings-fa73e.firebaseio.com/status/content/".$article->getId()."/.json";
+         $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ? $this->get('fmc_manager')->sendOrGetData($url,null,'GET'): array(); 
+        return  new Response(''.count($res));
     }
 
     /**

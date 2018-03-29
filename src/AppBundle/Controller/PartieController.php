@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\HttpFoundation\Response;
 // Utilisation de la vue de FOSRestBundle
 
 /**
@@ -95,18 +95,19 @@ class PartieController extends Controller
         ));
     }
 
+
+
     /**
      * Finds and displays a partie entity.
      *
      */
-    public function showAction(Partie $partie)
+    public function getDificultQuestionsAction(Partie $partie)
     {
-        $deleteForm = $this->createDeleteForm($partie);
-        return $this->render('partie/show.html.twig', array(
-            'partie' => $partie,
-            'delete_form' => $deleteForm->createView(),
-        ));
+         $url="https://trainings-fa73e.firebaseio.com/status/question/".$partie->getId()."/.json";
+         $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ? $this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
+        return  new Response(''.count($res));
     }
+
 
     /**
      * Displays a form to edit an existing partie entity.

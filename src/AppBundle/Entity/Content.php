@@ -47,6 +47,10 @@ class Content
    */
     private $article;
 
+        /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Explication")
+   */
+    private $explication;
     /**
      * Constructor
      */
@@ -157,5 +161,30 @@ class Content
     public function getArticle()
     {
         return $this->article;
+    }
+
+
+    /**
+     * Set explication
+     *
+     * @param \AppBundle\Entity\Explication $explication
+     *
+     * @return Content
+     */
+    public function setExplication(\AppBundle\Entity\Explication $explication = null)
+    {
+        $this->explication = $explication;
+
+        return $this;
+    }
+
+    /**
+     * Get explication
+     *
+     * @return \AppBundle\Entity\Explication
+     */
+    public function getExplication()
+    {
+        return $this->explication;
     }
 }

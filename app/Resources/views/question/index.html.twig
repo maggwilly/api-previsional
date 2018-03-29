@@ -4,9 +4,9 @@
          <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table-1">
         <thead>
             <tr>
-                <th>Enonce</th>
-                <th>Type</th>                
-                <th>Validated</th>
+                <th>Enonce</th>  
+                <th>Explication</th>             
+                <th>Est validée</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -15,21 +15,30 @@
             <tr>
                 <td>
                 {{ question.text | raw}}
+                <span class="label label-important">
+                      {{ render(controller( 'AppBundle:Question:getBlockedPersons', { 'id': question.id })) }} 
+                </span>
                 <br>
                 {% if question.image %}
                  {{question.image }}
                {% endif %}
-                
                 </td>
-                  <td>{{ question.type }}</td>
-                <td>{% if question.validated %}Yes{% else %}No{% endif %}</td>            
+              
+                <td> 
+                    {% if question.explication is not null %}
+                       <a href="{{ path('explication_show', { 'id': question.explication.id }) }}">Afficher</a>
+                    {% else %}
+                      <a href="{{ path('explication_new', { 'question': question.id }) }}">Créer</a>
+                    {% endif %}
+                     </td>           
                 <td>
+                <td>{% if question.validated %}OUI{% else %}NON{% endif %}</td>    
                     <ul>
                         <li>
-                            <a href="{{ path('question_show', { 'id': question.id }) }}">show</a>
+                            <a href="{{ path('question_show', { 'id': question.id }) }}">Afficher</a>
                         </li>
                         <li>
-                            <a href="{{ path('question_edit', { 'id': question.id }) }}">edit</a>
+                            <a href="{{ path('question_edit', { 'id': question.id }) }}">Modifier</a>
                         </li>
                     </ul>
                 </td>

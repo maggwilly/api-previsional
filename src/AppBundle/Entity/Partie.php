@@ -125,6 +125,8 @@ class Partie
    */
     private $user;
 
+
+
         /**
      * @var string
      *

@@ -14,6 +14,13 @@ question_show_from_mobile:
     defaults: { _controller: "AppBundle:Question:showFromMobile" }
     methods:  GET
 
+question_blocked:
+    path:     /{id}/blocked/persons
+    defaults: { _controller: "AppBundle:Question:getBlockedPersons" }
+    methods:  GET
+
+
+
 question_valid:
     path:     /{id}/valid
     defaults: { _controller: "AppBundle:Question:valide" }

@@ -28,12 +28,22 @@
                     <p>{{ partie.objectif }}</p>
                 </td>
                 <td>{% if partie.article is not null %}
-                    <a href="{{ path('article_show', { 'id': partie.article.id }) }}">Cours</a>
+                    <a href="{{ path('article_show', { 'id': partie.article.id }) }}">Cours
+                    <span class="label label-important">
+                      {{ render(controller( 'AppBundle:Article:getDificultContents', { 'id': partie.id })) }} 
+                    </span>                      
+                    </a>
                    {% else %}
                     <a href="{{ path('article_new', { 'id': partie.id }) }}">Créer un cours
                     {% endif %}
                     </td>
-                <td><a href="{{ path('question_index', { 'id': partie.id }) }}">Evaluation</a></td> 
+                <td>
+                  <a href="{{ path('question_index', { 'id': partie.id }) }}">Evaluation
+                    <span class="label label-important">
+                      {{ render(controller( 'AppBundle:Partie:getDificultQuestions', { 'id': partie.id })) }} 
+                    </span>
+                  </a>
+                </td> 
                 <td>
                     <a href="{{ path('partie_edit', { 'id': partie.id }) }}">edit</a>
                 </td>

@@ -57,6 +57,10 @@ app_content:
     resource: "@AppBundle/Resources/config/routing/content.yml"
     prefix:   /content
 
+app_explicationt:
+    resource: "@AppBundle/Resources/config/routing/explication.yml"
+    prefix:   /explication
+
 create_token:
     path:      /mobile/create/auth-token
     defaults: { _controller: "AppBundle:Mobile:postAuthTokens" }

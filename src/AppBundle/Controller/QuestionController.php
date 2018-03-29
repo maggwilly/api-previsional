@@ -9,6 +9,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use AppBundle\Event\QuestionEvent;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Question controller.
  *
@@ -43,10 +44,18 @@ class QuestionController extends Controller
     });
    return  iterator_to_array($iterator);
  }
+
     /**
-     * Creates a new question entity.
+     * Finds and displays a partie entity.
      *
      */
+    public function getBlockedPersonsAction(Question $question)
+    {
+         $url="https://trainings-fa73e.firebaseio.com/status/question/".$$question->getPartie()->getId().'/'.$question->getId()."/.json";
+         $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
+        return  new Response(''.count($res));
+    }
+
     public function newAction(Partie $partie,Request $request)
     {
         $question = new Question();
@@ -76,7 +85,6 @@ class QuestionController extends Controller
     public function showAction(Question $question)
     {
         $deleteForm = $this->createDeleteForm($question);
-
         return $this->render('question/show.html.twig', array(
             'question' => $question,
             'delete_form' => $deleteForm->createView(),
@@ -102,7 +110,6 @@ class QuestionController extends Controller
         $deleteForm = $this->createDeleteForm($question);
         $editForm = $this->createForm('AppBundle\Form\QuestionType', $question, array('partie'=>$question->getPartie()));
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
              $question->setValidated(false);
             $this->getDoctrine()->getManager()->flush();
@@ -110,7 +117,6 @@ class QuestionController extends Controller
             $this->get('event_dispatcher')->dispatch('object.created', $event);
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
-
         return $this->render('question/edit.html.twig', array(
             'question' => $question,
             'edit_form' => $editForm->createView(),

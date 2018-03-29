@@ -204,7 +204,10 @@ class User extends BaseUser
             break  ;   
          case 'AMBAS':
              $this->roles=['ROLE_USER','ROLE_AMBASSADOR'];
-            break  ;                 
+            break  ; 
+         case 'RELECTEUR':
+             $this->roles=['ROLE_USER','ROLE_RELECTEUR','ROLE_SAISIE'];
+            break  ;                             
         default:
             $this->roles=['ROLE_USER','ROLE_ADMIN'];
             break;

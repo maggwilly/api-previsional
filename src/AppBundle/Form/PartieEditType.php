@@ -18,12 +18,13 @@ class PartieEditType extends AbstractType
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
         ->add('objectif','textarea',array('label'=>'Brève description '))
         ->add('sources', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'cleditor')))
+        ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules'))
         ->add('auMoinsdeMemeQue', EntityType::class, 
             array('class' => 'AppBundle:Partie' , 
                 'choice_label' => 'titre',
-                'label'=>'Selectionnez une évaluation existante',
+                'label'=>'Attribuer un contenu existant',
                 'empty_data' => null,
-                'placeholder' => 'Aucune',
+                'placeholder' => 'Aucun contenu existant',
                 'required' => false   ,              
                 'group_by' => function($val, $key, $index) {
                             return $val->getMatiere()->getDisplayName();

@@ -13,6 +13,13 @@ article_show:
     defaults: { _controller: "AppBundle:Article:show" }
     methods:  GET
 
+article_difucult:
+    path:     /{id}/dificult/contents
+    defaults: { _controller: "AppBundle:Article:getDificultContents" }
+    methods:  GET
+
+
+
 article_show_from_mobile:
     path:     /{id}/show/from/mobile
     defaults: { _controller: "AppBundle:Article:showFromMobile" }

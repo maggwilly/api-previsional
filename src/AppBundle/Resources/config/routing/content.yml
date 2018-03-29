@@ -13,6 +13,11 @@ content_new:
     defaults: { _controller: "AppBundle:Content:new" }
     methods:  [GET, POST]
 
+content_blocked:
+    path:     /{id}/blocked/persons
+    defaults: { _controller: "AppBundle:Content:getBlockedPersons" }
+    methods:  GET
+
 content_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Content:edit" }

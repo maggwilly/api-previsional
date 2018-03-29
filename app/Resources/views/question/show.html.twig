@@ -6,15 +6,11 @@
           <i class="icon-home"></i>
           <a href="#">Home</a> 
           <i class="icon-angle-right"></i>       
-        </li>
-        <li>
-          <a href="#">Question</a> 
-          <i class="icon-angle-right"></i>        
-        </li>        
-        <li><a href="#">Création</a></li>
+        </li>       
+        <li><a href="#">Question</a></li>
       </ul>
    {% endblock %}
-   {% block table_title %}Création de question{% endblock %}    
+   {% block table_title %}Question {% endblock %}    
 {% block table %}
     <table class="table">
         <tbody>
@@ -31,16 +27,10 @@
                 <td>{{ question.validateur.username }}</td>
              </tr>   
                 {% endif %}
-            
              <tr>
                 <th>Date</th>
                 <td>{% if question.date %}{{ question.date|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>     
-            <tr>
-            
-                <th>Type</th>
-                <td>{{ question.type }}</td>
-            </tr>
             <tr>
                 <th>Texte</th>
                 <td>{{ question.text| raw}}</td>
@@ -48,7 +38,6 @@
       
             {% if question.image %} 
             <tr>
-                <th>Image</th>
                 <td> 
                 {% if question.image %}
                   <img src="{{ asset( question.image) }}" alt="{{question.image }}" style="width:200px;height:100px;"> 
