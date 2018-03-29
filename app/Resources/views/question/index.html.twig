@@ -26,9 +26,9 @@
               
                 <td> 
                     {% if question.explication is not null %}
-                       <a href="{{ path('explication_show', { 'id': question.explication.id }) }}">Afficher</a>
+                       <a href="{{ path('explication_show', { 'id': question.explication.id }) }}"class="btn btn-small btn-success">Explication</a>
                     {% else %}
-                      <a href="{{ path('explication_new', { 'question': question.id }) }}">Créer</a>
+                      <a href="{{ path('explication_new', { 'question': question.id }) }}" class="btn btn-small btn-warning">Expliquer</a>
                     {% endif %}
                      </td>           
                 <td>

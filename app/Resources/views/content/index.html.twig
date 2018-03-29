@@ -8,7 +8,6 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li>
-          <i class="icon-home"></i>
           <a href="{{ path('content_index', { 'id': article.id }) }}">{{article.titre}}</a> 
         </li>        
       </ul>
@@ -35,9 +34,9 @@
                 </td>
                 <td> 
                     {% if content.explication is not null %}
-                       <a href="{{ path('explication_show', { 'id': content.explication.id }) }}">Afficher</a>
+                       <a href="{{ path('explication_show', { 'id': content.explication.id }) }}" class="btn btn-small btn-success">Explication</a>
                     {% else %}
-                      <a href="{{ path('explication_new', { 'content': content.id }) }}">Créer</a>
+                      <a href="{{ path('explication_new', { 'content': content.id }) }}" class="btn btn-small btn-warning">Expliquer</a>
                     {% endif %}
                      </td>  
                <td>{% if content.validated %}OUI{% else %}NON{% endif %}</td>                       
