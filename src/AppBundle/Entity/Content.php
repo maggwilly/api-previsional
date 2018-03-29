@@ -51,6 +51,14 @@ class Content
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Explication")
    */
     private $explication;
+
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="validated", type="boolean", nullable=true)
+     */
+    private $validated;
+
     /**
      * Constructor
      */
@@ -186,5 +194,28 @@ class Content
     public function getExplication()
     {
         return $this->explication;
+    }
+
+        /**
+     * Set validated
+     *
+     * @param boolean $validated
+     * @return Question
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    /**
+     * Get validated
+     *
+     * @return boolean 
+     */
+    public function getValidated()
+    {
+        return $this->validated;
     }
 }
