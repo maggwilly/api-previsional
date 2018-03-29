@@ -32,7 +32,7 @@
                 </td>
                 <td> 
                     {% if content.explication is not null %}
-                       <a href="{{ path('explication_show', { 'id': content.explication.id }) }}" class="btn btn-small btn-success">Explication</a>
+                       <a href="{{ path('explication_show', { 'id': content.explication.id ,'content': content.id }) }}" class="btn btn-small btn-success">Explication</a>
                     {% else %}
                       <a href="{{ path('explication_new', { 'content': content.id }) }}" class="btn btn-small btn-warning">Expliquer</a>
                     {% endif %}

@@ -4,7 +4,7 @@ explication_index:
     methods:  GET
 
 explication_show:
-    path:     /{id}/show
+    path:     /{id}/show/{question}/{content}
     defaults: { _controller: "AppBundle:Explication:show" }
     methods:  GET
 

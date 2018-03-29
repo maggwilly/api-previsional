@@ -37,7 +37,7 @@
  {% if question is not null%}
           <a href="{{ path('question_show',{'id': question.id})}}">{{question.text | raw}}</a> 
   {% else %}
-     {% if explication.content is not null%}
+     {% if content is not null%}
           <a href="{{ path('content_show',{'id':content.id})}}">{{content.text | raw}}</a> 
     {% endif %}      
  {% endif %}  
