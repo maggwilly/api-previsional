@@ -146,28 +146,28 @@ class NotificationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $sendings=$em->getRepository('MessagerBundle:Sending')->findNotRead();
-        $registrationIds=array_column($sendings, 'registrationId');
-        $registrationIds=array_unique($registrationIds);
+        $registrationIds=array_unique(array_column($sendings, 'registrationId'));
          $notification = new Notification();
          $notification
          ->setTitre('Des messages et annonces non lus')
          ->setSousTitre("Vous avez de nombreuses annonces non consultées. Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.");
          $result=$this->firebaseSend($registrationIds,  $notification );
-         if(array_key_exists('results', $result)){
+        /* if(array_key_exists('results', $result)){
            $event=new ResultEvent($registrationIds,$result['results']);
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
-           }
-       return new Response(json_encode($result)); //$this->redirectToRoute('notification_index');
+           }*/
+       return new Response("".count($result)." vs ".count($registrationIds)); //$this->redirectToRoute('notification_index');
     }
 
 
 public function firebaseSend($registrationIds, Notification $notification ){
         $data=array('registration_ids' => array_values($registrationIds),
-                          'notification'=>array('title' => $notification->getTitre(),
+                     'dry_run'=>true,
+                     'notification'=>array('title' => $notification->getTitre(),
                                              'body' => $notification->getSousTitre(),
                                              'badge' => 1,
                                              'sound'=> "default",
-                                           'tag' => 'message')
+                                            'tag' => 'message')
     );
   return $this->get('fmc_manager')->sendMessage($data);
 }
