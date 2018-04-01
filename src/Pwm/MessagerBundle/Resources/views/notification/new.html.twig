@@ -1,17 +1,28 @@
-{% extends "MessagerBundle::table.html.twig" %}
-{% block page_title %}Notification{% endblock %}
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Nouveau message{% endblock %}
+      {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ path('notification_index') }}">Communication</a>
+           <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Nouveau message</a>
+        </li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}Nouveau message{% endblock %} 
 {% block table %}
-<div class="card"> 
-      <div class="card-content">
+
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Enregistrer" />
+        <input type="submit" value="Enregistrer" class="btn btn-info"/>
     {{ form_end(form) }}
-</div>
-</div>
-    <ul>
-        <li>
-            <a href="{{ path('notification_index') }}">Back to the list</a>
-        </li>
-    </ul>
+
+<a href="{{ path('notification_index') }}"><i class="halflings-icon chevron-left"></i> Retour</a>
 {% endblock %}

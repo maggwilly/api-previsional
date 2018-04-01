@@ -85,6 +85,8 @@ class Session
     private $archived;   
     
 
+    private $shouldAlert;
+
     private $newressource; 
     /**
      * @var int
@@ -165,10 +167,11 @@ class Session
    */
     private $groupe; 
 
-    /**
-   * @ORM\ManyToOne(targetEntity="Pwm\AdminBundle\Entity\Info")
-    * @ORM\JoinColumn(name="uid",referencedColumnName="uid" )
-   */
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     */
     private $owner;
 
         /**
@@ -188,6 +191,12 @@ class Session
      */
     private $discussionName;
 
+
+    /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+   */
+    private $user;
+
   /**
      * Constructor
      */
@@ -197,13 +206,14 @@ class Session
      $this->date=$date;
      $this->nombreInscrit=0;
      $this->archived=false;
+     $this->shouldAlert=false;
      $this->concours= $concours;
      $this->nomConcours=$concours->getNom();
      $this->abreviation=$concours->getAbreviation();
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
-
+      $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -245,6 +255,30 @@ class Session
         return $this;
     }
 
+       /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Question
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+ 
+
     /**
      * Get nombrePlace
      *
@@ -255,6 +289,28 @@ class Session
         return $this->nombrePlace;
     }
 
+        /**
+     * Get shouldAlert
+     *
+     * @return boolean
+     */
+    public function getShouldAlert()
+    {
+        return $this->shouldAlert;
+    }
+    /**
+     * Set nombreInscrit
+     *
+     * @param integer $nombreInscrit
+     *
+     * @return Session
+     */
+    public function setShouldAlert($shouldAlert)
+    {
+        $this->shouldAlert = $shouldAlert;
+
+        return $this;
+    }
     /**
      * Set nombreInscrit
      *
@@ -767,6 +823,31 @@ class Session
      *
      * @param \AppBundle\Entity\Objectif $lien
      */
+    public function removePartie(\AppBundle\Entity\Partie $lien)
+    {
+        $this->parties->removeElement($lien);
+    }
+
+
+     /**
+     * Add lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     *
+     * @return Programme
+     */
+    public function addPartie(\AppBundle\Entity\Partie $lien)
+    {
+       
+        $this->parties[] = $lien;
+        return $this;
+    }
+
+    /**
+     * Remove lien
+     *
+     * @param \AppBundle\Entity\Objectif $lien
+     */
     public function removeLien(\AppBundle\Entity\Objectif $lien)
     {
         $this->liens->removeElement($lien);
@@ -840,7 +921,7 @@ class Session
      *
      * @return Session
      */
-    public function setOwner(\Pwm\AdminBundle\Entity\Info $owner = null)
+    public function setOwner($owner = null)
     {
         $this->owner = $owner;
 
@@ -948,4 +1029,7 @@ class Session
     {
         return $this->ressources;
     }
+
+
+
 }

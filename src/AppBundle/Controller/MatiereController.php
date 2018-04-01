@@ -8,19 +8,23 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; // Utilisation de la vue de FOSRestBundle
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Session; 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Matiere controller.
  *
  */
 class MatiereController extends Controller
 {
-    /**
-     * Lists all matiere entities.
-     *
-     */
-    public function indexAction(Programme $concours)
+    
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function indexAction(Programme $concours,Session $session=null)
     {
         $collection=$concours->getMatieres();
+        if(!is_null($session))
+         $this->get("session")->set('current_session_id', $session->getId());
         return $this->render('matiere/index.html.twig', array(
             'matieres' =>  $collection,'concour' => $concours,
         ));
@@ -43,23 +47,22 @@ class MatiereController extends Controller
          $matieres= $concours->getMatieres();
         return   $matieres;
     }
-    /**
-     * Creates a new matiere entity.
-     *
-     */
-    public function newAction(Programme $concours,Request $request)
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function newAction(Request $request,Programme $concours,Session $session=null)
     {
         $matiere = new Matiere();
         $form = $this->createForm('AppBundle\Form\MatiereType', $matiere);
         $form->handleRequest($request);
-
+       if(!is_null($session))
+         $this->get("session")->set('current_session_id', $session->getId());
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $matiere->setProgramme($concours);
             $em->persist($matiere);
             $em->flush($matiere);
-
-            return $this->redirectToRoute('matiere_show', array('id' => $matiere->getId()));
+            return $this->redirectToRoute('matiere_new', array('id' => $concours->getId()));
         }
 
         return $this->render('matiere/new.html.twig', array(
@@ -82,10 +85,9 @@ class MatiereController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing matiere entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function editAction(Request $request, Matiere $matiere)
     {
         $deleteForm = $this->createDeleteForm($matiere);
@@ -105,10 +107,10 @@ class MatiereController extends Controller
         ));
     }
 
-    /**
-     * Deletes a matiere entity.
-     *
-     */
+ 
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function deleteAction(Request $request, Matiere $matiere)
     {
         $form = $this->createDeleteForm($matiere);

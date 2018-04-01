@@ -59,4 +59,12 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
        $qb->andWhere('a.readed is NULL')->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
   }
+
+    public function findNotRead(){
+         $qb = $this->createQueryBuilder('s')
+         ->join('s.registration','r')
+         ->where('s.readed is NULL') ->andWhere('r.isFake is NULL')
+         ->select('r.registrationId'); 
+          return $qb->getQuery()->getArrayResult();
+  }
 }

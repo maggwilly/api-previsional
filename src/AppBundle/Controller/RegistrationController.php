@@ -4,41 +4,19 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use AppBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
+/**
+ * @Security("is_granted('ROLE_ADMIN')")
+*/
 class RegistrationController extends BaseController
     {
 
-            /**
-     * Lists all article entities.
-     *
-     */
-    public function indexAction()
-    {
-        $em = $this->container->get('doctrine.orm.entity_manager');
-         $users = $em->getRepository('AppBundle:User')->findAll();
-        return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
-            'users' => $users,
-        ));
-    }
 
-    /**
-     * Displays a form to edit an existing partie entity.
-     */
-    public function toggleUserAction( User $user)
-    {
-           $em = $this->container->get('doctrine.orm.entity_manager');
-           $locked=is_null($user->getLocked())?false:$user->getLocked();
-           $user->setLocked(!$locked);
-           $em->flush();
-            $users = $em->getRepository('AppBundle:User')->findAll();
-        return $this->container->get('templating')->renderResponse('user/index.html.twig', array(
-            'users' => $users,
-        ));
-    }
 
         public function registerAction()
         {
             $em = $this->container->get('doctrine.orm.entity_manager');
-          
             $form = $this->container->get('fos_user.registration.form');
             $formHandler = $this->container->get('fos_user.registration.form.handler');
             $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
@@ -54,7 +32,7 @@ class RegistrationController extends BaseController
                     sprintf('New user registration: %s', $user)
                 );
 
- /*              if ($confirmationEnabled) {
+      /*    if ($confirmationEnabled) {
                     $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
                     $route = 'fos_user_registration_check_email';
                 } else {

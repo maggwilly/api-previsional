@@ -14,8 +14,8 @@ explication_new:
     methods:  [GET, POST]
 
 explication_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "AppBundle:Explication:edit" }
+    path:     /{id}/edit/{question}/{content}
+    defaults: { _controller: "AppBundle:Explication:edit", question:0, content:0  }
     methods:  [GET, POST]
 
 explication_delete:

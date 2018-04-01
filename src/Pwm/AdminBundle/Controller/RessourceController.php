@@ -10,65 +10,79 @@ use FOS\RestBundle\View\View;
 use AppBundle\Entity\Session;
 use Pwm\AdminBundle\Entity\Commande;
 use AppBundle\Event\ResultEvent;
+use Pwm\MessagerBundle\Entity\Notification;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 /**
  * Ressource controller.
  *
  */
 class RessourceController extends Controller
 {
-    /**
-     * Lists all ressource entities.
-     *
-     */
-    public function indexAction(Session $session)
-    {
+  /**
+   * @Security("is_granted('ROLE_SUPERVISEUR')")ROLE_SUPERVISEUR
+  */
+    public function indexAction(Session $session=null)
+    {   $ressources=array();
         $em = $this->getDoctrine()->getManager();
-        $ressources = $em->getRepository('AdminBundle:Ressource')->findAll();
+        if(is_null($session))
+           $ressources = $em->getRepository('AdminBundle:Ressource')->findAll();
+       else
+            $ressources=$session->getRessources();
         return $this->render('ressource/index.html.twig', array(
             'ressources' => $ressources, 'session' => $session,
         ));
     }
 
-    /**
-     * Creates a new ressource entity.
-     *
-     */
-    public function newAction(Request $request,Session $session)
+  /**
+   * @Security("is_granted('ROLE_SUPERVISEUR')")
+  */
+    public function newAction(Request $request,Session $session=null)
     {
         $ressource = new Ressource($session);
         $form = $this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ressource->setIsPublic(!is_null($session));
             $em->persist($ressource);
-            $em->flush();
-            $registrationIds=array();
-            if($ressource->getIsPublic()){
-           $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
-            foreach ($registrations as $registration) {
-                if (!$registration->getIsFake()) {
-                $registrationIds[]=$registration->getRegistrationId();
-                  }
-                }
-              }else{
-                  $destinations=$session->getInfos();
-                  foreach ($destinations as $info) {
-                    foreach ($info->getRegistrations() as $registration) {
-                        if (!$registration->getIsFake()) {
-                            $registrationIds[]=$registration->getRegistrationId();
-                          }
-                    }
-                           
-                }
+             $notification = new Notification('public',false,true);
+             $notification
+             ->setTitre($ressource->getIsPublic()?'Nouveau document':'Nouveau document ~'.$ressource->getSession()->getNomConcours())
+             ->setSousTitre($ressource->getNom().' '.$ressource->getDescription())
+             ->setText($ressource->getNom().' '.$ressource->getDescription());
+             $notification->setUser($this->getUser());
+              $em->persist($notification);
+              if(!is_null($ressource->getSession())){
+                 $notification->setGroupe($session->getGroupe());
+                 $date = new \DateTime();
+            $msg=array(
+                'message' =>array(
+                     'ressource'=>array(
+                          'id'=> $ressource->getId(),
+                          'price'=> $ressource->getPrice(),
+                          'nom'=> $ressource->getNom(),
+                          'description'=> $ressource->getDescription(),
+                          'size'=> $ressource->getSize(),
+                          'style'=> $ressource->getStyle(),
+                          'url'=> $ressource->getUrl()
+                    ),
+                    'type'=>'ressource',
+                    'fromAdmin'=>true
+                ) , 
+                'uiniqid'=>uniqid(),
+                'displayName'=>'Centor .inc',
+                'timestamp'=>$date->getTimestamp(),
+                'sentby'=>'uid',
+                'photoURL'=>'https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/ressources%2Ficon-blue.png?alt=media&token=b146afb4-66db-49e0-9261-0216721daa8c',
+                'sentTo'=>''
+            );
+            $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/msgboard.json";
+            $this->get('fmc_manager')->sendOrGetData($url,$data,'POST');
               }
-            $result= $this->firebaseSend($registrationIds ,$ressource);
-            $resultats= $result['results'];
-            $success=$result['success'];
-            $failure=$result['failure'];
-            $event= new ResultEvent($registrationIds, $resultats);
-            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
-
-            return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+               $em->flush();
+              return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+           // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
         }
         return $this->render('ressource/new.html.twig', array(
             'ressource' => $ressource,'session' => $session,
@@ -77,19 +91,6 @@ class RessourceController extends Controller
     }
 
 
-public function firebaseSend($registrationIds,Ressource $ressource ){
-$data=array(
-        'registration_ids' => array_values($registrationIds),
-        //'dry_run'=>true,
-         'notification'=>array('title' => $ressource->getIsPublic()?'Ressource':'Ressource ~'.$ressource->getSession()->getNomConcours(),
-                      ' body' => $ressource->getDescription(),
-                       'badge' => 1,
-                      // 'sound'=> "default",
-                       'tag' => 'ressources')
-    );
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
-  return $fmc_response;
-}
     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"ressource"})
@@ -141,10 +142,9 @@ $data=array(
         ));
     }
 
-    /**
-     * Displays a form to edit an existing ressource entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_SUPERVISEUR')")
+  */
     public function editAction(Request $request, Ressource $ressource)
     {
         $deleteForm = $this->createDeleteForm($ressource);
@@ -161,10 +161,9 @@ $data=array(
         ));
     }
 
-    /**
-     * Deletes a ressource entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_SUPERVISEUR')")
+  */
     public function deleteAction(Request $request, Ressource $ressource)
     {
         $form = $this->createDeleteForm($ressource);

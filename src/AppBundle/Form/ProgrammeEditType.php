@@ -13,10 +13,9 @@ class ProgrammeEditType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')
-        ->add('abreviation')
-        ->add('type')
-        ->add('auMoinsdeMemeQue', 
+        $builder->add('nom',array('label'=>'Nom du Programme'))
+        ->add('abreviation','textarea',array('label'=>'Brève description '))
+       /* ->add('auMoinsdeMemeQue', 
             EntityType::class,
              array('class' => 'AppBundle:Programme',
                 'choice_label' => 'nom', 
@@ -24,7 +23,7 @@ class ProgrammeEditType extends AbstractType
                 'placeholder' => 'Aucun ',
                 'required' => false ,               
                 'empty_data' => null)
-             )
+             )*/
  ;
     }
     

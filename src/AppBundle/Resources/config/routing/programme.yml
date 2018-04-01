@@ -5,18 +5,18 @@ programme_index:
 
 
 programme_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:Programme:show" }
+    path:     /{id}/show/{session}
+    defaults: { _controller: "AppBundle:Programme:show","session":0 }
     methods:  GET
 
 programme_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:Programme:new" }
+    path:     /new/{session}
+    defaults: { _controller: "AppBundle:Programme:new" ,"session":0}
     methods:  [GET, POST]
 
 programme_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "AppBundle:Programme:edit" }
+    path:     /{id}/edit/{session}
+    defaults: { _controller: "AppBundle:Programme:edit","session":0}
     methods:  [GET, POST]
 
 programme_delete:

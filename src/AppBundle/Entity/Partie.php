@@ -115,7 +115,7 @@ class Partie
     private $article;
 
     /**
-   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="parties")
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="parties", cascade={"persist","remove"})
    */
     private $sessions; 
 
@@ -140,6 +140,7 @@ class Partie
     public function __construct()
     {
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
          $this->date=new \DateTime();
     } 
 

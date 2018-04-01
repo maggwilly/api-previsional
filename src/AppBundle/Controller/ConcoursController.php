@@ -5,17 +5,16 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Concours;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Concour controller.
  *
  */
 class ConcoursController extends Controller
 {
-    /**
-     * Lists all concour entities.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -43,10 +42,9 @@ class ConcoursController extends Controller
    return $this->redirectToRoute('concours_index');
     }
 
-    /**
-     * Creates a new concour entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function newAction(Request $request)
     {
         $concour = new Concours();
@@ -81,10 +79,9 @@ class ConcoursController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing concour entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function editAction(Request $request, Concours $concour)
     {
         $deleteForm = $this->createDeleteForm($concour);
@@ -104,10 +101,9 @@ class ConcoursController extends Controller
         ));
     }
 
-    /**
-     * Deletes a concour entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function deleteAction(Request $request, Concours $concour)
     {
         $form = $this->createDeleteForm($concour);

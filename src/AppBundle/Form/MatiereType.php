@@ -16,7 +16,8 @@ class MatiereType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre')
-                ->add('description')->add('poids');
+                ->add('description','textarea',array('label'=>'Brève description '))
+                ->add('poids', 'integer',array('label'=>'Coefitient en %'));
     }
     
     /**

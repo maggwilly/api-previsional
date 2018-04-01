@@ -42,8 +42,8 @@ services:
           tags:
             - { name: kernel.event_listener, event: user.registration, method: onRegistration }
 
-      fcm_result:
+      notification_shedule_to_send:
           class: AppBundle\Event\CreateListener
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
-            - { name: kernel.event_listener, event: fcm.result, method: onMessageEnd }
+            - { name: kernel.event_listener, event: notification.shedule.to.send, method: onSheduleToSend }

@@ -30,4 +30,18 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getResult();
   }
    
+        /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findByUsers($uids){
+         $qb = $this->createQueryBuilder('a')
+         -> where('a.info IN (:uids)')->setParameter('uids', $uids);
+          return $qb->getQuery()->getResult();
+  }
+
+  public function findNotReadsDesc(){
+         $qb = $this->createQueryBuilder('r')->join('sending')
+         ->where('r.isFake is NULL'); 
+          return $qb->getQuery()->getResult();
+  }
 }

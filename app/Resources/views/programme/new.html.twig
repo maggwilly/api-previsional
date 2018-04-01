@@ -1,23 +1,28 @@
 {% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Nouveau programme{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="{{ path('partie_index',{'id':0})}}">Home</a> 
+          <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li>
-        <li><a href="#">Unités de préparation</a></li>
+        {% if session %}
+           <li>
+          <a href="#">{{session.nomConcours}}</a>
+          </li>
+      {% endif %}
       </ul>
    {% endblock %}
-   {% block table_title %}Unités de préparation{% endblock %}  
+   {% block table_title %}Nouveau programme de prépa{% endblock %}  
 {% block table %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Enrégistrer" class="btn btn-info" />
     {{ form_end(form) }}
     <ul>
         <li>
-            <a href="{{ path('programme_index') }}">Back to the list</a>
+            <a href="{{ path('session_index') }}">Retour</a>
         </li>
     </ul>
 {% endblock %}

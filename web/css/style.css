@@ -3008,3 +3008,13 @@ ul.messagesList li span.date {
 .navbar .brand{
 	font-size: 35px;
 }
+
+.preloader {
+  position: fixed; 
+  top: 5%; left: 40%;
+   z-index: 5000;
+   width: 422px; 
+   text-align: center;
+   background: #FFEFEC;
+   border: 1px solid #000
+}

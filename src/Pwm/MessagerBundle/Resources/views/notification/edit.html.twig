@@ -1,26 +1,41 @@
-{% extends "MessagerBundle::table.html.twig" %}
-{% block page_title %}Notification{% endblock %}
+{% extends "AppBundle::table.html.twig" %}
+{% block page_title %}{{notification.titre}}{% endblock %}
+      {% block page_sub_title %}
+       <ul class="breadcrumb">
+        <li>
+          <i class="icon-home"></i>
+          <a href="{{ path('homepage')}}">Home</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ path('notification_index') }}">Communication</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">{{notification.titre}}</a>
+        </li>
+      </ul>
+   {% endblock %}
+   {% block table_title %}Modification {% endblock %} 
 {% block table %}
-<div class="card"> 
-      <div class="card-content">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
       {% if not notification.sendNow %}
-        <input type="submit" value="Enregistrer" />
+        <input type="submit" value="Enregistrer" class="btn btn-info"/>
         {% endif %} 
     {{ form_end(edit_form) }}
-</div>
-</div>
-    <ul>
-        <li>
-            <a href="{{ path('notification_index') }}">Back to the list</a>
-        </li>
+   <table class="table  no-table-bordered bootstrap-datatable">
+     <tr>
+        <td>
+            <a href="{{ path('notification_index') }}"> <i class="halflings-icon chevron-left"></i>Retour</a>
+        </td>
         {% if not notification.sendNow %}
-        <li>
+        <td>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Supprimer">
+                <input type="submit" value="Supprimer" class="btn btn-danger">
             {{ form_end(delete_form) }}
-        </li>
+        </td>
         {% endif %}        
-    </ul>
+            </tr>
+    </table>
 {% endblock %}

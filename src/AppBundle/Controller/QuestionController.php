@@ -10,6 +10,7 @@ use FOS\RestBundle\View\View;
 use AppBundle\Event\QuestionEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Question controller.
  *
@@ -51,7 +52,7 @@ class QuestionController extends Controller
      */
     public function getBlockedPersonsAction(Question $question)
     {
-         $url="https://trainings-fa73e.firebaseio.com/status/question/".$$question->getPartie()->getId().'/'.$question->getId()."/.json";
+         $url="https://trainings-fa73e.firebaseio.com/status/question/".$question->getPartie()->getId().'/'.$question->getId()."/.json";
          $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?$this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
         return  new Response(''.count($res));
     }
@@ -69,7 +70,7 @@ class QuestionController extends Controller
             $em->flush($question);
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
-            return $this->redirectToRoute('question_show', array('id' => $question->getId()));
+            return new Response('ok');//$this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
 
         return $this->render('question/new.html.twig', array(

@@ -15,7 +15,7 @@ class ArticleType extends AbstractType
     {
         $builder
         ->add('titre', 'textarea',array('label'=>'Titre du cours '))
-        ->add('introduction', 'textarea' ,array('label'=>'Introduction (première partie)','attr'=>array('class'=>'cleditor')))   ;
+        ->add('introduction', 'textarea' ,array('label'=>'Introduction (première partie)','attr'=>array('class'=>'cleditor-1')))   ;
     }
     
     /**

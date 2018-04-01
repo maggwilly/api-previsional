@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use AppBundle\Entity\Session;
 use AppBundle\Event\CommandeEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Abonnement controller.
  *
@@ -27,11 +28,12 @@ class AbonnementController extends Controller
     private  $id_prefix='CMD.CM.';
     private  $return_url='http://help.centor.org/return.html';
     private  $cancel_url='http://help.centor.org/cancel.html';
-    private  $base_url='https://concours.centor.org/v1/formated/commende/';
-    /**
-     * Lists all abonnement entities.
-     *
-     */
+ 
+   private  $base_url='https://concours.centor.org/v1/formated/commende/';
+
+  /**
+   * @Security("is_granted('ROLE_DELEGUE')")
+  */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -254,10 +256,9 @@ if ($err) {
         ));
     }
 
-    /**
-     * Finds and displays a abonnement entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_DELEGUE')")
+  */
     public function showAction(Abonnement $abonnement)
     {
 
@@ -276,10 +277,9 @@ if ($err) {
 
 
 
-    /**
-     * Deletes a abonnement entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_DELEGUE')")
+  */
     public function deleteAction(Request $request, Abonnement $abonnement)
     {
         $form = $this->createDeleteForm($abonnement);

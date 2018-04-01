@@ -34,16 +34,13 @@
             {% endif %}      
         </tbody>
     </table>
-       <li>
-            <a href="{{ path('objectif_new', { 'id': matiere.id }) }}">Creer une ressource</a>
-        </li>
-     <br> 
+ 
     <ul>
         <li>
-            <a href="{{ path('matiere_index', { 'id': matiere.programme.id }) }}">Back to the list</a>
+            <a href="{{ path('matiere_index', { 'id': matiere.programme.id }) }}">Retour</a>
         </li>
         <li>
-            <a href="{{ path('matiere_edit', { 'id': matiere.id }) }}">Edit</a>
+            <a href="{{ path('matiere_edit', { 'id': matiere.id }) }}">Modifier</a>
         </li>
 
     </ul>

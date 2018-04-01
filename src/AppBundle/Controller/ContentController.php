@@ -6,16 +6,16 @@ use AppBundle\Entity\Content;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Content controller.
  *
  */
 class ContentController extends Controller
 {
-    /**
-     * Lists all content entities.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function indexAction(Article $article)
     {
         $em = $this->getDoctrine()->getManager();
@@ -25,10 +25,9 @@ class ContentController extends Controller
         ));
     }
 
-    /**
-     * Creates a new content entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function newAction(Request $request,Article $article)
     {
         $content = new Content();
@@ -47,6 +46,16 @@ class ContentController extends Controller
         ));
     }
 
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
+ public function toggleAction(Content $content){
+            $em = $this->getDoctrine()->getManager();
+            $isValid=$content->getValidated()?true:false;
+             $content->setValidated(! $isValid);
+              $em->flush($content);
+    return $this->redirectToRoute('content_index', array('id' => $content->getArticle()->getId() ));
+ }
     /**
      * Finds and displays a partie entity.
      *
@@ -59,10 +68,9 @@ class ContentController extends Controller
     }
 
 
-    /**
-     * Finds and displays a content entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function showAction(Content $content)
     {
         $deleteForm = $this->createDeleteForm($content);
@@ -72,10 +80,9 @@ class ContentController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing content entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function editAction(Request $request, Content $content)
     {
         $deleteForm = $this->createDeleteForm($content);

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Article controller.
  *
@@ -86,13 +87,12 @@ class ArticleController extends Controller
          return  false;
     }
 
-    /**
-     * Creates a new article entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function newAction(Request $request, Partie $partie)
     {
-        $article = new Article();
+        $article = new Article($partie);
         $form = $this->createForm('AppBundle\Form\ArticleType', $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -130,10 +130,9 @@ class ArticleController extends Controller
             'article' => $article,
         ));
     }
-    /**
-     * Displays a form to edit an existing article entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function editAction(Request $request, Article $article)
     {
         $deleteForm = $this->createDeleteForm($article);

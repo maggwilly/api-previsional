@@ -1,9 +1,10 @@
 {% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Les liens utils{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="#">Home</a> 
+          <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>         
         </li>
         <li>
@@ -11,7 +12,7 @@
           <i class="icon-angle-right"></i>          
         </li>  
         <li>
-      <a href="#">Les liens utils de</a>    
+      <a href="#">Les liens utils</a>    
         </li>               
       </ul>
    {% endblock %}
@@ -22,24 +23,14 @@
         {% for objectif in liens %}
             <tr>
                 <td>{{ objectif.titre }}</td>
-                <td><a href="{{ objectif.description }}"> Afficher</a></td>
+                <td><a href="{{ objectif.description }}"> Afficher la cible</a></td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('objectif_show', { 'id': objectif.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('objectif_edit', { 'id': objectif.id }) }}">edit</a>
-                        </li>
-                    </ul>
+   <a href="{{ path('objectif_edit', { 'id': objectif.id }) }}">Modifier</a>
                 </td>                
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <ul>
-        <li>
-            <a href="{{ path('objectif_new', { 'id': session.id }) }}">Nouveau lien util</a>
-        </li>
-    </ul>
+   <a href="{{ path('objectif_new', { 'id': session.id })  }}" class="btn btn-default">Nouveau lien util</a>
+
 {% endblock %}

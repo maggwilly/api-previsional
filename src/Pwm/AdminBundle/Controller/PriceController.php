@@ -5,17 +5,16 @@ namespace Pwm\AdminBundle\Controller;
 use Pwm\AdminBundle\Entity\Price;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Price controller.
  *
  */
 class PriceController extends Controller
 {
-    /**
-     * Lists all price entities.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_PRICER')")
+  */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -27,10 +26,9 @@ class PriceController extends Controller
         ));
     }
 
-    /**
-     * Creates a new price entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_PRICER')")
+  */
     public function newAction(Request $request)
     {
         $price = new Price();
@@ -51,10 +49,9 @@ class PriceController extends Controller
         ));
     }
 
-    /**
-     * Finds and displays a price entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_PRICER')")
+  */
     public function showAction(Price $price)
     {
         $deleteForm = $this->createDeleteForm($price);
@@ -65,10 +62,9 @@ class PriceController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing price entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_PRICER')")
+  */
     public function editAction(Request $request, Price $price)
     {
         $deleteForm = $this->createDeleteForm($price);
@@ -88,10 +84,9 @@ class PriceController extends Controller
         ));
     }
 
-    /**
-     * Deletes a price entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_PRICER')")
+  */
     public function deleteAction(Request $request, Price $price)
     {
         $form = $this->createDeleteForm($price);

@@ -122,9 +122,20 @@ class Price
      */
     public function getNom()
     {
-        return $this->nom;
+        if(!is_null($this->nom))
+        return $this->nom .'> '.'standard->'.$this->standardDelay.'jrs:'.$this->standard.'FCFA,'.'premium->'.$this->premiumDelay.'jrs:'.$this->premium.'FCFA';
+        return $this->nom ;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+
+        $this->nom ='Sans nom';
+
+    }
     /**
      * Set starter
      *

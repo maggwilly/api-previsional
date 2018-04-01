@@ -5,7 +5,7 @@ namespace Pwm\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 class RessourceType extends AbstractType
 {
     /**
@@ -15,18 +15,40 @@ class RessourceType extends AbstractType
     {
         $builder
      
-        ->add('nom')
-        ->add('description')
-         ->add('price')
-        ->add('detail1')
-        ->add('detail2')
-        ->add('detail3')
-        ->add('detail4')
-        ->add('style')
-        ->add('size')        
-        ->add('url')
-        ->add('imageUrl')
-        ->add('isPublic');
+        ->add('nom','text', array(
+           'label' => 'Nom du document',
+         ))
+        ->add('description','textarea', array(
+           'label' => 'Une description commerciale du document',
+         ))
+        
+        ->add('detail1','text', array(
+           'label' => 'Autre détail 1','required' =>false
+         ))
+        ->add('detail2','text', array(
+           'label' => 'Autre détail 2','required' =>false
+         ))
+        ->add('detail3','text', array(
+           'label' => 'Autre détail 3','required' =>false
+         ))
+        ->add('detail4','text', array(
+           'label' => 'Autre détail 4','required' =>false
+         ))
+        ->add('style','text', array(
+           'label' => 'Type de document (pdf/image/doc/excel etc.)',
+         ))
+        ->add('size','text', array(
+           'label' => 'Nombre de pages',
+         )) 
+        ->add('price','integer', array(
+          'label' => 'Prix de la ressource',
+         ))       
+        ->add('url', UrlType::class, array(
+          'label' => 'Lien de télechargement',
+         ))
+        ->add('imageUrl', UrlType::class, array(
+       'label' => 'Lien vers la photo',
+));
     }
     
     /**

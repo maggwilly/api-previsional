@@ -28,8 +28,6 @@ class Groupe
      */
     private $nom;
 
-
-
     /**
      * @var \DateTime
      *

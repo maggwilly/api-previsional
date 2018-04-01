@@ -1,5 +1,5 @@
 {% extends "AppBundle::table.html.twig" %}
-{% block page_title %}{{partie.title}}{% endblock %}
+{% block page_title %}{{partie.titre}}{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
@@ -7,14 +7,14 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li>
-          <a href="{{ path('question_index', { 'id': question.id }) }}">{{partie.title}}</a> 
+          <a href="{{ path('question_index', { 'id': partie.id }) }}">{{partie.titre}}</a> 
         </li>        
       </ul>
    {% endblock %}
    {% block table_title %}Les questions de l'évaluation{% endblock %} 
 
 {% block table %}
-         <table class="table table-striped table-bordered bootstrap-datatable datatable" id="my-table-1">
+         <table class="table  datatable" id="my-table-1">
         <thead>
             <tr>
                 <th>Enonce</th>  
@@ -27,33 +27,32 @@
         {% for question in questions %}
             <tr>
                 <td>
-                {{ question.text | raw}}
-                <span class="label label-important">
-                      {{ render(controller( 'AppBundle:Question:getBlockedPersons', { 'id': question.id })) }} 
-                </span>
+                <a href="{{ path('question_show', { 'id': question.id }) }}">{{ question.text | raw}}</a>
                 <br>
                 {% if question.image %}
                  {{question.image }}
                {% endif %}
                 </td>
-              
                 <td> 
                     {% if question.explication is not null %}
-                       <a href="{{ path('explication_show', { 'id': question.explication.id ,'question': question.id}) }}"class="btn btn-small btn-success">Explication</a>
+                       <a href="{{ path('explication_show', { 'id': question.explication.id ,'question': question.id}) }}">Explication</a>
                     {% else %}
-                      <a href="{{ path('explication_new', { 'question': question.id }) }}" class="btn btn-small btn-warning">Expliquer</a>
+                      <a href="{{ path('explication_new', { 'question': question.id }) }}" >Rediger une explication</a>
+                      <span class="label label-important">
+                      {{ render(controller( 'AppBundle:Question:getBlockedPersons', { 'id': question.id })) }} 
+                      </span>
                     {% endif %}
                      </td>           
                 <td>
-                <td>{% if question.validated %}OUI{% else %}NON{% endif %}</td>    
-                    <ul>
-                        <li>
-                            <a href="{{ path('question_show', { 'id': question.id }) }}">Afficher</a>
-                        </li>
-                        <li>
+              {% if question.validated %}
+                OUI  <a href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-small btn-success">Invalider</a>
+               {% else %}
+                NON  <a href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-small btn-warning">Valider</a>
+               {% endif %}
+
+                </td>    
+                 <td>
                             <a href="{{ path('question_edit', { 'id': question.id }) }}">Modifier</a>
-                        </li>
-                    </ul>
                 </td>
             </tr>
         {% endfor %}

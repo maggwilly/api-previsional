@@ -93,6 +93,13 @@ class Notification
      */
     private $sendNow;
 
+        /**
+     * @var bool
+     *
+     * @ORM\Column(name="includChat", type="boolean", nullable=true)
+     */
+    private $includChat;
+
     /**
      * @var string
      *
@@ -130,13 +137,15 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct($type='public',$tag='public')
+    public function __construct($type='public', $includeMail=true,$includChat=false)
     {
         $this->date =new \DateTime();
         $this->sendDate =new \DateTime();
          $this->type =$type;
-        $this->tag =$tag;
-         $this->format ='notifications';
+        $this->includeMail =$includeMail;
+        $this->includChat =$includChat;
+        $this->tag ='public';
+        $this->format ='notifications';
     }
 
     /**

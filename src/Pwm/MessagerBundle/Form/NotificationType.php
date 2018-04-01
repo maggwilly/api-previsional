@@ -17,22 +17,23 @@ class NotificationType extends AbstractType
     {
         $builder
         ->add('titre')
-        ->add('sousTitre', 'textarea' ,array('label'=>'Corps du message en texte simple'))
-        ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche','attr'=>array('class'=>'cleditor')))
-       // ->add('tag')
+        ->add('sousTitre', 'textarea' ,array('label'=>'Sous-tire court'))
+        ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche','attr'=>array('class'=>'cleditor-1')))
         ->add('format', ChoiceType::class, array(
                                  'choices'  => array(
                                  'ios-mail' => 'Message', 'notifications' => 'Notifications', 'paper' => 'Annonce', 'alarm' => 'Alerte temps','ios-bulb' => 'Astuce'),
                                    ))
-        ->add('groupe', EntityType::class,
+      ->add('groupe', EntityType::class,
              array('class' => 'AdminBundle:Groupe', 
                    'choice_label' => 'getNom', 
                    'placeholder' => 'Tout le monde',
                    'empty_data'  => null,
                     'required' => false ,                  
-                    'label'=>'Groupe')
+                    'label'=>'Destinataires',
+                   'attr'=>array('data-rel'=>'chosen'))
              )
-         ->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant'));
+         ->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant','required' => false))
+          ->add('includeMail', 'checkbox' ,array('label'=>'Persistante','required' => false));
     }
     
     /**
@@ -50,7 +51,7 @@ class NotificationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'pwm_messagerbundle_notification';
+        return 'app_bundle';
     }
 
 

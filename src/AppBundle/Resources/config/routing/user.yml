@@ -1,11 +1,14 @@
 user_index:
     path:     /
-    defaults: { _controller: "AppBundle:Registration:index" }
+    defaults: { _controller: "AppBundle:User:index" }
     methods:  GET
 
 user_toggle:
     path:     /{id}/toggle
-    defaults: { _controller: "AppBundle:Registration:toggleUser" }
+    defaults: { _controller: "AppBundle:User:toggleUser" }
     methods:  GET
 
-
+user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:User:edit" }
+    methods:  [GET, POST]

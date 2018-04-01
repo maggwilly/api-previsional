@@ -16,8 +16,9 @@ class MatiereEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre')
-                ->add('description')->add('poids')->add('otherRessourcesLink')
-                 ->add('auMoinsdeMemeQue',
+                ->add('description','textarea',array('label'=>'Brève description '))
+                ->add('poids', 'integer', array('label'=>'Coefitient en %'))
+                 /*->add('auMoinsdeMemeQue',
                   EntityType::class, array(
                      'class' => 'AppBundle:Matiere' ,
                      'choice_label' => 'titre',
@@ -27,7 +28,7 @@ class MatiereEditType extends AbstractType
                       'group_by' => function($val, $key, $index) {
                             return $val->getProgramme()->getNom();
                            }
-                  ))
+                  ))*/
 ;
     }
     

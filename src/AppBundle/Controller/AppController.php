@@ -18,17 +18,20 @@ class AppController extends Controller
      */
     public function indexAction()
 
-    {    $user= $this->getUser();
-
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
-                return $this->redirectToRoute('abonnement_index');
+    {    if ($this->get('security.authorization_checker')->isGranted('ROLE_DELEGUE')) 
+              return $this->redirectToRoute('abonnement_index');
+        elseif ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
+              return $this->redirectToRoute('user_index');
+        elseif ($this->get('security.authorization_checker')->isGranted('ROLE_CONTROLEUR')) 
+              return $this->redirectToRoute('user_index');
+          elseif ($this->get('security.authorization_checker')->isGranted('SUPERVISEUR'))
+              return $this->redirectToRoute('session_index');              
          elseif($this->get('security.authorization_checker')->isGranted('ROLE_SAISIE')) 
-                return $this->redirectToRoute('partie_index', array('id' => 0));
+              return $this->redirectToRoute('partie_index');
         elseif ($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
               return $this->redirectToRoute('notification_index');  
         return $this->redirectToRoute('notification_index');             
     }
-
 
 
     public function helpAction($topic)

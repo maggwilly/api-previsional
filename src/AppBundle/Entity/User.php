@@ -173,10 +173,17 @@ class User extends BaseUser
     protected $credentialsExpireAt;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="matiere", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="user")
    * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $parties;
+
+
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session", mappedBy="user")
+   * @ORM\OrderBy({ "id" = "ASC"})
+   */
+    private $sessions;
 
     /**
      * Constructor
@@ -187,6 +194,7 @@ class User extends BaseUser
         parent::__construct();
           $this->expiresAt=new \DateTime();
          $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
  /**
@@ -196,7 +204,7 @@ class User extends BaseUser
       
     switch ( $this->type) {
         case 'SAISIE':
-            $this->expiresAt->modify('+15 day');
+            $this->expiresAt->modify('+20 day');
             $this->roles=['ROLE_USER','ROLE_SAISIE'];
             break;
          case 'COMM':
@@ -205,12 +213,15 @@ class User extends BaseUser
          case 'AMBAS':
              $this->roles=['ROLE_USER','ROLE_AMBASSADOR'];
             break  ; 
-         case 'RELECTEUR':
-             $this->roles=['ROLE_USER','ROLE_RELECTEUR','ROLE_SAISIE'];
-            break  ;                             
+         case 'SUPERVISEUR':
+             $this->roles=['ROLE_USER','ROLE_SUPERVISEUR'];
+            break  ;  
+         case 'CONTROLEUR':
+             $this->roles=['ROLE_USER','ROLE_CONTROLEUR'];
+            break ;                                                
         default:
             $this->roles=['ROLE_USER','ROLE_ADMIN'];
-            break;
+        break;
     }
  } 
   
@@ -434,4 +445,39 @@ class User extends BaseUser
     {
         return $this->phone;
     }
+
+     /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Concours
+     */
+    public function addSession(\AppBundle\Entity\Session $session)
+    {
+       $session->setUser($this);
+        $this->sessions[] = $session;
+
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\Session $session
+     */
+    public function removeSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }   
 }

@@ -6,7 +6,9 @@ use AppBundle\Entity\Programme;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
-use FOS\RestBundle\View\View; 
+use FOS\RestBundle\View\View;
+use AppBundle\Entity\Session; 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Concour controller.
  *
@@ -51,59 +53,60 @@ class ProgrammeController extends Controller
         return $programme;
     }
 
-    /**
-     * Creates a new concour entity.
-     *
-     */
-    public function newAction(Request $request)
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function newAction(Request $request,Session $session=null)
     {
-        $concours = new Programme();
+        $concours = new Programme($session->getNomConcours());
         $form = $this->createForm('AppBundle\Form\ProgrammeType', $concours);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($concours);
-            $em->flush($concours);
-            return $this->redirectToRoute('programme_show', array('id' => $concours->getId()));
+               $em->persist($concours);
+              if(!is_null($session)){
+                  $session->setPreparation($concours); 
+                  $session  = $this->get("session")->set('current_session', $session); 
+              }
+
+               $em->flush();
+            return $this->redirectToRoute('matiere_new', array('id' => $concours->getId()));
         }
         return $this->render('programme/new.html.twig', array(
-            'concour' => $concours,
+            'session' => $session,
+             'concour' => $concours,
             'form' => $form->createView(),
         ));
     }
 
-    /**
-     * Finds and displays a concour entity.
-     *
-     */
-    public function showAction(Programme $concour)
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function showAction(Programme $concour,Session $session=null)
     {
         $deleteForm = $this->createDeleteForm($concour);
-
- return $this->render('programme/show.html.twig', array(
+        return $this->redirectToRoute('matiere_index', array('id' => $concours->getId()));
+     /*return $this->render('programme/show.html.twig', array(
       'concour' => $concour, 'delete_form' => $deleteForm->createView(),
-        ));
+        ));*/
     }
 
-    /**
-     * Displays a form to edit an existing concour entity.
-     *
-     */
-    public function editAction(Request $request, Programme $concour)
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function editAction(Request $request, Programme $concour,Session $session=null)
     {
         $deleteForm = $this->createDeleteForm($concour);
         $editForm = $this->createForm('AppBundle\Form\ProgrammeEditType', $concour);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('programme_edit', array('id' => $concour->getId()));
         }
-
         return $this->render('programme/edit.html.twig', array(
             'concour' => $concour,
+              'session' => $session,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

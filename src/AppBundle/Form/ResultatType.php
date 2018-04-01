@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 class ResultatType extends AbstractType
 {
     /**
@@ -13,7 +13,9 @@ class ResultatType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('url')->add('imageUrl')->add('description')->add('date');
+        $builder->add('description')->add('url', UrlType::class, array(
+    'label' => 'Lien de télechargement',
+));
     }
     
     /**

@@ -14,6 +14,16 @@ partie_difucult:
     defaults: { _controller: "AppBundle:Partie:getDificultQuestions" }
     methods:  GET
 
+partie_attr:
+    path:     /{id}/attr
+    defaults: { _controller: "AppBundle:Partie:attr" }
+    methods:  [GET, POST]
+
+partie_enable:
+    path:     /{id}/enable
+    defaults: { _controller: "AppBundle:Partie:enable" }
+    methods:  [GET, POST]
+
 partie_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Partie:new" }
@@ -28,3 +38,8 @@ partie_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Partie:delete" }
     methods:  DELETE
+
+partie_is_avalable:
+    path:     /{id}/is/avalable
+    defaults: { _controller: "AppBundle:Partie:isAvalable" }
+    methods:  GET

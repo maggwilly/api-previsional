@@ -17,10 +17,11 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('nom')
-        ->add('nomConcours','text')
+       
+        ->add('nomConcours','text', array('label'=>'Nom cours du concours','required' => true))
         ->add('abreviation')
-        ->add('serie', ChoiceType::class, array(
+
+        ->add('serie', ChoiceType::class, array('required' => true,
                                   'choices'  => array(
                                          '' => 'Toute series',
                                          'science' => 'science',
@@ -38,14 +39,13 @@ class SessionType extends AbstractType
                                          'Licence & equiv' => 'Licence & equiv', 
                                          'Master & equiv' => 'Master & equiv'),
                                    ))
-        ->add('dateMax', 'date', array('years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))        
-        ->add('price')
-        ->add('nombrePlace')
-        ->add('nombreInscrit')
-        ->add('dateLancement')
-        ->add('dateConcours')
-        ->add('archived')
-        ->add('dateDossier')
+        ->add('nom','text', array('label'=>'Liste des séries consernées','required' => true))
+        ->add('dateMax', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','years' => range(1980, 2035),'label'=>'Etre né après') )       
+        ->add('nombrePlace', 'integer', array('label'=>'Places disponibles','required' => false))
+        ->add('nombreInscrit', 'integer', array('label'=>'Déjà inscrit au concours','required' => false))
+        ->add('dateLancement', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','required' => false) )
+        ->add('dateConcours', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','required' => false))
+        ->add('dateDossier', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','required' => false))
         ->add('type', ChoiceType::class, array(
                                  'choices'  => array(
                                   'écrit' => 'Epreuves écrites', 'direct' => 'Etude de dossier', 'sport' => 'Epreuves sportives', 
@@ -53,25 +53,30 @@ class SessionType extends AbstractType
                                    ))
         ->add('price', EntityType::class,
              array('class' => 'AdminBundle:Price', 
-                   'choice_label' => 'nom', 
+                   'choice_label' => 'getNom', 
+                    'placeholder' => 'Choisir un tarifaire',
+                    'empty_data'  => null,
                    'empty_data' => null,
-                   'label'=>'Tarif')
-             )        
-        ->add('preparation', EntityType::class,
+                   'label'=>'Tarifaire','required' => false)
+             )   
+         ->add('shouldAlert', 'checkbox' ,array('label'=>'Notifier les candidats','required' => true))         
+         ->add('preparation', EntityType::class,
              array('class' => 'AppBundle:Programme', 
-                   'choice_label' => 'nom', 
-                   'placeholder' => 'Please choose',
+                   'choice_label' => 'getNom', 
+                   'placeholder' => 'Aucun Programme',
                    'empty_data'  => null,
                     'required' => false,
-                   'label'=>'Progrmme de prépa')
+                   'label'=>'Progrmme de prépa',
+                   'attr'=>array('data-rel'=>'chosen'))
              )
-      ->add('owner', EntityType::class,
+     /* ->add('owner', EntityType::class,
              array('class' => 'AdminBundle:Info', 
                    'choice_label' => 'getDisplayName', 
-                   'placeholder' => 'Please choose',
+                   'placeholder' => 'Aucun administrateur',
+                   'label' => 'Administrateur des discussions',
                    'empty_data'  => null,
                     'required' => false)
-             ) ;
+             ) */;
     }
     
     /**

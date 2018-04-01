@@ -2,7 +2,7 @@
 {% block page_title %}Edition de contenu{% endblock %}
  {% block stylesheets %}
 {{parent()}}
-<script type="text/x-mathjax-config">
+<!--<script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
@@ -11,17 +11,33 @@
   <script>
     var editor;
     window.onload = function () {
-      editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'en'});
-            editor.insertInto(document.getElementById('editorContainer'));                
+      editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'fr'});
+      editor.insertInto(document.getElementById('editorContainer'));   
+    /*  editor.addHandListener({
+         contentChanged: function (instance) {
+            //  alert(editor.getMathML());
+              // document.getElementById('text').value = editor.getMathML();
+          },
+          recognitionError: function (instance, msg) {
+             //  document.getElementById('text').value = "Error: " + msg;
+             },
+             strokesChanged: function(instance) {
+
+             }
+           });  */                       
     }
 
- </script>  
+ </script> 
  <script>
 function myFunction() {
   //alert(editor.getMathML());
    window.prompt("Copy to clipboard: Ctrl+C, Enter", editor.getMathML());
 }
-</script> 
+</script> -->
+  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+  <script src="{{ asset('ckeditor/js/sample.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css') }}">
+  <link rel="stylesheet" href="{{ asset('ckeditor/toolbarconfigurator/lib/codemirror/neo.css') }}">
 {% endblock %} 
 {% block body %}
   {% block page_sub_title %}
@@ -34,6 +50,8 @@ function myFunction() {
         <li><a href="#">Edtion de contenu</a></li>
       </ul>
    {% endblock %}
+   {% block extra %}
+    {% endblock %}
       <div class="row-fluid sortable">    
         <div class="box span12">
           <div class="box-header" data-original-title>
@@ -52,20 +70,25 @@ function myFunction() {
   </div>
 </div>
 </div>
-{% endblock %}
 {% block help %}
 <div class="row-fluid">      
         <div class="box span12">
           <div class="box-header">
             <h2><i class="halflings-icon white th"></i><span class="break"></span>Rubrique d'aide</h2>
+            <div class="box-icon">
+              <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+              <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+              <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+            </div>            
           </div>
           <div class="box-content">
             {% block helptext %}
-                <p>
-                  Cette partie explique le fonctionnement de cette page. Il est fortement recommandé de la lire avant de commencer.
+                  <p>
+                  Cette page est en cours de restauration  vous l'aurez sans doute remarqué. Des travaux encours peuvent parfois impacter sur  certaines  fonctions et même sur l'ensemble du système. Veillez signaler tout disfonctionnement, fautes d'écriture ou de couleur à notre équipe technique par mail à l'adresse <a href="mailto:support@centor.org"> support@centor.org</a>. 
                 </p>
                 {% endblock %}
           </div>
         </div>
       </div>
     {% endblock %}
+{% endblock %}

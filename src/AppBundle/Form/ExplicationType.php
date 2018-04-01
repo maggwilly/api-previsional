@@ -13,7 +13,7 @@ class ExplicationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', 'textarea' ,array('label'=>'Saisir une explicqtion claire','attr'=>array('class'=>'cleditor')));
+        $builder->add('text', 'textarea' ,array('label'=>'Saisir une explicqtion claire','attr'=>array('class'=>'cleditor-1')));
     }
     
     /**
@@ -31,7 +31,7 @@ class ExplicationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_explication';
+        return 'app_bundle';
     }
 
 

@@ -1,35 +1,53 @@
 {% extends "AppBundle::table.html.twig" %}
+{% block page_title %}{{ressource.nom}}{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="#">Home</a> 
+          <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>         
         </li>
+        {% if ressource.session %}
         <li>
-      <a href="{{ path('session_show', { 'id': ressource.session.id }) }}">{{ressource.session.nomConcours}} ~ {{ressource.session.nom}} </a> 
+      <a href="{{ path('ressource_index', { 'id': ressource.session.id }) }}">{{ressource.session.nomConcours}}</a> 
           <i class="icon-angle-right"></i>          
-        </li>  
+        </li>
+      {% else %}  
+         <li>
+      <a href="{{ path('ressource_index') }}">Documents</a> 
+          <i class="icon-angle-right"></i>          
+        </li>       
+        {% endif %}  
         <li>        
         <li>
-      <a href="{{ path('objectif_index', { 'id': ressource.session.id }) }}">{{objectif.titre}} </a>      
+      <a href="#">{{ressource.nom}} </a>      
         </li>                
       </ul>
    {% endblock %}
- {% block table_title %}Edition de {{ressource.nom}}{% endblock %}  
+ {% block table_title %}Modification{% endblock %}  
+  {% block table %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Enrégistrer" />
+        <input type="submit" value="Enrégistrer" class="btn btn-info" />
     {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('ressource_index', { 'session': ressource.session.id }) }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Supprimer">
+       <table class="table  no-table-bordered bootstrap-datatable">
+        <tr> 
+         <td>
+           {% if ressource.session %}
+       
+            <a href="{{ path('ressource_index', { 'session': ressource.session.id }) }}">Retour</a>
+       
+         {% else %}         
+          
+      <a href="{{ path('ressource_index') }}">Retour</a>     
+             
+        {% endif %}
+        </td>
+         <td>
+           {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer" class="btn btn-danger">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        </td>
+          </tr> 
+    </table>   
 {% endblock %}

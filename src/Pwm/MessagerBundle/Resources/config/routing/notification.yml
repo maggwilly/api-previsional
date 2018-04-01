@@ -8,6 +8,11 @@ notification_show:
     defaults: { _controller: "MessagerBundle:Notification:show" }
     methods:  [GET, POST]
 
+notification_resent:
+    path:     /resent
+    defaults: { _controller: "MessagerBundle:Notification:resent" }
+    methods:  [GET, POST]
+
 notification_rate:
     path:     /{id}/rate
     defaults: { _controller: "MessagerBundle:Notification:getRate" }
@@ -24,8 +29,8 @@ notification_number_dest:
     methods:  [GET, POST]
 
 notification_new:
-    path:     /new
-    defaults: { _controller: "MessagerBundle:Notification:new" }
+    path:     /new/{id}
+    defaults: { _controller: "MessagerBundle:Notification:new","id":0 }
     methods:  [GET, POST]
 
 notification_edit:

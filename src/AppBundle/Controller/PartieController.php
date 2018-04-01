@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 // Utilisation de la vue de FOSRestBundle
 
 /**
@@ -18,9 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
 class PartieController extends Controller
 {
 
-    /**
-     * Lists all partie entities.
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function indexAction(Matiere $matiere=null)
     {      $parties=array();//$this->getUser()->getParties();
          $em = $this->getDoctrine()->getManager();
@@ -54,15 +55,33 @@ class PartieController extends Controller
         return  $parties;
     }
     
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function enableAction(Request $request,Partie $partie)
+    {   
+        $session  = $this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findOneById($this->get("session")->get('current_session_id'));
+       // $partie->removeSession($session); 
+        //$partie->addSession($session); 
+        if(is_null($session))
+             return $this->redirectToRoute('partie_index');
+         $session->removePartie($partie);
+         $session->addPartie($partie);
+         $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('partie_index');
+    }
+
     /**
      * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"partie"})
+    
      */
-    public function isAvalableAction(Request $request)
+    public function isAvalableAction(Request $request,Partie $partie)
     {
-         $partie=$request->query->get('partie');
-          $session=$request->query->get('session');
-         return true;//!empty($this->getDoctrine()->getManager()->getRepository('AppBundle:Partie')->findAvalability( $partie,$session)); 
+           $em = $this->getDoctrine()->getManager();
+           $session  = $this->get("session")->get('current_session_id');
+           if(!is_null($session))
+         return new Response(''.empty($em->getRepository('AppBundle:Partie')->findAvalability( $partie->getId(),$session))); 
+      return new Response('false'); 
     }
 
 
@@ -73,9 +92,10 @@ class PartieController extends Controller
     });
    return  iterator_to_array($iterator);
  }
-    /**
-     * Creates a new partie entity.
-     */
+
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function newAction(Matiere $matiere,Request $request)
     {
         $partie = new Partie();
@@ -86,7 +106,7 @@ class PartieController extends Controller
             $partie->setMatiere($matiere);
             $em->persist($partie);
             $em->flush($partie);
-            return $this->redirectToRoute('partie_show', array('id' => $partie->getId()));
+            return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
         }
 
         return $this->render('partie/new.html.twig', array(
@@ -109,17 +129,17 @@ class PartieController extends Controller
     }
 
 
-    /**
-     * Displays a form to edit an existing partie entity.
-     */
+ /**
+ * @Security("is_granted('ROLE_SAISIE')")
+*/
     public function editAction(Request $request, Partie $partie)
     {
         $deleteForm = $this->createDeleteForm($partie);
-        $editForm = $this->createForm('AppBundle\Form\PartieEditType', $partie);
+        $editForm = $this->createForm('AppBundle\Form\PartieType', $partie);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('partie_edit', array('id' => $partie->getId()));
+            return $this->redirectToRoute('partie_index');
         }
         return $this->render('partie/edit.html.twig', array(
             'partie' => $partie,
@@ -128,10 +148,9 @@ class PartieController extends Controller
         ));
     }
 
-    /**
-     * Deletes a partie entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function deleteAction(Request $request, Partie $partie)
     {
         $form = $this->createDeleteForm($partie);
@@ -157,4 +176,46 @@ class PartieController extends Controller
             ->getForm()
         ;
     }
+
+
+ /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function attrAction(Request $request, Partie $partie)
+    {
+         $referer = $this->getRequest()->headers->get('referer');   
+        $form = $this->createAttForm($partie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+             $em = $this->getDoctrine()->getManager();
+              $formData=$form->getData();
+              $superviseur=$em->getRepository('AppBundle:User')->findOneByUsername($formData['user']);
+              if($superviseur!=null){
+                   $partie->setUser( $superviseur);
+                   $em->flush();
+              return $this->redirectToRoute('partie_attr', array('id' => $partie->getId()));
+              }        
+        }
+       return $this->render('partie/attr.html.twig', array(
+            'partie' => $partie,
+            'form' => $form->createView(),
+        ));
+    }
+
+     /**
+     * Creates a form to delete a partie entity.
+     * @param Partie $partie The partie entity
+     * @return \Symfony\Component\Form\Form The form
+     */
+     
+    private function createAttForm()
+    {
+        return $this->createFormBuilder()
+               ->add('user','text',array('label'=>'Telephone editeur'))
+             //->setAction($this->generateUrl('session_attr', array('id' => $session->getId())))
+             ->setMethod('GET')
+            ->getForm()
+        ;
+    } 
+
 }

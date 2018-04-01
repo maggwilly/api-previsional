@@ -128,7 +128,8 @@ class Ressource
      */
     public function __construct(\AppBundle\Entity\Session $session=null)
     {
-        $this->date =new \DateTime(); 
+        $this->date =new \DateTime();
+            $this->isPublic=!is_null($session);
         $this->session = $session; 
     }
     /**

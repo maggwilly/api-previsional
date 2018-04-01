@@ -9,6 +9,10 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Event\ResultEvent;
+use Pwm\AdminBundle\Entity\Groupe;
+use Pwm\AdminBundle\Entity\Info;
+use AppBundle\Event\NotificationEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Notification controller.
  *
@@ -26,11 +30,12 @@ class NotificationController extends Controller
   );
   const FCM_URL = "https://fcm.googleapis.com/fcm/send";
  
-
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $notifications = $em->getRepository('MessagerBundle:Notification')->findList();
         return $this->render('MessagerBundle:notification:index.html.twig', array(
             'notifications' => $notifications,
@@ -51,7 +56,7 @@ class NotificationController extends Controller
      * Creates a new notification entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request,Groupe $groupe=null)
     {
         $notification = new Notification();
        $em = $this->getDoctrine()->getManager();
@@ -92,7 +97,7 @@ class NotificationController extends Controller
          $em = $this->getDoctrine()->getManager();
          $readed= $em->getRepository('MessagerBundle:Sending')->findReading($notification);
          $envois=$notification->getSendings();
-         $reading=empty($envois)?'--': $readed*100/count($envois);
+         $reading=count($envois)>0?$readed*100/count($envois):'--';
         return  new Response("".$reading);
     }
 
@@ -133,6 +138,38 @@ class NotificationController extends Controller
             'delete_form' => $deleteForm->createView()
         ));
     }
+
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
+    public function resentAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sendings=$em->getRepository('MessagerBundle:Sending')->findNotRead();
+        $registrationIds=array_column($sendings, 'registrationId');
+        $registrationIds=array_unique($registrationIds);
+         $notification = new Notification();
+         $notification
+         ->setTitre('Des messages et annonces non lus')
+         ->setSousTitre(
+            `Vous avez de nombreuses annonces non consultées.
+              Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.`);
+         $this->firebaseSend($registrationIds,  $notification );
+       return  $this->redirectToRoute('notification_index');
+    }
+
+
+public function firebaseSend($registrationIds, Notification $notification ){
+$data=array('registration_ids' => array_values($registrationIds),
+                      'notification'=>array('title' => $notification->getTitre(),
+                       'body' => $notification->getSousTitre(),
+                       'badge' => 1,
+                       'sound'=> "default",
+                       'tag' => 'message')
+    );
+  return $this->get('fmc_manager')->sendMessage($data);
+}
+
     /**
      * Displays a form to edit an existing notification entity.
      *
@@ -140,105 +177,64 @@ class NotificationController extends Controller
     public function send(Notification $notification)
     {
            $em = $this->getDoctrine()->getManager();
-             $registrationIds='';
-            $groupe= $notification->getGroupe();
+             $registrations=array();
+             $groupe= $notification->getGroupe();
             if($groupe!=null){
                switch ($groupe->getTag()) {
                    case 'is.registred.not.singup':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findNotsingup();
-                         $this->sendTo($registrations ,$notification);
+                       
                     break;
                    case 'loaded.too.long.time':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findTooLongTimeLogin();
-                     $this->sendTo($registrations ,$notification);
                     break;                     
                    case 'singup.subscribed.starter':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('starter');
-                        foreach ($destinations as $info) {
-                             $this->sendTo($info->getRegistrations(),$notification);
-                     }
+                        $registrations=$this->findRegistrations($destinations);
                     break; 
                    case 'singup.subscribed.standard':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersByBundle('standard');
-                        foreach ($destinations as $info) {
-                          $this->sendTo($info->getRegistrations(),$notification);
-                     }
+                       $registrations=$this->findRegistrations($destinations);
                     break;                    
                    case 'singup.subscribed.expired':
                         $destinations=$em->getRepository('AdminBundle:Info')->findSubscribersExpired();
-                        foreach ($destinations as $info) {
-                          $this->sendTo($info->getRegistrations(),$notification);
-                     }
+                        $registrations=$this->findRegistrations($destinations);
                     break;
                                                              
                    case 'singup.not.profil.filled':
                        $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
-                        foreach ($destinations as $info) {
-                          $this->sendTo($info->getRegistrations(),$notification);
-                     }
+                       $registrations=$this->findRegistrations($destinations);
+                       
                     break;                                      
                    default:
                        if ($groupe->getSession()!=null) {
-                           $destinations=$groupe->getSession()->getInfos();
-                        foreach ($destinations as $info) {
-                            $this->sendTo($info->getRegistrations(),$notification);
-                          }
+                     $destinations=$groupe->getSession()->getInfos();
+                      $registrations=$this->findRegistrations($destinations);
                        }
                        break;
                }
 
-              }else{
-                $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-                   $this->sendTo($registrations,$notification);
-            }
-            $notification->setSendDate(new \DateTime())->setSendNow(true);
-             $em->flush();
-            $result= $this->firebaseSend($this->registrationIds ,$notification);
-            $resultats= $result['results'];
-            $event= new ResultEvent($this->registrationIds, $resultats);
-           $this->get('event_dispatcher')->dispatch('fcm.result', $event);
-        $this->addFlash(
-            'result',
-            ' success: '.$success.' failure:'.$failure
+              }else
+                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+               
+                $event=new NotificationEvent($registrations,$notification);
+                 $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
 
-        );
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
     }
 
-
-    /**
-     * Displays a form to edit an existing notification entity.
-     *
-     */
-    public function sendTo($registrations,Notification $notification)
+    public function findRegistrations($destinations)
     {
-    $em = $this->getDoctrine()->getManager();
-   foreach ($registrations as $registration) {
-        if (!$registration->getIsFake()) {
-        $this->registrationIds[]=$registration->getRegistrationId();
-        $sending=new Sending($registration,$notification);
-          $em->persist($sending);
-        } 
-       }
-         $em->flush();
-     return  $this->registrationIds;
+        $registrations= array();
+      foreach ($destinations as $info) {
+         foreach ($info->getRegistrations() as  $registration) {
+             if (is_null($registration->getIsFake())) 
+                    $registrations[]=$registration;
+             }
+         }
+      return  $registrations;
+    
     }
-
-
-public function firebaseSend($registrationIds,Notification $notification ){
-$data=array(
-        'registration_ids' => array_values($registrationIds),
-        'collapse_key'=>  "Notifications",
-         'notification'=>array('title' => $notification->getTitre(),
-                      'body' => $notification->getSousTitre(),
-                       'badge' => 1,
-                       'sound'=> "default",
-                       'tag' => 'notification')
-    );
-
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
-  return $fmc_response;
-}
 
 
 

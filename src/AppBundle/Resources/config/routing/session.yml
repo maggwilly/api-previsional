@@ -1,6 +1,6 @@
 session_index:
-    path:     /{id}/
-    defaults: { _controller: "AppBundle:Session:index" }
+    path:     /{id}/{all}/list
+    defaults: { _controller: "AppBundle:Session:index","id":0 ,"all":0 }
     methods:  GET
     
 
@@ -12,6 +12,11 @@ session_show:
 session_new:
     path:     /{id}/new
     defaults: { _controller: "AppBundle:Session:new" }
+    methods:  [GET, POST]
+    
+session_attr:
+    path:     /{id}/attr
+    defaults: { _controller: "AppBundle:Session:attr" }
     methods:  [GET, POST]
 
 session_edit:

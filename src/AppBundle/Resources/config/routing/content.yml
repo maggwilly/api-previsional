@@ -23,6 +23,11 @@ content_edit:
     defaults: { _controller: "AppBundle:Content:edit" }
     methods:  [GET, POST]
 
+content_toggle:
+    path:     /{id}/toggle
+    defaults: { _controller: "AppBundle:Content:toggle" }
+    methods:  [GET, POST]    
+
 content_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Content:delete" }

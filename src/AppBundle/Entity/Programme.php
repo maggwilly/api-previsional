@@ -52,7 +52,7 @@ class Programme
    
      /** @var string
      *
-     * @ORM\Column(name="abreviation", type="string", length=255, nullable=true)
+     * @ORM\Column(name="abreviation", type="text", nullable=true)
      */
     private $abreviation;
 
@@ -73,8 +73,9 @@ class Programme
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($nom=null)
     {
+    $this->nom=$nom;
     $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
     $this->date=new \DateTime();
     }
@@ -110,7 +111,13 @@ class Programme
      */
     public function getNom()
     {
+        if(empty($this->matieres))
         return $this->nom;
+        $nom=$this->nom.'* ';
+        foreach ($this->matieres as $matiere) {
+            $nom= $nom.$matiere->getTitre().':'.$matiere->getPoids().'%, ';
+        }
+         return $nom;
     }
 
     /**

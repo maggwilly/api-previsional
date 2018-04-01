@@ -66,6 +66,7 @@ class Article
 
      /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Content", mappedBy="article", cascade={"persist","remove"})
+    *@ORM\OrderBy({ "id" = "ASC"})
    */
     private $contents;  
 
@@ -87,10 +88,12 @@ class Article
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(\AppBundle\Entity\Partie $partie = null)
     {
         $this->contents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->date=new \DateTime();
+        $this->partie=$partie;
+        $this->titre=is_null($partie)?null:$partie->getTitre();
     }
 
       /**

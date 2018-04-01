@@ -10,7 +10,7 @@ objectif_show:
 
 objectif_new:
     path:     /{id}/new
-    defaults: { _controller: "AppBundle:Objectif:new" }
+    defaults: { _controller: "AppBundle:Objectif:new" ,"id":0}
     methods:  [GET, POST]
 
 objectif_edit:

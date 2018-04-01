@@ -19,7 +19,7 @@
 						<!-- start: User Dropdown -->
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i> {{app.user.username}}
+								<i class="halflings-icon white user"></i>{{ app.user.nom }}~ {{ app.user.username }}
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
@@ -42,12 +42,28 @@
 	
 		<div class="container-fluid-full">
 		<div class="row-fluid">
-				
 			<!-- start: Main Menu -->
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="{{ path('homepage')}}"><i class="icon-bar-chart"></i><span class="hidden-tablet">ACCEUIL</span></a></li>	
+						<li><a href="{{ path('homepage')}}"><i class="icon-bar-chart"></i><span class="hidden-home">ACCEUIL</span></a></li>
+						{% if is_granted('ROLE_PRICER') %}
+						<li><a href="{{ path('price_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Tarifaire</span></a></li>
+                        {% endif %}						
+						{% if is_granted('ROLE_ADMIN') %}
+						<li><a href="{{ path('user_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Utilisateurs</span></a></li>
+                        {% endif %}
+                         {% if is_granted('ROLE_SUPERVISEUR') %}
+                        <li><a href="{{ path('ressource_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Documents</span></a></li>
+                          {% endif %}
+                        {% if is_granted('ROLE_CONTROLEUR') %}
+                        <li><a href="{{ path('concours_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Ecoles</span></a></li>
+						<li><a href="{{ path('session_index', {'all': is_granted('ROLE_CONTROLEUR')})}}"><i class="icon-bar-chart"></i><span class="hidden-home">Concours</span></a></li>
+                        {% endif %}
+                         {% if is_granted('ROLE_MESSAGER') %}
+						<li><a href="{{ path('notification_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Communication</span></a></li>
+						<li><a href="{{ path('resultat_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Resultat</span></a></li>
+                        {% endif %}
 					</ul>
 				</div>
 			</div>
@@ -62,7 +78,8 @@
 			
 			<!-- start: Content -->
 			<div id="content" class="span10">
-              {% block body %}               					
+              {% block body %}
+
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
@@ -70,7 +87,8 @@
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="#">Tables</a></li>
-			</ul>   
+			</ul> 
+
              {% endblock body %}
 	</div><!--/.fluid-container-->
 	
@@ -162,7 +180,11 @@
        $(document).ready(function() {
        $('#my-table').DataTable();
         } );
-   </script>                 
+   </script>   
+   <script>
+	initSample();
+</script>
+              
  {% endblock %} 	
 </body>
 {% endblock fos_user_content %}

@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 use Pwm\AdminBundle\Entity\Info;
 use AppBundle\Entity\Session;
+use AppBundle\Entity\User;
 /**
  * SessionRepository
  *
@@ -86,5 +87,14 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
      return $query->getResult();
 } 
 
+      function findListByUser(User $user){
+       $qb =$this->createQueryBuilder('a')->where('a.user=:user')->setParameter('user',$user);
+        return   $qb->getQuery()->getResult();
+    } 
 
+        public function findAll(){
+         $qb = $this->createQueryBuilder('s')
+         ->where('s.archived=:archived')->setParameter('archived',false); 
+          return $qb->getQuery()->getResult();
+  } 
 }

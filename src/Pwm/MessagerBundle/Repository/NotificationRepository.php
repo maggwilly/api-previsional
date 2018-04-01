@@ -15,7 +15,10 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
   */
   public function findList(){
          $qb = $this->createQueryBuilder('a')
-          ->where('a.type is NULL');
+          ->where('a.type is NULL')
+          ->orWhere('a.type =:type')->setParameter('type','public');;
           return $qb->getQuery()->getResult();
   }
+
+
 }

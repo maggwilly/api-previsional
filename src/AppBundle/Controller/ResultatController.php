@@ -9,16 +9,17 @@ use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les anno
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Event\ResultEvent;
+use Pwm\MessagerBundle\Entity\Notification;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Resultat controller.
  *
  */
 class ResultatController extends Controller
 {
-    /**
-     * Lists all resultat entities.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -42,10 +43,9 @@ class ResultatController extends Controller
          return  $resultats;
      }
 
-    /**
-     * Creates a new resultat entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
     public function newAction(Request $request)
     {
         $resultat = new Resultat();
@@ -55,43 +55,22 @@ class ResultatController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($resultat);
-           // $em->flush();
-           $registrations = $em->getRepository('MessagerBundle:Registration')->findAll(); 
-            $registrationIds=array();
-            foreach ($registrations as $registration) {
-                if (!$registration->getIsFake()) {
-                $registrationIds[]=$registration->getRegistrationId();
-            }
-                }
-            $result= $this->firebaseSend($registrationIds ,$resultat);
-            $resultats= $result['results'];
-            $success=$result['success'];
-            $failure=$result['failure'];
-            $event= new ResultEvent($registrationIds, $resultats);
-            $this->get('event_dispatcher')->dispatch('fcm.result', $event);
-            return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
+            $notification = new Notification('public',false,true);
+             $notification
+             ->setTitre($resultat->getDescription())
+             ->setSousTitre($resultat->getDescription()." Sont disponibles ")
+             ->setText($resultat->getDescription()." Sont disponibles ");
+             $notification->setUser($this->getUser());
+             $em->persist($notification);
+             $em->flush();
+           return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+           // return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
         }
         return $this->render('resultat/new.html.twig', array(
             'resultat' => $resultat,
             'form' => $form->createView(),
         ));
     }
-
-
-public function firebaseSend($registrationIds,Resultat $resultat ){
-$data=array(
-        'registration_ids' => array_values($registrationIds),
-        'collapse_key'=>  "Resultats disponibles",
-         'notification'=>array('title' => $resultat->getDescription(),
-                      'body' => $resultat->getDescription(),
-                       'badge' => 1,
-                       'sound'=> "default",
-                       'tag' => 'resultats')
-    );
-
-     $fmc_response= $this->get('fmc_manager')->sendMessage($data);
-  return $fmc_response;
-}
 
     /**
      * Finds and displays a resultat entity.
@@ -118,10 +97,9 @@ $data=array(
         return $this->redirect($resultat->getUrl());
     }
 
-    /**
-     * Displays a form to edit an existing resultat entity.
-     *
-     */
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
     public function editAction(Request $request, Resultat $resultat)
     {
         $deleteForm = $this->createDeleteForm($resultat);

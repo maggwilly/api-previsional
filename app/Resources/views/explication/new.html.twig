@@ -14,19 +14,42 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li> 
+      {% if content is not null%}
+        <li>
+            <a href="{{ path('content_index',{'id': content.article.id}) }}">{{partie.titre}}</a>
+              <i class="icon-angle-right"></i>
+        </li>
+         {% endif %}   
+        {% if question is not null%}
+        <li>
+            <a href="{{ path('question_index',{'id': question.partie.id}) }}">{{partie.titre}}</a>
+            <i class="icon-angle-right"></i>
+        </li> 
+        {% endif %}
+    {% if question is not null%}
          <li>
-          <a href="#">{{partie.titre}}</a> 
+          <a href="{{ path('question_show',{'id':question.id})}}">Question ~{{question.id}}</a> 
           <i class="icon-angle-right"></i>
-        </li>            
-        <li><a href="#">Nouvelle explication</a></li>
+        </li>
+  {% else %}
+     {% if content is not null%}
+             <li>
+          <a href="{{ path('content_show',{'id':content.id})}}">{{content.subtitle}}</a> 
+          <i class="icon-angle-right"></i>
+        </li>
+    {% endif %}      
+ {% endif %} 
+       <li><a href="#">Explication</a></li>                          
       </ul>
    {% endblock %}
-   {% block table_title %}Saisir une explication{% endblock %} 
+   {% block table_title %}Saisir une explication
+{% endblock %} 
 {% block table %}
 <div class="row-fluid">  
 <div class="span6">
     {{ form_start(form) }}
         {{ form_widget(form) }}
+        <br>
         <input type="submit" value="Enrégistrer"  class="btn btn-info"/>
     {{ form_end(form) }}
     <ul>

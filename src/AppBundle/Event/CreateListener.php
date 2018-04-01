@@ -61,12 +61,12 @@ public function onRegistration(RegistrationEvent $event)
 
 public function onCommandeConfirmed(CommandeEvent $event)
 {
-    $commande=$event->getCommande();
-    $info= $commande->getInfo();
+       $commande=$event->getCommande();
+      $info= $commande->getInfo();
      if ($commande->getStatus()=='SUCCESS') {
         $notification=new Notification('private');
         if ($commande-> getSession()!=null) {
-         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
+        $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
          $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
         $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
@@ -78,7 +78,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
                $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         }   
      }
-
 }
 
      /**
@@ -87,31 +86,32 @@ public function onCommandeConfirmed(CommandeEvent $event)
      */
     public function sendTo($registrations,Notification $notification)
     {
-   // $registrationIds='';
       $registrationIds=array();
-   foreach ($registrations as $registration) {
+      foreach ($registrations as $registration) {
     if (!$registration->getIsFake()) {
-     $registrationIds[]=$registration->getRegistrationId();
+       $registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);
           $this->_em->persist($sending);
+        if ($notification->getIncludeMail()) {
+             $sending=new Sending($registration,$notification);
+            $this->_em->persist($sending);
+          }
       }
-   
       }
-      $this->_em->flush();
-     return  $registrationIds;
+         $notification->setSendDate(new \DateTime())->setSendNow(true);
+         $this->_em->flush();
+      return  $registrationIds;
     }
 
 
 public function firebaseSend($registrationIds, Notification $notification ){
-$data=array(
-        'registration_ids' => array_values($registrationIds),
-         'notification'=>array('title' => $notification->getTitre(),
+$data=array('registration_ids' => array_values($registrationIds),
+           'notification'=>array('title' => $notification->getTitre(),
                       'body' => $notification->getSousTitre(),
                        'badge' => 1,
                        'sound'=> "default",
-                       'tag' => 'confirm')
+                       'tag' => 'message')
     );
-
   return $this->fcm->sendMessage($data);
 }
 
@@ -121,10 +121,29 @@ public function onMessageEnd(ResultEvent $event)
      $fcmResult= $event->getFCMResult();
      $descTokens= $event->getFCMDescsTokens();
      $this->removeFakesTokens($fcmResult,$descTokens);
+
 }
 
- public function  removeFakesTokens($fcmResult,$descTokens){
 
+public function onSheduleToSend(NotificationEvent $event)
+{
+      $registrations=$event->getDescs();
+      $notification=$event->getNotification();
+      $tokens= $this->sendTo($registrations,$notification);  
+      $result= $this->firebaseSend($tokens, $notification);   
+      $resultats= $result['results'];
+      foreach ($registrations as $key => $registration) {
+       if(array_key_exists('error', $resultats[$key])){
+                    $registration->setIsFake(true);
+                }
+        $registration->setLastControlDate(new \DateTime());
+      }
+      $this->_em->flush();
+}
+
+
+
+ public function  removeFakesTokens($fcmResult,$descTokens){
         foreach ($descTokens as $key => $registrationId) {
                 $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
                 if(array_key_exists('error', $fcmResult[$key])){

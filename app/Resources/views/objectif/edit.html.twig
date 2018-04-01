@@ -3,7 +3,7 @@
        <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="#">Home</a> 
+          <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>         
         </li>
         <li>
@@ -26,9 +26,7 @@
         {{ form_widget(edit_form) }}
         <input type="submit" value="Modifier" />
     {{ form_end(edit_form) }}
-    <ul>
-        <li>
-            <a href="{{ path('objectif_index', { 'id': objectif.programme.id }) }}">Back to the list</a>
-        </li>
-    </ul>
+
+            <a href="{{ path('objectif_index', { 'id': objectif.programme.id }) }}">Retour</a>
+
 {% endblock %}

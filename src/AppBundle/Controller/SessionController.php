@@ -10,22 +10,28 @@ use AppBundle\Entity\Concours;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
-/**
- * Session controller.
- *
- */
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Pwm\MessagerBundle\Entity\Notification;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+
 class SessionController extends Controller
 {
-    /**
-     * Lists all session entities.
-     *
-     */
-    public function indexAction(Concours $concours)
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function indexAction(Concours $concours=null, $all=false)
     {
-      //  $em = $this->getDoctrine()->getManager();
-       // $sessions = $em->getRepository('AppBundle:Session')->findAll();
+        $em = $this->getDoctrine()->getManager();
+         $sessions=array();
+          if(!is_null($concours))
+                $sessions=$concours->getSessions();
+           elseif(!$all)
+              $sessions= $em->getRepository('AppBundle:Session')->findListByUser($this->getUser());
+          else
+             $sessions = $em->getRepository('AppBundle:Session')->findAll();
         return $this->render('session/index.html.twig', array(
-            'sessions' => $concours->getSessions(),'concour' => $concours,
+            'sessions' => $sessions,'concour' => $concours,
         ));
     }
 
@@ -100,10 +106,9 @@ class SessionController extends Controller
     }
 
 
-    /**
-     * Creates a new session entity.
-     *
-     */
+/**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function newAction(Concours $concour,Request $request)
     {
         $session = new Session($concour);
@@ -112,10 +117,22 @@ class SessionController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
              $em->persist($session);
+            if( $session->getShouldAlert()){
+             $notification = new Notification('public',false,true);
+             $notification
+             ->setTitre($session->getNomConcours())
+             ->setSousTitre('Concours disponible'.$session->getNomConcours())
+             ->setText("Un Nouveau concours est disponible. Verifiez s'il correspond à votre profil".$session->getNomConcours());
+             $notification->setUser($this->getUser());
+              $em->persist($notification);
+              $em->flush();
+               return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+            }
+            
              $em->flush();
+
             return $this->redirectToRoute('session_show', array('id' => $session->getId()));
         }
-
         return $this->render('session/new.html.twig', array(
             'session' => $session, 'concour' => $concour,
             'form' => $form->createView(),
@@ -133,13 +150,13 @@ class SessionController extends Controller
         ));
     }
 
-    /**
-     * Finds and displays a session entity.
-     *
-     */
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function showAction(Session $session)
     {
-        $deleteForm = $this->createDeleteForm($session);       
+        $deleteForm = $this->createDeleteForm($session);  
+         $this->get("session")->set('current_session_id', $session->getId());     
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),
@@ -171,27 +188,31 @@ class SessionController extends Controller
          return  false;
     }
 
-    /**
-     * Displays a form to edit an existing session entity.
-     *
-     */
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function editAction(Request $request, Session $session)
     {
         $deleteForm = $this->createDeleteForm($session);
         $editForm = $this->createForm('AppBundle\Form\SessionType', $session);
+         $this->get("session")->set('current_session_id', $session->getId());
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-        if ($session->getOwner()!=null) {
-          $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
-          $data = array(
-            'info'=>array('groupName' => $session->getNomConcours()),
-            'owner'=>$session->getOwner()->getUid()
-              );
-             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-             // return new Response($this->sendPostRequest($url,$data,array(),false));
-        }
-            return $this->redirectToRoute('session_edit', array('id' => $session->getId()));
+            $em=$this->getDoctrine()->getManager();
+            if( $session->getShouldAlert()){
+             $notification = new Notification('public',false,true);
+             $notification
+             ->setTitre($session->getNomConcours())
+             ->setSousTitre("Consultez les changements sur ..".$session->getNomConcours())
+             ->setText("Consultez les changements sur ..".$session->getNomConcours())
+             ->setGroupe($session->getGroupe());
+             $notification->setUser($this->getUser());
+              $em->persist($notification);
+              $em->flush();
+               return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+            }
+            $em->flush();
+            return $this->redirectToRoute('session_index');
         }
 
         return $this->render('session/edit.html.twig', array(
@@ -201,10 +222,9 @@ class SessionController extends Controller
         ));
     }
  
-    /**
-     * Deletes a session entity.
-     *
-     */
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
     public function deleteAction(Request $request, Session $session)
     {
         $form = $this->createDeleteForm($session);
@@ -232,4 +252,53 @@ class SessionController extends Controller
             ->getForm()
         ;
     }
+
+ 
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
+    public function attrAction(Request $request, Session $session)
+    {
+         $referer = $this->getRequest()->headers->get('referer');   
+        $form = $this->createAttForm($session);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+             $em = $this->getDoctrine()->getManager();
+              $formData=$form->getData();
+              $superviseur=$em->getRepository('AppBundle:User')->findOneByUsername($formData['user']);
+              if($superviseur!=null){
+                  $session->setOwner($formData['user']);
+                   $session->setUser( $superviseur);
+                   $em->flush();
+                 $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
+                 $data = array(
+                'info'=>array('groupName' => $session->getNomConcours()),
+                'owner'=>$formData['user']
+              );
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+              return $this->redirectToRoute('session_attr', array('id' => $session->getId()));
+              }
+
+        }
+       return $this->render('session/attr.html.twig', array(
+            'session' => $session,
+            'form' => $form->createView(),
+        ));
+    }
+
+     /**
+     * Creates a form to delete a partie entity.
+     * @param Partie $partie The partie entity
+     * @return \Symfony\Component\Form\Form The form
+     */
+
+    private function createAttForm()
+    {
+        return $this->createFormBuilder()
+               ->add('user','text',array('label'=>'Telephone superviseur'))
+             //->setAction($this->generateUrl('session_attr', array('id' => $session->getId())))
+             ->setMethod('GET')
+            ->getForm()
+        ;
+    }   
 }

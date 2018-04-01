@@ -1,6 +1,6 @@
 ressource_index:
     path:     /{session}
-    defaults: { _controller: "AdminBundle:Ressource:index" }
+    defaults: { _controller: "AdminBundle:Ressource:index" ,"session":0}
     methods:  GET
 
 ressource_show:
@@ -10,7 +10,7 @@ ressource_show:
 
 ressource_new:
     path:     /new/{session}
-    defaults: { _controller: "AdminBundle:Ressource:new" }
+    defaults: { _controller: "AdminBundle:Ressource:new" ,"session":0}
     methods:  [GET, POST]
 
 ressource_edit:

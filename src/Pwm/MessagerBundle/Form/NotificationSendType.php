@@ -21,7 +21,8 @@ class NotificationSendType extends AbstractType
                    'placeholder' => 'Tout le monde',
                    'empty_data'  => null,
                     'required' => false ,                  
-                    'label'=>'Groupe')
+                    'label'=>'Destinataires',
+                   'attr'=>array('data-rel'=>'chosen'))
              );
     }
     

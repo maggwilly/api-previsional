@@ -76,7 +76,7 @@ class Concours
     private $imageEntity;
 
      /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session", mappedBy="concours", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session", mappedBy="concours", cascade={"persist"})
    */
     private $sessions;
 
