@@ -150,7 +150,7 @@ class NotificationController extends Controller
          $notification = new Notification();
          $notification
          ->setTitre('Des messages et annonces non lus')
-         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.");
+         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Sivous aspirez à un concours, vous devez attentif à toutes les annonces sur Centor. ");
          $result=$this->firebaseSend($registrationIds,  $notification );
         if(array_key_exists('results', $result)){
            $event=new ResultEvent($registrationIds,$result['results']);
