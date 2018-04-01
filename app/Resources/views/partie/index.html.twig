@@ -41,7 +41,7 @@
                    <h2>{{ partie.titre }}</h2>
                     <p>{{ partie.objectif }}</p></a>
                 </td>
-                {% if  is_granted('ROLE_SUPERVISEUR') %}
+                {% if  is_granted('ROLE_SUPERVISEUR') and partie.user is not null %}
                   <td>
                       <a  href="{{ path('partie_attr', { 'id': partie.id }) }}">
                            {{ partie.user.nom }} ~ {{ partie.user.username }}              
