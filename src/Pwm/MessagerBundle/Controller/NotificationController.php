@@ -162,7 +162,7 @@ class NotificationController extends Controller
 
 public function firebaseSend($registrationIds, Notification $notification ){
         $data=array('registration_ids' => array_values($registrationIds),
-                     'dry_run'=>true,
+                     //'dry_run'=>true,
                      'notification'=>array('title' => $notification->getTitre(),
                                              'body' => $notification->getSousTitre(),
                                              'badge' => 1,
