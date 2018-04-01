@@ -91,16 +91,25 @@
   </div>
         <input type="submit" value="Enrégistrer" class="btn btn-info" />
     {{ form_end(edit_form) }}
-     <ul>
-        <li>
-            <a href="{{ path('question_index', { 'id': question.partie.id }) }}">Aller à la liste</a>
-        </li>
-        <li>
+
+     <table class="table  no-table-bordered bootstrap-datatable">
+        <tr> 
+
+         <td>
+            <a href="{{ path('question_index', { 'id': question.partie.id }) }}" ><i class="halflings-icon chevron-left"></i>Retour</a>
+        </td>
+        <td>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Supprimer" class="btn btn-danger" >
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
-      
+        </td>
+        <td>
+            {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+        </td>  
+          </tr> 
+    </table>
+
+<a  class="btn btn-default" href="{{ path('question_new', { 'id': question.partie.id }) }}">Créer une nouvelle question</a>
+       
 {% endblock %}
 
