@@ -23,7 +23,7 @@
         <tbody>
         {% for resultat in resultats %}
             <tr>
-                <td><a href="{{ path('resultat_show', { 'id': resultat.id }) }}">
+                <td><a href="{{ resultat.url }}">
                     {{ resultat.description }}
                     <p>{{ resultat.url }}</p>
                     </a>
