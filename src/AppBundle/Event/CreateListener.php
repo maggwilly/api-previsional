@@ -135,7 +135,8 @@ public function onSheduleToSend(NotificationEvent $event)
        return null;  
          $resultats= $result['results'];
       foreach ($registrations as $key => $registration) {
-       if(array_key_exists('error', $resultats[$key])){
+          if(array_key_exists($key, $resultats))
+           if(array_key_exists('error', $resultats[$key])){
                     $registration->setIsFake(true);
                 }
         $registration->setLastControlDate(new \DateTime());
@@ -148,6 +149,7 @@ public function onSheduleToSend(NotificationEvent $event)
  public function  removeFakesTokens($fcmResult,$descTokens){
         foreach ($descTokens as $key => $registrationId) {
                 $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+                if(array_key_exists($key, $fcmResult))
                 if(array_key_exists('error', $fcmResult[$key])){
                     $registration->setIsFake(true);
                 }
