@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <th>Note</th>
-                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id })) }}/5</b></td>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id }))|number_format(0, ',', '.') }}/5</b></td>
             </tr>
             <tr>
                 <th>Lecture</th>
@@ -55,7 +55,7 @@
             </tr>                         
             <tr>
                 <th>Date</th>
-                <td>{% if notification.date %}{{ notification.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if notification.date %}{{ notification.date|date('d/m/Y H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                  <th>Corps du message</th>

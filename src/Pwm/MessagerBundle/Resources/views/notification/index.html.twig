@@ -41,7 +41,7 @@
                   <b >{{ render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id }))|number_format(0, ',', '.') }}%</b>
                    {% endif %}
                 </td>
-                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id })) }}/5</b></td>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id }))|number_format(0, ',', '.') }}/5</b></td>
                 <td class="center ">
                                <a class="btn btn-success" href="{{ path('notification_show', { 'id': notification.id }) }}">
                                         <i class="halflings-icon white zoom-in"></i>  
