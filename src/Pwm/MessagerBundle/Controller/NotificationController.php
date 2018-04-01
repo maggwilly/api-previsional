@@ -151,9 +151,7 @@ class NotificationController extends Controller
          $notification = new Notification();
          $notification
          ->setTitre('Des messages et annonces non lus')
-         ->setSousTitre(
-            `Vous avez de nombreuses annonces non consultées.
-              Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.`);
+         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.");
          $result=$this->firebaseSend($registrationIds,  $notification );
          if(array_key_exists('results', $result)){
            $event=new ResultEvent($registrationIds,$result['results']);
@@ -164,12 +162,12 @@ class NotificationController extends Controller
 
 
 public function firebaseSend($registrationIds, Notification $notification ){
-$data=array('registration_ids' => array_values($registrationIds),
-                      'notification'=>array('title' => $notification->getTitre(),
-                       'body' => $notification->getSousTitre(),
-                       'badge' => 1,
-                       'sound'=> "default",
-                       'tag' => 'message')
+        $data=array('registration_ids' => array_values($registrationIds),
+                          'notification'=>array('title' => $notification->getTitre(),
+                                             'body' => $notification->getSousTitre(),
+                                             'badge' => 1,
+                                             'sound'=> "default",
+                                           'tag' => 'message')
     );
   return $this->get('fmc_manager')->sendMessage($data);
 }

@@ -146,11 +146,13 @@ public function onSheduleToSend(NotificationEvent $event)
 
 
  public function  removeFakesTokens($fcmResult,$descTokens){
-        foreach ($descTokens as $key => $registrationId) {
-                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-                if(array_key_exists('error', $fcmResult[$key])){
+        foreach ($fcmResult as $key => $resultItem) {
+                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($descTokens[$key]);
+                if(array_key_exists('error',$resultItem )){
+                  if(!is_null($registration))
                     $registration->setIsFake(true);
                 }
+                if(!is_null($registration))
                  $registration->setLastControlDate(new \DateTime());
         }
            $this->_em->flush();
