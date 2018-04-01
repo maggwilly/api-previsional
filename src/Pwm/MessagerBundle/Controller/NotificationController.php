@@ -156,7 +156,7 @@ class NotificationController extends Controller
            $event=new ResultEvent($registrationIds,$result['results']);
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
            }*/
-       return new Response("".count($result)." vs ".count($registrationIds)); //$this->redirectToRoute('notification_index');
+       return new Response("".count($result['results'])." vs ".count($registrationIds)); //$this->redirectToRoute('notification_index');
     }
 
 

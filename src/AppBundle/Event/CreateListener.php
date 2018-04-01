@@ -133,7 +133,7 @@ public function onSheduleToSend(NotificationEvent $event)
       $result= $this->firebaseSend($tokens, $notification); 
        if(!array_key_exists('results', $result))
        return null;  
-        $resultats= $result['results'];
+         $resultats= $result['results'];
       foreach ($registrations as $key => $registration) {
        if(array_key_exists('error', $resultats[$key])){
                     $registration->setIsFake(true);
@@ -146,13 +146,11 @@ public function onSheduleToSend(NotificationEvent $event)
 
 
  public function  removeFakesTokens($fcmResult,$descTokens){
-        foreach ($fcmResult as $key => $resultItem) {
-                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($descTokens[$key]);
-                if(array_key_exists('error',$resultItem )){
-                  if(!is_null($registration))
+        foreach ($descTokens as $key => $registrationId) {
+                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+                if(array_key_exists('error', $fcmResult[$key])){
                     $registration->setIsFake(true);
                 }
-                if(!is_null($registration))
                  $registration->setLastControlDate(new \DateTime());
         }
            $this->_em->flush();
