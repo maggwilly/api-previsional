@@ -157,9 +157,9 @@ class NotificationController extends Controller
          $result=$this->firebaseSend($registrationIds,  $notification );
          if(array_key_exists('results', $result)){
            $event=new ResultEvent($registrationIds,$result['results']);
-           $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+           $this->get('event_dispatcher')->dispatch('notification.sended', $event);
            }
-       return  $this->redirectToRoute('notification_index');
+       return new Response(json_encode($result)); //$this->redirectToRoute('notification_index');
     }
 
 
