@@ -192,7 +192,7 @@ class User extends BaseUser
  public function __construct()
     {
         parent::__construct();
-          $this->expiresAt=new \DateTime();
+        //  $this->expiresAt=new \DateTime();
          $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
          $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -204,7 +204,6 @@ class User extends BaseUser
       
     switch ( $this->type) {
         case 'SAISIE':
-            $this->expiresAt->modify('+20 day');
             $this->roles=['ROLE_USER','ROLE_SAISIE'];
             break;
          case 'COMM':
