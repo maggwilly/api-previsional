@@ -92,7 +92,7 @@
         </tbody>
 
     </table>
-    {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+    
     <ul>
         <li>
             <a href="{{ path('question_index', { 'id': question.partie.id }) }}">Aller à la liste</a>
@@ -106,6 +106,28 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
-<a  class="btn btn-default" href="{{ path('question_new', { 'id': question.partie.id }) }}">Créer une question</a>
+
+    <table class="table  no-table-bordered bootstrap-datatable">
+        <tr> 
+
+         <td>
+            <a href="{{ path('question_index', { 'id': question.partie.id }) }}" ><i class="halflings-icon chevron-left"></i>Retour</a>
+        </td>
+        <td>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer" class="btn btn-danger" >
+            {{ form_end(delete_form) }}
+        </td>
+        <td>
+            <a href="{{ path('question_edit', { 'id': question.id }) }}"><i class="halflings-icon edit"></i>Modifier</a>
+        </td>
+
+        <td>
+            {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+        </td>  
+          </tr> 
+    </table>
+
+<a  class="btn btn-default" href="{{ path('question_new', { 'id': question.partie.id }) }}">Créer une nouvelle question</a>
      
 {% endblock %}

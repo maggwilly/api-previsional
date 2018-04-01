@@ -70,7 +70,7 @@ class QuestionController extends Controller
             $em->flush($question);
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
-            return new Response('ok');//$this->redirectToRoute('question_show', array('id' => $question->getId()));
+            return $this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
 
         return $this->render('question/new.html.twig', array(

@@ -28,12 +28,18 @@ class QuestionType extends AbstractType
                                          'label'=>'Proposition de réponse juste'))
         ->add('time',ChoiceType::class, array(
                                      'choices'  => array(
+                                         '2' => '2 minutes',
                                          '3' => '3 minutes',
                                          '5' => '5 minutes',
                                          '10' => '10 minutes',
+                                         '12' => '12 minutes',
                                          '15' => '15 minutes',
                                          '20' => '20 minutes',
-                                         '30' => '30 minutes' ),
+                                         '25' => '12 minutes',
+                                         '30' => '30 minutes' ,
+                                         '45' => '45 minutes',
+                                         '59' => '1 heure',
+                                         ),
                                         'label'=>'Durée max pour la reponse'))        
    ;
     }

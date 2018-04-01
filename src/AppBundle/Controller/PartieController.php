@@ -65,6 +65,7 @@ class PartieController extends Controller
         //$partie->addSession($session); 
         if(is_null($session))
              return $this->redirectToRoute('partie_index');
+         //prevoir une notif
          $session->removePartie($partie);
          $session->addPartie($partie);
          $this->getDoctrine()->getManager()->flush();
