@@ -41,11 +41,14 @@
                    <h2>{{ partie.titre }}</h2>
                     <p>{{ partie.objectif }}</p></a>
                 </td>
-                {% if  is_granted('ROLE_SUPERVISEUR') and partie.user is not null %}
+                {% if  is_granted('ROLE_SUPERVISEUR') %}
                   <td>
+                    {% if  partie.user %}
                       <a  href="{{ path('partie_attr', { 'id': partie.id }) }}">
-                           {{ partie.user.nom }} ~ {{ partie.user.username }}              
+                           {{ partie.user.nom }} ~ {{ partie.user.username }}   
+
                        </a>
+                       {% endif %}
                   </td>
                     {% endif %}
                 <td>{% if partie.article is not null %}
@@ -72,7 +75,7 @@
                 </td> 
                 <td class="center ">
                                  <a  class="btn btn-primary"href="{{ path('partie_edit', { 'id': partie.id }) }}"><i class="halflings-icon white edit"></i> </a>
-                                 </a>
+                                 
                                 {% if  is_granted('ROLE_SUPERVISEUR') %}    
                                     <a class="btn btn-info" href="{{ path('partie_attr', { 'id': partie.id }) }}">
                                         <i class="halflings-icon white user"></i>  
