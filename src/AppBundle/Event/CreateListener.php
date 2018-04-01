@@ -130,8 +130,10 @@ public function onSheduleToSend(NotificationEvent $event)
       $registrations=$event->getDescs();
       $notification=$event->getNotification();
       $tokens= $this->sendTo($registrations,$notification);  
-      $result= $this->firebaseSend($tokens, $notification);   
-      $resultats= $result['results'];
+      $result= $this->firebaseSend($tokens, $notification); 
+       if(!array_key_exists('results', $result))
+       return null;  
+        $resultats= $result['results'];
       foreach ($registrations as $key => $registration) {
        if(array_key_exists('error', $resultats[$key])){
                     $registration->setIsFake(true);

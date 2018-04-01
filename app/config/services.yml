@@ -47,3 +47,9 @@ services:
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: notification.shedule.to.send, method: onSheduleToSend }
+
+      notification_sended:
+          class: AppBundle\Event\CreateListener
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
+          tags:
+            - { name: kernel.event_listener, event: notification.sended, method: onMessageEnd }

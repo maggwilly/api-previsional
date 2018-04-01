@@ -154,7 +154,11 @@ class NotificationController extends Controller
          ->setSousTitre(
             `Vous avez de nombreuses annonces non consultées.
               Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.`);
-         $this->firebaseSend($registrationIds,  $notification );
+         $result=$this->firebaseSend($registrationIds,  $notification );
+         if(array_key_exists('results', $result)){
+           $event=new ResultEvent($registrationIds,$result['results']);
+           $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+           }
        return  $this->redirectToRoute('notification_index');
     }
 
