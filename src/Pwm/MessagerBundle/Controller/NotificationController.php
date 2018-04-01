@@ -152,11 +152,11 @@ class NotificationController extends Controller
          ->setTitre('Des messages et annonces non lus')
          ->setSousTitre("Vous avez de nombreuses annonces non consultées. Prennez quelaues minutes pour consulter vos messages pour ne rater aucune opportunités.");
          $result=$this->firebaseSend($registrationIds,  $notification );
-        /* if(array_key_exists('results', $result)){
+        if(array_key_exists('results', $result)){
            $event=new ResultEvent($registrationIds,$result['results']);
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
-           }*/
-       return new Response("".count($result['results'])." vs ".count($registrationIds)); //$this->redirectToRoute('notification_index');
+           }
+       return $this->redirectToRoute('notification_index');
     }
 
 
