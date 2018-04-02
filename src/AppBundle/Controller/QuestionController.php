@@ -70,8 +70,10 @@ class QuestionController extends Controller
             $em->flush($question);
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
+             $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('question/new.html.twig', array(
             'question' => $question, 'partie' => $partie,
@@ -116,8 +118,11 @@ class QuestionController extends Controller
             $this->getDoctrine()->getManager()->flush();
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
         return $this->render('question/edit.html.twig', array(
             'question' => $question,
             'edit_form' => $editForm->createView(),
@@ -153,6 +158,7 @@ class QuestionController extends Controller
             $em->remove($question);
             $em->flush($question);
             $cloudinary -> destroy('_question_'.$id);
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('question_index', array('id' => $question->getPartie()->getId()));

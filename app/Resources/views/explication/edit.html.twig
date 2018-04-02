@@ -79,3 +79,9 @@
             Cette explication sera envpyée aux candidats ayant signalé des difficultés sur le contenu.
             </p>
   {% endblock %}
+   {% block javascripts %}
+{{parent()}}
+   <script>
+  initSample();
+  </script>
+ {% endblock %} 

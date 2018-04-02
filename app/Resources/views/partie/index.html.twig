@@ -14,10 +14,8 @@
         </li>   
           <li>
           <a href="{{ path('partie_index', { 'id': matiere.id }) }}">{{matiere.titre}}</a> 
-          <i class="icon-angle-right"></i>
         </li>
           {% endif %}          
-        <li><a href="#">Unités de préparation</a></li>
       </ul>
    {% endblock %}
    {% block table_title %}Unités de préparation{% endblock %}  
@@ -25,9 +23,9 @@
         <table class="table  datatable" id="my-table-1">
         <thead>
             <tr>
-                <th class="col-md-6">Unités </th>
+                <th class="col-md-3">Unités </th>
                 {% if  is_granted('ROLE_SUPERVISEUR') %}
-                  <th class="col-md-2">Editeur</th>
+                  <th class="col-md-3">Editeur</th>
                     {% endif %}
                  <th class="col-md-2">Cours</th>
                 <th class="col-md-2">Evaluation</th>
@@ -74,7 +72,7 @@
                       {% endif %}
                 </td> 
                 <td class="center ">
-                                 <a  class="btn btn-primary"href="{{ path('partie_edit', { 'id': partie.id }) }}"><i class="halflings-icon white edit"></i> </a>
+                                 <a  class="btn btn-primary"href="{{ path('partie_edit', { 'id': partie.id ,'matiere': matiere.id}) }}"><i class="halflings-icon white edit"></i> </a>
                                  
                                 {% if  is_granted('ROLE_SUPERVISEUR') %}    
                                     <a class="btn btn-info" href="{{ path('partie_attr', { 'id': partie.id }) }}">
@@ -92,10 +90,19 @@
         {% endfor %}
         </tbody>
     </table>
-     <div class="span6">
      {% if  matiere is not null and is_granted('ROLE_SUPERVISEUR') %}  
-      <a  class="btn btn-default" href="{{ path('partie_new', { 'id': matiere.id }) }}" class="btn btn-default">Nouvelle unité de préparation</a>
-     {% endif %}  
-      </div> 
-      <br> 
+      <table class="table  no-bordered bootstrap-datatable">
+        <tr> 
+         <td>
+    
+      <a  class="btn btn-default" href="{{ path('partie_new', { 'id': matiere.id }) }}" class="btn btn-default">Créer unité de préparation</a>
+     
+        </td>
+       
+        <td>
+            <a href="{{ path('matiere_copy', { 'id': matiere.id }) }}" class="btn btn-info">Importer depuis un programme</a>
+        </td>
+          </tr> 
+    </table>
+      {% endif %}
 {% endblock %}

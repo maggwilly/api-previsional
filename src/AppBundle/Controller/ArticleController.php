@@ -101,8 +101,10 @@ class ArticleController extends Controller
             $article->setUser($this->getUser());
             $em->persist($article);
             $em->flush();
+            $this->addFlash('success', 'Cours enrégistré avec succès. Completez en y ajoutant des parties');
             return $this->redirectToRoute('content_index', array('id' => $article->getId()));
-        }
+        } elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('article/new.html.twig', array(
             'article' => $article,
             'form' => $form->createView(),
@@ -142,9 +144,10 @@ class ArticleController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
              $article->setValidated(false);
             $this->getDoctrine()->getManager()->flush();
-
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('article_show', array('id' => $article->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('article/edit.html.twig', array(
             'article' => $article,
             'edit_form' => $editForm->createView(),
@@ -176,6 +179,7 @@ class ArticleController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
             $em->flush($article);
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('article_index');

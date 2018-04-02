@@ -87,27 +87,35 @@ class AnalyseController extends Controller
             }
           $analyses = $em->getRepository('AdminBundle:Analyse')->findOllFor($studentId,$session,$matiere);
           $nombre= count($analyses);
-          $note=0; $programme=0; $objectif=0; 
+          $note=0; $programme=0; 
+          $objectif=0; 
           $poids=0;
-         foreach ($analyses as $key => $value) {
-             $note+= $value->getNote()?$value->getNote()*$value->getMatiere()->getPoids():0;
-             $poids+=$value->getMatiere()->getPoids();
-             $programme+=($value->getProgramme())?$value->getProgramme():0;
-             $objectif+=$value->getObjectif()?$value->getObjectif():0;
-            }
-               $analyse->setNote(round($nombre>0?$note/$poids:$note,1));
-              $analyse->setObjectif($nombre>0?$objectif/$nombre:null);
-              if($matiere!=null){
-                 $analyse->setProgramme($nombre*100/$matiere->getParties()->count());
+          if($matiere!=null){
+               foreach ($analyses as $key => $value) {
+                  $note+=$value->getNote()?$value->getNote():0;
+                  $objectif+=$value->getObjectif()?$value->getObjectif():0;
+                  }          
+                 $analyse->setNote(round($nombre>0?$note/$nombre:$note,1));
+                 $analyse->setObjectif($nombre>0?$objectif/$nombre:null);
+                 $analyse->setProgramme($nombre*100/$matiere->getUnites()->count()); //unites
                  $em->flush();
                  return array('matiere'=>$this->showJsonAction($studentId,$session,$matiere),'concours'=> $this->newParent($studentId, $session));
-              }
-               else
-                 $analyse->setProgramme($nombre>0?$programme/$nombre:null);
+            }
+            else{
+                  foreach ($analyses as $key => $value) {
+                    $note+= $value->getNote()?$value->getNote()*$value->getMatiere()->getPoids():0;
+                    $poids+=$value->getMatiere()->getPoids();
+                    $programme+=($value->getProgramme())?$value->getProgramme():0;
+                    $objectif+=$value->getObjectif()?$value->getObjectif():0;
+                   }          
+                  $analyse->setNote(round($nombre>0?$note/$poids:$note,1));
+                  $analyse->setObjectif($nombre>0?$objectif/$nombre:null);               
+                  $analyse->setProgramme($nombre>0?$programme/$nombre:null);
+               }
                  $em->flush();
                return $this->showJsonAction($studentId,$session); 
           
-      }
+         }
 
     public function compare(Analyse $analyse=null)
     {
@@ -120,58 +128,7 @@ class AnalyseController extends Controller
                 $analyse->setDememe($value['dememe']);
                 $analyse->setRang($key+1);     
               }
-        }
-
-
-         if($analyse->getSession()->getId()==69||$analyse->getSession()->getId()==70||$analyse->getSession()->getId()==71){
-             $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie())[0]['sup10']+300;
-              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie())[0]['nombre']+1454;
-              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
-              $analyse->setEvalues($nombre);
-              $analyseData = $em->getRepository('AdminBundle:Analyse')->getIndex($analyse->getSession(),$analyse->getMatiere(),$analyse->getPartie());
-        foreach ($analyseData as $key => $value) {
-            if(round($value['note'],1)==round($analyse->getNote(),1)){
-                $analyse->setDememe($value['dememe']+11);
-                if($analyse->getNote()<=1)
-                   $analyse->setRang($key+1+1310);
-               elseif($analyse->getNote()<2)
-                   $analyse->setRang($key+1+1210);
-               elseif($analyse->getNote()<3)
-                   $analyse->setRang($key+1+1180);               
-               elseif($analyse->getNote()<5)
-                   $analyse->setRang($key+1+1160);
-               elseif($analyse->getNote()<7)
-                   $analyse->setRang($key+1+1140);
-               elseif($analyse->getNote()<8)
-                   $analyse->setRang($key+1+1090);
-               elseif($analyse->getNote()<9)
-                   $analyse->setRang($key+1+1060);
-               elseif($analyse->getNote()<10)
-                   $analyse->setRang($key+1+945);
-                elseif($analyse->getNote()<11)
-                   $analyse->setRang($key+1+730);
-                elseif($analyse->getNote()<12)
-                   $analyse->setRang($key+1+700);                
-                elseif($analyse->getNote()<13)
-                   $analyse->setRang($key+1+660);
-                elseif($analyse->getNote()<14)
-                   $analyse->setRang($key+1+610);
-                elseif($analyse->getNote()<15)
-                   $analyse->setRang($key+1+510);
-                elseif($analyse->getNote()<16)
-                   $analyse->setRang($key+1+310);
-                elseif($analyse->getNote()<17)
-                   $analyse->setRang($key+1+210);
-                elseif($analyse->getNote()<18)
-                   $analyse->setRang($key+1+100); 
-                 elseif($analyse->getNote()<19)
-                   $analyse->setRang($key+1+60);                
-                 elseif($analyse->getNote()<=20)
-                   $analyse->setRang($key+1+3);
-          }
-        }
-         }
-
+           }
          }
         return $analyse;
     }

@@ -124,14 +124,19 @@ input[type="file"] {
 }
 
 select {
-  width: 220px;
+  width: 226px;
   background-color: #ffffff;
   border: 1px solid #cccccc;
 }
-
-select[multiple],
 select[size] {
+   width: width: 226px;
   height: auto;
+  max-height: 500px;
+}
+select[multiple] {
+  width: 100%;
+  height: 500px;
+  max-height: 500px;
 }
 
 select:focus,

@@ -30,6 +30,11 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getResult();
   }
    
+      public function findAllIds(){
+         $qb = $this->createQueryBuilder('r')
+         ->where('r.isFake is NULL')->select('r.registrationId'); 
+          return $qb->getQuery()->getArrayResult();
+  } 
         /**
   *Nombre de synchro effectue par utilisateur 
   */

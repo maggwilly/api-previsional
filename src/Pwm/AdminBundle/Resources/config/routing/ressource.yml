@@ -1,5 +1,5 @@
 ressource_index:
-    path:     /{session}
+    path:     /{session}/list
     defaults: { _controller: "AdminBundle:Ressource:index" ,"session":0}
     methods:  GET
 

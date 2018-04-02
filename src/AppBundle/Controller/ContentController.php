@@ -38,8 +38,10 @@ class ContentController extends Controller
              $content->setArticle( $article);
             $em->persist($content);
             $em->flush($content);
+            $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('content_new', array('id' => $article->getId() ));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('content/new.html.twig', array(
             'article' => $article,
             'form' => $form->createView(),
@@ -91,9 +93,10 @@ class ContentController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+               $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('content_edit', array('id' => $content->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('content/edit.html.twig', array(
             'content' => $content,
@@ -115,6 +118,7 @@ class ContentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($content);
             $em->flush($content);
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('content_index');

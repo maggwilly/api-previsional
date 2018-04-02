@@ -15,9 +15,10 @@ class PartieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
-        ->add('objectif', 'textarea',array('label'=>'Brève description '))
-        ->add('sources', 'textarea' ,array('label'=>'Description complete'))
-        ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules'))
+        
+        ->add('sources', 'textarea' ,array('label'=>'Brève description'))
+        ->add('objectif', 'textarea',array('label'=>'Description complete'))
+        ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules mathematiques ?','required'=>false))
         ->add('type', ChoiceType::class, array(
                                  'choices'  => array(
                                   'TD' => 'Travaux dirigés', 'EP' => 'Ancienne épreuve'),

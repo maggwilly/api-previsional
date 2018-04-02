@@ -66,10 +66,14 @@ class NotificationController extends Controller
            $notification->setUser($this->getUser());
             $em->persist($notification);
             $em->flush();
-            if($notification->getSendNow())
-                  return $this->send($notification);
+            if($notification->getSendNow()){
+                 $this->addFlash('success', 'Enrégistrement effectué. Message programmé pour envois');
+                 return $this->send($notification);
+            }
+                  $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('MessagerBundle:notification:new.html.twig', array(
             'notification' => $notification,
@@ -251,10 +255,14 @@ public function firebaseSend($registrationIds, Notification $notification ){
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-             if($notification->getSendNow())
+             if($notification->getSendNow()){
+                 $this->addFlash('success', 'Message enrégistré et programmé pour envois.');
                   return $this->send($notification);
+             }
+               $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('notification_edit', array('id' => $notification->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('MessagerBundle:notification:edit.html.twig', array(
             'notification' => $notification,
             'edit_form' => $editForm->createView(),
@@ -275,6 +283,7 @@ public function firebaseSend($registrationIds, Notification $notification ){
             $em = $this->getDoctrine()->getManager();
             $em->remove($notification);
             $em->flush();
+             $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('notification_index');

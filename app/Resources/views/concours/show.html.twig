@@ -1,4 +1,5 @@
 {% extends "AppBundle::table.html.twig" %}
+{% block page_title %} {{concour.nom}}{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
@@ -15,7 +16,7 @@
    {% endblock %}
      {% block table_title %}Les détails d'un concours{% endblock %}    
 {% block table %}
-    <table>
+    <table class="table">
         <tbody>
             <tr>
                 <th>Nom</th>

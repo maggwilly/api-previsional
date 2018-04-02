@@ -69,6 +69,7 @@ class Programme
    */
     private $matieres;
 
+  
 
     /**
      * Constructor
@@ -120,6 +121,16 @@ class Programme
          return $nom;
     }
 
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getTitre()
+    {
+
+         return $this->nom;
+    }
     /**
      * Set ecole
      *
@@ -245,4 +256,52 @@ class Programme
     }
 
     
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Programme
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Programme
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
 }

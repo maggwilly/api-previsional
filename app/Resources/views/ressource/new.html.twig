@@ -1,4 +1,5 @@
 {% extends "AppBundle::table.html.twig" %}
+{% block page_title %}Nouveau document{% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
@@ -40,3 +41,30 @@
         {% endif %}          
     </ul>
 {% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script src="https://static.filestackapi.com/v3/filestack.js"></script>
+<script type="text/javascript">
+const urlinput=document.getElementById('pwm_adminbundle_ressource_url');
+const imageurlinput=document.getElementById('pwm_adminbundle_ressource_imageUrl');
+urlinput.addEventListener("focus", myurlFunction,true);
+imageurlinput.addEventListener("focus", myurlimageFunction,true);
+
+const client = filestack.init('AhuJdwUuNSqGQ57MJKIxTz');
+function myurlFunction() {
+  client.pick({accept: '.pdf',lang: 'fr',maxSize: 1024*1024, maxFiles: 1
+  }).then(function(result) {
+  const fileUrl = result.filesUploaded[0].url; 
+     urlinput.value=fileUrl; 
+   });   
+}
+
+function myurlimageFunction() {
+  client.pick({accept: 'image/*',lang: 'fr',imageMax: [800, 600],disableTransformer: true
+  }).then(function(result) {
+  const fileUrl = result.filesUploaded[0].url; 
+     imageurlinput.value=fileUrl; 
+   });   
+}
+</script>
+{% endblock %} 

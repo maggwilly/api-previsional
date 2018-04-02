@@ -55,9 +55,10 @@ class ConcoursController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($concour);
             $em->flush();
-
+            $this->addFlash('success', 'Cours enrégistré avec succès.');
             return $this->redirectToRoute('concours_show', array('id' => $concour->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('concours/new.html.twig', array(
             'concour' => $concour,
@@ -72,7 +73,6 @@ class ConcoursController extends Controller
     public function showAction(Concours $concour)
     {
         $deleteForm = $this->createDeleteForm($concour);
-
         return $this->render('concours/show.html.twig', array(
             'concour' => $concour,
             'delete_form' => $deleteForm->createView(),
@@ -90,9 +90,10 @@ class ConcoursController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+           $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('concours_edit', array('id' => $concour->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('concours/edit.html.twig', array(
             'concour' => $concour,
@@ -113,6 +114,7 @@ class ConcoursController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($concour);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('concours_index');

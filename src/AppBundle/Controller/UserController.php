@@ -35,6 +35,8 @@ class UserController extends Controller
            $locked=is_null($user->getLocked())?false:$user->getLocked();
            $user->setLocked(!$locked);
            $em->flush();
+           
+        $this->addFlash('success', 'Configurations prises en compte');  
         return $this->redirectToRoute('user_index');
     }
 
@@ -53,8 +55,11 @@ class UserController extends Controller
         $em = $this->container->get('doctrine.orm.entity_manager');
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em ->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
          return $this->redirectToRoute('user_index');
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
         return $this->render('user/edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),

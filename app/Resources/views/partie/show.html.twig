@@ -23,7 +23,7 @@
    {% endblock %}
 {% block table_title %}{{partie.titre}}{% endblock %}  
 {% block table %}
-    <table>
+    <table class="table">
         <tbody>
             <tr>
                 <th>Titre</th>
@@ -67,15 +67,22 @@
             </tr>                                             
         </tbody>
     </table>
-    <ul>
+       <table class="table  no-table-bordered bootstrap-datatable">
+        <td> 
          {% if is_granted('ROLE_SUPERVISEUR') %}
-        <li>
+        <td>
              <a href="{{ path('partie_index', { 'id': partie.matiere.id }) }}">Retour</a>
-        </li>
+        </td>
         {% else %}
-         <li>
+         <td>
             <a href="{{ path('partie_index') }}">Retour</a>
-        </li>
+        </td>
         {% endif %}
-    </ul>
+         <td>
+           {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+        </td>
+          </tr> 
+    </table>   
 {% endblock %}

@@ -39,9 +39,10 @@ class PriceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($price);
             $em->flush();
-
+           $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('price_show', array('id' => $price->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('AdminBundle:price:new.html.twig', array(
             'price' => $price,
@@ -73,9 +74,10 @@ class PriceController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('price_edit', array('id' => $price->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('AdminBundle:price:edit.html.twig', array(
             'price' => $price,
@@ -96,6 +98,7 @@ class PriceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($price);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('price_index');

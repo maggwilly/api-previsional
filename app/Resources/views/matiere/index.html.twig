@@ -22,14 +22,16 @@
                 <td><a href="{{ path('partie_index', { 'id': matiere.id }) }}">
                    <h2>{{ matiere.titre }} ~ {{ matiere.poids }} %</h2> 
                     <p>{{ matiere.description }}</p>
-                    <p><small><b>{{ matiere.parties|length }}</b> unités de préparation </small></p>
+                    <p><small><b>{{ matiere.unites|length }}</b> unités de préparation </small></p>
                 </a></td>
                 <td>
-             <a href="{{ path('matiere_edit', { 'id': matiere.id }) }}">Modifier</a>
+             <a href="{{ path('matiere_edit', { 'id': matiere.id  }) }}">Modifier</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     <a class="btn btn-default " href="{{ path('matiere_new', { 'id': concour.id }) }}">Créer une matière</a>
+
+  
 {% endblock %}

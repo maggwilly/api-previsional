@@ -56,14 +56,14 @@ class Partie
         /**
      * @var string
      *
-     * @ORM\Column(name="sources", type="string", length=255, nullable=true)
+     * @ORM\Column(name="sources", type="text",nullable=true)
      */
     private $sources;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @ORM\Column(name="titre", type="string", length=500)
      */
     private $titre;
 
@@ -96,16 +96,15 @@ class Partie
      */
     private $objectif;
 
-
    /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere",inversedBy="parties")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Matiere", inversedBy="parties")
    */
     private $matiere;
 
 
     /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="partie", cascade={"persist","remove"})
-  * @ORM\OrderBy({ "id" = "ASC"})
+   * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $questions; 
 
@@ -120,7 +119,7 @@ class Partie
     private $sessions; 
 
 
-        /**
+    /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
     private $user;
@@ -141,7 +140,7 @@ class Partie
     {
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
-         $this->date=new \DateTime();
+        $this->date=new \DateTime();
     } 
 
     /**
@@ -235,7 +234,7 @@ class Partie
      */
     public function getDisplayName()
     {
-        return $this->titre.' > '.$this->matiere->getTitre().' > '.$this->matiere->getProgramme()->getAbreviation();
+        return $this->titre.' > '.$this->matiere->getTitre().' > '.$this->matiere->getProgramme()->getNom();
     }
     /**
      * Set prerequis
@@ -319,7 +318,7 @@ class Partie
     public function setMatiere(\AppBundle\Entity\Matiere $matiere = null)
     {
         $this->matiere = $matiere;
-
+         
         return $this;
     }
 

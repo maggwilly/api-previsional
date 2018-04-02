@@ -8,7 +8,7 @@
           <i class="icon-angle-right"></i>
            {% if is_granted('ROLE_SUPERVISEUR')  %}
           <li>
-          <a href="{{ path('matiere_index', { 'id': partie.matiere.programme.id }) }}">{{matiere.programme.nom}}</a> 
+          <a href="{{ path('matiere_index', { 'id': partie.matiere.programme.id }) }}">{{ partie.matiere.programme.nom}}</a> 
           <i class="icon-angle-right"></i>
         </li>            
         <li>
@@ -27,16 +27,28 @@
         {{ form_widget(edit_form) }}
         <input type="submit" value="Enrégister"class="btn btn-info"/>
     {{ form_end(edit_form) }}
-    <ul>
+       <table class="table  no-table-bordered bootstrap-datatable">
+        <td> 
          {% if is_granted('ROLE_SUPERVISEUR') %}
-        <li>
+        <td>
              <a href="{{ path('partie_index', { 'id': partie.matiere.id }) }}">Retour</a>
-        </li>
+        </td>
         {% else %}
-         <li>
+         <td>
             <a href="{{ path('partie_index') }}">Retour</a>
-        </li>
+        </td>
         {% endif %}
-    </ul>
- </div>   
+         <td>
+           {{ form_start(delete_form) }}
+                <input type="submit" value="Supprimer" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+        </td>
+          </tr> 
+    </table>  
 {% endblock %}
+ {% block javascripts %}
+{{parent()}}
+   <script>
+  initSample();
+  </script>
+ {% endblock %} 

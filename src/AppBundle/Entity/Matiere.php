@@ -77,11 +77,18 @@ class Matiere
    */
     private $programme;
 
-        /**
+    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Partie", mappedBy="matiere", cascade={"persist","remove"})
    * @ORM\OrderBy({ "id" = "ASC"})
    */
     private $parties;
+
+
+    /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", cascade={"persist","remove"})
+   * @ORM\OrderBy({ "id" = "ASC"})
+   */
+    private $unites;
 
 
      /**
@@ -98,6 +105,7 @@ class Matiere
     {
         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->objectifs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->unites = new \Doctrine\Common\Collections\ArrayCollection();
         $this->date=new \DateTime();
     }
 
@@ -166,7 +174,7 @@ class Matiere
      */
     public function getDisplayName()
     {
-        return $this->titre.' > '.$this->programme->getAbreviation();
+        return $this->programme->getTitre().' > '.$this->titre;
     }
     /**
      * Set description
@@ -388,4 +396,38 @@ class Matiere
         return $this->objectifs;
     }
 
+
+    /**
+     * Add unite
+     *
+     * @param \AppBundle\Entity\Partie $unite
+     *
+     * @return Matiere
+     */
+    public function addUnite(\AppBundle\Entity\Partie $unite)
+    {
+        $this->unites[] = $unite;
+
+        return $this;
+    }
+
+    /**
+     * Remove unite
+     *
+     * @param \AppBundle\Entity\Partie $unite
+     */
+    public function removeUnite(\AppBundle\Entity\Partie $unite)
+    {
+        $this->unites->removeElement($unite);
+    }
+
+    /**
+     * Get unites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUnites()
+    {
+        return $this->unites;
+    }
 }

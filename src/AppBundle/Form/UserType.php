@@ -18,17 +18,17 @@ class UserType extends AbstractType
         ->add('username')
         ->add('email')
         ->add('roles', ChoiceType::class, array(
-                       'attr'=>array('data-rel'=>'chosen','class'=>'chzn-done'),
-                                  'multiple'=>true,
-                                  'expanded'=>false,
-                                   'choices'  => array(
+                                  'choices'  => array(
                                   'ROLE_SAISIE' => 'Editeur/correcteur',
                                    'ROLE_AMBASSADOR' => 'Ambassadeur',
                                    'ROLE_SUPERVISEUR' => 'Superviseur',
                                    'ROLE_MESSAGER' => 'Push Messager',
                                    'ROLE_CONTROLEUR' => 'Controleur',
                                    'ROLE_ADMIN' => 'Administrateur'
-                                   ),
+                                   ), 
+                                  'multiple'=>true,
+                                  'expanded'=>false,
+                                  'attr'=>array('data-rel'=>'chosen'),
                                    ));
     }
     

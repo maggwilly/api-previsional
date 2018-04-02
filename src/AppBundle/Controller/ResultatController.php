@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Event\ResultEvent;
 use Pwm\MessagerBundle\Entity\Notification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Event\ResultEvent;
 /**
  * Resultat controller.
  *
@@ -58,20 +58,42 @@ class ResultatController extends Controller
             $notification = new Notification('public',false,true);
              $notification
              ->setTitre($resultat->getDescription())
-             ->setSousTitre($resultat->getDescription()." Sont disponibles ")
+             ->setSousTitre($resultat->getDescription()." dispobible en téléchargement ")
              ->setText($resultat->getDescription()." Sont disponibles ");
-             $notification->setUser($this->getUser());
-             $em->persist($notification);
-             $em->flush();
-           return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
-           // return   $this->redirectToRoute('resultat_show', array('id' => $resultat->getId()));
-        }
+              $notification->setUser($this->getUser());
+
+             $registrationIds =array_column($em->getRepository('MessagerBundle:Registration')->findAllIds(),'registrationId');
+             $result=$this->firebaseSend($registrationIds,  $notification );
+            if(array_key_exists('results', $result)){
+              $event=new ResultEvent($registrationIds,$result['results']);
+               $this->get('event_dispatcher')->dispatch('notification.sended', $event);
+             }          
+           //  $em->persist($notification);
+            // $em->flush();
+          // return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+              $this->addFlash('success', 'Enrégistrement effectué');
+           return   $this->redirectToRoute('resultat_index');
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
         return $this->render('resultat/new.html.twig', array(
             'resultat' => $resultat,
             'form' => $form->createView(),
         ));
     }
 
+
+public function firebaseSend($registrationIds, Notification $notification ){
+        $data=array('registration_ids' => array_values($registrationIds),
+                     //'dry_run'=>true,
+                     'notification'=>array('title' => $notification->getTitre(),
+                                             'body' => $notification->getSousTitre(),
+                                             'badge' => 1,
+                                             'sound'=> "default",
+                                            'tag' => 'message')
+    );
+  return $this->get('fmc_manager')->sendMessage($data);
+}
     /**
      * Finds and displays a resultat entity.
      *
@@ -108,9 +130,10 @@ class ResultatController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+           $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('resultat_edit', array('id' => $resultat->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('resultat/edit.html.twig', array(
             'resultat' => $resultat,
@@ -132,6 +155,7 @@ class ResultatController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($resultat);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('resultat_index');

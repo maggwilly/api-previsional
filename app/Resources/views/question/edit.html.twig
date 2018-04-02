@@ -113,3 +113,43 @@
        
 {% endblock %}
 
+{% block javascripts %}
+{{parent()}}
+<!--<script type="text/javascript">
+$('form[name=app_bundle_question]').submit(function(event) {
+   event.preventDefault();
+       $.ajax({ 
+            data: $(this).serialize(), 
+            type: $(this).attr('method'),
+            url: 'http://localhost:8000/v1/question/1/new',
+            success: function() {
+                 document.forms[0].reset();
+               noty({text:"Enrégistrée !",layout:'bottom',type:"information"});
+               $("#app_bundle_question_text").cleditor()[0].clear();
+            },
+            error: function() {
+
+               noty({text:"Une erreur... Verifiez votre connexion internet",layout:'bottom',type:"error"});
+            } ,
+        beforeSend: function(){
+            $("#loading").show()
+        },
+        complete: function(data){
+            $("#loading").hide()
+        }
+        });
+        return false; 
+    });
+
+</script>-->
+<script>
+document.getElementByName('app_bundle').onsubmit = function (evt) {   
+     evt.preventDefault();
+     alert('ok');
+};
+</script>
+   <script>
+  initSample();
+  </script>
+ {% endblock %} 
+ 

@@ -26,7 +26,7 @@ class PartieController extends Controller
     {      $parties=array();//$this->getUser()->getParties();
          $em = $this->getDoctrine()->getManager();
         if(!is_null($matiere))
-                $parties=$matiere->getParties();
+                $parties=$matiere->getUnites();
            else
               $parties= $em->getRepository('AppBundle:Partie')->findByUser($this->getUser());
         return $this->render('partie/index.html.twig', array(
@@ -46,7 +46,7 @@ class PartieController extends Controller
          $session=$em->getRepository('AppBundle:Session')->findOneById($request->query->get('session'));
          $info = $em->getRepository('AdminBundle:Info')->findOneByUid($request->query->get('uid'));
          $mat = $em->getRepository('AppBundle:Matiere')->findOneById($request->query->get('matiere'));
-         $parties=$matiere->getParties();
+         $parties=$matiere->getUnites();//->getParties();
        foreach ($parties as $key => $partie) {
              $partie->setIsAvalable(!empty($em->getRepository('AppBundle:Partie')->findAvalability($partie->getId(),$session->getId())));
             // $partie->setIsAvalable(true);
@@ -61,10 +61,8 @@ class PartieController extends Controller
     public function enableAction(Request $request,Partie $partie)
     {   
         $session  = $this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findOneById($this->get("session")->get('current_session_id'));
-       // $partie->removeSession($session); 
-        //$partie->addSession($session); 
         if(is_null($session))
-             return $this->redirectToRoute('partie_index');
+            return $this->redirectToRoute('partie_index');
          //prevoir une notif
          $session->removePartie($partie);
          $session->addPartie($partie);
@@ -105,10 +103,13 @@ class PartieController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $partie->setMatiere($matiere);
+            $matiere->addUnite($partie);
             $em->persist($partie);
-            $em->flush($partie);
+            $em->flush();
+             $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('partie/new.html.twig', array(
             'partie' => $partie, 'matiere' => $matiere,
@@ -133,15 +134,17 @@ class PartieController extends Controller
  /**
  * @Security("is_granted('ROLE_SAISIE')")
 */
-    public function editAction(Request $request, Partie $partie)
+    public function editAction(Request $request, Partie $partie, Matiere $matiere)
     {
-        $deleteForm = $this->createDeleteForm($partie);
+        $deleteForm = $this->createDeleteForm($partie,$matiere);
         $editForm = $this->createForm('AppBundle\Form\PartieType', $partie);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('partie_index');
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('partie/edit.html.twig', array(
             'partie' => $partie,
             'edit_form' => $editForm->createView(),
@@ -152,16 +155,19 @@ class PartieController extends Controller
  /**
  * @Security("is_granted('ROLE_SUPERVISEUR')")
 */
-    public function deleteAction(Request $request, Partie $partie)
+    public function deleteAction(Request $request, Partie $partie, Matiere $matiere)
     {
-        $form = $this->createDeleteForm($partie);
+        $form = $this->createDeleteForm($partie,$matiere);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($partie);
-            $em->flush($partie);
+            $matiere->removeUnite($partie);
+             $matiere->removeParty($partie);
+           // $em->remove($partie);
+            $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
-        return $this->redirectToRoute('partie_index');
+        return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
     }
 
     /**
@@ -169,10 +175,10 @@ class PartieController extends Controller
      * @param Partie $partie The partie entity
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Partie $partie)
+    private function createDeleteForm(Partie $partie,Matiere $matiere)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('partie_delete', array('id' => $partie->getId())))
+            ->setAction($this->generateUrl('partie_delete', array('id' => $partie->getId(),'matiere' => $matiere->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -218,5 +224,7 @@ class PartieController extends Controller
             ->getForm()
         ;
     } 
+
+
 
 }

@@ -103,7 +103,9 @@ class ProgrammeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('programme_edit', array('id' => $concour->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+               
         return $this->render('programme/edit.html.twig', array(
             'concour' => $concour,
               'session' => $session,

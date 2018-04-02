@@ -23,10 +23,21 @@ matiere_new:
     defaults: { _controller: "AppBundle:Matiere:new","session":0 }
     methods:  [GET, POST]
 
+matiere_reindex:
+    path:     /reindex
+    defaults: { _controller: "AppBundle:Matiere:reindex" }
+    methods:  [GET, POST]
+
 matiere_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Matiere:edit" }
     methods:  [GET, POST]
+
+matiere_copy:
+    path:     /{id}/copy
+    defaults: { _controller: "AppBundle:Matiere:copy" }
+    methods:  [GET, POST]
+
 
 matiere_delete:
     path:     /{id}/delete

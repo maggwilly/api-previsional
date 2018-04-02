@@ -22,12 +22,12 @@ const FCM_URL = "https://fcm.googleapis.com/fcm/send";
  
 public function __construct(CloudinaryWrapper $cloudinaryWrapper,EntityManager $_em,\Twig_Environment $templating,FMCManager $fcm)
 {
-
 $this->cloudinaryWrapper = $cloudinaryWrapper;
 $this->_em=$_em;
 $this->twig=$templating;
 $this->fcm=$fcm;
 }
+
 
 public function onObjetCreated(QuestionEvent $event)
 {
@@ -35,7 +35,8 @@ public function onObjetCreated(QuestionEvent $event)
      $image=$question->getImageEntity();
      if($image!=null){
        if( $image->upload()){
-         $results=  $this->cloudinaryWrapper-> upload($image->getPath(), '_question_'.$question->getId(),array(), array("crop" => "limit","width" => "200", "height" => "150"))->getResult();
+         $results=  $this->cloudinaryWrapper-> upload($image->getPath(), '_question_'.$question->getId(),array(), array("crop" => "limit","width" => "200",
+          "height" => "150"))->getResult();
          $image->setUrl($results['url']);
           $this->_em->flush();
           $image->remove();
@@ -45,9 +46,9 @@ public function onObjetCreated(QuestionEvent $event)
 
 public function onRegistration(RegistrationEvent $event)
 {
-     $registrations= array($event->getRegistration());
-     $info=$event->getRegistration()->getInfo();
-     $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
+      $registrations= array($event->getRegistration());
+      $info=$event->getRegistration()->getInfo();
+      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
       $registrationIds=$this->sendTo($registrations, $notification);
       $this->firebaseSend($registrationIds, $notification); 
       if($info!=null){
@@ -67,7 +68,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
         $notification=new Notification('private');
         if ($commande-> getSession()!=null) {
         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
-         $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
+        $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
         $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
@@ -80,6 +81,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
      }
 }
 
+
      /**
      * Displays a form to edit an existing notification entity.
      *
@@ -87,7 +89,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
     public function sendTo($registrations,Notification $notification)
     {
       $registrationIds=array();
-      foreach ($registrations as $registration) {
+       foreach ($registrations as $registration) {
     if (!$registration->getIsFake()) {
        $registrationIds[]=$registration->getRegistrationId();
         $sending=new Sending($registration,$notification);

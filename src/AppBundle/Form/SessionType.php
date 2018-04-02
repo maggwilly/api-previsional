@@ -66,7 +66,7 @@ class SessionType extends AbstractType
                    'placeholder' => 'Aucun Programme',
                    'empty_data'  => null,
                     'required' => false,
-                   'label'=>'Progrmme de prépa',
+                   'label'=>'Programme de prépa',
                    'attr'=>array('data-rel'=>'chosen'))
              )
      /* ->add('owner', EntityType::class,

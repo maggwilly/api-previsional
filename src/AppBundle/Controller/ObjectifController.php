@@ -39,8 +39,10 @@ class ObjectifController extends Controller
             $objectif->setProgramme($session);
             $em->persist($objectif);
             $em->flush($objectif);
+             $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('objectif_index', array('id' => $session->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('objectif/new.html.twig', array(
             'objectif' => $objectif,'session' => $session,
@@ -74,9 +76,10 @@ class ObjectifController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('objectif_edit', array('id' => $objectif->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('objectif/edit.html.twig', array(
             'objectif' => $objectif,
@@ -99,6 +102,7 @@ class ObjectifController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($objectif);
             $em->flush($objectif);
+            $this->addFlash('success', 'Supprimé.');
         }
 
          return $this->redirectToRoute('partie_show', array('id' => $partie->getId()));

@@ -130,9 +130,11 @@ class SessionController extends Controller
             }
             
              $em->flush();
-
+            $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('session_show', array('id' => $session->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
         return $this->render('session/new.html.twig', array(
             'session' => $session, 'concour' => $concour,
             'form' => $form->createView(),
@@ -209,8 +211,10 @@ class SessionController extends Controller
              $notification->setUser($this->getUser());
               $em->persist($notification);
               $em->flush();
+               $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
                return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
-            }
+            }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
             $em->flush();
             return $this->redirectToRoute('session_index');
         }
@@ -233,6 +237,7 @@ class SessionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($session);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
         return $this->redirectToRoute('session_index');
     }

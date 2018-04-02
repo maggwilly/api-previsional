@@ -41,3 +41,10 @@
 {% endif %}
 </div>    
 {% endblock %}
+
+ {% block javascripts %}
+{{parent()}}
+   <script>
+  initSample();
+  </script>
+ {% endblock %}    

@@ -51,9 +51,11 @@ class PubController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($pub);
             $em->flush();
-
+           $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('pub_show', array('id' => $pub->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
 
         return $this->render('MessagerBundle:pub:new.html.twig', array(
             'pub' => $pub,
@@ -87,9 +89,10 @@ class PubController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('pub_edit', array('id' => $pub->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('MessagerBundle:pub:edit.html.twig', array(
             'pub' => $pub,

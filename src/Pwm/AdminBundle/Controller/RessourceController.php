@@ -81,9 +81,11 @@ class RessourceController extends Controller
             $this->get('fmc_manager')->sendOrGetData($url,$data,'POST');
               }
                $em->flush();
+                $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');
               return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
            // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('ressource/new.html.twig', array(
             'ressource' => $ressource,'session' => $session,
             'form' => $form->createView(),
@@ -152,8 +154,11 @@ class RessourceController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('ressource_edit', array('id' => $ressource->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
         return $this->render('ressource/edit.html.twig', array(
             'ressource' => $ressource,
             'edit_form' => $editForm->createView(),
@@ -172,6 +177,7 @@ class RessourceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($ressource);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
         return $this->redirectToRoute('ressource_index');
     }

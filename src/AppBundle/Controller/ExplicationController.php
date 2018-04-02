@@ -81,12 +81,14 @@ class ExplicationController extends Controller
                  $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
               }
                $em->flush();
+                $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('explication_show', 
                 array(
                 'id' => $explication->getId(),
                 'question' =>$question? $question->getId():0,
                 'content' => $content?$content->getId():0));
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('explication/new.html.twig', array(
             'explication' => $explication,
@@ -120,8 +122,10 @@ class ExplicationController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('explication_edit', array('id' => $explication->getId()));
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('explication/edit.html.twig', array(
             'question' => $question,
             'content' => $content,
@@ -143,6 +147,7 @@ class ExplicationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($explication);
             $em->flush();
+            $this->addFlash('success', 'Supprimé.');
         }
 
         return $this->redirectToRoute('explication_index');

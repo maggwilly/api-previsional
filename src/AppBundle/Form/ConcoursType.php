@@ -40,9 +40,9 @@ class ConcoursType extends AbstractType
                                          'Master & equiv' => 'Master & equiv'),
                                   'label'=>"Le niveau récquis pour le concours"
                                    ))
-        ->add('dateMax', 'date', array('label'=>'Etre né après le ','years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy'))    
-        ->add('contacts','text', array('label'=>"Des contacts séparés par des point-virgule"))
-        ->add('imageUrl', UrlType::class, array('label'=>"L'url vers une image descriptive"));
+        ->add('dateMax', 'date', array('label'=>'Etre né après le ','years' => range(1980, 2035), 'format' => 'dd-MMMM-yyyy','widget' => 'single_text','format' => 'yyyy-MM-dd','required' => false))    
+        ->add('contacts','text', array('label'=>"Des contacts séparés par des point-virgule",'required' => false))
+        ->add('imageUrl', UrlType::class, array('label'=>"L'url vers une image descriptive",'required' => false));
     }
     
     /**

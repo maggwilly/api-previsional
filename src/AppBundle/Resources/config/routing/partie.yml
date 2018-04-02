@@ -30,12 +30,12 @@ partie_new:
     methods:  [GET, POST]
 
 partie_edit:
-    path:     /{id}/edit
+    path:     /{id}/edit/{matiere}
     defaults: { _controller: "AppBundle:Partie:edit" }
     methods:  [GET, POST]
 
 partie_delete:
-    path:     /{id}/delete
+    path:     /{id}/delete/{matiere}
     defaults: { _controller: "AppBundle:Partie:delete" }
     methods:  DELETE
 
