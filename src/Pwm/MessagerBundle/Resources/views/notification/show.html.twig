@@ -81,9 +81,11 @@
             {{ form_end(delete_form) }}
         </td>
         <td>
+             {% if is_granted('ROLE_MESSAGER') %}
             {{ form_start(send_form) }}
-                <input type="submit" value="Envoyer maintenant" class="btn btn-primary">
+                <input type="submit" value="Publier maintenant" class="btn btn-primary">
             {{ form_end(send_form) }}
+               {% endif %}
         </td>
         {% endif %}
          </tr>

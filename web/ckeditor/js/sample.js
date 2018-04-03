@@ -18,7 +18,7 @@ var initSample = (function() {
 		isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
 
 	return function() {
-		var editorElement = CKEDITOR.document.getById( 'app_bundle_text' );
+		var editorElement = CKEDITOR.document.getById( 'form_text' );
 
 		// :(((
 		if ( isBBCodeBuiltIn ) {
@@ -30,10 +30,10 @@ var initSample = (function() {
 
 		// Depending on the wysiwygare plugin availability initialize classic or inline editor.
 		if ( wysiwygareaAvailable ) {
-			CKEDITOR.replace( 'app_bundle_text' );
+			CKEDITOR.replace( 'form_text' );
 		} else {
 			editorElement.setAttribute( 'contenteditable', 'true' );
-			CKEDITOR.inline( 'app_bundle_text' );
+			CKEDITOR.inline( 'form_text' );
 
 			// TODO we can consider displaying some info box that
 			// without wysiwygarea the classic editor may not work.

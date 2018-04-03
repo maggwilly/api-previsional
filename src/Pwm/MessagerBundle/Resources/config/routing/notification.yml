@@ -8,6 +8,12 @@ notification_show:
     defaults: { _controller: "MessagerBundle:Notification:show" }
     methods:  [GET, POST]
 
+notification_send:
+    path:     /{id}/send
+    defaults: { _controller: "MessagerBundle:Notification:send" }
+    methods:  [GET, POST]
+
+
 notification_resent:
     path:     /resent
     defaults: { _controller: "MessagerBundle:Notification:resent" }

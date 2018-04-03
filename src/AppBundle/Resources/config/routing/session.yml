@@ -24,6 +24,11 @@ session_edit:
     defaults: { _controller: "AppBundle:Session:edit" }
     methods:  [GET, POST]
 
+session_decrire:
+    path:     /{id}/decrire
+    defaults: { _controller: "AppBundle:Session:decrire" }
+    methods:  [GET, POST]
+
 session_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Session:delete" }

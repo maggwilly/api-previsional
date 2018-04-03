@@ -162,7 +162,7 @@ class Session
    */
     private $liens; 
 
-        /**
+    /**
    * @ORM\OneToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe", mappedBy="session", cascade={"persist","remove"})
    */
     private $groupe; 
@@ -196,6 +196,11 @@ class Session
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Pwm\MessagerBundle\Entity\Notification", cascade={"persist"})
+     */
+    private $articleDescriptif;
 
   /**
      * Constructor
@@ -1030,6 +1035,28 @@ class Session
         return $this->ressources;
     }
 
+    /**
+     * Set articleDescriptif
+     *
+     * @param \Pwm\MessagerBundle\Entity\Notification $articleDescriptif
+     *
+     * @return Concours
+     */
+    public function setArticleDescriptif(\Pwm\MessagerBundle\Entity\Notification $articleDescriptif = null)
+    {
+        $this->articleDescriptif = $articleDescriptif;
 
+        return $this;
+    }
+
+    /**
+     * Get articleDescriptif
+     *
+     * @return \Pwm\MessagerBundle\Entity\Notification
+     */
+    public function getArticleDescriptif()
+    {
+        return $this->articleDescriptif;
+    }
 
 }

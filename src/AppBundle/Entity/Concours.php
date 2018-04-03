@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Pwm\MessagerBundle\Entity\Notification;
 /**
  * Concours
  *
  * @ORM\Table(name="concours_ecole")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ConcoursRepository")
+   * @ORM\HasLifecycleCallbacks
  */
 class Concours
 {
@@ -103,6 +104,12 @@ class Concours
     private $dateMax;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Pwm\MessagerBundle\Entity\Notification", cascade={"persist"})
+     */
+    private $articleDescriptif;
+
+
+    /**
      * Constructor
      */
     public function __construct(Programme $programme=null)
@@ -120,12 +127,22 @@ class Concours
         $session = new Session($this,$programme);
         $this-> addSession($session);
     }
-
-        
-
-       
-
     }
+
+
+      /**
+    * @ORM\PrePersist()
+    */
+    public function defaultDescription(){
+       $this->articleDescriptif= new Notification();
+       return  $this->articleDescriptif
+       ->setTitre($this->getNom())
+       ->setFormat('paper')
+       ->setSousTitre("Découvrir  l'école/ faculté ".$this->getEcole()." et le concours de ".$this->getNom())
+       ->setText('<h2>'.$this->getNom().'</h2>'.'<p>'.$this->descriptionEcole.'</p>'.'<p>'.$this->descriptionConcours.'</p>');
+    }
+
+
     /**
      * Get id
      *
@@ -437,4 +454,28 @@ class Concours
     {
         return $this->dateMax;
     }   
+
+    /**
+     * Set articleDescriptif
+     *
+     * @param \Pwm\MessagerBundle\Entity\Notification $articleDescriptif
+     *
+     * @return Concours
+     */
+    public function setArticleDescriptif(\Pwm\MessagerBundle\Entity\Notification $articleDescriptif = null)
+    {
+        $this->articleDescriptif = $articleDescriptif;
+
+        return $this;
+    }
+
+    /**
+     * Get articleDescriptif
+     *
+     * @return \Pwm\MessagerBundle\Entity\Notification
+     */
+    public function getArticleDescriptif()
+    {
+        return $this->articleDescriptif;
+    }
 }

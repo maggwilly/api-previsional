@@ -59,7 +59,7 @@ class QuestionType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'app_bundle';
+        return 'form';
     }
 
 

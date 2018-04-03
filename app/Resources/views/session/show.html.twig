@@ -100,14 +100,23 @@
                 {% endif %}
             </td>
             </tr> 
-            <td>{% if session.user is not null%}
+           
             <tr>  
-                <th>Responsable </th>
+                <th>Supervision </th>
                 <td>
-                  {{ session.user.nom }} ~ {{ session.user.username }}
+            {% if session.user is not null%}
+                  {{ session.user.nom }} ~ {{ session.user.username }} 
+                    {% if is_granted('ROLE_CONTROLEUR')  %}
+               <a href="{{ path('session_attr', { 'id': session.id }) }}"><i class="halflings-icon user"></i> Modifier</a>
+                {% endif %} 
+           {% else %}
+                {% if is_granted('ROLE_CONTROLEUR')  %}
+                   <a href="{{ path('session_attr', { 'id': session.id }) }}"><i class="halflings-icon user"></i> Attribuer</a>
+                {% endif %}
+          {% endif %} 
             </td>
             </tr> 
-             {% endif %}                               
+                                           
         </tbody>
     </table>
 
@@ -123,13 +132,16 @@
         </td>
         {% endif %}
         <td>
-            <a href="{{ path('session_edit', { 'id': session.id }) }}"><i class="halflings-icon edit"></i>Modifier</a>
+            <a href="{{ path('session_edit', { 'id': session.id }) }}"><i class="halflings-icon edit"></i>Modifier une information</a>
         </td>
-          {% if is_granted('ROLE_CONTROLEUR')  %}
+          {% if is_granted('ROLE_SUPERVISEUR')  %}
         <td>
-            <a href="{{ path('session_attr', { 'id': session.id }) }}"><i class="halflings-icon user"></i>Attribuer</a>
+            <a href="{{ path('session_decrire', { 'id': session.id }) }}" class="btn btn-info">Présentation commerciale</a>
         </td>  
           {% endif %}  
+        <td>
+           <a href="{{ path('notification_new',{'id':session.groupe.id}) }}" class="btn btn-warning">Publier une annonce</a>
+        </td>
           </tr> 
     </table>
 

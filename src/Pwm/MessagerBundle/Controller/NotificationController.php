@@ -13,6 +13,7 @@ use Pwm\AdminBundle\Entity\Groupe;
 use Pwm\AdminBundle\Entity\Info;
 use AppBundle\Event\NotificationEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 /**
  * Notification controller.
  *
@@ -56,19 +57,20 @@ class NotificationController extends Controller
      * Creates a new notification entity.
      *
      */
-    public function newAction(Request $request,Groupe $groupe=null)
+    public function newAction(Request $request, Groupe $groupe=null)
     {
         $notification = new Notification();
+        $notification->setGroupe($groupe);
        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
+
+        $form = $this->createConditionalForm($notification);//$this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
            $notification->setUser($this->getUser());
             $em->persist($notification);
             $em->flush();
             if($notification->getSendNow()){
-                 $this->addFlash('success', 'Enrégistrement effectué. Message programmé pour envois');
-                 return $this->send($notification);
+                 return $this->redirectToRoute('notification_send', array('id' => $notification->getId()));
             }
                   $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
@@ -127,15 +129,11 @@ class NotificationController extends Controller
      * Finds and displays a notification entity.
      *
      */
-    public function showAction(Request $request,Notification $notification)
+    public function showAction(Notification $notification)
     {
         $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($notification);
-        $sendForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationSendType', $notification);
-        $sendForm->handleRequest($request);
-        if ($sendForm->isSubmitted() && $sendForm->isValid()) {
-           return $this->send($notification);
-        }
+        $sendForm =$this->createSendForm($notification);
         return $this->render('MessagerBundle:notification:show.html.twig', array(
             'notification' => $notification,
             'send_form' => $sendForm->createView(),
@@ -180,9 +178,22 @@ public function firebaseSend($registrationIds, Notification $notification ){
      * Displays a form to edit an existing notification entity.
      *
      */
+    public function sendAction(Request $request,Notification $notification)
+    {
+          $sendForm =$this->createSendForm($notification);
+           $sendForm->handleRequest($request);
+        if ($sendForm->isSubmitted() && $sendForm->isValid()) {
+                 $this->getDoctrine()->getManager()->flush();
+           return $this->send($notification);
+        }
+
+            return $this->send($notification);
+    }
+
+
     public function send(Notification $notification)
     {
-           $em = $this->getDoctrine()->getManager();
+             $em = $this->getDoctrine()->getManager();
              $registrations=array();
              $groupe= $notification->getGroupe();
             if($groupe!=null){
@@ -221,13 +232,13 @@ public function firebaseSend($registrationIds, Notification $notification ){
                }
 
               }else
-                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-               
-                $event=new NotificationEvent($registrations,$notification);
-                 $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-
+                $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+             $event=new NotificationEvent($registrations,$notification);
+             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+              $this->addFlash('success', 'Message enrégistré et programmé pour publication.');
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
     }
+
 
     public function findRegistrations($destinations)
     {
@@ -251,13 +262,13 @@ public function firebaseSend($registrationIds, Notification $notification ){
     public function editAction(Request $request, Notification $notification)
     {
         $deleteForm = $this->createDeleteForm($notification);
-        $editForm = $this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
+         $sendForm =$this->createSendForm($notification);
+         $editForm = $this->createConditionalForm($notification);//createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
              if($notification->getSendNow()){
-                 $this->addFlash('success', 'Message enrégistré et programmé pour envois.');
-                  return $this->send($notification);
+                  return $this->redirectToRoute('notification_send', array('id' => $notification->getId()));
              }
                $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('notification_edit', array('id' => $notification->getId()));
@@ -266,6 +277,7 @@ public function firebaseSend($registrationIds, Notification $notification ){
         return $this->render('MessagerBundle:notification:edit.html.twig', array(
             'notification' => $notification,
             'edit_form' => $editForm->createView(),
+            'send_form' => $sendForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -304,4 +316,44 @@ public function firebaseSend($registrationIds, Notification $notification ){
             ->getForm()
         ;
     }
+
+    private function createSendForm(Notification $notification)
+    {
+        return $this->createFormBuilder($notification)
+              ->add('groupe', EntityType::class,
+             array('class' => 'AdminBundle:Groupe', 
+                   'choice_label' => 'getNom', 
+                   'placeholder' => 'Tout le monde',
+                   'empty_data'  => null,
+                    'required' => false ,                  
+                    'label'=>'Destinataires',
+                   'attr'=>array('data-rel'=>'chosen'))
+             )
+              ->setAction($this->generateUrl('notification_send', array('id' => $notification->getId())))
+              ->setMethod('POST')
+              ->getForm(); 
+        
+    }
+
+      private function createConditionalForm(Notification $notification)
+    {
+       $formBuilder = $this->createFormBuilder($notification)
+              ->add('titre','text' ,array('label'=>"Titre"))
+             ->add('sousTitre', 'textarea' ,array('label'=>"Texte simple de moin de  132 caractères à afficher sur l'ecran veroullé"))
+             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média'));
+             if($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
+                 $formBuilder->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant','required' => false))
+                           ->add('groupe', EntityType::class,
+                            array('class' => 'AdminBundle:Groupe', 
+                             'choice_label' => 'getNom', 
+                               'placeholder' => 'Tout le monde',
+                             'empty_data'  => null,
+                              'required' => false ,                  
+                             'label'=>'Destinataires',
+                         'attr'=>array('data-rel'=>'chosen'))
+                   
+             );
+            return    $formBuilder->setMethod('POST')->getForm(); 
+        
+    }  
 }

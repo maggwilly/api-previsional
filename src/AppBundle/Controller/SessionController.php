@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Pwm\MessagerBundle\Entity\Notification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use AppBundle\Event\NotificationEvent;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class SessionController extends Controller
 {
@@ -105,6 +106,57 @@ class SessionController extends Controller
         return $session;
     }
 
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR') or has_role('ROLE_MESSAGER')")
+*/
+    public function decrireAction(Request $request,Session $session)
+    {
+         if(!is_null($session->getArticleDescriptif()))
+         return $this->redirectToRoute('notification_show', array('id' => $session->getArticleDescriptif()->getId()));
+
+        if(is_null($session->getConcours()->getArticleDescriptif()))
+              $notification = $session->getConcours()->defaultDescription();
+        else   
+            $notification= clone $session->getConcours()->getArticleDescriptif();
+          $notification->setSendNow(false);
+           $formBuilder=$this->createFormBuilder($notification)
+              ->add('titre','text' ,array('label'=>"Titre"))
+             ->add('sousTitre', 'textarea' ,array('label'=>"Texte simple de moin de  132 caractères à afficher sur l'ecran veroullé"))
+             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média'));
+             if($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
+                 $formBuilder->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant','required' => false));
+                $form = $formBuilder ->setAction($this->generateUrl('session_decrire', array('id' => $session->getId())))->setMethod('POST')->getForm();   
+                $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $notification->setUser($this->getUser());
+            $session->setArticleDescriptif($notification);
+             $em->flush();
+            if($notification->getSendNow())
+                return $this->redirectToRoute('notification_send', array('id' => $notification->getId()));
+               $this->addFlash('success', "Enrégistrement effectué. Article non publié");
+              return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+
+        return $this->render('MessagerBundle:notification:new.html.twig', array(
+            'notification' => $notification,
+            'form' => $form->createView(),
+        ));
+    }
+
+    public function findRegistrations($destinations)
+    {
+        $registrations= array();
+      foreach ($destinations as $info) {
+         foreach ($info->getRegistrations() as  $registration) {
+             if (is_null($registration->getIsFake())) 
+                    $registrations[]=$registration;
+             }
+         }
+      return  $registrations;
+    
+    }
 
 /**
  * @Security("is_granted('ROLE_CONTROLEUR')")
@@ -122,13 +174,12 @@ class SessionController extends Controller
              $notification
              ->setTitre($session->getNomConcours())
              ->setSousTitre('Concours disponible'.$session->getNomConcours())
-             ->setText("Un Nouveau concours est disponible. Verifiez s'il correspond à votre profil".$session->getNomConcours());
-             $notification->setUser($this->getUser());
+             ->setText("Un Nouveau concours est disponible. Verifiez s'il correspond à votre profil".$session->getNomConcours())
+             ->setUser($this->getUser());
               $em->persist($notification);
               $em->flush();
                return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
             }
-            
              $em->flush();
             $this->addFlash('success', 'Enrégistrement effectué');
             return $this->redirectToRoute('session_show', array('id' => $session->getId()));
@@ -140,6 +191,9 @@ class SessionController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+
+
 
     /**
      * Finds and displays a question entity.

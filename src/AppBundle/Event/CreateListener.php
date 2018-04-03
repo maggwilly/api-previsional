@@ -133,8 +133,8 @@ public function onSheduleToSend(NotificationEvent $event)
       $notification=$event->getNotification();
       $tokens= $this->sendTo($registrations,$notification);  
       $result= $this->firebaseSend($tokens, $notification); 
-       if(!array_key_exists('results', $result))
-       return null;  
+       if(is_null($result)||!array_key_exists('results', $result))
+          return null; 
          $resultats= $result['results'];
       foreach ($registrations as $key => $registration) {
           if(array_key_exists($key, $resultats))
