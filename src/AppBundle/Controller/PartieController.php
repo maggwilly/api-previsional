@@ -200,9 +200,13 @@ class PartieController extends Controller
               if($superviseur!=null){
                    $partie->setUser( $superviseur);
                    $em->flush();
+                    $this->addFlash('success', 'Attribution de responsabilité à '.$partie->getUser()->getNom());
               return $this->redirectToRoute('partie_attr', array('id' => $partie->getId()));
-              }        
-        }
+              }
+              $this->addFlash('error', "Le numéro de téléphone ne corresponds à celui d'aucun utilisateur enrégistré. Veillez saisir un numéro de 09 chiffres.");
+        
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
        return $this->render('partie/attr.html.twig', array(
             'partie' => $partie,
             'form' => $form->createView(),

@@ -338,10 +338,13 @@ class SessionController extends Controller
                 'owner'=>$formData['user']
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+             $this->addFlash('success', 'Attribution de responsabilité à '.$session->getUser()->getNom());
               return $this->redirectToRoute('session_attr', array('id' => $session->getId()));
               }
+              $this->addFlash('error', "Le numéro de téléphone ne corresponds à celui d'aucun utilisateur enrégistré. Veillez saisir un numéro de 09 chiffres.");
 
-        }
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
        return $this->render('session/attr.html.twig', array(
             'session' => $session,
             'form' => $form->createView(),
