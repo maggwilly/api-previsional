@@ -27,8 +27,11 @@ class SessionController extends Controller
          $sessions=array();
           if(!is_null($concours))
                 $sessions=$concours->getSessions();
-           elseif(!$all)
+           elseif(!$all){
               $sessions= $em->getRepository('AppBundle:Session')->findListByUser($this->getUser());
+              if(count($sessions)==1)
+               return $this->redirectToRoute('session_show', array('id' =>  $sessions->first()->getId()));
+           }
           else
              $sessions = $em->getRepository('AppBundle:Session')->findAll();
         return $this->render('session/index.html.twig', array(
