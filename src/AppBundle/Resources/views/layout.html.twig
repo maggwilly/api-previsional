@@ -58,7 +58,7 @@
                           {% endif %}
                         {% if is_granted('ROLE_CONTROLEUR') %}
                         <li><a href="{{ path('concours_index')}}"><span class="hidden-home">Ecoles</span></a></li>
-						<li><a href="{{ path('session_index', {'all': is_granted('ROLE_CONTROLEUR')})}}"><i class="icon-bar-chart"></i><span class="hidden-home">Concours</span></a></li>
+						<li><a href="{{ path('session_index', {'all': is_granted('ROLE_CONTROLEUR')})}}"><span class="hidden-home">Concours</span></a></li>
                         {% endif %}
                          {% if is_granted('ROLE_MESSAGER') %}
 						<li><a href="{{ path('notification_index')}}"><span class="hidden-home">Communication</span></a></li>
