@@ -58,11 +58,12 @@ DirectoryIndex app.php
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]
 
-    # redirect http to https all domain
     RewriteCond %{HTTPS} off
-    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    # First rewrite to HTTPS:
+    # Don't put www. here. If it is already there it will be included, if not
+    # the subsequent rule will catch it.
+    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    
 </IfModule>
 
 <IfModule !mod_rewrite.c>
