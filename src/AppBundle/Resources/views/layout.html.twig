@@ -46,23 +46,23 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="{{ path('homepage')}}"><i class="icon-bar-chart"></i><span class="hidden-home">ACCEUIL</span></a></li>
+						<li><a href="{{ path('homepage')}}"><span class="hidden-home">ACCEUIL</span></a></li>
 						{% if is_granted('ROLE_PRICER') %}
-						<li><a href="{{ path('price_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Tarifaire</span></a></li>
+						<li><a href="{{ path('price_index')}}"><span class="hidden-home">Tarifaire</span></a></li>
                         {% endif %}						
 						{% if is_granted('ROLE_ADMIN') %}
-						<li><a href="{{ path('user_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Utilisateurs</span></a></li>
+						<li><a href="{{ path('user_index')}}"><span class="hidden-home">Utilisateurs</span></a></li>
                         {% endif %}
                          {% if is_granted('ROLE_SUPERVISEUR') %}
-                        <li><a href="{{ path('ressource_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Documents</span></a></li>
+                        <li><a href="{{ path('ressource_index')}}"><span class="hidden-home">Documents</span></a></li>
                           {% endif %}
                         {% if is_granted('ROLE_CONTROLEUR') %}
-                        <li><a href="{{ path('concours_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Ecoles</span></a></li>
+                        <li><a href="{{ path('concours_index')}}"><span class="hidden-home">Ecoles</span></a></li>
 						<li><a href="{{ path('session_index', {'all': is_granted('ROLE_CONTROLEUR')})}}"><i class="icon-bar-chart"></i><span class="hidden-home">Concours</span></a></li>
                         {% endif %}
                          {% if is_granted('ROLE_MESSAGER') %}
-						<li><a href="{{ path('notification_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Communication</span></a></li>
-						<li><a href="{{ path('resultat_index')}}"><i class="icon-bar-chart"></i><span class="hidden-home">Resultat</span></a></li>
+						<li><a href="{{ path('notification_index')}}"><span class="hidden-home">Communication</span></a></li>
+						<li><a href="{{ path('resultat_index')}}"><span class="hidden-home">Resultat</span></a></li>
                         {% endif %}
 					</ul>
 				</div>
