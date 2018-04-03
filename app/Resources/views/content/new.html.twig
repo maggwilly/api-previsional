@@ -14,7 +14,11 @@
         </li>        
         <li><a href="#">Nouvelle partie</a></li>
       </ul>
-   {% endblock %}  
+   {% endblock %}
+    {% block stylesheets %}
+      {{parent()}}
+       <script src="{{ asset('ckeditor/plugins/integration/WIRISplugins.js') }}"></script>
+      {% endblock %}   
    {% block table_title %}Nouvelle partie{% endblock %} 
 {% block table %}
 <div class="row-fluid">  
