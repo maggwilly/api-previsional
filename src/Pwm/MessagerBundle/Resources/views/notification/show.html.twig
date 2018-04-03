@@ -7,10 +7,19 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>
         </li>
+    {% if is_granted('ROLE_MESSAGER') %}
         <li>
             <a href="{{ path('notification_index') }}">Communication</a>
             <i class="icon-angle-right"></i>
         </li>
+         {% else %} 
+            {% if notification.groupe %}
+                <li>
+                <a href="{{ path('session_show',{'id':notification.groupe.session.id }) }}">{{notification.groupe.session.nomConcours}}</a>
+                <i class="icon-angle-right"></i>
+                 </li>
+                {% endif %} 
+         {% endif %} 
         <li>
             <a href="#">{{notification.titre}}</a>
         </li>
