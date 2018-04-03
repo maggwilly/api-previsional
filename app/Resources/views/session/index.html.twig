@@ -1,5 +1,5 @@
 {% extends "AppBundle::table.html.twig" %}
-{% block page_title %} Concours{% endblock %}
+{% block page_title %} {% if concour is not null %} {{concour.nom}}{% else %} Concours {% endif %}  {% endblock %}
   {% block page_sub_title %}
        <ul class="breadcrumb">
         <li>
@@ -7,9 +7,15 @@
           <a href="{{ path('homepage')}}">Home</a>  
           <i class="icon-angle-right"></i>         
         </li> 
-        <li>
-      <a href="#">Concours</a>         
-        </li>              
+         {% if concour is not null %}
+       <li>
+      <a href="#">{{concour.nom}}</a>         
+        </li>  
+        {% else %} 
+         <li>
+          Concours
+           </li>
+        {% endif %}                   
       </ul>
  {% endblock %}
  {% block table_title %}Concours{% endblock %}  
