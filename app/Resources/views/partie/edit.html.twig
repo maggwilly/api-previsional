@@ -49,6 +49,9 @@
  {% block javascripts %}
 {{parent()}}
    <script>
-  initSample();
+   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
+         //$( 'textarea.ckeditor' ).val( 'My new content' );
+ });
+  //initSample();
   </script>
- {% endblock %} 
+ {% endblock %}    

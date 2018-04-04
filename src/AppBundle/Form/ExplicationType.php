@@ -13,7 +13,7 @@ class ExplicationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', 'textarea' ,array('label'=>'Saisir une explicqtion claire','attr'=>array('class'=>'cleditor-1')));
+        $builder->add('text', 'textarea' ,array('label'=>'Saisir une explicqtion claire','attr'=>array('class'=>'ckeditor')));
     }
     
     /**

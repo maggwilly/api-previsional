@@ -125,7 +125,7 @@ class SessionController extends Controller
            $formBuilder=$this->createFormBuilder($notification)
               ->add('titre','text' ,array('label'=>"Titre"))
              ->add('sousTitre', 'textarea' ,array('label'=>"Texte simple de moin de  132 caractères à afficher sur l'ecran veroullé"))
-             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média'));
+             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média','attr'=>array('class'=>'ckeditor')));
              if($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
                  $formBuilder->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant','required' => false));
                 $form = $formBuilder ->setAction($this->generateUrl('session_decrire', array('id' => $session->getId())))->setMethod('POST')->getForm();   

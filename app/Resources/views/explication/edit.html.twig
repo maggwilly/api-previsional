@@ -79,9 +79,12 @@
             Cette explication sera envpyée aux candidats ayant signalé des difficultés sur le contenu.
             </p>
   {% endblock %}
-   {% block javascripts %}
+ {% block javascripts %}
 {{parent()}}
    <script>
-  initSample();
+   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
+         //$( 'textarea.ckeditor' ).val( 'My new content' );
+ });
+  //initSample();
   </script>
- {% endblock %} 
+ {% endblock %}  

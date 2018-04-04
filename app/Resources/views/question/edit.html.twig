@@ -112,8 +112,8 @@
 <a  class="btn btn-default" href="{{ path('question_new', { 'id': question.partie.id }) }}">Créer une nouvelle question</a>
        
 {% endblock %}
-
-{% block javascripts %}
+ 
+  {% block javascripts %}
 {{parent()}}
 <!--<script type="text/javascript">
 $('form[name=app_bundle_question]').submit(function(event) {
@@ -146,10 +146,12 @@ $('form[name=app_bundle_question]').submit(function(event) {
 document.getElementByName('app_bundle').onsubmit = function (evt) {   
      evt.preventDefault();
      alert('ok');
-};
+};  
 </script>
-   <script>
-  initSample();
+  <script>
+   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
+         //$( 'textarea.ckeditor' ).val( 'My new content' );
+ });
+  //initSample();
   </script>
- {% endblock %} 
- 
+ {% endblock %}   
