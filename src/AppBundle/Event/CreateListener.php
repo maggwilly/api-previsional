@@ -66,6 +66,8 @@ public function onCommandeConfirmed(CommandeEvent $event)
       $info= $commande->getInfo();
      if ($commande->getStatus()=='SUCCESS') {
         $notification=new Notification('private');
+         $this->_em->persist($notification);
+         $this->_em->flush();
         if ($commande-> getSession()!=null) {
         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
         $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
@@ -92,8 +94,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
        foreach ($registrations as $registration) {
     if (!$registration->getIsFake()) {
        $registrationIds[]=$registration->getRegistrationId();
-        $sending=new Sending($registration,$notification);
-          $this->_em->persist($sending);
         if ($notification->getIncludeMail()) {
              $sending=new Sending($registration,$notification);
             $this->_em->persist($sending);

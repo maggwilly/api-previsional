@@ -15,7 +15,7 @@ class ContentType extends AbstractType
     {
         $builder
         ->add('subtitle', 'textarea',array('label'=>'Titre pour cette partie du cours'))
-        ->add('text', 'textarea' ,array('label'=>'Contenu de cette partie du cours','attr'=>array('class'=>'cleditor-1')));
+        ->add('text', 'textarea' ,array('label'=>'Contenu de cette partie du cours','attr'=>array('class'=>'ckeditor')));
     }
     
     /**
