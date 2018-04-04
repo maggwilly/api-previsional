@@ -66,11 +66,12 @@ public function onCommandeConfirmed(CommandeEvent $event)
       $info= $commande->getInfo();
      if ($commande->getStatus()=='SUCCESS') {
         $notification=new Notification('private');
-         $this->_em->persist($notification);
-         $this->_em->flush();
+
         if ($commande-> getSession()!=null) {
         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
         $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
+          $this->_em->persist($notification);
+         $this->_em->flush();
         $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
@@ -78,6 +79,8 @@ public function onCommandeConfirmed(CommandeEvent $event)
         }elseif($commande-> getRessource()!=null){
               $body =  $this->twig->render('MessagerBundle:notification:confirmation_ressource.html.twig',  array('commande' => $commande ));
               $notification->setTitre($commande-> getRessource()->getNom())->setSousTitre($commande-> getRessource()->getNom())->setText($body);
+                       $this->_em->persist($notification);
+                      $this->_em->flush();
                $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
         }   
      }
