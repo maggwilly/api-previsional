@@ -25,9 +25,6 @@
  {% block javascripts %}
 {{parent()}}
    <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
-         //$( 'textarea.ckeditor' ).val( 'My new content' );
- });
-  //initSample();
+  CKEDITOR.replace( 'form_introduction' );;
   </script>
  {% endblock %} 

@@ -58,9 +58,13 @@
  {% block javascripts %}
 {{parent()}}
    <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
+/*   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
         // $( 'textarea.ckeditor' ).val( 'My new content' );
- });
+ });*/
+ var editor= CKEDITOR.replace( 'form_text', {
+       language: 'fr'
+           } );
+ 
   //initSample();
   </script>
  {% endblock %}  

@@ -29,9 +29,13 @@
  {% block javascripts %}
 {{parent()}}
    <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
-         //$( 'textarea.ckeditor' ).val( 'My new content' );
- });
-  //initSample();
+ var editor= CKEDITOR.replace( 'form_text', {
+       language: 'fr'
+           } );
+editor.on( 'focus', function( e ) {
+   // alert( 'The editor named ' + e.editor.name + ' is now focused' );
+    //CKEDITOR.instances.form_text.insertHtml( '<p>This is a new paragraph.</p>' );
+} );
+ 
   </script>
  {% endblock %}    

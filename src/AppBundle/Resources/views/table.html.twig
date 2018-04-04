@@ -2,7 +2,7 @@
 {% block page_title %}Edition de contenu{% endblock %}
  {% block stylesheets %}
 {{parent()}}
-<!--<script type="text/x-mathjax-config">
+<script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
@@ -13,27 +13,11 @@
     window.onload = function () {
       editor = com.wiris.jsEditor.JsEditor.newInstance({'language': 'fr'});
       editor.insertInto(document.getElementById('editorContainer'));   
-    /*  editor.addHandListener({
-         contentChanged: function (instance) {
-            //  alert(editor.getMathML());
-              // document.getElementById('text').value = editor.getMathML();
-          },
-          recognitionError: function (instance, msg) {
-             //  document.getElementById('text').value = "Error: " + msg;
-             },
-             strokesChanged: function(instance) {
-
-             }
-           });  */                       
+                      
     }
 
  </script> 
- <script>
-function myFunction() {
-  //alert(editor.getMathML());
-   window.prompt("Copy to clipboard: Ctrl+C, Enter", editor.getMathML());
-}
-</script> -->
+
   <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
   <script src="{{ asset('ckeditor/js/sample.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css') }}">
@@ -104,4 +88,22 @@ function myFunction() {
         </div>
       </div>
     {% endblock %}
+{% block modal %}
+    <div class="modal hide fade" id="myModal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <h3>Editeur de formules</h3>
+    </div>
+    <div class="modal-body"> 
+     <div   id="editorContainer">
+     </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Femer</a>
+      <a href="javascript:void(0);" onclick="myFunction()" class="btn btn-primary">Insérer</a>
+    </div>
+  </div>
 {% endblock %}
+{% endblock %}
+
+

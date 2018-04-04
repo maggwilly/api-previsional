@@ -14,8 +14,8 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('subtitle', 'textarea',array('label'=>'Titre pour cette partie du cours'))
-        ->add('text', 'textarea' ,array('label'=>'Contenu de cette partie du cours','attr'=>array('class'=>'ckeditor')));
+        ->add('subtitle', 'text',array('label'=>'Titre pour cette partie du cours'))
+        ->add('text', 'textarea' ,array('label'=>'Contenu de cette partie du cours','attr'=>array('class'=>'cleditor1')));
     }
     
     /**

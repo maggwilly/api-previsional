@@ -47,7 +47,20 @@
         {{ form_label(form.text) }}
         {{ form_errors(form.text) }}
         {{ form_widget(form.text) }}
+     <div class="row-fluid"> 
+      <div  class="span6">
+        {{ form_label(form.rep) }}
+        {{ form_errors(form.rep) }}
+        {{ form_widget(form.rep) }}
     </div>
+       <div  class="span6">
+        {{ form_label(form.time) }}
+        {{ form_errors(form.time) }}
+        {{ form_widget(form.time) }}
+    </div>  
+    </div>     
+    </div>
+
     <div class="span6">
       <div class="row-fluid">  
     <div class="span6">
@@ -74,69 +87,99 @@
     </div> 
     </div>    
   </div>
-        <div  class="span4">
-        {{ form_label(form.rep) }}
-        {{ form_errors(form.rep) }}
-        {{ form_widget(form.rep) }}
-    </div>
-       <div  class="span4">
-        {{ form_label(form.time) }}
-        {{ form_errors(form.time) }}
-        {{ form_widget(form.time) }}
-    </div>
+
   </div>
-      <input id="button" type="submit" value="Enrégistrer" class="btn btn-info" class="btn btn-info" />
-        <div id="loading" style="display: none;">
+     
+     <table class="table  no-table-bordered bootstrap-datatable">
+        <tr> 
+          {% if  partie.containMath %}  
+         <td>
+           <a href="#" class="btn btn-warning btn-setting">Saisir une formule</a>
+        </td>
+        {% endif %}
+        <td>
+           <input id="button" type="submit" value="Enrégistrer la question" class="btn btn-info" class="btn btn-info" />
+          <div id="loading" style="display: none;">
           <div class="preloader">
               Enrégistrement ...
           </div>
         </div>
+        </td> 
+      </tr> 
+      </table>      
     {{ form_end(form) }}
-    <ul>
-        <li>
-            <a href="{{ path('question_index', { 'id': partie.id }) }}">Retour à la liste</a>
-        </li>
-    </ul>
+<a href="{{ path('question_index', { 'id': partie.id }) }}"><i class="halflings-icon chevron-left"></i>Retour</a>
 {% endblock %}
   {% block javascripts %}
 {{parent()}}
-<!--<script type="text/javascript">
-$('form[name=app_bundle_question]').submit(function(event) {
+<script type="text/javascript">
+$('form[name=form]').submit(function(event) {
    event.preventDefault();
        $.ajax({ 
             data: $(this).serialize(), 
             type: $(this).attr('method'),
-            url: 'http://localhost:8000/v1/question/1/new',
+            url: window.location.href,//'http://localhost:8000/v1/question/1/new',
             success: function() {
                  document.forms[0].reset();
-               noty({text:"Enrégistrée !",layout:'bottom',type:"information"});
-               $("#app_bundle_question_text").cleditor()[0].clear();
+               noty({text:" La nouvelle question a été enrégistrée, continuez avec la suivante !",layout:'top',type:"success"});
+               {% if not partie.containMath %} 
+                 CKEDITOR.instances.form_text.setData( '' );
+                {% endif %}
             },
             error: function() {
-
                noty({text:"Une erreur... Verifiez votre connexion internet",layout:'bottom',type:"error"});
             } ,
         beforeSend: function(){
-            $("#loading").show()
+            $("#loading").show();
+              document.getElementById("button").disabled = true;
         },
         complete: function(data){
-            $("#loading").hide()
+            $("#loading").hide();
+             document.getElementById("button").disabled = false;
         }
         });
         return false; 
     });
 
-</script>-->
-<script>
-document.getElementByName('app_bundle').onsubmit = function (evt) {   
-     evt.preventDefault();
-     alert('ok');
-};  
 </script>
-  <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
-         //$( 'textarea.ckeditor' ).val( 'My new content' );
- });
-  //initSample();
+<script>
+var id='';
+function inyectarTexto(elemento,valor){
+ var elemento_dom=document.getElementById(elemento);//[0];
+ if(document.selection){
+  elemento_dom.focus();
+  sel=document.selection.createRange();
+  sel.text=valor;
+  return;
+ }if(elemento_dom.selectionStart||elemento_dom.selectionStart=="0"){
+  var t_start=elemento_dom.selectionStart;
+  var t_end=elemento_dom.selectionEnd;
+  var val_start=elemento_dom.value.substring(0,t_start);
+  var val_end=elemento_dom.value.substring(t_end,elemento_dom.value.length);
+  elemento_dom.value=val_start+valor+val_end;
+ }else{
+  elemento_dom.value+=valor;
+ }
+}
+
+function myFunction() {
+  inyectarTexto(id,editor.getMathML()) ;
+  $("#myModal").modal("hide");
+}
+
+$(function(){
+    $("textarea").on("focus", function(){
+   
+    id=$(this).attr('id');
+
+  });
+    
+});
+</script>
+{% if not partie.containMath %}  
+<script>
+ CKEDITOR.replace( 'form_text' );
+
   </script>
+{% endif %}
  {% endblock %}   

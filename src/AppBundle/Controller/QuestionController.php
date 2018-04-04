@@ -57,7 +57,7 @@ class QuestionController extends Controller
         return  new Response(''.count($res));
     }
 
-    public function newAction(Partie $partie,Request $request)
+    public function newAction(Request $request,Partie $partie)
     {
         $question = new Question();
         $form = $this->createForm('AppBundle\Form\QuestionType', $question, array('partie'=>$partie));
@@ -70,8 +70,8 @@ class QuestionController extends Controller
             $em->flush($question);
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
-             $this->addFlash('success', 'Enrégistrement effectué');
-            return $this->redirectToRoute('question_show', array('id' => $question->getId()));
+             $this->addFlash('success', ' La nouvelle question a été enrégistrée, continuez avec la suivante !');
+            return $this->redirectToRoute('question_new', array('id' => $partie->getId()));
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 

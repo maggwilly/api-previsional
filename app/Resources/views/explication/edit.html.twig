@@ -43,8 +43,6 @@
    {% block table_title %}Modification 
    {% endblock %} 
 {% block table %}
-<div class="row-fluid">  
-<div class="span6">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
            <br>
@@ -62,17 +60,7 @@
         </li> 
         {% endif %}    
     </ul>
-   </div>  
-{% if partie.containMath %}   
-<div class="span6">
-  <b>Editeur de formules</b>
- <div  style="width:100%;height:300px" id="editorContainer">
- </div>
- <button onclick="myFunction()">Obtenir la traduction</button>
- <p><strong>Note !</strong>Les touches de direction permettent de passer d'une case à l'autre plus facilement.</p>
-</div>
-{% endif %}
-</div>    
+    
 {% endblock %}
  {% block helptext %}
             <p>
@@ -81,10 +69,11 @@
   {% endblock %}
  {% block javascripts %}
 {{parent()}}
-   <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
-         //$( 'textarea.ckeditor' ).val( 'My new content' );
- });
-  //initSample();
+{% if not partie.containMath %}  
+<script>
+ CKEDITOR.replace( 'form_text', {
+       language: 'fr'
+           }  );
   </script>
+{% endif %}
  {% endblock %}  

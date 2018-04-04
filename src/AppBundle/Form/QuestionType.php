@@ -14,7 +14,7 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $partie=$options['partie'];
-        $builder->add('text','textarea',array('label'=>'Enonce de la question','attr'=>array('class'=>'ckeditor')))
+        $builder->add('text','textarea',array('label'=>'Enonce de la question','attr'=>array('class'=>'ckeditor-1')))
         ->add('propA','textarea',array('label'=>'Proposition A'))
         ->add('propB','textarea',array('label'=>'Proposition B'))
         ->add('propC','textarea',array('label'=>'Proposition C','required'=>false))

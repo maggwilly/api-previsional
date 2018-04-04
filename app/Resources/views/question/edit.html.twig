@@ -51,6 +51,18 @@
         {{ form_label(edit_form.text) }}
         {{ form_errors(edit_form.text) }}
         {{ form_widget(edit_form.text) }}
+      <div class="row-fluid">
+      <div  class="span6">
+        {{ form_label(edit_form.rep) }}
+        {{ form_errors(edit_form.rep) }}
+        {{ form_widget(edit_form.rep) }}
+    </div>
+       <div  class="span6">
+        {{ form_label(edit_form.time) }}
+        {{ form_errors(edit_form.time) }}
+        {{ form_widget(edit_form.time) }}
+    </div>
+    </div>
     </div>
     <div class="span6">
       <div class="row-fluid">  
@@ -78,18 +90,26 @@
     </div> 
     </div>    
   </div>
-        <div  class="span4">
-        {{ form_label(edit_form.rep) }}
-        {{ form_errors(edit_form.rep) }}
-        {{ form_widget(edit_form.rep) }}
-    </div>
-       <div  class="span4">
-        {{ form_label(edit_form.time) }}
-        {{ form_errors(edit_form.time) }}
-        {{ form_widget(edit_form.time) }}
-    </div>
   </div>
-        <input type="submit" value="Enrégistrer" class="btn btn-info" />
+     <table class="table  no-table-bordered bootstrap-datatable">
+        <tr>
+        {% if  question.partie.containMath %}   
+         <td>
+           <a href="#" class="btn btn-warning btn-setting">Saisir une formule</a>
+        </td>
+        {% endif %}
+        <td>
+           <input id="button" type="submit" value="Enrégistrer les Modifications" class="btn btn-info" />
+          <div id="loading" style="display: none;">
+          <div class="preloader">
+              Enrégistrement ...
+          </div>
+        </div>
+        </td> 
+    
+      </tr> 
+      </table>
+
     {{ form_end(edit_form) }}
 
      <table class="table  no-table-bordered bootstrap-datatable">
@@ -98,13 +118,13 @@
          <td>
             <a href="{{ path('question_index', { 'id': question.partie.id }) }}" ><i class="halflings-icon chevron-left"></i>Retour</a>
         </td>
-        <td>
+           <td>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Supprimer" class="btn btn-danger" >
+                <input  type="submit" value="Supprimer la question" class="btn btn-danger" >
             {{ form_end(delete_form) }}
-        </td>
+        </td> 
         <td>
-            {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Valider</a>{% endif %}
+            {% if not question.validated %}<a  href="{{ path('question_valid', { 'id': question.id }) }}" class="btn btn-primary pull-right" >Approuver la question</a>{% endif %}
         </td>  
           </tr> 
     </table>
@@ -115,43 +135,75 @@
  
   {% block javascripts %}
 {{parent()}}
-<!--<script type="text/javascript">
-$('form[name=app_bundle_question]').submit(function(event) {
+<script type="text/javascript">
+$('form[name=form]').submit(function(event) {
    event.preventDefault();
+ 
        $.ajax({ 
             data: $(this).serialize(), 
             type: $(this).attr('method'),
-            url: 'http://localhost:8000/v1/question/1/new',
+            url: window.location.href,//'http://localhost:8000/v1/question/43/edit',
             success: function() {
-                 document.forms[0].reset();
-               noty({text:"Enrégistrée !",layout:'bottom',type:"information"});
-               $("#app_bundle_question_text").cleditor()[0].clear();
+               //  document.forms[0].reset();
+               noty({text:"Modifications enrégistrées !",layout:'top',type:"success"});
+             
+              // $("#app_bundle_question_text").cleditor()[0].clear();
             },
             error: function() {
-
+               
                noty({text:"Une erreur... Verifiez votre connexion internet",layout:'bottom',type:"error"});
             } ,
         beforeSend: function(){
-            $("#loading").show()
+            $("#loading").show();
+              document.getElementById("button").disabled = true;
         },
         complete: function(data){
-            $("#loading").hide()
+            $("#loading").hide();
+              document.getElementById("button").disabled = false;
         }
         });
         return false; 
     });
 
-</script>-->
-<script>
-document.getElementByName('app_bundle').onsubmit = function (evt) {   
-     evt.preventDefault();
-     alert('ok');
-};  
 </script>
-  <script>
-   $( 'textarea.ckeditor' ).ckeditor(function( textarea ) {
-         //$( 'textarea.ckeditor' ).val( 'My new content' );
- });
-  //initSample();
+<script>
+var id='';
+function inyectarTexto(elemento,valor){
+ var elemento_dom=document.getElementById(elemento);//[0];
+ if(document.selection){
+  elemento_dom.focus();
+  sel=document.selection.createRange();
+  sel.text=valor;
+  return;
+ }if(elemento_dom.selectionStart||elemento_dom.selectionStart=="0"){
+  var t_start=elemento_dom.selectionStart;
+  var t_end=elemento_dom.selectionEnd;
+  var val_start=elemento_dom.value.substring(0,t_start);
+  var val_end=elemento_dom.value.substring(t_end,elemento_dom.value.length);
+  elemento_dom.value=val_start+valor+val_end;
+ }else{
+  elemento_dom.value+=valor;
+ }
+}
+
+function myFunction() {
+  inyectarTexto(id,editor.getMathML()) ;
+  $("#myModal").modal("hide");
+}
+
+$(function(){
+    $("textarea").on("focus", function(){
+   
+    id=$(this).attr('id');
+
+  });
+    
+});
+</script>
+{% if not question.partie.containMath %}  
+<script>
+ CKEDITOR.replace( 'form_text' );
+
   </script>
- {% endblock %}   
+{% endif %}
+ {% endblock %}     

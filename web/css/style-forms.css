@@ -34,11 +34,11 @@ input[type="file"],
 input,
 textarea,
 .uneditable-input {
-  width: 80%;
+  width: 95%;
 }
 
 textarea {
-  height: auto;
+  height: 200px;
 }
 
 textarea,
