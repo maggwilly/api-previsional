@@ -44,6 +44,16 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
           return $qb->getQuery()->getResult();
   }
 
+        /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findByRegistrationIds($registrationIds){
+         $qb = $this->createQueryBuilder('a')
+         -> where('a.registrationId IN (:registrationIds)')->setParameter('registrationIds', $registrationIds);
+          return $qb->getQuery()->getResult();
+  }
+
+
   public function findNotReadsDesc(){
          $qb = $this->createQueryBuilder('r')->join('sending')
          ->where('r.isFake is NULL'); 

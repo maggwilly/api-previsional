@@ -62,26 +62,41 @@ public function onRegistration(RegistrationEvent $event)
 
 public function onCommandeConfirmed(CommandeEvent $event)
 {
-       $commande=$event->getCommande();
+      $commande=$event->getCommande();
       $info= $commande->getInfo();
      if ($commande->getStatus()=='SUCCESS') {
         $notification=new Notification('private');
-
         if ($commande-> getSession()!=null) {
         $body =  $this->twig->render('MessagerBundle:notification:confirmation_abonnement.html.twig',  array('commande' => $commande ));
-        $notification->setTitre($commande-> getSession()->getNomConcours())->setSousTitre($commande-> getSession()->getNomConcours())->setText($body);
-          $this->_em->persist($notification);
-         $this->_em->flush();
-        $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
+        $notification->setTitre($commande-> getSession()->getNomConcours())
+        ->setSousTitre($commande-> getSession()->getNomConcours())
+        ->setText($body)
+        ->setSendDate(new \DateTime())
+        ->setSendNow(true);
+         $this->_em->persist($notification);
+
+        $registrations=$info->getRegistrations();
+       $result= $this->firebaseSend($this->sendTo($registrations), $notification);
+        $this->controlFake( $result,$registrations);
+        $this->_em->flush();
+
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
         $this->fcm->sendOrGetData($url,$data,'PATCH');
         }elseif($commande-> getRessource()!=null){
               $body =  $this->twig->render('MessagerBundle:notification:confirmation_ressource.html.twig',  array('commande' => $commande ));
-              $notification->setTitre($commande-> getRessource()->getNom())->setSousTitre($commande-> getRessource()->getNom())->setText($body);
-                       $this->_em->persist($notification);
-                      $this->_em->flush();
-               $this->firebaseSend($this->sendTo($info->getRegistrations(), $notification), $notification); 
+              $notification
+              ->setTitre($commande-> getRessource()->getNom())
+              ->setSousTitre($commande-> getRessource()->getNom())
+              ->setText($body)
+              ->setSendDate(new \DateTime())
+              ->setSendNow(true);
+               $this->_em->persist($notification);
+              $registrations=$info->getRegistrations();
+              $result=$this->firebaseSend($this->sendTo($registrations), $notification); 
+              $this->controlFake( $result,$registrations);
+             
+              $this->_em->flush();
         }   
      }
 }
@@ -91,20 +106,13 @@ public function onCommandeConfirmed(CommandeEvent $event)
      * Displays a form to edit an existing notification entity.
      *
      */
-    public function sendTo($registrations,Notification $notification)
+    public function sendTo($registrations)
     {
       $registrationIds=array();
        foreach ($registrations as $registration) {
-    if (!$registration->getIsFake()) {
+    if (!$registration->getIsFake()) 
        $registrationIds[]=$registration->getRegistrationId();
-        if ($notification->getIncludeMail()) {
-             $sending=new Sending($registration,$notification);
-            $this->_em->persist($sending);
-          }
       }
-      }
-         $notification->setSendDate(new \DateTime())->setSendNow(true);
-         $this->_em->flush();
       return  $registrationIds;
     }
 
@@ -125,43 +133,46 @@ public function onMessageEnd(ResultEvent $event)
 {
      $fcmResult= $event->getFCMResult();
      $descTokens= $event->getFCMDescsTokens();
-     $this->removeFakesTokens($fcmResult,$descTokens);
-
+      $registrations=$this->_em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($descTokens);
+      $this->controlFake( $result,$registrations);
+      $this->_em->flush();
 }
 
 
 public function onSheduleToSend(NotificationEvent $event)
 {
       $registrations=$event->getDescs();
-      $notification=$event->getNotification();
-      $tokens= $this->sendTo($registrations,$notification);  
+      $notification=$event->getNotification()
+      ->setSendDate(new \DateTime())
+      ->setSendNow(true);
+      $tokens= $this->sendTo($registrations);  
       $result= $this->firebaseSend($tokens, $notification); 
-       if(is_null($result)||!array_key_exists('results', $result))
-          return null; 
-         $resultats= $result['results'];
-      foreach ($registrations as $key => $registration) {
-          if(array_key_exists($key, $resultats))
-           if(array_key_exists('error', $resultats[$key])){
-                    $registration->setIsFake(true);
-                }
-        $registration->setLastControlDate(new \DateTime());
-      }
+       $this->controlFake( $result,$registrations);
+     
       $this->_em->flush();
 }
 
 
+public function controlFake($result ,$registrations )
+{
 
- public function  removeFakesTokens($fcmResult,$descTokens){
-        foreach ($descTokens as $key => $registrationId) {
-                $registration=$this->_em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-                if(array_key_exists($key, $fcmResult))
-                if(array_key_exists('error', $fcmResult[$key])){
+       if(is_null($result)||!array_key_exists('results', $result))
+            return null; 
+         $resultats= $result['results'];
+      foreach ($registrations as $key => $registration) {
+          if(array_key_exists($key, $resultats))
+           if(array_key_exists('error', $resultats[$key]))
                     $registration->setIsFake(true);
-                }
-                 $registration->setLastControlDate(new \DateTime());
-        }
-           $this->_em->flush();
-     }
+            elseif ($notification->getIncludeMail()) {
+              $sending=new Sending($registration,$notification);
+              $this->_em->persist($sending);
+          }  
+         $registration->setLastControlDate(new \DateTime());
+      }
+
+}
+
+
 
 
 }

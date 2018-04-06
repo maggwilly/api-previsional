@@ -65,7 +65,7 @@ class ResultatController extends Controller
              $registrationIds =array_column($em->getRepository('MessagerBundle:Registration')->findAllIds(),'registrationId');
              $result=$this->firebaseSend($registrationIds,  $notification );
             if(array_key_exists('results', $result)){
-              $event=new ResultEvent($registrationIds,$result['results']);
+               $event=new ResultEvent($registrationIds,$result);
                $this->get('event_dispatcher')->dispatch('notification.sended', $event);
              }          
            //  $em->persist($notification);
