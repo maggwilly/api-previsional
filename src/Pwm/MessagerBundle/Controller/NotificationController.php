@@ -155,7 +155,7 @@ class NotificationController extends Controller
          ->setSousTitre("Vous avez de nombreuses annonces non consultées. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces sur Centor. ");
          $result=$this->firebaseSend($registrationIds,  $notification );
         if(array_key_exists('results', $result)){
-           $event=new ResultEvent($registrationIds,$result['results']);
+           $event=new ResultEvent($registrationIds,$result);
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
            }
        return $this->redirectToRoute('notification_index');
