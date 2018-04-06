@@ -158,13 +158,13 @@ class NotificationController extends Controller
            $event=new ResultEvent($registrationIds,$result);
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
            }
+            $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
        return $this->redirectToRoute('notification_index');
     }
 
 
 public function firebaseSend($registrationIds, Notification $notification ){
         $data=array('registration_ids' => array_values($registrationIds),
-                     //'dry_run'=>true,
                      'notification'=>array('title' => $notification->getTitre(),
                                              'body' => $notification->getSousTitre(),
                                              'badge' => 1,
@@ -186,7 +186,6 @@ public function firebaseSend($registrationIds, Notification $notification ){
                  $this->getDoctrine()->getManager()->flush();
            return $this->send($notification);
         }
-
             return $this->send($notification);
     }
 
