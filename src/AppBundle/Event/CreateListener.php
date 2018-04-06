@@ -77,7 +77,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
 
         $registrations=$info->getRegistrations();
        $result= $this->firebaseSend($this->sendTo($registrations), $notification);
-        $this->controlFake( $result,$registrations);
+        $this->controlFake( $result,$registrations,$notification);
         $this->_em->flush();
 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
@@ -94,7 +94,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
                $this->_em->persist($notification);
               $registrations=$info->getRegistrations();
               $result=$this->firebaseSend($this->sendTo($registrations), $notification); 
-              $this->controlFake( $result,$registrations);
+              $this->controlFake( $result,$registrations,$notification);
              
               $this->_em->flush();
         }   
@@ -134,7 +134,7 @@ public function onMessageEnd(ResultEvent $event)
      $fcmResult= $event->getFCMResult();
      $descTokens= $event->getFCMDescsTokens();
       $registrations=$this->_em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($descTokens);
-      $this->controlFake( $result,$registrations);
+      $this->controlFake( $result,$registrations,$notification);
       $this->_em->flush();
 }
 
@@ -147,13 +147,13 @@ public function onSheduleToSend(NotificationEvent $event)
       ->setSendNow(true);
       $tokens= $this->sendTo($registrations);  
       $result= $this->firebaseSend($tokens, $notification); 
-       $this->controlFake( $result,$registrations);
+       $this->controlFake( $result,$registrations,$notification);
      
       $this->_em->flush();
 }
 
 
-public function controlFake($result ,$registrations )
+public function controlFake($result ,$registrations , Notification $notification=null)
 {
 
        if(is_null($result)||!array_key_exists('results', $result))
@@ -163,7 +163,7 @@ public function controlFake($result ,$registrations )
           if(array_key_exists($key, $resultats))
            if(array_key_exists('error', $resultats[$key]))
                     $registration->setIsFake(true);
-            elseif ($notification->getIncludeMail()) {
+            elseif (is_null($notification)&&$notification->getIncludeMail()) {
               $sending=new Sending($registration,$notification);
               $this->_em->persist($sending);
           }  
