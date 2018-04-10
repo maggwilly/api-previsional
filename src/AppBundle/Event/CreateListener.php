@@ -155,7 +155,6 @@ public function onSheduleToSend(NotificationEvent $event)
 
 public function controlFake($result ,$registrations , Notification $notification=null)
 {
-
        if(is_null($result)||!array_key_exists('results', $result))
             return null; 
          $resultats= $result['results'];
@@ -166,13 +165,10 @@ public function controlFake($result ,$registrations , Notification $notification
             elseif (is_null($notification)&&$notification->getIncludeMail()) {
               $sending=new Sending($registration,$notification);
               $this->_em->persist($sending);
-          }  
+          } 
          $registration->setLastControlDate(new \DateTime());
       }
-
-}
-
-
-
+ $this->_em->flush(); 
+ }
 
 }
