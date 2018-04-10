@@ -159,7 +159,7 @@ class NotificationController extends Controller
            $this->get('event_dispatcher')->dispatch('notification.sended', $event);
            }
             $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
-       return $this->redirectToRoute('notification_index');
+       return  new Response(json_decode($result));//$this->redirectToRoute('notification_index');
     }
 
 

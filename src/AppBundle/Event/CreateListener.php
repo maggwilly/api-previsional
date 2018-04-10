@@ -120,7 +120,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
 public function firebaseSend($registrationIds, Notification $notification ){
 $data=array('registration_ids' => array_values($registrationIds),
            'notification'=>array('title' => $notification->getTitre(),
-                      'body' => $notification->getSousTitre(),
+                       'body' => $notification->getSousTitre(),
                        'badge' => 1,
                        'sound'=> "default",
                        'tag' => 'message')
