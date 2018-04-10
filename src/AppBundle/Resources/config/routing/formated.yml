@@ -25,7 +25,7 @@ session_envus_json:
 
 session_for_user_json:
     path:     /session/for/user/{id}/json
-    defaults: { _controller: "AppBundle:Session:jsonForUser"}
+    defaults: { _controller: "AppBundle:Session:jsonForUser","id":"null"}
     methods:  GET
 
 

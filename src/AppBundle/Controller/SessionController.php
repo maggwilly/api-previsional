@@ -91,10 +91,10 @@ class SessionController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"session"})
      */
-     public function jsonForUserAction(Request $request,Info $info)
+     public function jsonForUserAction(Request $request,Info $info=null)
      {
          $em = $this->getDoctrine()->getManager();
-          $sessions =$em->getRepository('AppBundle:Session')->findForUser($info);
+          $sessions =is_null($info)?array():$em->getRepository('AppBundle:Session')->findForUser($info);
          return  $sessions;
      }
 

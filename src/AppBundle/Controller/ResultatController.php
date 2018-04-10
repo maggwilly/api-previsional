@@ -89,6 +89,7 @@ public function firebaseSend($registrationIds, Notification $notification ){
                      'notification'=>array('title' => $notification->getTitre(),
                                              'body' => $notification->getSousTitre(),
                                              'badge' => 1,
+                                              "icon"=> "ic_notify",
                                              'sound'=> "default",
                                             'tag' => 'message')
     );
