@@ -124,12 +124,17 @@ public function onCommandeConfirmed(CommandeEvent $event)
 
 public function firebaseSend($registrationIds, Notification $notification ){
 $data=array('registration_ids' => array_values($registrationIds),
-           'notification'=>array('title' => $notification->getTitre(),
+           'notification'=>array(
+                        'title' => $notification->getTitre(),
                        'body' => $notification->getSousTitre(),
                        'badge' => 1,
                         "icon"=> "ic_notify",
                        'sound'=> "default",
-                       'tag' => 'message')
+                       'tag' => 'message'),
+           'data'=>$notification->getIncludeMail()?array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      ):array()
     );
   return $this->fcm->sendMessage($data);
 }
