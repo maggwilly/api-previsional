@@ -64,7 +64,10 @@ class ResultatController extends Controller
               $notification->setUser($this->getUser())
                ->setIncludeMail(false);
            $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-            $event=new NotificationEvent($registrations,$notification);
+            $data=array(
+                        'page'=>'resultat'
+                      );
+            $event=new NotificationEvent($registrations,$notification, $data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);        
               $this->addFlash('success', 'Enrégistrement effectué');
            return   $this->redirectToRoute('resultat_index');

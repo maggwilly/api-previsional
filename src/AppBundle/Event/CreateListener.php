@@ -81,7 +81,12 @@ public function onCommandeConfirmed(CommandeEvent $event)
          $this->_em->persist($notification);
          $this->_em->flush();
         $registrations=$info->getRegistrations();
-       $result= $this->firebaseSend($this->sendTo($registrations), $notification);
+
+          $data=array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      );
+       $result= $this->firebaseSend($this->sendTo($registrations), $notification,$data);
         $this->controlFake( $result,$registrations,$notification);
 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
@@ -99,7 +104,11 @@ public function onCommandeConfirmed(CommandeEvent $event)
                $this->_em->persist($notification);
               $this->_em->flush();
               $registrations=$info->getRegistrations();
-              $result=$this->firebaseSend($this->sendTo($registrations), $notification); 
+               $data=array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      );
+              $result=$this->firebaseSend($this->sendTo($registrations), $notification,$data); 
               $this->controlFake( $result,$registrations,$notification);
              
         }   
@@ -122,7 +131,7 @@ public function onCommandeConfirmed(CommandeEvent $event)
     }
 
 
-public function firebaseSend($registrationIds, Notification $notification ){
+public function firebaseSend($registrationIds, Notification $notification,$data=array()){
 $data=array('registration_ids' => array_values($registrationIds),
            'notification'=>array(
                         'title' => $notification->getTitre(),
@@ -131,10 +140,7 @@ $data=array('registration_ids' => array_values($registrationIds),
                         "icon"=> "ic_notify",
                        'sound'=> "default",
                        'tag' => 'message'),
-           'data'=>$notification->getIncludeMail()?array(
-                        'page'=>'notification',
-                        'id'=>$notification->getId()
-                      ):array()
+               'data'=>$data
     );
   return $this->fcm->sendMessage($data);
 }
@@ -153,11 +159,12 @@ public function onMessageEnd(ResultEvent $event)
 public function onSheduleToSend(NotificationEvent $event)
 {
       $registrations=$event->getDescs();
+      $data=$event->getData();
       $notification=$event->getNotification()
       ->setSendDate(new \DateTime())
       ->setSendNow(true);
       $tokens= $this->sendTo($registrations);  
-      $result= $this->firebaseSend($tokens, $notification); 
+      $result= $this->firebaseSend($tokens, $notification,$data); 
        $this->controlFake( $result,$registrations,$notification);
      
       $this->_em->flush();

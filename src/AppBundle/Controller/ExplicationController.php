@@ -77,7 +77,11 @@ class ExplicationController extends Controller
                 $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?$this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
                 $destUids=array_keys($res);
                  $registrations = $em->getRepository('MessagerBundle:Registration')->findByUsers($destUids); 
-                 $event=new NotificationEvent($registrations,$notification);
+                    $data=array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      );
+                 $event=new NotificationEvent($registrations,$notification,$data);
                  $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
               }
                $em->flush();

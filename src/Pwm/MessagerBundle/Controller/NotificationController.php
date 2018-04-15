@@ -126,7 +126,7 @@ class NotificationController extends Controller
             }
         return  new Response("".$nuberDesc);
     }
-    
+
     /**
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"sending"})
@@ -166,7 +166,10 @@ class NotificationController extends Controller
          ->setIncludeMail(false);
 
            $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
-            $event=new NotificationEvent($registrations,$notification);
+              $data=array(
+                        'page'=>'rappel'
+                      );
+            $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
             $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
        return  $this->redirectToRoute('notification_index');
@@ -231,7 +234,11 @@ class NotificationController extends Controller
 
               }else
                 $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-             $event=new NotificationEvent($registrations,$notification);
+                 $data=array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      );
+             $event=new NotificationEvent($registrations,$notification, $data);
              $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
               $this->addFlash('success', 'Message enrégistré et programmé pour publication.');
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
