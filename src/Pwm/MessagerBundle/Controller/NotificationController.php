@@ -126,6 +126,16 @@ class NotificationController extends Controller
             }
         return  new Response("".$nuberDesc);
     }
+    
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"sending"})
+     */
+    public function showJsonAction(Notification $notification)
+    {
+        return $notification;
+    }
+
     /**
      * Finds and displays a notification entity.
      *
@@ -141,7 +151,6 @@ class NotificationController extends Controller
             'delete_form' => $deleteForm->createView()
         ));
     }
-
   /**
    * @Security("is_granted('ROLE_MESSAGER')")
   */

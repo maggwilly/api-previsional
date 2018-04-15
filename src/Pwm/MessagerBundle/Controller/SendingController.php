@@ -49,13 +49,16 @@ class SendingController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"sending"})
      */
-    public function editJsonAction(Request $request, Sending $sending){
+    public function editJsonAction(Request $request, Sending $sending=null){
             $em = $this->getDoctrine()->getManager();
-            $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($sending->getNotification(),$sending->getRegistration());
-           /* foreach ($sendings as  $sending) {
+                 $notificationId=$request->query->get('notificationId');
+                 $registrationId=$request->query->get('registrationId');
+              $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($notificationId,$$registrationId);
+              foreach ($sendings as  $sending) {
                  $sending->setReaded(true);
-                }*/
-           $sending->setReaded(true);
+                }
+                if(!is_null($sending))
+                $sending->setReaded(true);
             $em->flush();
             return true;
     }
