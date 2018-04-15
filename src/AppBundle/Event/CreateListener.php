@@ -49,12 +49,15 @@ public function onRegistration(RegistrationEvent $event)
       $registrations= array($event->getRegistration());
       $info=$event->getRegistration()->getInfo();
       $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
-
         $notification ->setIncludeMail(true);
         $this->_em->flush();
-         $notification->setSousTitre("Entrez de olein pieds dans un univers d'opportunités qui vous surprendra à coup sûr...");
+         $notification->setSousTitre("Entrez de plein pieds dans un univers d'opportunités qui vous surprendra à coup sûr...");
          $registrationIds=$this->sendTo($registrations);
-         $result=  $this->firebaseSend($registrationIds, $notification); 
+            $data=array(
+                        'page'=>'notification',
+                        'id'=>$notification->getId()
+                      );
+         $result=  $this->firebaseSend($registrationIds, $notification,$data); 
       if($info!=null){
         $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
         $data = array($event->getRegistration()->getRegistrationId() => true);
