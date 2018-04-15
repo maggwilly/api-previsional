@@ -66,7 +66,8 @@ class NotificationController extends Controller
         $form = $this->createConditionalForm($notification);//$this->createForm('Pwm\MessagerBundle\Form\NotificationType', $notification);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-           $notification->setUser($this->getUser());
+           $notification->setUser($this->getUser())
+           ->setIncludeMail(true);
             $em->persist($notification);
             $em->flush();
             if($notification->getSendNow()){

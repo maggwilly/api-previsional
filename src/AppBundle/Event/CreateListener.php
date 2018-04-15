@@ -149,8 +149,7 @@ public function onSheduleToSend(NotificationEvent $event)
       $registrations=$event->getDescs();
       $notification=$event->getNotification()
       ->setSendDate(new \DateTime())
-      ->setSendNow(true)
-       ->setIncludeMail(true);
+      ->setSendNow(true);
       $tokens= $this->sendTo($registrations);  
       $result= $this->firebaseSend($tokens, $notification); 
        $this->controlFake( $result,$registrations,$notification);
