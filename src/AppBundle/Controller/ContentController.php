@@ -64,7 +64,7 @@ class ContentController extends Controller
      */
     public function getBlockedPersonsAction(Content $content)
     {
-         $url="https://trainings-fa73e.firebaseio.com/status/content/".$content->getArticle()->getId().'/'.$content->getId()."/.json";
+         $url="https://trainings-fa73e.firebaseio.com/content/".$content->getArticle()->getId().'/'.$content->getId()."/.json";
          $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?$this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
         return  new Response(''.count($res));
     }

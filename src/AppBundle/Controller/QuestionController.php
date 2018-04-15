@@ -52,7 +52,7 @@ class QuestionController extends Controller
      */
     public function getBlockedPersonsAction(Question $question)
     {
-         $url="https://trainings-fa73e.firebaseio.com/status/question/".$question->getPartie()->getId().'/'.$question->getId()."/.json";
+         $url="https://trainings-fa73e.firebaseio.com/question/".$question->getPartie()->getId().'/'.$question->getId()."/.json";
          $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ?$this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
         return  new Response(''.count($res));
     }

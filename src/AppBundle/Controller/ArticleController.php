@@ -47,7 +47,7 @@ class ArticleController extends Controller
      */
     public function getDificultContentsAction(Article $article)
     {
-         $url="https://trainings-fa73e.firebaseio.com/status/content/".$article->getId()."/.json";
+         $url="https://trainings-fa73e.firebaseio.com/content/".$article->getId()."/.json";
          $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ? $this->get('fmc_manager')->sendOrGetData($url,null,'GET'): array(); 
         return  new Response(''.count($res));
     }

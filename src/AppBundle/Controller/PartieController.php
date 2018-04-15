@@ -125,7 +125,7 @@ class PartieController extends Controller
      */
     public function getDificultQuestionsAction(Partie $partie)
     {
-         $url="https://trainings-fa73e.firebaseio.com/status/question/".$partie->getId()."/.json";
+         $url="https://trainings-fa73e.firebaseio.com/question/".$partie->getId()."/.json";
          $res =!is_null($this->get('fmc_manager')->sendOrGetData($url,null,'GET')) ? $this->get('fmc_manager')->sendOrGetData($url,null,'GET'):array(); 
         return  new Response(''.count($res));
     }
