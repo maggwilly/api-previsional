@@ -58,6 +58,7 @@ public function onRegistration(RegistrationEvent $event)
                         'id'=>$notification->getId()
                       );
          $result=  $this->firebaseSend($registrationIds, $notification,$data); 
+          $this->controlFake( $result,$registrations,$notification);
       if($info!=null){
         $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
         $data = array($event->getRegistration()->getRegistrationId() => true);
