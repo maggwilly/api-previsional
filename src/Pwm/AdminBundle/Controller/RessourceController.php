@@ -12,7 +12,7 @@ use Pwm\AdminBundle\Entity\Commande;
 use AppBundle\Event\ResultEvent;
 use Pwm\MessagerBundle\Entity\Notification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use AppBundle\Event\NotificationEvent;
 /**
  * Ressource controller.
  *
@@ -46,15 +46,54 @@ class RessourceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $ressource->setIsPublic(!is_null($session));
             $em->persist($ressource);
+            $em->flush();
              $notification = new Notification('public',false,true);
              $notification
              ->setTitre($ressource->getIsPublic()?'Nouveau document':'Nouveau document ~'.$ressource->getSession()->getNomConcours())
              ->setSousTitre($ressource->getNom().' '.$ressource->getDescription())
              ->setText($ressource->getNom().' '.$ressource->getDescription());
              $notification->setUser($this->getUser());
-              $em->persist($notification);
+             $registrations=array();
+            $data=array(
+                        'page'=>'document',
+                         'id'=>$ressource->getId()
+                      );
+             if($ressource->getIsPublic())
+                  $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+             elseif(!is_null($ressource->getSession())){
+                  $destinations=$ressource->getSession()->getInfos();
+                  $registrations=$this->findRegistrations($destinations); 
+             }
+
+            $event=new NotificationEvent($registrations,$notification, $data);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+              $this->pushInGroup($ressource);
+              $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');
+             // return $this->redirectToRoute('ressource_show', array('id' =>  $ressource->getId()));
+            return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+        return $this->render('ressource/new.html.twig', array(
+            'ressource' => $ressource,'session' => $session,
+            'form' => $form->createView(),
+        ));
+    }
+    public function findRegistrations($destinations)
+    {
+        $registrations= array();
+      foreach ($destinations as $info) {
+         foreach ($info->getRegistrations() as  $registration) {
+             if (is_null($registration->getIsFake())) 
+                    $registrations[]=$registration;
+             }
+         }
+      return  $registrations;
+    
+    }
+
+    public function pushInGroup(Ressource $ressource)
+    {   
               if(!is_null($ressource->getSession())){
-                 $notification->setGroupe($session->getGroupe());
                  $date = new \DateTime();
             $msg=array(
                 'message' =>array(
@@ -80,18 +119,7 @@ class RessourceController extends Controller
             $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/msgboard.json";
             $this->get('fmc_manager')->sendOrGetData($url,$data,'POST');
               }
-               $em->flush();
-                $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');
-              return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
-           // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
-        }elseif($form->isSubmitted())
-               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
-        return $this->render('ressource/new.html.twig', array(
-            'ressource' => $ressource,'session' => $session,
-            'form' => $form->createView(),
-        ));
     }
-
 
     /**
      * Lists all Produit entities.
