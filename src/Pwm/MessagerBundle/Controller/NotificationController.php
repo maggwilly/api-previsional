@@ -152,28 +152,16 @@ class NotificationController extends Controller
          $notification = new Notification();
          $notification
          ->setTitre('Des messages et annonces non lus')
-         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces sur Centor. ");
-         $result=$this->firebaseSend($registrationIds,  $notification );
-        if(array_key_exists('results', $result)){
-           $event=new ResultEvent($registrationIds,$result);
-           $this->get('event_dispatcher')->dispatch('notification.sended', $event);
-           }
+         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces sur Centor. ") 
+         ->setIncludeMail(false);
+
+           $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
+            $event=new NotificationEvent($registrations,$notification);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
             $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
        return  $this->redirectToRoute('notification_index');
     }
 
-
-public function firebaseSend($registrationIds, Notification $notification ){
-        $data=array('registration_ids' => array_values($registrationIds),
-                     'notification'=>array('title' => $notification->getTitre(),
-                                             'body' => $notification->getSousTitre(),
-                                             'badge' => 1,
-                                             "icon"=> "ic_notify",
-                                             'sound'=> "default",
-                                             'tag' => 'message')
-    );
-  return $this->get('fmc_manager')->sendMessage($data);
-}
 
     /**
      * Displays a form to edit an existing notification entity.

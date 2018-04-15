@@ -49,8 +49,11 @@ public function onRegistration(RegistrationEvent $event)
       $registrations= array($event->getRegistration());
       $info=$event->getRegistration()->getInfo();
       $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneByTag('welcome_message');
-      $registrationIds=$this->sendTo($registrations, $notification);
-      $this->firebaseSend($registrationIds, $notification); 
+        $notification ->setIncludeMail(true);
+        $this->_em->flush();
+         $registrationIds=$this->sendTo($registration);
+         $result=  $this->firebaseSend($registrationIds, $notification); 
+          $this->controlFake( $result,$registrations,$notification);
       if($info!=null){
         $url="https://trainings-fa73e.firebaseio.com/users/".$info->getUid()."/registrationsId/.json";
         $data = array($registrations->getRegistrationId() => true);
@@ -72,13 +75,13 @@ public function onCommandeConfirmed(CommandeEvent $event)
         ->setSousTitre($commande-> getSession()->getNomConcours())
         ->setText($body)
         ->setSendDate(new \DateTime())
+        ->setIncludeMail(true)
         ->setSendNow(true);
          $this->_em->persist($notification);
-
+         $this->_em->flush();
         $registrations=$info->getRegistrations();
        $result= $this->firebaseSend($this->sendTo($registrations), $notification);
         $this->controlFake( $result,$registrations,$notification);
-        $this->_em->flush();
 
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
@@ -90,13 +93,14 @@ public function onCommandeConfirmed(CommandeEvent $event)
               ->setSousTitre($commande-> getRessource()->getNom())
               ->setText($body)
               ->setSendDate(new \DateTime())
+               ->setIncludeMail(true)
               ->setSendNow(true);
                $this->_em->persist($notification);
+              $this->_em->flush();
               $registrations=$info->getRegistrations();
               $result=$this->firebaseSend($this->sendTo($registrations), $notification); 
               $this->controlFake( $result,$registrations,$notification);
              
-              $this->_em->flush();
         }   
      }
 }
@@ -145,7 +149,8 @@ public function onSheduleToSend(NotificationEvent $event)
       $registrations=$event->getDescs();
       $notification=$event->getNotification()
       ->setSendDate(new \DateTime())
-      ->setSendNow(true);
+      ->setSendNow(true)
+       ->setIncludeMail(true);
       $tokens= $this->sendTo($registrations);  
       $result= $this->firebaseSend($tokens, $notification); 
        $this->controlFake( $result,$registrations,$notification);
@@ -163,13 +168,15 @@ public function controlFake($result ,$registrations , Notification $notification
           if(array_key_exists($key, $resultats))
            if(array_key_exists('error', $resultats[$key]))
                     $registration->setIsFake(true);
-            elseif (is_null($notification)&&$notification->getIncludeMail()) {
+            elseif (!is_null($notification)&&$notification->getIncludeMail()) {
               $sending=new Sending($registration,$notification);
               $this->_em->persist($sending);
           } 
          $registration->setLastControlDate(new \DateTime());
+         $this->_em->flush(); 
       }
- $this->_em->flush(); 
+ 
+
  }
 
 }

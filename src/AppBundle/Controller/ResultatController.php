@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Pwm\MessagerBundle\Entity\Notification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Event\ResultEvent;
+use AppBundle\Event\NotificationEvent;
 /**
  * Resultat controller.
  *
@@ -60,17 +61,11 @@ class ResultatController extends Controller
              ->setTitre($resultat->getDescription())
              ->setSousTitre($resultat->getDescription()." dispobible en téléchargement ")
              ->setText($resultat->getDescription()." Sont disponibles ");
-              $notification->setUser($this->getUser());
-
-             $registrationIds =array_column($em->getRepository('MessagerBundle:Registration')->findAllIds(),'registrationId');
-             $result=$this->firebaseSend($registrationIds,  $notification );
-            if(array_key_exists('results', $result)){
-               $event=new ResultEvent($registrationIds,$result);
-               $this->get('event_dispatcher')->dispatch('notification.sended', $event);
-             }          
-           //  $em->persist($notification);
-            // $em->flush();
-          // return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
+              $notification->setUser($this->getUser())
+               ->setIncludeMail(false);
+           $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+            $event=new NotificationEvent($registrations,$notification);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);        
               $this->addFlash('success', 'Enrégistrement effectué');
            return   $this->redirectToRoute('resultat_index');
         }elseif($form->isSubmitted())
@@ -82,19 +77,6 @@ class ResultatController extends Controller
         ));
     }
 
-
-public function firebaseSend($registrationIds, Notification $notification ){
-        $data=array('registration_ids' => array_values($registrationIds),
-                     //'dry_run'=>true,
-                     'notification'=>array('title' => $notification->getTitre(),
-                                             'body' => $notification->getSousTitre(),
-                                             'badge' => 1,
-                                              "icon"=> "ic_notify",
-                                             'sound'=> "default",
-                                            'tag' => 'message')
-    );
-  return $this->get('fmc_manager')->sendMessage($data);
-}
     /**
      * Finds and displays a resultat entity.
      *
