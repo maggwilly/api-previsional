@@ -142,7 +142,9 @@ class PartieController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
              $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
-            return $this->redirectToRoute('partie_index');
+             if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
+                return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
+              return $this->redirectToRoute('partie_index');
         }elseif($editForm->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('partie/edit.html.twig', array(
@@ -167,7 +169,9 @@ class PartieController extends Controller
             $em->flush();
             $this->addFlash('success', 'Supprimé.');
         }
-        return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
+              if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
+                return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
+         return $this->redirectToRoute('partie_index');
     }
 
     /**
