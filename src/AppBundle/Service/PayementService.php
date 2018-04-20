@@ -3,7 +3,7 @@ namespace AppBundle\Service;
 use Pwm\AdminBundle\Entity\Commande;
 class PayementService
 {
-    private   $authorization='Bearer Xz5nLaE2iQiDsYDsW5eibTM9YDUJ';
+   
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
     private  $id_prefix='CMD.CM.';
@@ -11,6 +11,12 @@ class PayementService
     private  $cancel_url='http://help.centor.org/cancel.html';
     private  $base_url='https://concours.centor.org/v1/formated/commende/';
 
+const AUTORISATION_HEADERS=array(
+    "accept: application/json",
+    "authorization: Bearer Xz5nLaE2iQiDsYDsW5eibTM9YDUJ",
+    "cache-control: no-cache",
+    "content-type: application/json"
+  );
 const OM_PAY_URL ="https://api.orange.com/orange-money-webpay/cm/v1/webpayment";
 const OM_TOKEN_URL = "https://api.orange.com/oauth/v2/token";
 
@@ -33,7 +39,7 @@ public function getToken()
   CURLOPT_CUSTOMREQUEST => "POST",
   CURLOPT_POSTFIELDS => "grant_type=client_credentials",
   CURLOPT_HTTPHEADER => array(
-    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6VklwRWhKU1lmeUFRY3NDcw=="
+    "Authorization: Basic R3ltM0ZBMkdQSkhrTVRYTE1ySFFNd3Yxd0E5RWdHQnc6djFBZlVZNEZMME00dEV5aw=="
   ),
 ));
 
@@ -57,12 +63,7 @@ public function getPayementUrl(Commande $commande)
   CURLOPT_CUSTOMREQUEST => "POST",
   CURLOPT_POSTFIELDS => "{\"merchant_key\":\"".$this->merchant_key."\", \"currency\":\"".$this->currency."\",\"order_id\": \"".$this->id_prefix.$commande->getUId()."\",\"amount\": \"".$commande->getAmount()."\", \"return_url\": \"".$this->return_url."\",\"cancel_url\": \"".$this->cancel_url."\",\"notif_url\": \"".$this->base_url.$commande->getId()."/confirm/json\",\"lang\": \"fr\",\"reference\": \"CENTOR .inc\"
      }",
-  CURLOPT_HTTPHEADER => array(
-    "accept: application/json",
-    "authorization: Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt",
-    "cache-control: no-cache",
-    "content-type: application/json"
-  ),
+  CURLOPT_HTTPHEADER => self::AUTORISATION_HEADERS
 ));
 
 $json_response = curl_exec($curl);
