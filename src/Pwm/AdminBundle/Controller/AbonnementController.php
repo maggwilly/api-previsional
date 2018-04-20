@@ -63,7 +63,7 @@ class AbonnementController extends Controller
     {
     $res=$this->get('payment_service')->getToken();
 
-  return new $res;
+  return  $res;
 }
 
 
