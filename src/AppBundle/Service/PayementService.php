@@ -3,7 +3,7 @@ namespace AppBundle\Service;
 use Pwm\AdminBundle\Entity\Commande;
 class PayementService
 {
-    private   $authorization='Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt';
+    private   $authorization='Bearer Xz5nLaE2iQiDsYDsW5eibTM9YDUJ';
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
     private  $id_prefix='CMD.CM.';
