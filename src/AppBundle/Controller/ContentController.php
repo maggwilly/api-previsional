@@ -113,7 +113,7 @@ class ContentController extends Controller
     {
         $form = $this->createDeleteForm($content);
         $form->handleRequest($request);
-
+         $article=$content->getArticle();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($content);
@@ -121,7 +121,7 @@ class ContentController extends Controller
             $this->addFlash('success', 'Supprimé.');
         }
 
-        return $this->redirectToRoute('content_index');
+        return $this->redirectToRoute('content_index', array('id' => $article->getId()));
     }
 
     /**

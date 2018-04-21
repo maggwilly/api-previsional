@@ -48,12 +48,17 @@
         {{ form_errors(form.text) }}
         {{ form_widget(form.text) }}
      <div class="row-fluid"> 
-      <div  class="span6">
+      <div  class="span4">
+        {{ form_label(form.imageEntity) }}
+        {{ form_errors(form.imageEntity) }}
+        {{ form_widget(form.imageEntity) }}
+    </div>      
+      <div  class="span4">
         {{ form_label(form.rep) }}
         {{ form_errors(form.rep) }}
         {{ form_widget(form.rep) }}
     </div>
-       <div  class="span6">
+       <div  class="span4">
         {{ form_label(form.time) }}
         {{ form_errors(form.time) }}
         {{ form_widget(form.time) }}

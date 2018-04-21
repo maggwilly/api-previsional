@@ -52,12 +52,17 @@
         {{ form_errors(edit_form.text) }}
         {{ form_widget(edit_form.text) }}
       <div class="row-fluid">
-      <div  class="span6">
+      <div  class="span4">
+        {{ form_label(edit_form.imageEntity) }}
+        {{ form_errors(edit_form.imageEntity) }}
+        {{ form_widget(edit_form.imageEntity) }}
+    </div>        
+      <div  class="span4">
         {{ form_label(edit_form.rep) }}
         {{ form_errors(edit_form.rep) }}
         {{ form_widget(edit_form.rep) }}
     </div>
-       <div  class="span6">
+       <div  class="span4">
         {{ form_label(edit_form.time) }}
         {{ form_errors(edit_form.time) }}
         {{ form_widget(edit_form.time) }}

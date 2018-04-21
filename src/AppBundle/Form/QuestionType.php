@@ -26,6 +26,7 @@ class QuestionType extends AbstractType
                                          'c' => 'Proposition de réponse C',
                                          'd' => 'Proposition de réponse D'),
                                          'label'=>'Proposition de réponse juste'))
+        ->add('imageEntity',   new ImageType(), array('label'=>'Image de la question','required'=>false))
         ->add('time',ChoiceType::class, array(
                                      'choices'  => array(
                                          '2' => '2 minutes',
