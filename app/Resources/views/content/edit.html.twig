@@ -17,7 +17,7 @@
    {% block table_title %}Modification{% endblock %} 
 {% block table %}
 <div class="row-fluid">  
-<div class="span6">
+<div class="span12">
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
            <br>
@@ -34,15 +34,6 @@
         </li>
     </ul>
  </div>
- {% if content.article.partie.containMath %}   
-<div class="span6">
-  <b>Editeur de formules</b>
- <div  style="width:100%;height:300px" id="editorContainer">
- </div>
- <button onclick="myFunction()">Obtenir la traduction</button>
- <p><strong>Note !</strong>Les touches de direction permettent de passer d'une case à l'autre plus facilement.</p>
-</div>
-{% endif %}
 </div>        
 {% endblock %}
  {% block javascripts %}
