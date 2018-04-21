@@ -59,7 +59,8 @@ class SessionType extends AbstractType
                    'empty_data' => null,
                    'label'=>'Tarifaire','required' => false)
              )   
-         ->add('shouldAlert', 'checkbox' ,array('label'=>'Notifier les candidats','required' => true))         
+         ->add('shouldAlert', 'checkbox' ,array('label'=>'Envoyer une alerte','required' => false))
+          ->add('archived', 'checkbox' ,array('label'=>'Archivé','required' => false))         
          ->add('preparation', EntityType::class,
              array('class' => 'AppBundle:Programme', 
                    'choice_label' => 'getNom', 
