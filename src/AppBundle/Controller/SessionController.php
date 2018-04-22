@@ -270,11 +270,11 @@ class SessionController extends Controller
               $em->flush();
                $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
                return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
-            }elseif($editForm->isSubmitted())
-               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+            }
             $em->flush();
             return $this->redirectToRoute('session_index');
-        }
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
         return $this->render('session/edit.html.twig', array(
             'session' => $session,
