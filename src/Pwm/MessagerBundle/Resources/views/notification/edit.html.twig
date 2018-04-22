@@ -29,9 +29,8 @@
 {% block table %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-      {% if not notification.sendNow %}
         <input type="submit" value="Enregistrer" class="btn btn-info"/>
-        {% endif %} 
+
     {{ form_end(edit_form) }}
    <table class="table  no-table-bordered bootstrap-datatable">
      <tr>
@@ -44,15 +43,14 @@
                 <input type="submit" value="Supprimer" class="btn btn-danger">
             {{ form_end(delete_form) }}
         </td>
-        
-        {% endif %} 
         <td>
              {% if is_granted('ROLE_MESSAGER') %}
             {{ form_start(send_form) }}
                 <input type="submit" value="Publier" class="btn btn-primary">
             {{ form_end(send_form) }}
                {% endif %}
-        </td>               
+        </td>        
+        {% endif %}        
             </tr>
     </table>
 {% endblock %}
