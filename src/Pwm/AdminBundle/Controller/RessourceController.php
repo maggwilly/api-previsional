@@ -84,8 +84,8 @@ class RessourceController extends Controller
   */
     public function pushInGroupAction(Ressource $ressource)
     {
-          //$this->pushInGroup($ressource);
-          $this->addFlash('success', 'Envoyé dans le groupe. '.$this->pushInGroup($ressource));
+          $this->pushInGroup($ressource);
+          $this->addFlash('success', 'Envoyé dans le groupe. ');
        return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
     }
 
@@ -128,7 +128,7 @@ class RessourceController extends Controller
                 'sentTo'=>''
             );
             $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/msgboard.json";
-            $this->get('fmc_manager')->sendOrGetData($url,$data,'POST',false);
+            $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
               }
     }
 
