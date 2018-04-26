@@ -122,7 +122,7 @@ class RessourceController extends Controller
                 ) , 
                 'uiniqid'=>uniqid(),
                 'displayName'=>'Centor .inc',
-                'timestamp'=>$date->getTimestamp(),
+                'timestamp'=>time(),
                 'sentby'=>'uid',
                 'photoURL'=>'https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/ressources%2Ficon-blue.png?alt=media&token=b146afb4-66db-49e0-9261-0216721daa8c',
                 'sentTo'=>''
