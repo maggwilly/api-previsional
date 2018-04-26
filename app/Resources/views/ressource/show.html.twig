@@ -77,6 +77,9 @@
         <td>
             <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">Modifier</a>
         </td>
+        <td>
+            <a href="{{ path('push_ressource', { 'id': ressource.id }) }}" class="btn btn-success">Envoyer </a>
+        </td>        
          <td>
            {{ form_start(delete_form) }}
                 <input type="submit" value="Supprimer" class="btn btn-danger">

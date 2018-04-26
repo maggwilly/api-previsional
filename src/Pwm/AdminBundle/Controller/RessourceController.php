@@ -70,7 +70,8 @@ class RessourceController extends Controller
               $this->pushInGroup($ressource);
               $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');
              // return $this->redirectToRoute('ressource_show', array('id' =>  $ressource->getId()));
-            return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+           // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+             return $this->redirectToRoute('push_ressource', array('id' => $ressource->getId()));
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('ressource/new.html.twig', array(
@@ -78,6 +79,16 @@ class RessourceController extends Controller
             'form' => $form->createView(),
         ));
     }
+  /**
+   * @Security("is_granted('ROLE_SUPERVISEUR')")
+  */
+    public function pushInGroupAction(Ressource $ressource)
+    {
+          $this->pushInGroup($ressource);
+          $this->addFlash('success', 'Envoyé dans le groupe.');
+       return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+    }
+
     public function findRegistrations($destinations)
     {
         $registrations= array();

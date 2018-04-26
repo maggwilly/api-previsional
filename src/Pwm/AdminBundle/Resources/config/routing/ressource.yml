@@ -8,6 +8,11 @@ ressource_show:
     defaults: { _controller: "AdminBundle:Ressource:show" }
     methods:  GET
 
+push_ressource:
+    path:     /{id}/push/group
+    defaults: { _controller: "AdminBundle:Ressource:pushInGroup" }
+    methods:  GET
+
 ressource_new:
     path:     /new/{session}
     defaults: { _controller: "AdminBundle:Ressource:new" ,"session":0}
