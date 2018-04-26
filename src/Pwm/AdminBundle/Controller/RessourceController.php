@@ -127,7 +127,7 @@ class RessourceController extends Controller
                 'photoURL'=>'https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/ressources%2Ficon-blue.png?alt=media&token=b146afb4-66db-49e0-9261-0216721daa8c',
                 'sentTo'=>''
             );
-            $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/msgboard.json";
+            $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/documents.json";
             $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
               }
     }
