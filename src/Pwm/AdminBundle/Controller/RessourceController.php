@@ -67,8 +67,8 @@ class RessourceController extends Controller
 
             $event=new NotificationEvent($registrations,$notification, $data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-              $this->pushInGroup($ressource);
-              $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');
+             /* $this->pushInGroup($ressource);
+              $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');*/
              // return $this->redirectToRoute('ressource_show', array('id' =>  $ressource->getId()));
            // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
              return $this->redirectToRoute('push_ressource', array('id' => $ressource->getId()));
