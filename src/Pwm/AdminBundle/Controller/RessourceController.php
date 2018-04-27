@@ -44,7 +44,7 @@ class RessourceController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $ressource->setIsPublic(!is_null($session));
+            $ressource->setIsPublic(is_null($session));
             $em->persist($ressource);
             $em->flush();
              $notification = new Notification('public',false,true);
@@ -54,7 +54,7 @@ class RessourceController extends Controller
              ->setText($ressource->getNom().' '.$ressource->getDescription());
              $notification->setUser($this->getUser());
              $registrations=array();
-            $data=array(
+             $data=array(
                         'page'=>'document',
                          'id'=>$ressource->getId()
                       );
@@ -64,7 +64,6 @@ class RessourceController extends Controller
                   $destinations=$ressource->getSession()->getInfos();
                   $registrations=$this->findRegistrations($destinations); 
              }
-
             $event=new NotificationEvent($registrations,$notification, $data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
              /* $this->pushInGroup($ressource);
