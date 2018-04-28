@@ -71,9 +71,9 @@ class QuestionController extends Controller
             $event= new QuestionEvent($question);
             $this->get('event_dispatcher')->dispatch('object.created', $event);
              $this->addFlash('success', ' La nouvelle question a été enrégistrée, continuez avec la suivante !');
-            return $this->redirectToRoute('question_new', array('id' => $partie->getId()));
+            return new Response('ok');//$this->redirectToRoute('question_new', array('id' => $partie->getId()));
         }elseif($form->isSubmitted())
-               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+               return new Response('error',500);
 
         return $this->render('question/new.html.twig', array(
             'question' => $question, 'partie' => $partie,
