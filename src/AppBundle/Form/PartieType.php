@@ -19,6 +19,7 @@ class PartieType extends AbstractType
         ->add('sources', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'ckeditor')))
 
         ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules mathematiques ?','required'=>false))
+        ->add('index')
         ->add('type', ChoiceType::class, array(
                                  'choices'  => array(
                                   'TD' => 'Travaux dirigés', 'EP' => 'Ancienne épreuve'),

@@ -86,7 +86,7 @@ class Matiere
 
     /**
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", cascade={"persist","remove"})
-   * @ORM\OrderBy({ "id" = "ASC"})
+   * @ORM\OrderBy({ "index" = "ASC"})
    */
     private $unites;
 

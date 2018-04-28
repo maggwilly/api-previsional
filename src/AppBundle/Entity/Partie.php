@@ -78,7 +78,6 @@ class Partie
      * @var string
      *
      * @ORM\Column(name="index_number", type="integer",nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $index;
 
