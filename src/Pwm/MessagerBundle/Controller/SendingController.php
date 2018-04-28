@@ -68,8 +68,10 @@ class SendingController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function newJsonAction(Request $request,  $registrationId)
-    {     $em = $this->getDoctrine()->getManager();
+    public function newJsonAction(Request $request,  $registrationId=null)
+    {     if(is_null($registrationId))
+             return array('error'=>false);
+          $em = $this->getDoctrine()->getManager();
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registrqtion)){
                $registrqtion->setLatLoginDate(new \DateTime())->setIsFake(null)->setUserAgent($request->headers->get('User-Agent'));
@@ -85,6 +87,8 @@ class SendingController extends Controller
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registrqtion);
             $form->submit($request->request->all(),false);
           if ($form->isValid()) {
+                if(is_null($registrqtion->getId()))
+                    return array('error'=>false);
               $em->persist($registrqtion);
               $em->flush();
               $event= new RegistrationEvent($registrqtion);
