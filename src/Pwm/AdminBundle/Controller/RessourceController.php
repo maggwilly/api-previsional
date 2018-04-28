@@ -103,6 +103,7 @@ class RessourceController extends Controller
 
     public function pushInGroup(Ressource $ressource)
     {   
+       // ,'url'=> $ressource->getUrl()
               if(!is_null($ressource->getSession())){
                  $date = new \DateTime();
             $msg=array(
@@ -113,8 +114,8 @@ class RessourceController extends Controller
                           'nom'=> $ressource->getNom(),
                           'description'=> $ressource->getDescription(),
                           'size'=> $ressource->getSize(),
-                          'style'=> $ressource->getStyle(),
-                          'url'=> $ressource->getUrl()
+                          'style'=> $ressource->getStyle()
+                        
                     ),
                     'type'=>'ressource',
                     'fromAdmin'=>true
