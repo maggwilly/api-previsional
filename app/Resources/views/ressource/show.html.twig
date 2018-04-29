@@ -75,8 +75,11 @@
         </td>
        
         <td>
-          
-            <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">Modifier</a>
+          {% if session %}
+            <a href="{{ path('ressource_edit', { 'id': ressource.id,'session': session.id }) }}">Modifier</a>
+             {% else %}
+      <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">Modifier</a>              
+            {% endif %}
         </td>
         <td>
            {% if session %}

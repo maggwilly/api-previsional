@@ -194,10 +194,10 @@ class RessourceController extends Controller
   /**
    * @Security("is_granted('ROLE_SUPERVISEUR')")
   */
-    public function editAction(Request $request, Ressource $ressource)
+    public function editAction(Request $request, Ressource $ressource,Session $session=null)
     {
         $deleteForm = $this->createDeleteForm($ressource);
-        $editForm = $this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
+         $editForm =is_null($session)? $this->createForm('Pwm\AdminBundle\Form\RessourceSuperType', $ressource):$this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
