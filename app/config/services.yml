@@ -29,6 +29,11 @@ services:
           arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
           tags:
             - { name: kernel.event_listener, event: object.created, method: onObjetCreated }
+      create_user_listener:
+          class: AppBundle\Event\CreateListener
+          arguments: ["@misteio_cloudinary_wrapper","@doctrine.orm.entity_manager", "@twig","@fmc_manager"]
+          tags:
+            - { name: kernel.event_listener, event: user.created, method: onUserCreated }
 
       commande_listener:
           class: AppBundle\Event\CreateListener

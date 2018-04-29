@@ -117,6 +117,8 @@ class InfoController extends Controller
                  return $form; 
                 $em->persist($info); 
                  $em->flush(); 
+                 $event= new InfoEvent($info);
+                 $this->get('event_dispatcher')->dispatch('user.created', $event);              
               }
             if($registration!=null){
                 $registration->setInfo($info);

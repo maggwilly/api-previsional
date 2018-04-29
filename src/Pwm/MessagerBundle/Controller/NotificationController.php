@@ -273,9 +273,6 @@ class NotificationController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-             if($notification->getSendNow()){
-                  return $this->redirectToRoute('notification_send', array('id' => $notification->getId()));
-             }
                $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('notification_edit', array('id' => $notification->getId()));
         }elseif($editForm->isSubmitted())

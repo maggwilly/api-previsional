@@ -66,6 +66,18 @@ public function onRegistration(RegistrationEvent $event)
      } 
 }
 
+public function onUserCreated(InfoEvent $event)
+{  
+      $info=$event->getInfo();
+      $registrations= $info->getRegistration();
+      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneId(580);
+        $notification ->setIncludeMail(true);
+        $this->_em->flush();
+          $registrationIds=$this->sendTo($registrations);
+           $data=array( 'page'=>'notification','id'=>$notification->getId());
+           $result=  $this->firebaseSend($registrationIds, $notification,$data); 
+          $this->controlFake($result,$registrations,$notification); 
+}
 
 
 public function onCommandeConfirmed(CommandeEvent $event)
