@@ -37,9 +37,15 @@
         {% for ressource in ressources %}
             <tr>
                 <td>
-                   <a href="{{ path('ressource_show', { 'id': ressource.id }) }}">{{ ressource.nom }}
+                   {% if session %}
+                   <a href="{{ path('ressource_show', { 'id': ressource.id,'session': session.id }) }}">{{ ressource.nom }}
                   <p>{{ ressource.description }}</p>
-                   </a>    
+                   </a> 
+                   {% else %}
+                   <a href="{{ path('ressource_show', { 'id': ressource.id}) }}">{{ ressource.nom }}
+                  <p>{{ ressource.description }}</p>
+                   </a>                    
+                    {% endif %}    
                 </td>
                 <td> {% if ressource.price  %}{{ ressource.price }} XAF{% else %}Gratuit{% endif %}</td>                
                 <td>

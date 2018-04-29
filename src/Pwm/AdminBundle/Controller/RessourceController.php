@@ -100,7 +100,7 @@ class RessourceController extends Controller
                         'page'=>'document',
                          'id'=>$ressource->getId()
                       );
-             if($ressource->getIsPublic()||is_null($session))
+             if($ressource->getIsPublic())
                   $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
              elseif(!is_null($session)){
                   $destinations=$session->getInfos();
