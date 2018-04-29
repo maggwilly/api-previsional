@@ -52,7 +52,7 @@ class RessourceSuperType extends AbstractType
 ))
   ->add('sessions', EntityType::class,
                        array('class' => 'AppBundle:Session', 
-                           'choice_label' => 'abreviation', 
+                           'choice_label' => 'nomConcours', 
                            'placeholder' => 'Toute les sessions',
                             'empty_data'  => null,
                             'required' => false,
