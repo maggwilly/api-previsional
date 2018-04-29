@@ -175,7 +175,7 @@ class Session
     private $owner;
 
         /**
-   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource", inversedBy="sessions", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource",  mappedBy="sessions", cascade={"persist"})
    */
     private $ressources; 
 

@@ -115,7 +115,7 @@ class Ressource
     private $session;
 
     /**
-   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="ressources", cascade={"persist","remove"})*/
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session",inversedBy="ressources", cascade={"persist","remove"})*/
     private $sessions; 
 
     private $paymentUrl; 
