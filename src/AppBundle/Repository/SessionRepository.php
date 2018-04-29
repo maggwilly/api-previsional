@@ -80,7 +80,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
     $qb = $this->createQueryBuilder('s')->where('s.archived=:archived and s.dateLancement is not NULL')->setParameter('archived',false)
     ->andWhere('s.niveau=:niveau')->setParameter('niveau', $user->getNiveau())
     ->andWhere('s.serie=:serie')->setParameter('serie', $user->getSerie())
-    ->andWhere('s.dateMax>=:dateMax')->setParameter('dateMax', $user->getDateMax())
+    ->andWhere('s.dateMax<=:dateMax')->setParameter('dateMax', $user->getDateMax())
     ->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();
     $query->setFirstResult(0)->setMaxResults(10);
