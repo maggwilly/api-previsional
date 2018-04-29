@@ -7,9 +7,9 @@
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>         
         </li>
-        {% if ressource.session %}
+        {% if session %}
         <li>
-      <a href="{{ path('ressource_index', { 'id': ressource.session.id }) }}">{{ressource.session.nomConcours}}</a> 
+      <a href="{{ path('ressource_index', { 'id': session.id }) }}">{{session.nomConcours}}</a> 
           <i class="icon-angle-right"></i>          
         </li>
       {% else %}  
@@ -63,9 +63,9 @@
       <table class="table  no-table-bordered bootstrap-datatable">
         <tr> 
          <td>
-           {% if ressource.session %}
+           {% if session %}
        
-            <a href="{{ path('ressource_index', { 'session': ressource.session.id }) }}">Retour</a>
+            <a href="{{ path('ressource_index', { 'session': session.id }) }}">Retour</a>
        
          {% else %}         
           
@@ -75,10 +75,15 @@
         </td>
        
         <td>
+          
             <a href="{{ path('ressource_edit', { 'id': ressource.id }) }}">Modifier</a>
         </td>
         <td>
-            <a href="{{ path('push_ressource', { 'id': ressource.id }) }}" class="btn btn-success">Envoyer </a>
+           {% if session %}
+            <a href="{{ path('push_ressource', { 'id': ressource.id,'session': session.id }) }}" class="btn btn-success">Envoyer </a>
+             {% else %}  
+     <a href="{{ path('push_ressource', { 'id': ressource.id }) }}" class="btn btn-success">Envoyer </a>    
+               {% endif %}
         </td>        
          <td>
            {{ form_start(delete_form) }}

@@ -4,13 +4,13 @@ ressource_index:
     methods:  GET
 
 ressource_show:
-    path:     /{id}/show
-    defaults: { _controller: "AdminBundle:Ressource:show" }
+    path:     /{id}/show/{session}
+    defaults: { _controller: "AdminBundle:Ressource:show","session":0 }
     methods:  GET
 
 push_ressource:
-    path:     /{id}/push/group
-    defaults: { _controller: "AdminBundle:Ressource:pushInGroup" }
+    path:     /{id}/push/group/{session}
+    defaults: { _controller: "AdminBundle:Ressource:pushInGroup","session":0 }
     methods:  GET
 
 ressource_new:

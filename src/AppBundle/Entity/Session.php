@@ -175,7 +175,7 @@ class Session
     private $owner;
 
         /**
-   * @ORM\OneToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource", mappedBy="session", cascade={"persist","remove"})
+   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource", inversedBy="sessions", cascade={"persist"})
    */
     private $ressources; 
 
@@ -218,7 +218,8 @@ class Session
      $this->infos = new \Doctrine\Common\Collections\ArrayCollection();
      $this->abonnements = new \Doctrine\Common\Collections\ArrayCollection();
      $this->liens = new \Doctrine\Common\Collections\ArrayCollection();
-      $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+     $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
+     $this->ressources = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 

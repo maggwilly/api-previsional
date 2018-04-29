@@ -40,37 +40,21 @@ class RessourceController extends Controller
     public function newAction(Request $request,Session $session=null)
     {
         $ressource = new Ressource($session);
-        $form = $this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
+        $form =is_null($session)? $this->createForm('Pwm\AdminBundle\Form\RessourceSuperType', $ressource):$this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $ressource->setIsPublic(is_null($session));
             $em->persist($ressource);
             $em->flush();
-             $notification = new Notification('public',false,true);
-             $notification
-             ->setTitre($ressource->getIsPublic()?'Nouveau document':'Nouveau document ~'.$ressource->getSession()->getNomConcours())
-             ->setSousTitre($ressource->getNom().' '.$ressource->getDescription())
-             ->setText($ressource->getNom().' '.$ressource->getDescription());
-             $notification->setUser($this->getUser());
-             $registrations=array();
-             $data=array(
-                        'page'=>'document',
-                         'id'=>$ressource->getId()
-                      );
-             if($ressource->getIsPublic())
-                  $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
-             elseif(!is_null($ressource->getSession())){
-                  $destinations=$ressource->getSession()->getInfos();
-                  $registrations=$this->findRegistrations($destinations); 
-             }
-            $event=new NotificationEvent($registrations,$notification, $data);
-            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-             /* $this->pushInGroup($ressource);
-              $this->addFlash('success', 'Enrégistrement effectué. une notification envoyée aux utilisateurs');*/
-             // return $this->redirectToRoute('ressource_show', array('id' =>  $ressource->getId()));
-           // return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
-             return $this->redirectToRoute('push_ressource', array('id' => $ressource->getId()));
+            if($ressource->getIsPublic())
+                 $this->pushInGroup($ressource);
+             else
+              foreach ($ressource->getSessions() as $key => $session) {
+                 $this->pushInGroup($ressource,$session);
+              }
+        if(!is_null($session))
+              return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId(),'session' => $session->getId()));
+          return $this->redirectToRoute('ressource_show',  array('id' => $ressource->getId()));
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
         return $this->render('ressource/new.html.twig', array(
@@ -81,12 +65,14 @@ class RessourceController extends Controller
   /**
    * @Security("is_granted('ROLE_SUPERVISEUR')")
   */
-    public function pushInGroupAction(Ressource $ressource)
+    public function pushInGroupAction(Ressource $ressource,Session $session=null)
     {
-          $this->pushInGroup($ressource);
-          $this->addFlash('success', 'Envoyé dans le groupe. ');
-       return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId()));
+          $this->pushInGroup($ressource,$session);
+          if(!is_null($session))
+              return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId(),'session' => $session->getId()));
+       return $this->redirectToRoute('ressource_show',  array('id' => $ressource->getId()));
     }
+
 
     public function findRegistrations($destinations)
     {
@@ -101,12 +87,32 @@ class RessourceController extends Controller
     
     }
 
-    public function pushInGroup(Ressource $ressource)
+    public function pushInGroup(Ressource $ressource,Session $session=null)
     {   
+             $notification = new Notification('public',false,true);
+             $notification
+             ->setTitre($ressource->getIsPublic()?'Nouveau document':'Nouveau document ~'.$ressource->getSession()->getNomConcours())
+             ->setSousTitre($ressource->getNom().' '.$ressource->getDescription())
+             ->setText($ressource->getNom().' '.$ressource->getDescription());
+             $notification->setUser($this->getUser());
+             $registrations=array();
+             $data=array(
+                        'page'=>'document',
+                         'id'=>$ressource->getId()
+                      );
+             if($ressource->getIsPublic()||is_null($session))
+                  $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+             elseif(!is_null($session)){
+                  $destinations=$session->getInfos();
+                  $registrations=$this->findRegistrations($destinations); 
+             }
+            $event=new NotificationEvent($registrations,$notification, $data);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+
        // ,'url'=> $ressource->getUrl()
-              if(!is_null($ressource->getSession())){
+              if(!is_null($session)){
                  $date = new \DateTime();
-            $msg=array(
+               $msg=array(
                 'message' =>array(
                      'ressource'=>array(
                           'id'=> $ressource->getId(),
@@ -127,8 +133,9 @@ class RessourceController extends Controller
                 'photoURL'=>'https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/ressources%2Ficon-blue.png?alt=media&token=b146afb4-66db-49e0-9261-0216721daa8c',
                 'sentTo'=>''
             );
-            $url="https://trainings-fa73e.firebaseio.com/session/".$ressource->getSession()->getId()."/documents.json";
+            $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/documents.json";
             $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
+             $this->addFlash('success', 'Envoyé aux utilisateurs. ');
               }
     }
 
@@ -174,11 +181,12 @@ class RessourceController extends Controller
      * Finds and displays a ressource entity.
      *
      */
-    public function showAction(Ressource $ressource)
+    public function showAction(Ressource $ressource,Session $session=null)
     {
         $deleteForm = $this->createDeleteForm($ressource);
         return $this->render('ressource/show.html.twig', array(
             'ressource' => $ressource,
+            'session' => $session,
             'delete_form' => $deleteForm->createView(),
         ));
     }

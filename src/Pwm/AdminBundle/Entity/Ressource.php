@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="ressource")
  * @ORM\Entity(repositoryClass="Pwm\AdminBundle\Repository\RessourceRepository")
+   * @ORM\HasLifecycleCallbacks
  */
 class Ressource
 {
@@ -115,6 +116,11 @@ class Ressource
    */
     private $session;
 
+    /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="ressources", cascade={"persist","remove"})
+   */
+    private $sessions; 
+
     private $paymentUrl; 
 
         /**
@@ -129,8 +135,9 @@ class Ressource
     public function __construct(\AppBundle\Entity\Session $session=null)
     {
         $this->date =new \DateTime();
-            $this->isPublic=is_null($session);
+        $this->addSession($session);
         $this->session = $session; 
+        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
      * Get id
@@ -141,7 +148,15 @@ class Ressource
     {
         return $this->id;
     }
+      /**
+    * @ORM\PrePersist()
+    * @ORM\PostUpdate()
+    */
+    public function PrePersist(){
+       $this->setIsPublic(empty($this->sessions));
+    }
 
+ 
     /**
      * Set price
      *
@@ -525,4 +540,40 @@ class Ressource
     {
         return $this->isPublic;
     }
+
+       /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Partie
+     */
+    public function addSession(\AppBundle\Entity\Session $session = null)
+    {
+        if(is_null($session))
+            return $this;
+        $this->sessions->removeElement($session);
+        $this->sessions[] = $session;
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\Session $session
+     */
+    public function removeSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    } 
 }
