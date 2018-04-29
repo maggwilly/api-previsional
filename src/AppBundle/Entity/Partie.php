@@ -113,7 +113,7 @@ class Partie
     private $article;
 
     /**
-   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="parties", cascade={"persist","remove"})
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session", mappedBy="parties", cascade={"persist"})
    */
     private $sessions; 
 
