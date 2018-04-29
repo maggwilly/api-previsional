@@ -21,7 +21,7 @@ class RessourceRepository extends \Doctrine\ORM\EntityRepository
 
       public function findRessources(Session $session){
          $qb = $this->createQueryBuilder('r')->join('r.sessions','s')
-         ->where('s.id=:session or r.isPublic=:ispublic')->setParameter('session',$session->getId())->setParameter('ispublic',true);
+         ->where('s.id=:session or r.isPublic=:ispublic')->setParameter('session',$session->getId())->setParameter('ispublic',true)->orderBy('r.date', 'desc');
           return $qb->getQuery()->getResult();
   } 
 }
