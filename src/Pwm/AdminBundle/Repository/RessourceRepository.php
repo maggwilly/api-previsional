@@ -13,7 +13,7 @@ class RessourceRepository extends \Doctrine\ORM\EntityRepository
      public function findNewRessources(Session $session){
        $now=new \DateTime();
        $now->modify('-20 day');
-       $qb = $this->createQueryBuilder('r')->join('r.sessions','s')
+       $qb = $this->createQueryBuilder('r')->leftJoin('r.sessions','s')
          ->where('s.id=:session')
          ->orWhere('r.isPublic=:ispublic')
          ->setParameter('session',$session->getId())
@@ -23,7 +23,7 @@ class RessourceRepository extends \Doctrine\ORM\EntityRepository
   }
 
       public function findRessources(Session $session){
-         $qb = $this->createQueryBuilder('r')->join('r.sessions','s')
+         $qb = $this->createQueryBuilder('r')->leftJoin('r.sessions','s')
          ->where('s.id=:session')
          ->orWhere('r.isPublic=:ispublic')
          ->setParameter('session',$session->getId())
