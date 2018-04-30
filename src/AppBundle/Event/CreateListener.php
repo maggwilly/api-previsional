@@ -70,7 +70,7 @@ public function onUserCreated(InfoEvent $event)
 {  
       $info=$event->getInfo();
       $registrations= $info->getRegistrations();
-      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneId(580);
+      $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneById(580);
       $notification ->setIncludeMail(true);
       $this->_em->flush();
       $registrationIds=$this->sendTo($registrations);
