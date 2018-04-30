@@ -132,7 +132,8 @@ class Ressource
     public function __construct(\AppBundle\Entity\Session $session=null)
     {
         $this->date =new \DateTime();
-        $this->addSession($session);
+        if(!is_null($session))
+           $this->addSession($session);
         $this->session = $session; 
         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
     }
