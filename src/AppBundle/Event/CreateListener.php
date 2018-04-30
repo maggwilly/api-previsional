@@ -139,6 +139,8 @@ public function onCommandeConfirmed(CommandeEvent $event)
     public function sendTo($registrations)
     {
       $registrationIds=array();
+      if(empty($registrations))
+        return $registrationIds;
        foreach ($registrations as $registration) {
     if (!$registration->getIsFake()) 
        $registrationIds[]=$registration->getRegistrationId();
