@@ -114,11 +114,13 @@ class InfoController extends Controller
             $form = $this->createForm('Pwm\AdminBundle\Form\InfoType',$info);
             $form->submit($res,false);
             if (!$form->isValid())
-                 return $form; 
-                $em->persist($info); 
-                 $em->flush(); 
+                 return $form;
+                if($registration!=null) 
+                  $em->persist($info); 
+                   $registration->setInfo($info);
+                   $em->flush();   
                  $event= new InfoEvent($info);
-                 $this->get('event_dispatcher')->dispatch('user.created', $event);              
+                 $this->get('event_dispatcher')->dispatch('user.created', $event);           
               }
             if($registration!=null){
                 $registration->setInfo($info);
