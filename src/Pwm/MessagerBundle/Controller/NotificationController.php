@@ -14,6 +14,7 @@ use Pwm\AdminBundle\Entity\Info;
 use AppBundle\Event\NotificationEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /**
  * Notification controller.
  *
