@@ -343,7 +343,11 @@ class NotificationController extends Controller
        $formBuilder = $this->createFormBuilder($notification)
               ->add('titre','text' ,array('label'=>"Titre"))
              ->add('sousTitre', 'textarea' ,array('label'=>"Texte simple de moin de  132 caractères à afficher sur l'ecran veroullé"))
-             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média','attr'=>array('class'=>'ckeditor')));
+             ->add('text', 'textarea' ,array('label'=>'Corps du message en texte riche contenant imqges et média','attr'=>array('class'=>'ckeditor')))
+             ->add('format', ChoiceType::class, array(
+                                 'choices'  => array(
+                                 'ios-mail' => 'Message', 'notifications' => 'Notifications', 'paper' => 'Annonce', 'alarm' => 'Alerte temps','ios-bulb' => 'Astuce'),
+                                   ));
              if($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
                  $formBuilder->add('sendNow', 'checkbox' ,array('label'=>'Envoyer maintenant','required' => false))
                            ->add('groupe', EntityType::class,
