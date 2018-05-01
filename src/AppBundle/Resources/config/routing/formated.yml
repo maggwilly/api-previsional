@@ -35,8 +35,8 @@ session_show_json:
     methods:  GET
 
 session_follow_json:
-    path:     /session/{session}/{info}/follows/json
-    defaults: { _controller: "AppBundle:Session:follows" }
+    path:     /session/{id}/{uid}/follows/json
+    defaults: { _controller: "AppBundle:Session:follows","uid":"*" }
     methods:  GET
 
 

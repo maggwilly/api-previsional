@@ -227,7 +227,7 @@ class SessionController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function followsAction(Request $request,Session $session, Info $info)
+    public function followsAction(Request $request,Session $session, Info $info=null)
     {
          $status=$request->query->get('status');
           if ($session!=null && $info!=null) {
