@@ -63,7 +63,7 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
 
    public function findNotSendDesc($registrationIds=array()){
          $qb = $this->createQueryBuilder('r')
-        -> where('a.registrationId not IN (:registrationIds)')->setParameter('registrationIds', $registrationIds)
+        -> where('r.registrationId not IN (:registrationIds)')->setParameter('registrationIds', $registrationIds)
         ->andWhere('r.isFake is NULL'); 
           return $qb->getQuery()->getResult();
   } 
