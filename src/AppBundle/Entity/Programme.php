@@ -76,7 +76,7 @@ class Programme
      */
     public function __construct($session=null)
     {
-    $this->nom=is_null($session)?$session->getNomConcours():'Nouveau programme';
+    $this->nom=!is_null($session)?$session->getNomConcours():'Nouveau programme';
     $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
     $this->date=new \DateTime();
     }
