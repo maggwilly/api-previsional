@@ -167,7 +167,7 @@ class NotificationController extends Controller
              $em->flush();
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-            $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');       
+            $this->addFlash('success', 'Rappel envoyé à . '.count($registrations).' contacts');       
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
           }
 
@@ -178,7 +178,7 @@ class NotificationController extends Controller
         $data=array('page'=>'rappel');
         $event=new NotificationEvent($registrations,$notification,$data);
         $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-        $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
+        $this->addFlash('success', 'Rappel envoyé à . '.count($registrations).' contacts');
        return  $this->redirectToRoute('notification_index');
     }
 
@@ -196,7 +196,7 @@ class NotificationController extends Controller
              $em->flush();
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-            $this->addFlash('success', 'Envoyé à . '.count($registrationIds).' contacts');       
+            $this->addFlash('success', 'Envoyé à . '.count($registrations).' contacts');       
             return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
     }
 
