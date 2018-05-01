@@ -163,7 +163,7 @@ class NotificationController extends Controller
         $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
           if(!is_null($notification)){
              $data=array('page'=>'notification','id'=>$notification->getId());
-             $notification->setIncludeMail(false)->setDate(new \DateTime());
+             $notification->setIncludeMail(false);
              $em->flush();
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
@@ -192,7 +192,7 @@ class NotificationController extends Controller
         $registrationIds=array_unique(array_column($sendings, 'registrationId'));
         $registrations=$em->getRepository('MessagerBundle:Registration')->findNotSendDesc($registrationIds);
              $data=array('page'=>'notification','id'=>$notification->getId());
-             $notification->setIncludeMail(true)->setDate(new \DateTime());
+             $notification->setIncludeMail(true);
              $em->flush();
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
