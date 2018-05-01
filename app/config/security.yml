@@ -33,7 +33,7 @@ security:
 
         mobile:
       # since anonymous is allowed users will not be forced to login
-            pattern:   auth-token|mobile|formated|apk|update|xml|ambassador
+            pattern:   auth-token|mobile|formated|apk|update|xml|ambassador|cron|job
             anonymous: true
             security: false
             stateless: true

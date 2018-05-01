@@ -182,6 +182,24 @@ class NotificationController extends Controller
        return  $this->redirectToRoute('notification_index');
     }
 
+    public function resentFroCronJobAction(Notification $notification=null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sendings=$em->getRepository('MessagerBundle:Sending')->findNotRead($notification);
+        $registrationIds=array_unique(array_column($sendings, 'registrationId'));
+        $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
+         $notification = new Notification();
+         $notification
+         ->setTitre('Messages non lus')
+         ->setSousTitre("Vous avez de nombreux messages non consultés. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces. ");
+        $data=array('page'=>'rappel');
+        $event=new NotificationEvent($registrations,$notification,$data);
+        $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+        $this->addFlash('success', 'Rappel envoyé à . '.count($registrations).' contacts');
+       return  'Ok';
+    }
+
+
   /**
    * @Security("is_granted('ROLE_MESSAGER')")
   */

@@ -22,4 +22,4 @@ notification_show_json:
     path:     /notification/{id}/show/json
     defaults: { _controller: "MessagerBundle:Notification:showJson" }
     methods:  [GET, POST]
-   
+  

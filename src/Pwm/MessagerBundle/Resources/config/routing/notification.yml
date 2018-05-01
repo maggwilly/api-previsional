@@ -18,6 +18,12 @@ notification_resent:
     path:     /resent/{id}
     defaults: { _controller: "MessagerBundle:Notification:resent","id":0  }
     methods:  [GET, POST]
+    
+notification_resent_fron_cron:
+    path:     /resent/from/cron/job/{id}
+    defaults: { _controller: "MessagerBundle:Notification:resentFroCronJob","id":0  }
+    methods:  [GET, POST]
+ 
 
 notification_sent_too:
     path:     /sent/too/{id}
