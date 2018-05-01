@@ -17,11 +17,11 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
   */
   public function findList($registration,$uid,$start){
         //connected and registed
-       $qb = $this->createQueryBuilder('a')->join('a.registration','r');
+       $qb = $this->createQueryBuilder('a')->join('a.registration','r')->join('a.notification','n');
        $qb->where('a.registration=:registration')
         ->orWhere('r.info=:uid')
       ->setParameter('registration',$registration)->setParameter('uid',$uid);
-       $qb->andWhere('a.sendDate<=:sendDate') ->setParameter('sendDate',new \DateTime())->orderBy('a.id', 'desc'); 
+       $qb->orderBy('n.date', 'desc'); 
          $query=$qb->getQuery();
          $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
