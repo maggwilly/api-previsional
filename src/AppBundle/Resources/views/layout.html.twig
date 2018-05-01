@@ -51,7 +51,9 @@
 						<li><a href="{{ path('price_index')}}"><span class="hidden-home">Tarifaire</span></a></li>
                         {% endif %}						
 						{% if is_granted('ROLE_ADMIN') %}
+						<li><a href="{{ path('programme_index')}}"><span class="hidden-home">Programmes</span></a></li>								
 						<li><a href="{{ path('user_index')}}"><span class="hidden-home">Utilisateurs</span></a></li>
+
                         {% endif %}
                          {% if is_granted('ROLE_SUPERVISEUR') %}
                         <li><a href="{{ path('ressource_index')}}"><span class="hidden-home">Documents</span></a></li>
