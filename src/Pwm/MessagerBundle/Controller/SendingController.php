@@ -70,7 +70,7 @@ class SendingController extends Controller
      */
     public function newJsonAction(Request $request,  $registrationId=null)
     {     if(is_null($registrationId))
-             return array('error'=>false);
+              return array('error'=>false);
           $em = $this->getDoctrine()->getManager();
           $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registrqtion)){
@@ -82,16 +82,16 @@ class SendingController extends Controller
                   }
             return array('success'=>true);
            }
-            $registrqtion = new Registration($registrationId);
-            $registrqtion ->setUserAgent($request->headers->get('User-Agent'));
-            $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registrqtion);
+            $registration = new Registration($registrationId);
+            $registration ->setUserAgent($request->headers->get('User-Agent'));
+            $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
             $form->submit($request->request->all(),false);
           if ($form->isValid()) {
-                if(is_null($registrqtion->getRegistrationId()))
+                if(is_null($registration->getRegistrationId()))
                     return array('error'=>false);
-              $em->persist($registrqtion);
+              $em->persist($registration);
               $em->flush();
-              $event= new RegistrationEvent($registrqtion);
+              $event= new RegistrationEvent($registration);
               $this->get('event_dispatcher')->dispatch('user.registration', $event);
             return array('success'=>true);
         }
