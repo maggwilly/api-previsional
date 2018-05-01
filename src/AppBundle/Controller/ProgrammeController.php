@@ -58,7 +58,7 @@ class ProgrammeController extends Controller
 */
     public function newAction(Request $request,Session $session=null)
     {
-        $concours = new Programme($session->getNomConcours());
+        $concours = new Programme($session);
         $form = $this->createForm('AppBundle\Form\ProgrammeType', $concours);
 
         $form->handleRequest($request);
