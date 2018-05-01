@@ -183,10 +183,7 @@ class NotificationController extends Controller
        return  $this->redirectToRoute('notification_index');
     }
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"sending"})
-     */
+
     public function resentFroCronJobAction(Notification $notification=null)
     {
         $em = $this->getDoctrine()->getManager();
@@ -202,7 +199,7 @@ class NotificationController extends Controller
         $event=new NotificationEvent($registrations,$notification,$data);
         $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
         $this->addFlash('success', 'Rappel envoyé à . '.count($registrations).' contacts');
-       return  'Ok';
+       return  new Response('Ok');
     }
 
 
