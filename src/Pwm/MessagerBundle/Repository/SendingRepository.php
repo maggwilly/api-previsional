@@ -21,7 +21,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
        $qb->where('a.registration=:registration')
         ->orWhere('r.info=:uid')
       ->setParameter('registration',$registration)->setParameter('uid',$uid);
-       $qb->orderBy('a.sendDate', 'desc'); 
+        $qb->orderBy('a.date', 'desc'); 
          $query=$qb->getQuery();
          $query->setFirstResult($start)->setMaxResults(20);
           return $query->getResult();
