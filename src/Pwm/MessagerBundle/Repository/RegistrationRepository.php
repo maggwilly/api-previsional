@@ -50,7 +50,7 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
   public function findByRegistrationIds($registrationIds=array()){
          $qb = $this->createQueryBuilder('a')
          -> where('a.registrationId IN (:registrationIds)')->setParameter('registrationIds', $registrationIds)
-         ->andWhere('r.isFake is NULL');
+         ->andWhere('a.isFake is NULL');
           return $qb->getQuery()->getResult();
   }
 
