@@ -75,7 +75,7 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
     public function findSendDest(Notification $notification=null){
          $qb = $this->createQueryBuilder('s')
          ->join('s.registration','r')
-         ->->where('r.isFake is NULL');
+         ->where('r.isFake is NULL');
          if (!is_null($notification)) {
            $qb->andWhere('s.notification=:notification')->setParameter('notification',$notification);
          }
