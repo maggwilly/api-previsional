@@ -175,6 +175,7 @@ class NotificationController extends Controller
          $notification
          ->setTitre('Messages non lus')
          ->setSousTitre("Vous avez de nombreux messages non consultés. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces. ");
+          $notification->setIncludeMail(false);
         $data=array('page'=>'rappel');
         $event=new NotificationEvent($registrations,$notification,$data);
         $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
@@ -182,6 +183,10 @@ class NotificationController extends Controller
        return  $this->redirectToRoute('notification_index');
     }
 
+    /**
+     * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"sending"})
+     */
     public function resentFroCronJobAction(Notification $notification=null)
     {
         $em = $this->getDoctrine()->getManager();
