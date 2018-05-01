@@ -79,23 +79,29 @@
         <td>
             <a href="{{ path('notification_index') }}" ><i class="halflings-icon chevron-left"></i>Retour</a>
         </td>
-           {% if not notification.sendNow %}
         <td>
             <a href="{{ path('notification_edit', { 'id': notification.id }) }}" ><i class="halflings-icon edit"></i>Modifier</a>
         </td>
-
         <td>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Supprimer" class="btn btn-danger">
             {{ form_end(delete_form) }}
         </td>
+        {% if not notification.sendNow %}
         <td>
-             {% if is_granted('ROLE_MESSAGER') %}
+            {% if is_granted('ROLE_MESSAGER') %}
             {{ form_start(send_form) }}
-                <input type="submit" value="Publier maintenant" class="btn btn-primary">
+                <input type="submit" value="Envoyer" class="btn btn-primary">
             {{ form_end(send_form) }}
-               {% endif %}
+            {% endif %}
         </td>
+         {% else %}
+          <td>
+           <a href="{{ path('notification_resent',{'id':notification.id }) }}" class="btn btn-success">Rappeler</a>
+        </td>  
+          <td>
+           <a href="{{ path('notification_sent_too',{'id':notification.id }) }}" class="btn btn-info"> Envoyer </a>
+        </td>              
         {% endif %}
          </tr>
     </table>

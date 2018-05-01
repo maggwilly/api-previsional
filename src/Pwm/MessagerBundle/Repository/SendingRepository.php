@@ -61,11 +61,25 @@ class SendingRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
   }
 
-    public function findNotRead(){
+    public function findNotRead(Notification $notification=null){
          $qb = $this->createQueryBuilder('s')
          ->join('s.registration','r')
-         ->where('s.readed is NULL') ->andWhere('r.isFake is NULL')
-         ->select('r.registrationId'); 
+         ->where('s.readed is NULL') ->andWhere('r.isFake is NULL');
+         if (!is_null($notification)) {
+           $qb->andWhere('s.notification=:notification')->setParameter('notification',$notification);
+         }
+         $qb ->select('r.registrationId'); 
           return $qb->getQuery()->getArrayResult();
   }
+
+    public function findSendDest(Notification $notification=null){
+         $qb = $this->createQueryBuilder('s')
+         ->join('s.registration','r')
+         ->->where('r.isFake is NULL');
+         if (!is_null($notification)) {
+           $qb->andWhere('s.notification=:notification')->setParameter('notification',$notification);
+         }
+         $qb ->select('r.registrationId'); 
+          return $qb->getQuery()->getArrayResult();
+  }  
 }

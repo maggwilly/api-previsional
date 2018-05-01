@@ -1,7 +1,7 @@
 <?php
 
 namespace Pwm\MessagerBundle\Repository;
-
+use Pwm\MessagerBundle\Entity\Notification;
 /**
  * DistRepository
  *
@@ -47,16 +47,24 @@ class RegistrationRepository extends \Doctrine\ORM\EntityRepository
         /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findByRegistrationIds($registrationIds){
+  public function findByRegistrationIds($registrationIds=array()){
          $qb = $this->createQueryBuilder('a')
-         -> where('a.registrationId IN (:registrationIds)')->setParameter('registrationIds', $registrationIds);
+         -> where('a.registrationId IN (:registrationIds)')->setParameter('registrationIds', $registrationIds)
+         ->andWhere('r.isFake is NULL');
           return $qb->getQuery()->getResult();
   }
 
 
-  public function findNotReadsDesc(){
+  public function findNotReadsDesc(Notification $notification=null){
          $qb = $this->createQueryBuilder('r')->join('sending')
          ->where('r.isFake is NULL'); 
           return $qb->getQuery()->getResult();
   }
+
+   public function findNotSendDesc($registrationIds=array()){
+         $qb = $this->createQueryBuilder('r')
+        -> where('a.registrationId not IN (:registrationIds)')->setParameter('registrationIds', $registrationIds)
+        ->andWhere('r.isFake is NULL'); 
+          return $qb->getQuery()->getResult();
+  } 
 }

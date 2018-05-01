@@ -155,33 +155,56 @@ class NotificationController extends Controller
   /**
    * @Security("is_granted('ROLE_MESSAGER')")
   */
-    public function resentAction()
+    public function resentAction(Notification $notification=null)
     {
         $em = $this->getDoctrine()->getManager();
-        $sendings=$em->getRepository('MessagerBundle:Sending')->findNotRead();
+        $sendings=$em->getRepository('MessagerBundle:Sending')->findNotRead($notification);
         $registrationIds=array_unique(array_column($sendings, 'registrationId'));
+        $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
+          if(!is_null($notification)){
+             $data=array('page'=>'notification','id'=>$notification->getId());
+             $notification->setIncludeMail(false);
+             $em->flush();
+             $event=new NotificationEvent($registrations,$notification,$data);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+            $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');       
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+          }
+
          $notification = new Notification();
          $notification
-         ->setTitre('Des messages et annonces non lus')
-         ->setSousTitre("Vous avez de nombreuses annonces non consultées. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces sur Centor. ") 
-         ->setIncludeMail(false);
-
-           $registrations=$em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($registrationIds);
-              $data=array(
-                        'page'=>'rappel'
-                      );
-            $event=new NotificationEvent($registrations,$notification,$data);
-            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-            $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
+         ->setTitre('Messages non lus')
+         ->setSousTitre("Vous avez de nombreux messages non consultés. Si vous aspirez à un concours, vous devez être attentif à toutes les annonces. ");
+        $data=array('page'=>'rappel');
+        $event=new NotificationEvent($registrations,$notification,$data);
+        $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+        $this->addFlash('success', 'Rappel envoyé à . '.count($registrationIds).' contacts');
        return  $this->redirectToRoute('notification_index');
     }
 
+  /**
+   * @Security("is_granted('ROLE_MESSAGER')")
+  */
+    public function sendTooAction(Notification $notification)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sendings=$em->getRepository('MessagerBundle:Sending')->findSendDest($notification);
+        $registrationIds=array_unique(array_column($sendings, 'registrationId'));
+        $registrations=$em->getRepository('MessagerBundle:Registration')->findNotSendDesc($registrationIds);
+             $data=array('page'=>'notification','id'=>$notification->getId());
+             $notification->setIncludeMail(true);
+             $em->flush();
+             $event=new NotificationEvent($registrations,$notification,$data);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
+            $this->addFlash('success', 'Envoyé à . '.count($registrationIds).' contacts');       
+            return $this->redirectToRoute('notification_show', array('id' => $notification->getId()));
+    }
 
     /**
      * Displays a form to edit an existing notification entity.
      *
      */
-    public function sendAction(Request $request,Notification $notification)
+    public function sendAction(Request $request, Notification $notification)
     {
           $sendForm =$this->createSendForm($notification);
            $sendForm->handleRequest($request);
@@ -202,7 +225,6 @@ class NotificationController extends Controller
                switch ($groupe->getTag()) {
                    case 'is.registred.not.singup':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findNotsingup();
-                       
                     break;
                    case 'loaded.too.long.time':
                      $registrations = $em->getRepository('MessagerBundle:Registration')->findTooLongTimeLogin();
