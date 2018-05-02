@@ -112,6 +112,7 @@ class RessourceController extends Controller
 
        // ,'url'=> $ressource->getUrl()
               if(!is_null($session)&&$addToChat){
+                
                  $date = new \DateTime();
                $msg=array(
                 'message' =>array(
