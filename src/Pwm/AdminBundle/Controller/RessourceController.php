@@ -50,7 +50,7 @@ class RessourceController extends Controller
                  $this->pushInGroup($ressource);
              else
               foreach ($ressource->getSessions() as $key => $session) {
-                 $this->pushInGroup($ressource,$session);
+                 $this->pushInGroup($ressource,$session,true);
               }
         if(!is_null($session))
               return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId(),'session' => $session->getId()));
@@ -87,7 +87,7 @@ class RessourceController extends Controller
     
     }
 
-    public function pushInGroup(Ressource $ressource,Session $session=null)
+    public function pushInGroup(Ressource $ressource,Session $session=null,$addToChat=false)
     {   
              $notification = new Notification('public',false,true);
              $notification
@@ -110,7 +110,7 @@ class RessourceController extends Controller
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
 
        // ,'url'=> $ressource->getUrl()
-              if(!is_null($session)){
+              if(!is_null($session)&&$addToChat){
                  $date = new \DateTime();
                $msg=array(
                 'message' =>array(
