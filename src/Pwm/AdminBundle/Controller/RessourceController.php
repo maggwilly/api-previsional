@@ -87,7 +87,7 @@ class RessourceController extends Controller
     
     }
 
-    public function pushInGroup(Ressource $ressource,Session $session=null,$addToChat=false)
+    public function pushInGroup(Ressource $ressource,Session $session=null,$addToChat=true)
     {   
              $notification = new Notification('public',false,true);
              $notification
