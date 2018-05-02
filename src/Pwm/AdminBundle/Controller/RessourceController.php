@@ -106,6 +106,7 @@ class RessourceController extends Controller
                   $destinations=$session->getInfos();
                   $registrations=$this->findRegistrations($destinations); 
              }
+              $this->addFlash('success', 'Envoyé à. '.count( $registrations).'  utilisateurs');
             $event=new NotificationEvent($registrations,$notification, $data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
 
@@ -135,8 +136,9 @@ class RessourceController extends Controller
             );
             $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/documents.json";
             $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
-             $this->addFlash('success', 'Envoyé aux utilisateurs. ');
+    
               }
+
     }
 
     /**
