@@ -15,7 +15,7 @@ sending_edit_json:
 
 sending_new_json:
     path:     /registration/{registrationId}/new/json
-    defaults: { _controller: "MessagerBundle:Sending:newJson" }
+    defaults: { _controller: "MessagerBundle:Sending:newJson","registrationId":'null' }
     methods:  [GET, POST]
 
 notification_show_json:

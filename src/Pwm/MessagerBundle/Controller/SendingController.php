@@ -68,21 +68,21 @@ class SendingController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function newJsonAction(Request $request,  $registrationId=null)
+    public function newJsonAction(Request $request, Registration $registration=null)
     {     if(is_null($registrationId))
               return array('error'=>false);
           $em = $this->getDoctrine()->getManager();
-          $registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-           if(!is_null($registrqtion)){
-               $registrqtion->setLatLoginDate(new \DateTime())->setIsFake(null)->setUserAgent($request->headers->get('User-Agent'));
-               $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registrqtion);
+          //$registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
+           if(!is_null($registration)){
+               $registration->setLatLoginDate(new \DateTime())->setIsFake(null)->setUserAgent($request->headers->get('User-Agent'));
+               $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
                $form->submit($request->request->all(),false);
               if ($form->isValid()) {
                  $em->flush();
                   }
             return array('success'=>true);
            }
-            $registration = new Registration($registrationId);
+            $registration = new Registration();
             $registration ->setUserAgent($request->headers->get('User-Agent'));
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
             $form->submit($request->request->all(),false);
