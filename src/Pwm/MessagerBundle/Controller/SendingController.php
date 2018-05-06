@@ -69,8 +69,7 @@ class SendingController extends Controller
      *@Rest\View()
      */
     public function newJsonAction(Request $request, Registration $registration=null)
-    {     if(is_null($registrationId))
-              return array('error'=>false);
+    {  
           $em = $this->getDoctrine()->getManager();
           //$registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
            if(!is_null($registration)){
