@@ -129,13 +129,12 @@ class AbonnementController extends Controller
            $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
                  $abonnement=new Abonnement($commande);  
+                  $commande->getSession()->addInfo($commande->getInfo());
+            $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;              
                  $em->persist($abonnement);
                 }
              $abonnement->setPlan($commande->getPackage());
              $abonnement->setPrice($commande->getAmount());
-             $commande->getSession()->removeInfo($commande->getInfo());
-             $commande->getSession()->addInfo($commande->getInfo());
-             $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
              $commande->setAbonnement($abonnement);
              }
               $em->flush();
