@@ -91,7 +91,7 @@ class NotificationController extends Controller
     public function getRateAction(Notification $notification)
     {
          $url= "https://us-central1-trainings-fa73e.cloudfunctions.net/getRate?article=".$notification->getId();
-         $renderTemplate = $this->get('fmc_manager')->sendOrGetData($url,null,'GET'); 
+         $renderTemplate =''0;//= $this->get('fmc_manager')->sendOrGetData($url,null,'GET'); 
 
         return  new Response($renderTemplate);
     }
