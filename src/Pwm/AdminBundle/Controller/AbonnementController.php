@@ -38,8 +38,9 @@ class AbonnementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $abonnements = $em->getRepository('AdminBundle:Abonnement')->findList();
+         $extrats = $em->getRepository('AdminBundle:Abonnement')->findSinceDate();
         $concours = $em->getRepository('AppBundle:Session')->findList();
-         foreach ($abonnements as $key => $abonnement) {
+         foreach ($extrats as $key => $abonnement) {
           $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
         $info=$abonnement->getInfo();
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
