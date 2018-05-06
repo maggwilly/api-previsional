@@ -33,4 +33,13 @@ class AbonnementRepository extends EntityRepository
 
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
+
+    /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findList(){
+    $qb = $this->createQueryBuilder('a') ->leftJoin('a.session', 's')
+         ->where('s.archived=:archived')->setParameter('archived',false); 
+          return $qb->getQuery()->getResult();
+} 
 }

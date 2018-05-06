@@ -86,8 +86,6 @@ class SendingController extends Controller
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
             $form->submit($request->request->all(),false);
           if ($form->isValid()) {
-                if(is_null($registration->getRegistrationId()))
-                    return array('error'=>false);
               $em->persist($registration);
               $em->flush();
               $event= new RegistrationEvent($registration);

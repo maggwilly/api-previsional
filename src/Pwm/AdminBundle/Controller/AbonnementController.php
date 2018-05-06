@@ -37,8 +37,16 @@ class AbonnementController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $abonnements = $em->getRepository('AdminBundle:Abonnement')->findAll();
-        $concours = $em->getRepository('AppBundle:Session')->findAll();
+        $abonnements = $em->getRepository('AdminBundle:Abonnement')->findList();
+        $concours = $em->getRepository('AppBundle:Session')->findList();
+         foreach ($abonnements as $key => $abonnement) {
+           # code...
+         }
+        $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
+        $info=$abonnement->getInfo();
+        $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
+        $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
+
         return $this->render('AdminBundle:abonnement:index.html.twig', array(
             'abonnements' => $abonnements, 'concours' => $concours,
         ));
