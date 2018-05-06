@@ -42,4 +42,15 @@ class AbonnementRepository extends EntityRepository
          ->where('s.archived=:archived')->setParameter('archived',false); 
           return $qb->getQuery()->getResult();
 } 
+
+    /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findSinceDate($yesteday=new \DateTime()){
+    $yesteday->modify('-2 day');
+    $qb = $this->createQueryBuilder('a') ->leftJoin('a.session', 's')
+         ->where('s.archived=:archived')->setParameter('archived',false)
+         ->andWhere('a.date>:date')->setParameter('date',$yesteday); 
+          return $qb->getQuery()->getResult();
+}
 }
