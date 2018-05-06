@@ -46,7 +46,8 @@ class AbonnementRepository extends EntityRepository
     /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findSinceDate($yesteday=new \DateTime()){
+  public function findSinceDate(){
+    $yesteday=new \DateTime();
     $yesteday->modify('-2 day');
     $qb = $this->createQueryBuilder('a') ->leftJoin('a.session', 's')
          ->where('s.archived=:archived')->setParameter('archived',false)
