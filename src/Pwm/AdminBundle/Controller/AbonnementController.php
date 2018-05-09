@@ -128,9 +128,10 @@ class AbonnementController extends Controller
             if(!is_null($commande->getSession())){
            $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
-                 $abonnement=new Abonnement($commande);  
+                 $abonnement=new Abonnement($commande); 
+                 $commande->getSession()->removeInfo($commande->getInfo()); 
                   $commande->getSession()->addInfo($commande->getInfo());
-            $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;              
+                 $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;              
                  $em->persist($abonnement);
                 }
              $abonnement->setPlan($commande->getPackage());
