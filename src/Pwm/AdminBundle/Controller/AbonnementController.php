@@ -43,7 +43,7 @@ class AbonnementController extends Controller
          foreach ($extrats as $key => $abonnement) {
           $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
         $info=$abonnement->getInfo();
-        $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
+        $data = array($info->getUid() => array('isActive' => true,'uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
          $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
 
          }
