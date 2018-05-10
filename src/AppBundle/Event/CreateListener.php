@@ -148,7 +148,8 @@ public function onFillProfilInvited(InfoEvent $event)
          $tokens= $this->sendTo($info->getRegistrations()); 
         $result= $this->firebaseSend($tokens, $notification); 
         $this->controlFake( $result,$info->getRegistrations(),$notification);
-        $this->_em->flush();           
+        $this->_em->flush(); 
+        set_time_limit(10) ;          
      }
 }
 
