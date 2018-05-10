@@ -90,6 +90,31 @@ class InfoController extends Controller
 
     /**
      * Lists all Produit entities.
+     *@Rest\View(serializerGroups={"info"})
+     */
+    public function newJsonAction(Request $request, $uid)
+    {
+        $em = $this->getDoctrine()->getManager();
+         $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
+        if(is_null($info)){
+            $info = new Info($uid);
+            $form = $this->createForm('Pwm\AdminBundle\Form\InfoType',$info);
+            $form->submit($request->request->all(),false);
+            if (!$form->isValid())
+                 return $form;
+                  $em->persist($info);  
+                   $em->flush();   
+                   $event= new InfoEvent($info);
+                 $this->get('event_dispatcher')->dispatch('user.created', $event); 
+             return $info;          
+              }
+
+        return  $info;
+    }
+
+
+    /**
+     * Lists all Produit entities.
      *@Rest\View(serializerGroups={"ambassador"})
      */
     public function getAmbassadorJsonAction( Info $info){
@@ -130,7 +155,7 @@ class InfoController extends Controller
                   $fmc_response= $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');           
               } 
          
-        return $info->getEmail()!=null?$info:$res;
+        return $info;
     }
 
     

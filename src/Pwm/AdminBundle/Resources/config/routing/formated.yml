@@ -34,9 +34,15 @@ abonnent_show_one_json:
     methods:  [GET,POST] 
 
 info_edit_json:
-    path:     /info/{id}/edit/json
+    path:     /info/{uid}/edit/json
     defaults: { _controller: "AdminBundle:Info:editJson" }
     methods:  [GET,POST] 
+
+info_new_json:
+    path:     /info/{uid}/new/json
+    defaults: { _controller: "AdminBundle:Info:newJson" }
+    methods:  [GET,POST] 
+
 
 info_show_json:
     path:     /info/{uid}/show/json
