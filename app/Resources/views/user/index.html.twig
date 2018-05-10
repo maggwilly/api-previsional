@@ -45,6 +45,16 @@
                            </tbody>
                   </table>
 
+
+    <table class="table  no-table-bordered bootstrap-datatable">
+        <tr> 
+        <td>
             <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">Nouveau utilisateur</a>
-                                    
+        </td>
+        <td>
+           <a href="{{ path('user_invite_fill_profil') }}" class="btn btn-info">Inviter à remplir les profils</a>
+        </td>
+
+         </tr>
+    </table>                                    
 	     {% endblock %}

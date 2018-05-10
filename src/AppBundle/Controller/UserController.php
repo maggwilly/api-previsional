@@ -5,6 +5,7 @@ use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Event\InfoEvent;
 /**
  * @Security("is_granted('ROLE_ADMIN')")
 */
@@ -40,6 +41,16 @@ class UserController extends Controller
         return $this->redirectToRoute('user_index');
     }
 
+
+    public function inviteFillProfilAction()
+    {
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
+        $this->addFlash('success', 'Invitation envoyée à . '.count($destinations).' utilisateurs');
+        $event= new InfoEvent(null);
+        $this->get('event_dispatcher')->dispatch('fill.profil.invited', $event);         
+       return  $this->redirectToRoute('user_index');
+    }
 
 
 

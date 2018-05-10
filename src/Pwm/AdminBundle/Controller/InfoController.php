@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
 use AppBundle\Event\InfoEvent;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 /**
  * Info controller.
  *
@@ -52,6 +54,7 @@ class InfoController extends Controller
            $em->persist($info);
             $em->flush();
           }
+
         $form = $this->createForm('Pwm\AdminBundle\Form\InfoType', $info);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,8 +71,6 @@ class InfoController extends Controller
         }
         return $form;
     }
-
-
 
 
     /**
@@ -157,7 +158,66 @@ class InfoController extends Controller
          
         return $info;
     }
+    /**
+     * Finds and displays a info entity.
+     *
+     */
+    public function editAction(Request $request,Info $info)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $editForm = $this->createFormBuilder($info)
+        ->add('displayName','text', array('label'=>"Nom complet"))
+        ->add('email',EmailType::class, array('label'=>"Adresse mail",'required' => false))
+        ->add('phone','text', array('label'=>"Numéro de télephone"))
+        ->add('ville', ChoiceType::class, array(
+                                  'choices'  => array(
+                                          '' => 'Choisir une ville',
+                                         'Bafoussam' => 'Bafoussam',
+                                         'Bamenda' => 'Bamenda',
+                                         'Buéa' => 'Buéa', 
+                                         'Bertoua' => 'Bertoua', 
+                                         'Douala' => 'Douala',
+                                         'Dschang' => 'Dschang',
+                                         'Garoua' => 'Garoua',
+                                         'Ngaoundére' => 'Ngaoundére', 
+                                         'Yaoundé' => 'Yaoundé', 
+                                         'Maroua' => 'Maroua'),
+                                  'label'=>"Ville d'études",'required' => false
+                                   ))
+        ->add('serie', ChoiceType::class, array(
+                                  'choices'  => array(
+                                          '' => 'Aucune série',
+                                         'science' => 'science',
+                                         'Lettres' => 'Lettres',
+                                         'economie' => 'economie', 
+                                         'droit' => 'droit', 
+                                         'technique' => 'technique'),
+                                  'label'=>"Branche de formation",'required' => false
+                                   ))
+        ->add('niveau', ChoiceType::class, array(
+                                  'choices'  => array(
+                                          '' => 'Aucun niveau',
+                                         'CEPE' => 'CEPE',
+                                         'BEPC - GCE O/L' => 'BEPC - GCE O/L',
+                                         'BAC - GCE A/L' => 'BAC - GCE A/L', 
+                                         'Licence & equiv' => 'Licence / equiv', 
+                                         'Master & equiv' => 'Master / equiv'),
+                                  'label'=>"Niveau d'étude",'required' => false
+                                   ))
+        ->getForm();
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+             $em->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
+            return $this->redirectToRoute('info_edit', array('uid' => $info->getUid()));
+        }        
+        return $this->render('AdminBundle:info:edit.html.twig', array(
+            'info' => $info,
+            'edit_form' => $editForm->createView(),
+        ));
+    }
 
+ 
     
     /**
      * Finds and displays a info entity.
@@ -166,7 +226,6 @@ class InfoController extends Controller
     public function showAction(Info $info)
     {
         $deleteForm = $this->createDeleteForm($info);
-
         return $this->render('AdminBundle:info:show.html.twig', array(
             'info' => $info,
             'delete_form' => $deleteForm->createView(),
@@ -182,7 +241,6 @@ class InfoController extends Controller
     {
         $form = $this->createDeleteForm($info);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($info);

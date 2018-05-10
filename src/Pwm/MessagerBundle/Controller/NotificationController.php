@@ -183,6 +183,17 @@ class NotificationController extends Controller
        return  $this->redirectToRoute('notification_index');
     }
 
+  /**
+   * @Security("is_granted('ROLE_ADMIN')")
+  */
+    public function inviteFillProfilAction()
+    {
+        $destinations=$em->getRepository('AdminBundle:Info')->findNotProfilFilled();
+        $this->addFlash('success', 'Invitation envoyée à . '.count($destinations).' utilisateurs');
+       return  $this->redirectToRoute('notification_index');
+    }
+
+
 
     public function resentFroCronJobAction(Notification $notification=null)
     {

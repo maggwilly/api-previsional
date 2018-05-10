@@ -6,7 +6,7 @@ class InfoEvent extends Event
 {
 
 protected $info;
-public function __construct(Info $info)
+public function __construct(Info $info=null)
 {
 $this->info = $info;
 

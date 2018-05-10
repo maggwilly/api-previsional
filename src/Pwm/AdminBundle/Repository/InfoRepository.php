@@ -21,7 +21,7 @@ class InfoRepository extends \Doctrine\ORM\EntityRepository
 
    public function findNotProfilFilled(){
          $qb = $this->createQueryBuilder('a')
-         ->where('a.serie is NULL or a.niveau is NULL or a.dateMax is NULL');
+         ->where('a.phone is NULL or a.niveau is NULL or a.serie is NULL');
           return $qb->getQuery()->getResult();
   }
 

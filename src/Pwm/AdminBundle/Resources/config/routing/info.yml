@@ -9,9 +9,10 @@ info_show:
     methods:  [GET, POST]
 
 info_edit:
-    path:     /{id}/edit
+    path:     /mobile/{uid}/edit
     defaults: { _controller: "AdminBundle:Info:edit" }
-    methods:  [GET, POST]
+    methods:  [GET,POST] 
+
 
 info_delete:
     path:     /{id}/delete

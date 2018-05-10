@@ -71,7 +71,9 @@ public function onUserCreated(InfoEvent $event)
       $info=$event->getInfo();
       $registrations= $info->getRegistrations();
       $notification = $this->_em->getRepository('MessagerBundle:Notification')->findOneById(580);
-      $notification ->setIncludeMail(true);
+      if(is_null($notification))
+        return null;
+       $notification ->setIncludeMail(true);
       $this->_em->flush();
       $registrationIds=$this->sendTo($registrations);
       $data=array( 'page'=>'notification','id'=>$notification->getId());
@@ -104,7 +106,6 @@ public function onCommandeConfirmed(CommandeEvent $event)
                       );
        $result= $this->firebaseSend($this->sendTo($registrations), $notification,$data);
         $this->controlFake( $result,$registrations,$notification);
-
         $url="https://trainings-fa73e.firebaseio.com/session/".$commande-> getSession()->getId()."/members/.json";
         $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
         $this->fcm->sendOrGetData($url,$data,'PATCH');
@@ -130,7 +131,26 @@ public function onCommandeConfirmed(CommandeEvent $event)
         }   
      }
 }
-
+public function onFillProfilInvited(InfoEvent $event)
+{
+     $destinations=$this->_em->getRepository('AdminBundle:Info')->findNotProfilFilled();
+     $tokens=array();
+     foreach ($destinations as $key => $info) {
+      $body =  $this->twig->render('AdminBundle:info:profil_invite.html.twig',  array('info' => $info));
+        $notification=new Notification('private');
+        $notification->setTitre('Completez votre profil')
+        ->setSousTitre("Nous voudrions en sqvoir plus sur vous qfin de ;ieux vous infor;er des offres concours.")
+        ->setText($body)
+        ->setSendDate(new \DateTime())
+        ->setIncludeMail(true)
+        ->setSendNow(true);
+         $this->_em->persist($notification);
+         $tokens= $this->sendTo($info->getRegistrations()); 
+        $result= $this->firebaseSend($tokens, $notification); 
+        $this->controlFake( $result,$info->getRegistrations(),$notification);
+        $this->_em->flush();           
+     }
+}
 
      /**
      * Displays a form to edit an existing notification entity.
@@ -174,6 +194,7 @@ public function onMessageEnd(ResultEvent $event)
 }
 
 
+
 public function onSheduleToSend(NotificationEvent $event)
 {
       $registrations=$event->getDescs();
@@ -184,9 +205,9 @@ public function onSheduleToSend(NotificationEvent $event)
       $tokens= $this->sendTo($registrations);  
       $result= $this->firebaseSend($tokens, $notification,$data); 
        $this->controlFake( $result,$registrations,$notification);
-     
       $this->_em->flush();
 }
+
 
 
 public function controlFake($result ,$registrations , Notification $notification=null)
@@ -205,8 +226,6 @@ public function controlFake($result ,$registrations , Notification $notification
          $registration->setLastControlDate(new \DateTime());
          $this->_em->flush(); 
       }
- 
-
  }
 
 }

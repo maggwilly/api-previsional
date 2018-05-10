@@ -12,3 +12,8 @@ user_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:User:edit" }
     methods:  [GET, POST]
+
+user_invite_fill_profil:
+    path:     /invite/to/fill/profil
+    defaults: { _controller: "AppBundle:User:inviteFillProfil" }
+    methods:  [GET, POST]

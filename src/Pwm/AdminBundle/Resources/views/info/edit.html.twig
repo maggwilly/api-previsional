@@ -1,21 +1,79 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Info edit</h1>
+ 
+       <div class="card-header text-center" >
+            <h4 class="title">Informations personnelles</h2>
+              <p class="category">
+                Plus d'informations de vous
+               nous permettent de vous envoyer 
+               les offres encore mieux adaptées à vous.</p>
+        </div>
+  <div class="form-row">
+  <div class="form-group col-md-12">
+      {% for flash_message in app.session.flashBag.get('success') %}
+         <div class="alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <strong>Succès</strong> {{ flash_message }}.
+            </div>        
+    {% endfor %} 
+    {% for flash_message in app.session.flashBag.get('error') %}
+         <div class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <strong>Problème !</strong> {{ flash_message }}.
+            </div>        
+   {% endfor %}
+    </div>
+  </div>       
+ {{ form_start(edit_form) }}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        {{ form_label(edit_form.displayName) }}
+        {{ form_errors(edit_form.displayName) }}
+        {{ form_widget(edit_form.displayName) }}
+    </div>
+    <div class="form-group col-md-6 ">
+        {{ form_label(edit_form.phone) }}
+        {{ form_errors(edit_form.phone) }}
+        {{ form_widget(edit_form.phone) }}
+    </div>
+  </div>
+  <div class="form-row">
+  <div class="form-group col-md-6">
+       {{ form_label(edit_form.email) }}
+       {{ form_errors(edit_form.email) }}
+       {{ form_widget(edit_form.email) }}
+  </div>
+  <div class="form-group col-md-6">
+       {{ form_label(edit_form.ville) }}
+       {{ form_errors(edit_form.ville) }}
+       {{ form_widget(edit_form.ville) }}
+  </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      {{ form_label(edit_form.niveau) }}
+       {{ form_errors(edit_form.niveau) }}
+       {{ form_widget(edit_form.niveau) }}
+    </div>
+    <div class="form-group col-md-6">
+      {{ form_label(edit_form.serie) }}
+       {{ form_errors(edit_form.serie) }}
+       {{ form_widget(edit_form.serie) }}
+    </div>
+  </div>
+  <div class="form-row">
+  <div class="form-group col-md-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <div class="form-group col-md-12">
+  <button type="submit" class="btn btn-primary pull-right">Enrégistrer les informations</button>
+ </div>
+</div>
+{{ form_end(edit_form) }}
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('info_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}
