@@ -156,7 +156,7 @@ public function onFillProfilInvited(InfoEvent $event)
             }
           if (($key % $batchSize) === 0) {
               $this->_em->flush();
-              $this->_em->clear(); 
+              //$this->_em->clear(); 
             }  
         }
         $this->_em->flush();
