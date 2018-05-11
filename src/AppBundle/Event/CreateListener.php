@@ -150,6 +150,7 @@ public function onFillProfilInvited(InfoEvent $event)
              if (!$registration->getIsFake()){ 
                $tokens[]=$registration->getRegistrationId();
                $sending=new Sending($registration,$notif);
+                $this->_em->persist($notif);
                $this->_em->persist($sending);
               }
             }
