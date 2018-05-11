@@ -48,7 +48,7 @@ class Sending
     private $sendDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Notification", inversedBy="sendings")
+     * @ORM\ManyToOne(targetEntity="Notification", inversedBy="sendings", cascade={"persist"})
      */
     private $notification;
 

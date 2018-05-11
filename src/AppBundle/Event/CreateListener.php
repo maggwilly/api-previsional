@@ -135,23 +135,35 @@ public function onFillProfilInvited(InfoEvent $event)
 {
      $destinations=$this->_em->getRepository('AdminBundle:Info')->findNotProfilFilled();
      $tokens=array();
-     foreach ($destinations as $key => $info) {
-      $body =  $this->twig->render('AdminBundle:info:profil_invite.html.twig',  array('info' => $info));
-        $notification=new Notification('private');
+     $batchSize = 30;
+       $notification=new Notification('private');
         $notification->setTitre('Completez votre profil')
-        ->setSousTitre("Nous voudrions en sqvoir plus sur vous qfin de ;ieux vous infor;er des offres concours.")
-        ->setText($body)
+        ->setSousTitre("Nous voudrions en savoir plus sur vous afin de ;ieux vous infor;er des offres concours.")
         ->setSendDate(new \DateTime())
         ->setIncludeMail(true)
         ->setSendNow(true);
-         $this->_em->persist($notification);
-         $tokens= $this->sendTo($info->getRegistrations()); 
+     foreach ($destinations as $key => $info) {
+      $body =  $this->twig->render('AdminBundle:info:profil_invite.html.twig',  array('info' => $info));
+        $notif=clone $notification;
+        $notif->setText($body);
+        foreach ($info->getRegistrations() as  $registration) {
+             if (!$registration->getIsFake()){ 
+               $tokens[]=$registration->getRegistrationId();
+               $sending=new Sending($registration,$notif);
+               $this->_em->persist($sending);
+              }
+            }
+          if (($key % $batchSize) === 0) {
+              $this->_em->flush();
+              $this->_em->clear(); 
+            }  
+        }
+        $this->_em->flush();
+         $this->_em->clear(); 
         $result= $this->firebaseSend($tokens, $notification); 
-        $this->controlFake( $result,$info->getRegistrations(),$notification);
-        $this->_em->flush(); 
-        set_time_limit(30) ;          
+     //   $this->controlFake($result,$info->getRegistrations(),$notification); 
      }
-}
+
 
      /**
      * Displays a form to edit an existing notification entity.
@@ -190,7 +202,7 @@ public function onMessageEnd(ResultEvent $event)
      $fcmResult= $event->getFCMResult();
      $descTokens= $event->getFCMDescsTokens();
       $registrations=$this->_em->getRepository('MessagerBundle:Registration')->findByRegistrationIds($descTokens);
-      $this->controlFake( $result,$registrations,$notification);
+      $this->controlFake( $result,$registrations);
       $this->_em->flush();
 }
 

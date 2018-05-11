@@ -25,8 +25,12 @@
         "misteio/cloudinary-bundle": "dev-master",
         "nelmio/cors-bundle": "^1.5",
         "mashape/unirest-php": "^3.0",
-        "ext-mbstring": "*"
-	
+        "ext-mbstring": "*",
+        "silex/silex": "^1.3",
+        "ebichan/silex-amqp-provider": "^1.0",
+        "predis/service-provider": "^1.0",
+        "monolog/monolog": "^1.16",
+        "rebangm/silex-guzzlehttp-provider": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

@@ -41,10 +41,10 @@ class AbonnementController extends Controller
          $extrats = $em->getRepository('AdminBundle:Abonnement')->findSinceDate();
         $concours = $em->getRepository('AppBundle:Session')->findList();
          foreach ($extrats as $key => $abonnement) {
-          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
+          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement->getSession()->getId()."/members/.json";
         $info=$abonnement->getInfo();
         $data = array($info->getUid() => array('isActive' => true,'uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-         $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
+        // $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
 
          }
 
