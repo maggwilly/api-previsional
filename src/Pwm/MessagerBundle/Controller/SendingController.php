@@ -86,7 +86,10 @@ class SendingController extends Controller
           }
         return $form;
     }
-
+     /**
+     * Lists all Produit entities.
+     *@Rest\View()
+     */
     public function editJsonAction(Request $request,Registration $registration)
     {
                $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
