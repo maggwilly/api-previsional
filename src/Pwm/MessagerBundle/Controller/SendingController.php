@@ -72,7 +72,7 @@ class SendingController extends Controller
     {  
           $em = $this->getDoctrine()->getManager();
            if(!is_null($registration))
-              return $this->editJsonAction($request,$registration);
+              return $this->editRegistrationJsonAction($request,$registration);
             $registration = new Registration();
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
             $form->submit($request->request->all(),false);
@@ -90,7 +90,7 @@ class SendingController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function editJsonAction(Request $request,Registration $registration)
+    public function editRegistrationJsonAction(Request $request,Registration $registration)
     {
                $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
                $form->submit($request->request->all(),false);
