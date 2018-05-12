@@ -71,30 +71,37 @@ class SendingController extends Controller
     public function newJsonAction(Request $request, Registration $registration=null)
     {  
           $em = $this->getDoctrine()->getManager();
-          //$registrqtion = $em->getRepository('MessagerBundle:Registration')->findOneByRegistrationId($registrationId);
-           if(!is_null($registration)){
-               $registration->setLatLoginDate(new \DateTime())->setIsFake(null)->setUserAgent($request->headers->get('User-Agent'));
-               $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
-               $form->submit($request->request->all(),false);
-              if ($form->isValid()) {
-                 $em->flush();
-                  }
-            return array('success'=>true);
-           }
+           if(!is_null($registration))
+              return $this->editJsonAction($request,$registration);
             $registration = new Registration();
-            $registration ->setUserAgent($request->headers->get('User-Agent'));
             $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
             $form->submit($request->request->all(),false);
           if ($form->isValid()) {
+              $registration ->setUserAgent($request->headers->get('User-Agent'));
               $em->persist($registration);
               $em->flush();
               $event= new RegistrationEvent($registration);
               $this->get('event_dispatcher')->dispatch('user.registration', $event);
             return array('success'=>true);
-        }
+          }
         return $form;
     }
 
+    public function editJsonAction(Request $request,Registration $registration)
+    {
+               $form = $this->createForm('Pwm\MessagerBundle\Form\RegistrationType', $registration);
+               $form->submit($request->request->all(),false);
+              if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $registration
+               ->setLatLoginDate(new \DateTime())
+               ->setIsFake(null)
+               ->setUserAgent($request->headers->get('User-Agent'));                
+                 $em->flush();
+                return array('success'=>true);
+                  }
+            return $form;
+    }
     /**
      * Creates a new sending entity.
      *
