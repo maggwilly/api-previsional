@@ -120,8 +120,8 @@ class Info
     private $file;
 
 
-   * @ORM\ManyToOne(targetEntity="Ambassador" )
-   */
+   /* @ORM\ManyToOne(targetEntity="Ambassador" )
+   **/
     private $ambassador;
     /**
      * Constructor
