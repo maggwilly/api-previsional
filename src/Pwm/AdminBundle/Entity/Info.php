@@ -119,9 +119,15 @@ class Info
 
     private $file;
 
-
-   /* @ORM\ManyToOne(targetEntity="Ambassador" )
-   **/
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_save", type="datetime", nullable=true)
+     */
+    private $date;
+    /**
+   * @ORM\ManyToOne(targetEntity="Ambassador" )
+   */
     private $ambassador;
     /**
      * Constructor
@@ -129,6 +135,7 @@ class Info
     public function __construct($uid=null)
     {
          $this->uid=$uid;
+        $this->date =new \DateTime();
     }
 
 
@@ -546,4 +553,27 @@ class Info
         return $this->ambassador;
     }
 
+      /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Notification
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }  
 }
