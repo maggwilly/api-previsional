@@ -13,7 +13,7 @@ class ProgrammeEditType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom',array('label'=>'Nom du Programme'))
+        $builder->add('nom','text',array('label'=>'Nom du Programme'))
         ->add('abreviation','textarea',array('label'=>'Brève description '))
        /* ->add('auMoinsdeMemeQue', 
             EntityType::class,
