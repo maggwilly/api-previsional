@@ -199,7 +199,7 @@ class AnalyseController extends Controller
            $notification->setTitre(`Bilan de votre préparation sur centor`)
                ->setSousTitre(`Celà fait déjà un moment que vous avez installé notre application et commencé la préparation au concours de `.$session->getNomConcours().`. Voici votre bilan.`)            
               ->setSendDate(new \DateTime())
-             ->setIncludeMail(false)
+             ->setIncludeMail(true)
              ->setUser($this->getUser())
              ->setSendNow(true)             
              ->setText($body);
