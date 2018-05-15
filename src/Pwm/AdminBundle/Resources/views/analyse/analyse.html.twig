@@ -38,9 +38,11 @@ Nous vous invitons à plus d'assiduité et d'engagment pour votre future réuiss
 	{% else %}
 	    {% if analyseSession.note<7 %}
 	   Vous fournissez des efforts certe mais vous êtes encore loin du compte. 
-	   Si vous avez des difficultés liées aux ressources ou à la manière qui ne vous convient pas, faites-le nous savoir par sms ou whatsapp.		        
+	   Si vous avez des difficultés liées aux ressources ou à la manière qui ne vous convient pas, faites-le nous savoir par sms ou whatsapp.
+	   <br>		        
 	   {% if abonnement.plan=='starter' %}
 		          La formule d'inscription gratuite à laquelle vous avez souscrit  ne nous permet pas de vous donner une analyse plus détaillée.
+		  <br>
 			      Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
 		           Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
 		        {% endif %}
@@ -49,6 +51,7 @@ Nous vous invitons à plus d'assiduité et d'engagment pour votre future réuiss
 	            Vos éfforts sont louables mais encore insuffisants pour être confiant. 
 		        Le niveau du concours  est bien plus que ce que vous arrivez à fournir en ce moment.
 		        {% if abonnement.plan=='starter' %}
+		        <br>
 		          La formule d'inscription gratuite à laquelle vous avez souscrit  ne nous permet pas de vous donner une analyse plus détaillée.
 			      Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
 		           Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
@@ -56,8 +59,10 @@ Nous vous invitons à plus d'assiduité et d'engagment pour votre future réuiss
 		    {% else %}
 		        {% if analyseSession.note>=10%}
 			        Vous êtes dans le vert, tachez simplement d'y rester jusqu'au dernier jour de préparation.
+			        <br>
 			        {% if abonnement.plan=='starter' %}
 		              Cependant, la formule d'inscription gratuite à laquelle vous avez souscrit ne nous permet pas de vous donner une analyse plus détaillée.
+		              <br>
 			          Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
 		              Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
 		            {% endif %}
