@@ -178,7 +178,7 @@ class AnalyseController extends Controller
     public function showAction(Analyse $analyse)
     {
         $deleteForm = $this->createDeleteForm($analyse);
-        return $this->render('AdminBundle:analyse/show.html.twig', array(
+        return $this->render('AdminBundle:analyse:show.html.twig', array(
             'analyse' => $analyse,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -198,7 +198,7 @@ class AnalyseController extends Controller
              ->setSendNow(true);
         foreach ($abonnements as $key => $abonnement) {
              $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
-             $body=$this->renderView('AdminBundle:analyse/analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
+             $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
              $notification=clone $notif;
              $notification->setTitre(`Bilan de votre préparation sur centor`)
                ->setSousTitre(
