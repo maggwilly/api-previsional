@@ -192,7 +192,9 @@ class AnalyseController extends Controller
           $em = $this->getDoctrine()->getManager();
           $abonnements=$session->getAbonnements();
           $notif=new Notification('private');
-           $notif->setSendDate(new \DateTime())
+           $notif->setTitre(`Bilan de votre préparation sur centor`)
+               ->setSousTitre(`Celà fait déjà un moment que vous avez installé notre application et commencé la préparation au concours de `.$session->getNomConcours().`. Voici votre bilan.`)            
+              ->setSendDate(new \DateTime())
              ->setIncludeMail(false)
              ->setUser($this->getUser())
              ->setSendNow(true);
@@ -200,9 +202,6 @@ class AnalyseController extends Controller
              $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
              $notification=clone $notif;
-             $notification->setTitre(`Bilan de votre préparation sur centor`)
-               ->setSousTitre(
-                `Celà fait déjà un moment que vous avez installé notre application et commencé la préparation au concours de `.$session->getNomConcours().`. Voici votre bilan.`)             
              ->setText($body);
             $em->persist($notification);
              $em->flush();             
