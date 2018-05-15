@@ -9,7 +9,7 @@
 	</tbody>
 </table>
 
-<h2>{% if  abonnement.info.displayName %}{{abonnement.info.displayName}} !{% else %} Votre bilan !{% endif %}</h2>
+<h1>{% if  abonnement.info.displayName %}{{abonnement.info.displayName}} !{% else %} Votre bilan !{% endif %}</h1>
 
 <p>Celà fait déjà un moment que vous êtes inscrit au programme de préparation pour le concours
   {{abonnement.session.nomConcours}}.
@@ -38,7 +38,12 @@ Nous vous invitons à plus d'assiduité et d'engagment pour votre future réuiss
 	{% else %}
 	    {% if analyseSession.note<7 %}
 	   Vous fournissez des efforts certe mais vous êtes encore loin du compte. 
-	   Si vous avez des difficultés liées aux ressources ou à la manière qui ne vous convient pas, faites-le nous savoir par sms ou whatsapp.
+	   Si vous avez des difficultés liées aux ressources ou à la manière qui ne vous convient pas, faites-le nous savoir par sms ou whatsapp.		        
+	   {% if abonnement.plan=='starter' %}
+		          La formule d'inscription gratuite à laquelle vous avez souscrit  ne nous permet pas de vous donner une analyse plus détaillée.
+			      Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
+		           Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
+		        {% endif %}
 	   {% else %}
 	        {% if analyseSession.note>=7 and  analyseSession.note<10%}
 	            Vos éfforts sont louables mais encore insuffisants pour être confiant. 
