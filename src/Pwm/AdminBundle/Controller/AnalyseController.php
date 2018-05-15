@@ -196,7 +196,7 @@ class AnalyseController extends Controller
              $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
            $notification=new Notification('private');
-           $notification->setTitre("Bilan de votre préparation sur centor")
+           $notification->setTitre("Resultats-".$session->getNomConcours())
                ->setSousTitre("Celà fait déjà un moment que vous avez installé notre application et commencé la préparation au concours de ".$session->getNomConcours().". Voici votre bilan.")            
               ->setSendDate(new \DateTime())
              ->setIncludeMail(true)
