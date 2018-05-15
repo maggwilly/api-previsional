@@ -136,12 +136,15 @@
         </td>
           {% if is_granted('ROLE_SUPERVISEUR')  %}
         <td>
-            <a href="{{ path('session_decrire', { 'id': session.id }) }}" class="btn btn-info">Présentation commerciale</a>
+            <a href="{{ path('session_decrire', { 'id': session.id }) }}" class="btn btn-info">Présentation </a>
         </td>  
           {% endif %}  
         <td>
-           <a href="{{ path('notification_new',{'id':session.groupe.id}) }}" class="btn btn-warning">Publier une annonce</a>
+           <a href="{{ path('notification_new',{'id':session.groupe.id}) }}" class="btn btn-warning">Annonce</a>
         </td>
+         <td>
+            <a href="{{ path('session_analyse', { 'id': session.id }) }}" class="btn btn-info">Resultat</a>
+        </td>       
           </tr> 
     </table>
 

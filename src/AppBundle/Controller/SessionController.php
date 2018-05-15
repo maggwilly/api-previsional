@@ -222,6 +222,15 @@ class SessionController extends Controller
         ));
     }
 
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function analyseAction(Session $session)
+    {
+        
+        
+        return $this->redirectToRoute('session_show', array('id' => $session->getId()));
+    }
 
         /**
      * Lists all Produit entities.

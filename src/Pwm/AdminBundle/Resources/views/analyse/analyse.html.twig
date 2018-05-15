@@ -1,0 +1,109 @@
+<!-- Email Body : BEGIN -->
+<div style="font-family: sans-serif;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%"><!-- Hero Image, Flush : BEGIN -->
+	<tbody>
+		<tr>
+			<td><img alt="alt_text" src="https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/picmsgs%2FEDC-Evaluation-Full.png?alt=media&token=ce931539-d5ed-4d3e-a083-bdc9303fb2c0" style="height:auto; margin:auto; width:100%" /></td>
+		</tr>
+		<!-- Hero Image, Flush : END -->
+	</tbody>
+</table>
+
+<h2>{% if analyseSession.info.displayName %}{{analyseSession.info.displayName}} !{% else %} Votre bilan !{% endif %}</h2>
+
+<p>Celà fait déjà un moment que vous êtes inscrit au programme de préparation pour le concours  {{analyseSession.session.nomConcours}}.
+ Nous savons que la réuissite à ce concours est un objectif important pour vous et c'est à ce titre que nous voulons faire le point sur votre évolution.</p>
+
+<h4>Votre assiduité </h4>
+<p> 
+En 02 semaines de préparation, vous n'avez que très peu ouvert l'application pour participer à une discussion, repondre à une question, télécharger un document et encore moins pour parler à un enseignant.
+ En étant ausi leger dans votre utilisation de l'application, vous passez à côtés de nombreuse occasions de gagner un point de plus sur une épreuve.
+</p>
+<p>Nous osons croire que vous vous en sortez tout seul avec les documents qui vous sont envoyés régulierement 
+  mais l'un des objectifs de centor est de vous aider à garder un oeil ouvert sur vos concurrents jusqu'au jour du concours.
+ </p>
+<h4>Evaluation et resultats</h4> 
+{% if analyseSession is null %}
+<p>Jusauqu'ici, vous n'avez pas passé d'évaluation. Ce ci est lié à la légerété que nous avons relévé plus haut. 
+Nous vous invitons à plus d'assiduité et d'engagment pour votre future réuissite au concours.
+</p>
+{% else %}
+<ul>
+	<li>
+	Votre moyenne actuelle: <strong>{{analyseSession.note}}/20</strong>
+	<br>
+	<p>
+ {% if analyseSession.note==0 %}
+	Vous n'avez fourni aucun éffort. Tout porte à croire que vous avez juste voulu essayer la classe prépa centor. 
+	Si vous souhaitez véritablement vous préparer à ce concours, nous vous recommandons d'être plus actif.
+	{% else %}
+	    {% if analyseSession.note<7 %}
+	   Vous fournissez des efforts certe mais vous êtes encore loin du compte. 
+	   Si vous avez des difficultés liées aux ressources ou à la manière qui ne vous convient pas, faites-le nous savoir par sms ou whatsapp.
+	   {% else %}
+	        {% if analyseSession.note>=7 and  analyseSession.note<10%}
+	            Vos éfforts sont louables mais encore insuffisants pour être confiant. 
+		        Le niveau du concours  est bien plus que ce que vous arrivez à fournir en ce moment.
+		        {% if abonnement.plan=='starter' %}
+		          La formule d'inscription gratuite à laquelle vous avez souscrit  ne nous permet pas de vous donner une analyse plus détaillée.
+			      Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
+		           Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
+		        {% endif %}
+		    {% else %}
+		        {% if analyseSession.note>=10%}
+			        Vous êtes dans le vert, tachez simplement d'y rester jusqu'au dernier jour de préparation.
+			        {% if abonnement.plan=='starter' %}
+		              Cependant, la formule d'inscription gratuite à laquelle vous avez souscrit ne nous permet pas de vous donner une analyse plus détaillée.
+			          Votre période d'essai n'est pas assez longue pour aller loin dans votre préparation.
+		              Veillez passer à la formule <b>standard</b> pour béneficier des conseils et astuces clés pour réuissir.
+		            {% endif %}
+		        {% endif %}
+	        {% endif %}
+	    {% endif %}
+	{% endif %}
+	</p>
+	</li>
+	<li>
+   Votre rang actuel: <strong>{{analyseSession.rang}}<sup>ieme</sup>/{{analyseSession.evalues}}</strong>
+   <br>
+	<p>
+  Si le concours se tenait ce jour, avec {{analyseSession.evalues}} participants, vous serez classé au {{analyseSession.rang}}<sup>ieme</sup> rang.
+  {% if analyseSession.rang!=1 and analyseSession.rang>=(analyseSession.evalues/3)%}
+  Vu vos resultats actuels et le nombre de candidats attenduts au concours, vous pourrez ne pas faire partir des heureux admis. Nous  attirons votre attention sur cette réalité.
+  {% else %}
+    Vu vos resultats actuels et le niveau prévu de l'épreuve écrite, vous serez bien parti pour décrocher votre admission au concours.
+	{% if analyseSession.dememe>1 %}
+	   Vous n'êtes cependant pas  seul à avoir cet atout. Plus précisement, vous êtes au nombre de  {{analyseSession.dememe}} qui partagez  ce rang avec les mêmes moyennes, même temps de réponse aux questions.
+	{% endif %}
+  {% endif %}
+	</p>
+	</li>
+	<li>
+   Nombre actuel de  candidats: <strong>{{ (analyseSession.session.nombreInscrit+468)}}</strong>
+   <br>	
+	<p>Nous voulons vous faire savoir que le nombre de personnes désirant  se présenter au concours comme vous ne cessent de croître chaque jour.
+	D'après les dernieres informations, vous serez déjà au nombre de {{ (analyseSession.session.nombreInscrit+468)}} candidats déclarés
+	{% if analyseSession.dateLancement %}. Pour 
+	{{ analyseSession.session.nombrePlace }} places disponibles.
+	{% else %}
+	.
+	{% endif %}
+	{{ analyseSession.session.nombreInscrit }} sont actuellement en préparation sur centor.
+	</p>
+	</li>
+</ul>
+{% endif %} 
+
+<p><i>Les  analyses ci-dessus reposent exclusivement sur votre utilisation de notre application</i></p>
+
+<p><em>Le processus de paiement est s&eacute;curis&eacute; et soumis au cont&ocirc;le de notre partenaire <strong>Orange Cameroun</strong>. Si vous &eacute;prouvez des difficult&eacute;s, veillez nous contacter</em>.</p>
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
+ <tr>
+       <td style="border-radius: 3px; background: #fff; text-align: center;" class="button-td">
+          <a href=" https://api.whatsapp.com/send?phone=237655874410&text=Salut%20Centor%20!%20" style="background: #ff4500; border: 15px solid #ff4500; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+           <span style="color:#ffffff;" class="button-link">Notre Whatsapp</span>
+          </a>
+        </td>
+  </tr>
+</table>
+</div>

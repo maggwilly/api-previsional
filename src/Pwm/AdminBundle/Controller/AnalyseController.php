@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
+use Pwm\MessagerBundle\Entity\Notification;
+use AppBundle\Event\NotificationEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Analyse controller.
  *
@@ -161,11 +164,12 @@ class AnalyseController extends Controller
               $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre'];
               $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
               $analyse->setEvalues($nombre);
-
     }
         return  $this->compare($analyse);
            
     }
+
+
 
     /**
      * Finds and displays a analyse entity.
@@ -180,7 +184,36 @@ class AnalyseController extends Controller
         ));
     }
 
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function analyseAction(Session $session)
+    {
+          $em = $this->getDoctrine()->getManager();
+          $abonnements=$session->getAbonnements();
+          $notif=new Notification('private');
+           $notif->setSendDate(new \DateTime())
+             ->setIncludeMail(false)
+             ->setUser($this->getUser())
+             ->setSendNow(true);
+        foreach ($abonnements as $key => $abonnement) {
+             $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
+             $body=$this->renderView('AdminBundle:analyse/analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
+             $notification=clone $notif;
+             $notification->setTitre(`Bilan de votre préparation sur centor`)
+               ->setSousTitre(
+                `Celà fait déjà un moment que vous avez installé notre application et commencé la préparation au concours de `.$session->getNomConcours().`. Voici votre bilan.`)             
+             ->setText($body);
+            $em->persist($notification);
+             $em->flush();             
+             $data=array('page'=>'notification','id'=>$notification->getId());
+             $event=new NotificationEvent($abonnement->getInfo()->getRegistrations(),$notification,$data);
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
 
+        }
+        $this->addFlash('success', 'Rresultat envoyé à . '.count($abonnements).' personnes'); 
+        return $this->redirectToRoute('session_show', array('id' => $session->getId()));
+    }
 
     /**
      * Deletes a analyse entity.

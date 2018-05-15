@@ -24,6 +24,13 @@ session_edit:
     defaults: { _controller: "AppBundle:Session:edit" }
     methods:  [GET, POST]
 
+session_analyse:
+    path:     /{id}/analyse
+    defaults: { _controller: "AdminBundle:Analyse:analyse" }
+    methods:  [GET, POST]
+
+
+
 session_decrire:
     path:     /{id}/decrire
     defaults: { _controller: "AppBundle:Session:decrire" }

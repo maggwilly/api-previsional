@@ -138,14 +138,14 @@ public function onFillProfilInvited(InfoEvent $event)
      $batchSize = 30;
        $notification=new Notification('private');
         $notification->setTitre('Completez votre profil')
-        ->setSousTitre("Nous voudrions en savoir plus sur vous afin de ;ieux vous infor;er des offres concours.")
+        ->setSousTitre("Nous voudrions en savoir plus sur vous afin de mieux vous informer des offres concours.")
         ->setSendDate(new \DateTime())
-        ->setIncludeMail(true)
+        ->setIncludeMail(false)
         ->setSendNow(true);
      foreach ($destinations as $key => $info) {
       $body =  $this->twig->render('AdminBundle:info:profil_invite.html.twig',  array('info' => $info));
         $notif=clone $notification;
-        $notif->setText($body);
+        $notif->setText($body)->setIncludeMail(true);
         foreach ($info->getRegistrations() as  $registration) {
              if (!$registration->getIsFake()){ 
                $tokens[]=$registration->getRegistrationId();
