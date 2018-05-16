@@ -17,6 +17,7 @@
          <table class="table  datatable" id="my-table-1">
         <thead>
             <tr>
+                <th>Ref ID</th>  
                 <th>Enonce</th>  
                 <th>Explication</th>             
                 <th>Est validée</th>
@@ -26,6 +27,9 @@
         <tbody>
         {% for question in questions %}
             <tr>
+                <td>
+               Q - {{ question.id}}
+                </td>              
                 <td>
                 <a href="{{ path('question_show', { 'id': question.id }) }}">{{ question.text | raw}}</a>
                 <br>

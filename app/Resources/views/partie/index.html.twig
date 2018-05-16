@@ -23,6 +23,7 @@
         <table class="table  datatable" id="my-table-1">
         <thead>
             <tr>
+                 <th>Ref Index</th> 
                 <th class="col-md-3">Unités </th>
                 {% if  is_granted('ROLE_SUPERVISEUR') %}
                   <th class="col-md-3">Editeur</th>
@@ -35,7 +36,11 @@
         <tbody> 
         {% for partie in parties %}
             <tr>
+                 <td>
+                   {{ partie.index }}                 
+                </td>
                 <td>
+
                    <h2>{{ partie.titre }}</h2>
                     <p>{{ partie.objectif }}</p></a>
                 </td>
