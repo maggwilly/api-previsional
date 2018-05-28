@@ -102,12 +102,12 @@ class AbonnementController extends Controller
           $session->addInfo($info);
            $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
             if(is_null($commande)||!is_null($commande->getStatus())){
-          $commande= new Commande($info, $session, $package, $amount);
-          $em->persist( $commande);
-          $em->flush();
+               $commande= new Commande($info, $session, $package, $amount);
+               $em->persist( $commande);
+               $em->flush();
         }
         else{
-            $commande->setDate(new \DateTime());
+            $commande->setDate(new \DateTime())->setAmount($amount)->setPackage($package);
              $em->flush();   
             }
           $res=$this->get('payment_service')->getPayementUrl($commande);
