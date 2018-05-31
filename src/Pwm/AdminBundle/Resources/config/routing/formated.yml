@@ -10,7 +10,7 @@ get_token_json:
 
 commende_start_json:
     path:     /commende/{info}/{session}/{package}/json
-    defaults: { _controller: "AdminBundle:Abonnement:startCommande"}
+    defaults: { _controller: "AdminBundle:Abonnement:startCommande","session":0}
     methods:  [GET,POST] 
 
 commende_confirm_json:
@@ -25,7 +25,7 @@ commende_cancel_json:
 
 abonnent_show_json:
     path:     /abonnement/{info}/{id}/json
-    defaults: { _controller: "AdminBundle:Abonnement:showJson"}
+    defaults: { _controller: "AdminBundle:Abonnement:showJson","id":0}
     methods:  [GET,POST] 
 
 abonnent_show_one_json:
