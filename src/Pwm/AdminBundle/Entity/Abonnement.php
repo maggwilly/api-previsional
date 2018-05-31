@@ -120,9 +120,9 @@ class Abonnement
         $this->price=$commande->getAmount();
         $this->info=$commande->getInfo();
         $this->session=$commande->getSession();
-      //  $this->commande=$commande;
         $this->method='OM';
         $this->date=new \DateTime();
+         $this->startDate=new \DateTime();
     }
 
 
@@ -132,7 +132,7 @@ class Abonnement
     */
     public function PrePersist(){
           $this->endDate=new \DateTime();
-           $this->startDate=new \DateTime();
+          if(!is_null($this->session))
            switch ($this->plan) {
                case 'starter':
                  $this->endDate->modify('+'.$this->session->getPrice()->getStarterDelay().' day');
@@ -144,6 +144,8 @@ class Abonnement
                    $this->endDate->modify('+'.$this->session->getPrice()->getPremiumDelay().' day');
                    break;
            }
+           else
+             $this->endDate->modify('+1 year');
     }
 
 

@@ -17,7 +17,7 @@ class AbonnementRepository extends EntityRepository
   *Nombre de synchro effectue par utilisateur 
   */
   public function findForMe(Info $info){
-         $qb = $this->createQueryBuilder('a') ->leftJoin('a.session', 's')
+         $qb = $this->createQueryBuilder('a')->join('a.session', 's')
          ->where('a.info=:info')->setParameter('info',$info)
          ->andWhere('s.archived=:archived')->setParameter('archived',false); 
           return $qb->getQuery()->getResult();
@@ -26,11 +26,10 @@ class AbonnementRepository extends EntityRepository
 	 /**
   *Nombre de synchro effectue par utilisateur 
   */
-  public function findMeOnThis(Info $info,Session $session){
+  public function findMeOnThis(Info $info,Session $session=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.info=:info')->setParameter('info',$info)
          ->andWhere('a.session=:session')->setParameter('session',$session);
-
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
 

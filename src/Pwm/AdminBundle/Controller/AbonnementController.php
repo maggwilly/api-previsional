@@ -80,11 +80,14 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function startCommandeAction(Request $request,Info $info, Session $session,$package)
+    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='standard')
     {
           $em = $this->getDoctrine()->getManager();
           $amount=0;
-      switch ($package) {
+          if(is_null($session))
+            $amount=500;
+          else{
+        switch ($package) {
           case 'starter':
             $amount=  $session->getPrice()->getStarter();
              $commande= new Commande($info, $session, $package, $amount);
@@ -97,9 +100,10 @@ class AbonnementController extends Controller
            default:
                $amount=$session->getPrice()-> getPremium();
               break;
-      }    
+        }    
           $session->removeInfo($info);
           $session->addInfo($info);
+          }
            $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
             if(is_null($commande)||!is_null($commande->getStatus())){
                $commande= new Commande($info, $session, $package, $amount);
@@ -111,9 +115,10 @@ class AbonnementController extends Controller
              $em->flush();   
             }
           $res=$this->get('payment_service')->getPayementUrl($commande);
-          $response= array('data' =>$res ,'id' =>$commande->getId());
-        return $response;
+        return array('data' =>$res ,'id' =>$commande->getId());
     }
+
+
 
     /**
      * Lists all Produit entities.
@@ -129,9 +134,11 @@ class AbonnementController extends Controller
            $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
                  $abonnement=new Abonnement($commande); 
+                 if(!is_null($commande->getSession())){
                  $commande->getSession()->removeInfo($commande->getInfo()); 
                   $commande->getSession()->addInfo($commande->getInfo());
-                 $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;              
+                 $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
+                }              
                  $em->persist($abonnement);
                 }
              $abonnement->setPlan($commande->getPackage());
@@ -160,40 +167,6 @@ class AbonnementController extends Controller
     }
 
 
-public function getPayementUrl(Commande $commande)
-  {
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.orange.com/orange-money-webpay/cm/v1/webpayment",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 120,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"merchant_key\":\"".$this->merchant_key."\", \"currency\":\"".$this->currency."\",\"order_id\": \"".$this->id_prefix.$commande->getUId()."\",\"amount\": \"".$commande->getAmount()."\", \"return_url\": \"".$this->return_url."\",\"cancel_url\": \"".$this->cancel_url."\",\"notif_url\": \"".$this->base_url.$commande->getId()."/confirm/json\",\"lang\": \"fr\",\"reference\": \"CENTOR .inc\"
-     }",
-  CURLOPT_HTTPHEADER => array(
-    "accept: application/json",
-    "authorization: Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt",
-    "cache-control: no-cache",
-    "content-type: application/json"
-  ),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  return new Response( $err);
-} else {
-   return new Response("{\"data\":". $response.", \"id\":\"".$commande->getId()."\"}");
-        
-}
-  return '';
-}
 
         /**
      * Displays a form to edit an existing analyse entity.
@@ -217,12 +190,12 @@ if ($err) {
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"abonnement"})
      */
-    public function showJsonAction(Info $info,Session $session){
+    public function showJsonAction(Info $info,Session $session=null){
         $em = $this->getDoctrine()->getManager();
          $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
-          if ( $abonnement!=null) {
+          if ( $abonnement!=null&&$session!=null) {
           $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
+          $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/members/.json";
           $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
            $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
         }
@@ -234,7 +207,7 @@ if ($err) {
      *@Rest\View(serializerGroups={"abonnement"})
      */
     public function showOneJsonAction(Abonnement $abonnement){
-          if ( $abonnement!=null) {
+          if ( $abonnement!=nulll&&$abonnement-> getSession()!=null) {
           $info= $abonnement->getInfo();
           $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
           $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
