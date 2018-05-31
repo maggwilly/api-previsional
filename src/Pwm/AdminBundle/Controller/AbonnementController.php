@@ -187,7 +187,7 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"abonnement"})
      */
-    public function showJsonAction(Info $info,Session $session=null){
+    public function showJsonAction(Info $info, Session $session=null){
         $em = $this->getDoctrine()->getManager();
          $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
           if ( $abonnement!=null&&$session!=null) {
