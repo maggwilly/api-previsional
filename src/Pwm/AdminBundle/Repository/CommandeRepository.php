@@ -18,7 +18,7 @@ class CommandeRepository extends \Doctrine\ORM\EntityRepository
         return   $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
  }	
 
-  public function findOneByUserSession(Info $info,Session $session){
+  public function findOneByUserSession(Info $info,Session $session=null){
  $qb =$this->createQueryBuilder('a')
        ->where('a.info=:info') ->setParameter('info', $info)->andWhere('a.session=:session') ->setParameter('session', $session);
         return   $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
