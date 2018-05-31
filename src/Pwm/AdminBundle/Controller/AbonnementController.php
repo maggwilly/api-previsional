@@ -114,7 +114,7 @@ class AbonnementController extends Controller
              $em->flush();   
             }
           $res=$this->get('payment_service')->getPayementUrl($commande);
-        return array('data' =>$res ,'id' =>$commande->getId());
+        return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
     }
 
 
@@ -143,8 +143,10 @@ class AbonnementController extends Controller
              $abonnement->setPrice($commande->getAmount());
              $commande->setAbonnement($abonnement);             
               $em->flush();
+               if(!is_null($commande->getSession())){
               $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
+          }
             return $commande;
         }
         return $form;
