@@ -75,7 +75,6 @@ class AbonnementController extends Controller
   return  $res;
 }
 
-
     /**
      * Lists all Produit entities.
      *@Rest\View()
@@ -130,7 +129,6 @@ class AbonnementController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()&&$commande->getStatus()=='SUCCESS') {
             $em = $this->getDoctrine()->getManager();
-            if(!is_null($commande->getSession())){
            $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
                  $abonnement=new Abonnement($commande); 
@@ -143,8 +141,7 @@ class AbonnementController extends Controller
                 }
              $abonnement->setPlan($commande->getPackage());
              $abonnement->setPrice($commande->getAmount());
-             $commande->setAbonnement($abonnement);
-             }
+             $commande->setAbonnement($abonnement);             
               $em->flush();
               $event= new CommandeEvent($commande);
             $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
