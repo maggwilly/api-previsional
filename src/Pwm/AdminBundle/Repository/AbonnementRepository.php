@@ -29,8 +29,10 @@ class AbonnementRepository extends EntityRepository
   public function findMeOnThis(Info $info,Session $session=null){
          $qb = $this->createQueryBuilder('a')
          ->where('a.info=:info')->setParameter('info',$info);
-       // if (!is_null($session)) 
+        if (!is_null($session)) 
            $qb->andWhere('a.session=:session')->setParameter('session',$session);
+         else
+          $qb->andWhere('a.session is NULL');
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
 
