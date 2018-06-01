@@ -110,7 +110,7 @@ class AbonnementController extends Controller
                $em->flush();
         }
         else{
-            $commande->setDate(new \DateTime())->setAmount($amount)->setPackage($package);
+            $commande->setDate(new \DateTime())->setAmount($amount)->setPackage($package)->setSession($session);
              $em->flush();   
             }
           $res=$this->get('payment_service')->getPayementUrl($commande);
