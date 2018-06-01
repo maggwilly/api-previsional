@@ -90,7 +90,7 @@ class AbonnementController extends Controller
            }
               
           if(is_null($session))
-            $amount=25;
+            $amount=500;
           else{
         switch ($package) {
           case 'starter':
