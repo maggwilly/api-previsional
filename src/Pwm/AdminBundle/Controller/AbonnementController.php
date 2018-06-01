@@ -84,7 +84,7 @@ class AbonnementController extends Controller
           $em = $this->getDoctrine()->getManager();
           $amount=0;
           if(is_null($session))
-            $amount=500;
+            $amount=25;
           else{
         switch ($package) {
           case 'starter':
