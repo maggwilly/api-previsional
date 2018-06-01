@@ -83,16 +83,24 @@ class AbonnementController extends Controller
     {
           $em = $this->getDoctrine()->getManager();
           $amount=0;
+          $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
+            if(is_null($commande)){
+               $commande= new Commande($info, $session, $package, $amount);
+               $em->persist( $commande);
+           }
+              
           if(is_null($session))
             $amount=25;
           else{
         switch ($package) {
           case 'starter':
             $amount=  $session->getPrice()->getStarter();
-             $commande= new Commande($info, $session, $package, $amount);
-            $em->persist( $commande);
-            $em->flush();
-               return array('success'=>true,'id'=>$commande->getId());
+            $commande->setDate(new \DateTime())
+            ->setAmount($amount)
+            ->setPackage($package)
+            ->setSession($session);
+             $em->flush();
+            return array('success'=>true,'id'=>$commande->getId());
           case 'standard':
               $amount=$session->getPrice()->getStandard();
               break;          
@@ -103,19 +111,11 @@ class AbonnementController extends Controller
           $session->removeInfo($info);
           $session->addInfo($info);
           }
-           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
-            if(is_null($commande)){
-               $commande= new Commande($info, $session, $package, $amount);
-               $em->persist( $commande);
-               $em->flush();
-        }
-        else{
             $commande->setDate(new \DateTime())
             ->setAmount($amount)
             ->setPackage($package)
             ->setSession($session);
-             $em->flush();   
-            }
+             $em->flush(); 
           $res=$this->get('payment_service')->getPayementUrl($commande);
         return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
     }
