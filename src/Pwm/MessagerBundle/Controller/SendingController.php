@@ -53,12 +53,12 @@ class SendingController extends Controller
             $em = $this->getDoctrine()->getManager();
                  $notificationId=$request->query->get('notificationId');
                  $registrationId=$request->query->get('registrationId');
-              $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($notificationId,$$registrationId);
+              $sendings = $em->getRepository('MessagerBundle:Sending')->findByNotInfo($notificationId,$registrationId);
               foreach ($sendings as  $sending) {
                  $sending->setReaded(true);
                 }
                 if(!is_null($sending))
-                $sending->setReaded(true);
+                  $sending->setReaded(true);
             $em->flush();
             return true;
     }

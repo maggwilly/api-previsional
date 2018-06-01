@@ -92,7 +92,6 @@ class NotificationController extends Controller
     {
          $url= "https://us-central1-trainings-fa73e.cloudfunctions.net/getRate?article=".$notification->getId();
         // $renderTemplate = $this->get('fmc_manager')->sendOrGetData($url,null,'GET'); 
-
         return new Response('0');  //new Response($renderTemplate);
     }
 
@@ -132,8 +131,16 @@ class NotificationController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"sending"})
      */
-    public function showJsonAction(Notification $notification)
+    public function showJsonAction(Request $request, Notification $notification)
     {
+        $em = $this->getDoctrine()->getManager();
+        $registrationId=$request->query->get('registrationId');
+          $sendings = $em->getRepository('MessagerBundle:Sending')
+          ->findByNotInfo($notification->getId(),$registrationId);
+              foreach ($sendings as  $sending) {
+                 $sending->setReaded(true);
+                }
+           $em->flush();
         return $notification;
     }
 
