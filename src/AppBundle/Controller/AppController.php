@@ -23,7 +23,7 @@ class AppController extends Controller
         elseif ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
               return $this->redirectToRoute('user_index');
         elseif ($this->get('security.authorization_checker')->isGranted('ROLE_CONTROLEUR')) 
-              return $this->redirectToRoute('user_index');
+              return $this->redirectToRoute('concours_index');
           elseif ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
               return $this->redirectToRoute('session_index');              
          elseif($this->get('security.authorization_checker')->isGranted('ROLE_SAISIE')) 
