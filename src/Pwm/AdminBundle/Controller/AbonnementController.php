@@ -98,7 +98,8 @@ class AbonnementController extends Controller
             $commande->setDate(new \DateTime())
             ->setAmount($amount)
             ->setPackage($package)
-            ->setSession($session);
+            ->setSession($session)
+            ->setRessource(null);
              $em->flush();
             return array('success'=>true,'id'=>$commande->getId());
           case 'standard':
@@ -114,7 +115,8 @@ class AbonnementController extends Controller
             $commande->setDate(new \DateTime())
             ->setAmount($amount)
             ->setPackage($package)
-            ->setSession($session);
+            ->setSession($session)
+            ->setRessource(null);
              $em->flush(); 
           $res=$this->get('payment_service')->getPayementUrl($commande);
         return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
