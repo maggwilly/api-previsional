@@ -104,7 +104,7 @@ class AbonnementController extends Controller
           $session->addInfo($info);
           }
            $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
-            if(is_null($commande)||!is_null($commande->getStatus())){
+            if(is_null($commande))){
                $commande= new Commande($info, $session, $package, $amount);
                $em->persist( $commande);
                $em->flush();
