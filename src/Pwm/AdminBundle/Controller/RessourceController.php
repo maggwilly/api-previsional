@@ -165,7 +165,7 @@ class RessourceController extends Controller
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
           //on paie une seule foid
-            if($commande!=null)&&$commande->getStatus()==='SUCCESS')
+            if($commande!=null&&$commande->getStatus()==='SUCCESS')
                  return $ressource;
                  //on ne paie pas les doc gratuit
             if($ressource->getPrice()==null||$ressource->getPrice()==0)
