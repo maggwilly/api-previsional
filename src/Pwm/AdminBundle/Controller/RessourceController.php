@@ -164,8 +164,19 @@ class RessourceController extends Controller
           $em = $this->getDoctrine()->getManager();
           $info = $em->getRepository('AdminBundle:Info')->findOneByUid($uid);
           $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserRessource($info,$ressource);
-            if((($commande!=null)&&$commande->getStatus()==='SUCCESS')||($ressource->getPrice()==null||$ressource->getPrice()==0))
+          //on paie une seule foid
+            if((($commande!=null)&&$commande->getStatus()==='SUCCESS')))
                  return $ressource;
+                 //on ne paie pas les doc gratuit
+            if((($ressource->getPrice()==null||$ressource->getPrice()==0))
+                 return $ressource;  
+                 // les inscrit premium ne paient pas    
+            if($ressource->getSession()!=null){
+               $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $ressource->getSession());
+               if($abonnement!=null&&$abonnement->getPlan()==='premium')
+                   return $ressource;
+            }
+                   
           if(is_null($commande)||!is_null($commande->getStatus())){
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
                 $em->persist( $commande);
