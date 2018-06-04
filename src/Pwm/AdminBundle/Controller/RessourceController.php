@@ -189,7 +189,7 @@ class RessourceController extends Controller
                 return $ressource->setPaymentUrl($paymentUrl);
              //$response=$this->get('payment_service')->getPayementUrl($commande);
               
-        return $ressource->setPaymentUrl('http://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me');
+        return $ressource->setPaymentUrl('https://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me');
         //$ressource->setPaymentUrl($response['payment_url']);
     }
 

@@ -128,7 +128,7 @@ class AbonnementController extends Controller
             ->setRessource(null);
              $em->flush(); 
          // $res=$this->get('payment_service')->getPayementUrl($commande);
-          $res= array('payment_url' => 'http://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me', );
+          $res= array('payment_url' => 'https://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me', );
         return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
     }
 
