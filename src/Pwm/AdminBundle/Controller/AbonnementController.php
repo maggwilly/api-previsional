@@ -75,6 +75,15 @@ class AbonnementController extends Controller
   return  $res;
 }
 
+
+    public function goToPaiementAction(Request $request,Commande $commande)
+    {
+        $res=$this->get('payment_service')->getPayementUrl($commande);
+        if(array_key_exists('payment_url', $res))
+           return $this->redirect($res['payment_url']);
+      return  new Response('Une erreur se produit. Prevenez un administrateur svp');
+}
+
     /**
      * Lists all Produit entities.
      *@Rest\View()
@@ -118,7 +127,8 @@ class AbonnementController extends Controller
             ->setSession($session)
             ->setRessource(null);
              $em->flush(); 
-          $res=$this->get('payment_service')->getPayementUrl($commande);
+         // $res=$this->get('payment_service')->getPayementUrl($commande);
+          $res= array('payment_url' => 'http://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me', );
         return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
     }
 

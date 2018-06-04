@@ -13,6 +13,12 @@ abonnement_new:
     defaults: { _controller: "AdminBundle:Abonnement:new" }
     methods:  [GET, POST]
 
+abonnement_go_to_pay:
+    path:     /{id}/pay/for/me
+    defaults: { _controller: "AdminBundle:Abonnement:goToPaiement" }
+    methods:  [GET, POST]
+
+
 abonnement_edit:
     path:     /{id}/edit
     defaults: { _controller: "AdminBundle:Abonnement:edit" }
