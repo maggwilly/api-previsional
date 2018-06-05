@@ -1,6 +1,6 @@
 objectif_index:
     path:     /{id}/list
-    defaults: { _controller: "AppBundle:Objectif:index" }
+    defaults: { _controller: "AppBundle:Objectif:index" ,"id":0}
     methods:  GET
 
 objectif_show:

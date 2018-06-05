@@ -16,12 +16,20 @@ class ObjectifController extends Controller
      * Lists all objectif entities.
      *
      */
-
-    public function indexAction(Session $session)
+/**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function indexAction(Session $session=null)
     {
         $em = $this->getDoctrine()->getManager();
+        $liens=array();
+        if (is_null($session)) {
+            $liens=$session->getLiens();
+        }
+        $liens=$em->getRepository('AppBundle:Objectif')->findAll();
+
         return $this->render('objectif/index.html.twig', array(
-            'liens' =>  $session->getLiens(),  'session' => $session,
+            'liens' =>  $liens,  'session' => $session,
         ));
     }
 
@@ -29,14 +37,16 @@ class ObjectifController extends Controller
      * Creates a new objectif entity.
      *
      */
-    public function newAction(Session $session,Request $request)
+    /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
+    public function newAction(Request $request,Session $session=null)
     {
         $objectif = new Objectif();
         $form = $this->createForm('AppBundle\Form\ObjectifType', $objectif);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $objectif->setProgramme($session);
             $em->persist($objectif);
             $em->flush($objectif);
              $this->addFlash('success', 'Enrégistrement effectué');
@@ -54,6 +64,9 @@ class ObjectifController extends Controller
      * Finds and displays a objectif entity.
      *
      */
+    /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function showAction(Objectif $objectif)
     {
         $deleteForm = $this->createDeleteForm($objectif);
@@ -68,6 +81,9 @@ class ObjectifController extends Controller
      * Displays a form to edit an existing objectif entity.
      *
      */
+    /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function editAction(Request $request, Objectif $objectif)
     {
         $deleteForm = $this->createDeleteForm($objectif);
@@ -92,6 +108,9 @@ class ObjectifController extends Controller
      * Deletes a objectif entity.
      *
      */
+    /**
+ * @Security("is_granted('ROLE_SUPERVISEUR')")
+*/
     public function deleteAction(Request $request, Objectif $objectif)
     {
         $partie=$objectif->getPartie();

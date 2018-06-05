@@ -57,6 +57,7 @@
                         {% endif %}
                          {% if is_granted('ROLE_SUPERVISEUR') %}
                         <li><a href="{{ path('ressource_index')}}"><span class="hidden-home">Documents</span></a></li>
+                        <li><a href="{{ path('objectif_index')}}"><span class="hidden-home">Liens utils</span></a></li>                        
                           {% endif %}
                         {% if is_granted('ROLE_CONTROLEUR') %}
                         <li><a href="{{ path('concours_index')}}"><span class="hidden-home">Ecoles</span></a></li>
