@@ -6,12 +6,7 @@
           <i class="icon-home"></i>
           <a href="{{ path('homepage')}}">Home</a> 
           <i class="icon-angle-right"></i>         
-        </li>
-        <li>
-      <a href="{{ path('session_show', { 'id': session.id }) }}">{{session.nomConcours}} ~ {{session.nom}} </a> 
-          <i class="icon-angle-right"></i>          
-        </li>  
-        <li>        
+        </li>         
         <li> 
       <a href="{{ path('objectif_index', { 'id': session.id  }) }}">Liens utils</a> 
           <i class="icon-angle-right"></i>          
@@ -28,6 +23,6 @@
         <input type="submit" value="Enrégistrer" class="btn btn-primary"/>
     {{ form_end(form) }}
 
- <a href="{{ path('objectif_index', { 'id': session.id }) }}">Retour</a>
+ <a href="{{ path('objectif_index') }}">Retour</a>
 
 {% endblock %}
