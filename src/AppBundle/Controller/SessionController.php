@@ -35,13 +35,14 @@ class SessionController extends Controller
            }
           else
              $sessions = $em->getRepository('AppBundle:Session')->findAll();
-         foreach ($sessions as $key => $session) {
+         /*foreach ($sessions as $key => $session) {
                  $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
                  $data = array(
                 'info'=>array('groupName' => $session->getNomConcours()),
                 'owner'=>$this->getUser()->getId()
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+             */
          }
         return $this->render('session/index.html.twig', array(
             'sessions' => $sessions,'concour' => $concours,
@@ -224,7 +225,13 @@ class SessionController extends Controller
     public function showAction(Session $session)
     {
         $deleteForm = $this->createDeleteForm($session);  
-         $this->get("session")->set('current_session_id', $session->getId());     
+         $this->get("session")->set('current_session_id', $session->getId());  
+                 $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
+                 $data = array(
+                'info'=>array('groupName' => $session->getNomConcours()),
+                'owner'=>$this->getUser()->getId()
+              );
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');            
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),
