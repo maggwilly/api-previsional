@@ -42,8 +42,8 @@ class SessionController extends Controller
                 'owner'=>$this->getUser()->getId()
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-             */
-         }
+            
+         } */
         return $this->render('session/index.html.twig', array(
             'sessions' => $sessions,'concour' => $concours,
         ));
