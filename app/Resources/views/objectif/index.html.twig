@@ -18,6 +18,7 @@
         <tbody>
         {% for objectif in liens %}
             <tr>
+              <td>{{ objectif.nom }}</td>
                 <td>{{ objectif.titre }}</td>
                 <td><a href="{{ objectif.description }}"> Afficher la cible</a></td>
                 <td>

@@ -24,6 +24,13 @@ class Objectif
     /**
      * @var string
      *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
@@ -45,7 +52,18 @@ class Objectif
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session",inversedBy="liens", cascade={"persist","remove"})*/
     private $sessions;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    private $date;
 
+     public function __construct(\AppBundle\Entity\Session $session=null)
+    {
+        $this->date =new \DateTime();
+        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
    /**
      * Set partie
      *
@@ -180,5 +198,53 @@ class Objectif
     public function getSessions()
     {
         return $this->sessions;
-    }    
+    } 
+
+  /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Commande
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+    
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Ressource
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }        
 }

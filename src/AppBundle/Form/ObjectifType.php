@@ -14,7 +14,9 @@ class ObjectifType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')
+        $builder
+        ->add('nom')
+        ->add('titre')
         ->add('description', UrlType::class, array(
             'label' => 'Lien direct',)) 
         ->add('sessions', EntityType::class,array('class' => 'AppBundle:Session', 
