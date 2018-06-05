@@ -35,11 +35,11 @@ class SessionController extends Controller
            }
           else
              $sessions = $em->getRepository('AppBundle:Session')->findAll();
-         foreach ($sessions as $key => $sessions) {
+         foreach ($sessions as $key => $session) {
                  $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
                  $data = array(
                 'info'=>array('groupName' => $session->getNomConcours()),
-                'owner'=>$formData['user']
+                'owner'=>$this->getUser()->getId();
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
          }
