@@ -39,7 +39,7 @@ class SessionController extends Controller
                  $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
                  $data = array(
                 'info'=>array('groupName' => $session->getNomConcours()),
-                'owner'=>$this->getUser()->getId();
+                'owner'=>$this->getUser()->getId()
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
          }
