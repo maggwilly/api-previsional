@@ -23,7 +23,7 @@ class ObjectifController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $liens=array();
-        if (is_null($session)) {
+        if (!is_null($session)) {
             $liens=$session->getLiens();
         }
         $liens=$em->getRepository('AppBundle:Objectif')->findAll();
