@@ -45,10 +45,6 @@ class Objectif
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session",inversedBy="liens", cascade={"persist","remove"})*/
     private $sessions;
 
-       /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" ,inversedBy="liens")
-   */
-    private $programme;
 
    /**
      * Set partie
