@@ -41,6 +41,9 @@ class Objectif
    */
     private $matiere;
 
+    /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session",inversedBy="liens", cascade={"persist","remove"})*/
+    private $sessions;
 
        /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session" ,inversedBy="liens")
@@ -149,4 +152,37 @@ class Objectif
     {
         return $this->programme;
     }
+
+        /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Partie
+     */
+    public function addSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions[] = $session;
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\Session $session
+     */
+    public function removeSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }    
 }

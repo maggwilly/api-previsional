@@ -157,10 +157,6 @@ class Session
      */
     private $price;
 
-        /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="programme", cascade={"persist","remove"})
-   */
-    private $liens; 
 
     /**
    * @ORM\OneToOne(targetEntity="Pwm\AdminBundle\Entity\Groupe", mappedBy="session", cascade={"persist","remove"})
@@ -178,6 +174,11 @@ class Session
    * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource",  mappedBy="sessions", cascade={"persist"})
    */
     private $ressources; 
+
+        /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Objectif", mappedBy="sessions", cascade={"persist","remove"})
+   */
+    private $liens; 
 
     /**
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Partie", inversedBy="sessions", cascade={"persist"})

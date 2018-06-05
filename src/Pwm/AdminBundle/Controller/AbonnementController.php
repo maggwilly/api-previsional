@@ -47,7 +47,6 @@ class AbonnementController extends Controller
         // $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
 
          }
-
         return $this->render('AdminBundle:abonnement:index.html.twig', array(
             'abonnements' => $abonnements, 'concours' => $concours,
         ));
@@ -64,6 +63,8 @@ class AbonnementController extends Controller
         $abonnements = $em->getRepository('AdminBundle:Abonnement')->findForMe($info);
         return  $abonnements;
     }
+
+    
     /**
      * Lists all Produit entities.
      *@Rest\View()
@@ -78,9 +79,11 @@ class AbonnementController extends Controller
 
     public function goToPaiementAction(Request $request,Commande $commande)
     {
+      if( $commande->getStatus()==='SUCCESS')
+            return $this->redirect('http://help.centor.org/return.html');
         $res=$this->get('payment_service')->getPayementUrl($commande);
         if(array_key_exists('payment_url', $res))
-           return $this->redirect($res['payment_url']);
+            return $this->redirect($res['payment_url']);
       return  new Response('Une erreur se produit. Prevenez un administrateur svp');
 }
 
