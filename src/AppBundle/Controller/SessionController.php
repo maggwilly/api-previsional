@@ -35,6 +35,14 @@ class SessionController extends Controller
            }
           else
              $sessions = $em->getRepository('AppBundle:Session')->findAll();
+         foreach ($sessions as $key => $sessions) {
+                 $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
+                 $data = array(
+                'info'=>array('groupName' => $session->getNomConcours()),
+                'owner'=>$formData['user']
+              );
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+         }
         return $this->render('session/index.html.twig', array(
             'sessions' => $sessions,'concour' => $concours,
         ));
