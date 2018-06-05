@@ -50,7 +50,7 @@ class ObjectifController extends Controller
             $em->persist($objectif);
             $em->flush($objectif);
              $this->addFlash('success', 'Enrégistrement effectué');
-            return $this->redirectToRoute('objectif_index', array('id' => $session->getId()));
+            return $this->redirectToRoute('objectif_index');
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
