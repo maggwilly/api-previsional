@@ -190,8 +190,7 @@ $data=array('registration_ids' => array_values($registrationIds),
                        'body' => $notification->getSousTitre(),
                        'badge' => 1,
                         "icon"=> "ic_notify",
-                       'sound'=> "default",
-                       'tag' => 'message'),
+                       'sound'=> "default"),
                'data'=>$data
     );
   return $this->fcm->sendMessage($data);
