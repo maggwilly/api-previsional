@@ -5,6 +5,7 @@ namespace Pwm\AdminBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Session;
 use Pwm\AdminBundle\Entity\Info;
+use Pwm\AdminBundle\Entity\Ressource;
 /**
  * AbonnementRepository
  *
@@ -21,6 +22,18 @@ class AbonnementRepository extends EntityRepository
          ->where('a.info=:info')->setParameter('info',$info)
          ->andWhere('s.archived=:archived')->setParameter('archived',false); 
           return $qb->getQuery()->getResult();
+  }
+
+     /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findHasPremium(Info $info){
+         $qb = $this->createQueryBuilder('a')
+         ->where('a.info=:info')->setParameter('info',$info)
+          ->andWhere('a.plan=:plan')
+          ->setParameter('plan','premium')
+          ->andWhere('a.session is NOT NULL');
+          return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }
 
 	 /**

@@ -170,12 +170,12 @@ class RessourceController extends Controller
             if($ressource->getPrice()==null||$ressource->getPrice()==0)
                  return $ressource;  
                  // les inscrit premium ne paient pas    
-            if($ressource->getSession()!=null){
-               $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $ressource->getSession());
-               if($abonnement!=null&&$abonnement->getPlan()==='premium'){
+            
+               $abonnement = $em->getRepository('AdminBundle:Abonnement')->findHasPremium($info);
+               if(!is_null($abonnement)){
                  return $ressource->setPrice(0);
                }      
-            }
+            
                    
           if(is_null($commande)||!is_null($commande->getStatus())){
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);

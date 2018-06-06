@@ -2,6 +2,7 @@
 
 namespace Pwm\AdminBundle\Repository;
 use AppBundle\Entity\Session;
+
 /**
  * RessourceRepository
  *
@@ -31,4 +32,17 @@ class RessourceRepository extends \Doctrine\ORM\EntityRepository
          ->orderBy('r.date', 'desc');
           return $qb->getQuery()->getResult();
   } 
+
+     /**
+  *Nombre de synchro effectue par utilisateur 
+  */
+  public function findHasPremium(Info $info,Ressource $ressource=null){
+         $qb = $this->createQueryBuilder('a')->join('sessions','s')
+         ->where('a.info=:info')->setParameter('info',$info);
+        if (!is_null($session)) 
+           $qb->andWhere('a.session=:session')->setParameter('session',$session);
+         else
+          $qb->andWhere('a.session is NULL');
+          return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
+  }
 }
