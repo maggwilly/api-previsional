@@ -158,7 +158,6 @@ class RessourceController extends Controller
      */
     public function showJsonAction(Request $request,Ressource $ressource)
     {    
-
           $uid=$request->query->get('uid');
           $paymentUrl=$request->query->get('paymentUrl');
           $em = $this->getDoctrine()->getManager();
@@ -173,11 +172,9 @@ class RessourceController extends Controller
                  // les inscrit premium ne paient pas    
             if($ressource->getSession()!=null){
                $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $ressource->getSession());
-               if($abonnement!=null&&$abonnement->getPlan()==='premium'){
-                
+               if($abonnement!=null&&($abonnement->getPlan()==='premium'){
                  return $ressource->setPrice(0);
-               }
-                  
+               }      
             }
                    
           if(is_null($commande)||!is_null($commande->getStatus())){

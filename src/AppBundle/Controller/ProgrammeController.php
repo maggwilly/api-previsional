@@ -53,9 +53,7 @@ class ProgrammeController extends Controller
         return $programme;
     }
 
- /**
- * @Security("is_granted('ROLE_SUPERVISEUR')")
-*/
+
     public function newAction(Request $request,Session $session=null)
     {
         $concours = new Programme($session);
@@ -80,9 +78,7 @@ class ProgrammeController extends Controller
         ));
     }
 
- /**
- * @Security("is_granted('ROLE_SUPERVISEUR')")
-*/
+
     public function showAction(Programme $concour,Session $session=null)
     {
         $deleteForm = $this->createDeleteForm($concour);
