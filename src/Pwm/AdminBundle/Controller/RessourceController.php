@@ -19,8 +19,9 @@ use AppBundle\Event\NotificationEvent;
  */
 class RessourceController extends Controller
 {
+
   /**
-   * @Security("is_granted('ROLE_SUPERVISEUR')")ROLE_SUPERVISEUR
+   * @Security("is_granted('ROLE_SUPERVISEUR')")
   */
     public function indexAction(Session $session=null)
     {   $ressources=array();
@@ -62,6 +63,7 @@ class RessourceController extends Controller
             'form' => $form->createView(),
         ));
     }
+
   /**
    * @Security("is_granted('ROLE_SUPERVISEUR')")
   */
@@ -109,7 +111,6 @@ class RessourceController extends Controller
               $this->addFlash('success', 'Envoyé à. '.count( $registrations).'  utilisateurs');
             $event=new NotificationEvent($registrations,$notification, $data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);
-
        // ,'url'=> $ressource->getUrl()
               if(!is_null($session)&&$addToChat){
                 
@@ -139,8 +140,8 @@ class RessourceController extends Controller
             $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
     
               }
-
     }
+
 
     /**
      * Lists all Produit entities.
@@ -151,6 +152,7 @@ class RessourceController extends Controller
           $sessions= $em->getRepository('AdminBundle:Ressource')->findRessources($session);
         return  $sessions;
     }
+
 
     /**
      * Lists all Produit entities.
@@ -166,17 +168,13 @@ class RessourceController extends Controller
           //on paie une seule foid
             if($commande!=null&&$commande->getStatus()==='SUCCESS')
                  return $ressource;
-                 //on ne paie pas les doc gratuit
             if($ressource->getPrice()==null||$ressource->getPrice()==0)
                  return $ressource;  
                  // les inscrit premium ne paient pas    
-            
                $abonnement = $em->getRepository('AdminBundle:Abonnement')->findHasPremium($info);
                if(!is_null($abonnement)){
                  return $ressource->setPrice(0);
-               }      
-            
-                   
+               }             
           if(is_null($commande)||!is_null($commande->getStatus())){
               $commande= new Commande($info, null, null, $ressource->getPrice(),$ressource);
                 $em->persist( $commande);
@@ -195,7 +193,6 @@ class RessourceController extends Controller
 
     /**
      * Finds and displays a ressource entity.
-     *
      */
     public function showAction(Ressource $ressource,Session $session=null)
     {
