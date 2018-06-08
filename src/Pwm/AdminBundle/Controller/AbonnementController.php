@@ -147,24 +147,25 @@ class AbonnementController extends Controller
          $form->submit($request->request->all(),false);
         if ($form->isValid()&&$commande->getStatus()=='SUCCESS') {
             $em = $this->getDoctrine()->getManager();
-           $abonnement=$em->getRepository('AdminBundle:Abonnement')->findMeOnThis($commande->getInfo(), $commande->getSession());
+            if (is_null($commande->getRessource())) {
+           $abonnement=$em->getRepository('AdminBundle:Abonnement')
+                          ->findMeOnThis($commande->getInfo(), $commande->getSession());
             if($abonnement==null){
                  $abonnement=new Abonnement($commande); 
                  if(!is_null($commande->getSession())){
-                 $commande->getSession()->removeInfo($commande->getInfo()); 
+                  $commande->getSession()->removeInfo($commande->getInfo()); 
                   $commande->getSession()->addInfo($commande->getInfo());
-                 $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
-                }              
+                  $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
+                  }              
                  $em->persist($abonnement);
                 }
-             $abonnement->setPlan($commande->getPackage());
-             $abonnement->setPrice($commande->getAmount());
-             $commande->setAbonnement($abonnement);             
+              $abonnement->setPlan($commande->getPackage());
+              $abonnement->setPrice($commande->getAmount());
+              $commande->setAbonnement($abonnement); 
+              }
               $em->flush();
-               if(!is_null($commande->getSession())){
               $event= new CommandeEvent($commande);
-            $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
-          }
+               $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
             return $commande;
         }
         return $form;

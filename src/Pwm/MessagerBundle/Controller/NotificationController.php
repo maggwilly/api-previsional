@@ -220,6 +220,7 @@ class NotificationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $sendings=$em->getRepository('MessagerBundle:Sending')->findSendDest($notification);
         $registrationIds=array_unique(array_column($sendings, 'registrationId'));
+        // to correct
         $registrations=$em->getRepository('MessagerBundle:Registration')->findNotSendDesc($registrationIds);
              $data=array('page'=>'notification','id'=>$notification->getId());
              $notification->setIncludeMail(true);
