@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Notification controller.
  *
@@ -450,7 +451,16 @@ class NotificationController extends Controller
       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
       $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');
        $this->addFlash('success', $url);
-    return $this->redirectToRoute('sms_send');  
+   // $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/siat.apk";
+    $content = file_get_contents($path);
+    $response = new Response();
+
+    //set headers
+    $response->headers->set('Content-Type', 'mime/type');
+    $response->headers->set('Content-Disposition', 'attachment;filename="contacts.xls"');
+    $response->setContent($content);
+    return $response;
+  //  return $this->redirectToRoute('sms_send');  
     }
     return $this->render('MessagerBundle:notification:sms.html.twig', array(
             'send_form' => $form->createView(),
