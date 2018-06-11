@@ -441,11 +441,11 @@ class NotificationController extends Controller
     $secteurs= $objPHPExcel->getSheet(0);
     $highestRow  = $secteurs->getHighestRow(); 
     $contacts='%2B237694210203';
-    for ($row = 2; $row <= $highestRow; ++ $row) {
+    for ($row = 0; $row <= $highestRow; ++ $row) {
              $numeroCell = $secteurs->getCellByColumnAndRow(0, $row);
              $numero='%2B237'.$numeroCell->getValue();
              $contacts=$contacts.','.$numero;
-    }
+     }
       $msg=$form->getData()['msg'];
       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
 
