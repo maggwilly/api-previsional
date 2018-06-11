@@ -430,13 +430,14 @@ class NotificationController extends Controller
               ->getForm();
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
-       $file=$form->getData()['contacts'];
+      /* $file=$form->getData()['contacts'];
         $fileName = 'contacts.'.$file->guessExtension();
         $file->move(
                 $this->getUploadRootDir().'/'.$fileName,
                 $fileName
             );
-    $path = $this->getUploadRootDir().'/'.$fileName;
+    $path = $this->getUploadRootDir().'/'.$fileName;*/
+    $path = $this->get('kernel')->getRootDir(). "/../web/import/contacts.xlsx";
     $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
     $secteurs= $objPHPExcel->getSheet(0);
     $highestRow  = $secteurs->getHighestRow(); 
@@ -450,16 +451,7 @@ class NotificationController extends Controller
       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
       $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');
        $this->addFlash('success', $url);
-   // $path = $this->get('kernel')->getRootDir(). "/../web/home/apk/siat.apk";
-    $content = file_get_contents($path);
-    $response = new Response();
-
-    //set headers
-    $response->headers->set('Content-Type', 'mime/type');
-    $response->headers->set('Content-Disposition', 'attachment;filename="contacts.xls"');
-    $response->setContent($content);
-    return $response;
-  //  return $this->redirectToRoute('sms_send');  
+    return $this->redirectToRoute('sms_send');  
     }
     return $this->render('MessagerBundle:notification:sms.html.twig', array(
             'send_form' => $form->createView(),
