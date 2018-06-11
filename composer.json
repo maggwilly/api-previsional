@@ -30,7 +30,9 @@
         "ebichan/silex-amqp-provider": "^1.0",
         "predis/service-provider": "^1.0",
         "monolog/monolog": "^1.16",
-        "rebangm/silex-guzzlehttp-provider": "^1.2"
+        "rebangm/silex-guzzlehttp-provider": "^1.2",
+        "phpoffice/phpexcel": "^1.8",
+        "liuggio/excelbundle": "~2.1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
