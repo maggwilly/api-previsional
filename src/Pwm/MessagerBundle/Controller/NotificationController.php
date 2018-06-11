@@ -429,7 +429,7 @@ class NotificationController extends Controller
               ->add('contacts', FileType::class, array('label' => 'contacts (.xls|.xlsx file)','required'=>false))
               ->getForm();
     $form->handleRequest($request);
-    if ($editForm->isSubmitted() && $editForm->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
        $file=$form->getData()['contacts'];
         $fileName = 'contacts.'.$file->guessExtension();
         $file->move(
