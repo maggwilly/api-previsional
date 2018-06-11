@@ -51,6 +51,13 @@ notification_new:
     defaults: { _controller: "MessagerBundle:Notification:new","id":0 }
     methods:  [GET, POST]
 
+sms_send:
+    path:     /sms/send
+    defaults: { _controller: "MessagerBundle:Notification:sendSMS" }
+    methods:  [GET, POST]
+
+
+
 notification_edit:
     path:     /{id}/edit
     defaults: { _controller: "MessagerBundle:Notification:edit" }

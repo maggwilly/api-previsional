@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Etape controller.
@@ -33,8 +34,7 @@ class AppController extends Controller
         return $this->redirectToRoute('notification_index');             
     }
 
-
-    public function helpAction($topic)
+     public function helpAction($topic)
     {      
     return $this->render('reads/help.html.twig', array());
     }
@@ -42,5 +42,5 @@ class AppController extends Controller
     public function cguAction()
     {      
     return $this->render('reads/cgu.html.twig', array());
-    }
+    }   
 }

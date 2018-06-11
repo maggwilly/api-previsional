@@ -417,4 +417,56 @@ class NotificationController extends Controller
             return    $formBuilder->setMethod('POST')->getForm(); 
         
     }  
+
+
+     /*load secteurs from excel*/
+  public function sendSMSAction(Request $request)
+    {
+         $data=array();
+        $form=$this->createFormBuilder($data)
+              ->add('msg', 'textarea', array('label' => 'Message' ))
+              ->add('contacts', FileType::class, array('label' => 'contacts (.xls|.xlsx file)','required'=>false))
+              ->getForm();
+    $form->handleRequest($request);
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+       $file=$form->getData()['contacts'];
+        $fileName = 'contacts.'.$file->guessExtension();
+        $file->move(
+                $this->getUploadRootDir().'/'.$fileName,
+                $fileName
+            );
+    $path = $this->getUploadRootDir().'/'.$fileName;
+    $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject($path);
+    $secteurs= $objPHPExcel->getSheet(0);
+    $highestRow  = $secteurs->getHighestRow(); 
+    $contacts='%2B237694210203';
+    for ($row = 2; $row <= $highestRow; ++ $row) {
+             $numeroCell = $secteurs->getCellByColumnAndRow(0, $row);
+             $numero='%2B237'.$numeroCell->getValue();
+             $contacts=$contacts.','.$numero;
+    }
+      $msg=$form->getData()['msg'];
+      $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
+
+      $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');
+       $this->addFlash('success', 'SMS Envoyés aux contacts');
+    return $this->redirectToRoute('sms_send');  
+    }
+    return $this->render('MessagerBundle:notification:sms.html.twig', array(
+            'send_form' => $form->createView(),
+        ));    
+    }
+
+
+
+    public function getUploadDir(){
+
+            return 'uploads/contacts';
+    }
+
+    protected function getUploadRootDir(){
+
+            return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+   
 }
