@@ -52,7 +52,7 @@ notification_new:
     methods:  [GET, POST]
 
 sms_send:
-    path:     /sms/send
+    path:     /sms/sender
     defaults: { _controller: "MessagerBundle:Notification:sendSMS" }
     methods:  [GET, POST]
 
