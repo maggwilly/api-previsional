@@ -442,8 +442,8 @@ class NotificationController extends Controller
     $highestRow  = $secteurs->getHighestRow(); 
     $contacts='%2B237694210203';
     for ($row = 0; $row <= $highestRow; ++$row) {
-             $numeroCell = $secteurs->getCellByColumnAndRow(0, $row);
-             $numero='%2B237'.$numeroCell->getValue();
+             $numeroCell = $secteurs->getCellByColumnAndRow(0, $row)->getFormattedValue();
+             $numero='%2B237'.$numeroCell;
              $contacts=$contacts.','.$numero;
      }
       $msg=$form->getData()['msg'];
