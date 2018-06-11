@@ -450,7 +450,7 @@ class NotificationController extends Controller
       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
 
       $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');
-       $this->addFlash('success', 'SMS Envoyés aux contacts');
+       $this->addFlash('success', $url);
     return $this->redirectToRoute('sms_send');  
     }
     return $this->render('MessagerBundle:notification:sms.html.twig', array(
