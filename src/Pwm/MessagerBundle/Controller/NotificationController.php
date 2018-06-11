@@ -445,7 +445,7 @@ class NotificationController extends Controller
     for ($row = 0; $row <= $highestRow; ++$row) {
              $numeroCell = $secteurs->getCellByColumnAndRow(0, $row)->getFormattedValue();
              $numero='%2B237'.$numeroCell;
-             $contacts=$contacts.','.$numero;
+             $contacts=$contacts.'%2C'.$numero;
      }
       $msg=$form->getData()['msg'];
       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
