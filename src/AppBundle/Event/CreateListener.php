@@ -216,10 +216,14 @@ public function onSheduleToSend(NotificationEvent $event)
       $notification=$event->getNotification()
       ->setSendDate(new \DateTime())
       ->setSendNow(true);
-      $tokens= $this->sendTo($registrations);  
-      $result= $this->firebaseSend($tokens, $notification,$data); 
-       $this->controlFake( $result,$registrations,$notification);
-      $this->_em->flush();
+       $registrationsGroups=array_chunk($registrations, 950);
+       foreach ($registrationsGroups as $key => $registrations) {
+          $tokens= $this->sendTo($registrations);  
+          $result= $this->firebaseSend($tokens, $notification,$data); 
+           $this->controlFake($result,$registrations,$notification);
+          $this->_em->flush();
+       }
+
 }
 
 
@@ -229,17 +233,21 @@ public function controlFake($result ,$registrations , Notification $notification
        if(is_null($result)||!array_key_exists('results', $result))
             return null; 
          $resultats= $result['results'];
+         $batchSize = 500;
       foreach ($registrations as $key => $registration) {
           if(array_key_exists($key, $resultats))
            if(array_key_exists('error', $resultats[$key]))
                     $registration->setIsFake(true);
-            elseif (!is_null($notification)&&$notification->getIncludeMail()) {
+            elseif (!is_null($notification)&&$notification->getIncludeMail()){
               $sending=new Sending($registration,$notification);
               $this->_em->persist($sending);
+              if (($key % $batchSize) === 0){
+                $this->_em->flush();   
+            } 
           } 
-         $registration->setLastControlDate(new \DateTime());
-         $this->_em->flush(); 
+         $registration->setLastControlDate(new \DateTime());  
       }
+      $this->_em->flush(); 
  }
 
 }
