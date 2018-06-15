@@ -191,7 +191,7 @@ class AnalyseController extends Controller
     {
           $em = $this->getDoctrine()->getManager();
           $abonnements=$session->getAbonnements();
-          
+          $tokens= array( );
         foreach ($abonnements as $key => $abonnement) {
              $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
@@ -209,11 +209,12 @@ class AnalyseController extends Controller
              $registrations = array();
              foreach ($abonnement->getInfo()->getRegistrations() as $key => $value) {
                 $registrations[$key]=$value;
+                $tokens[$key]=$value;
              }
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
         }
-        $this->addFlash('success', 'Rresultat envoyé à . '.count($registrations).' personnes'); 
+        $this->addFlash('success', 'Rresultat envoyé à . '.count($tokens).' personnes'); 
         return $this->redirectToRoute('session_show', array('id' => $session->getId()));
     }
 
