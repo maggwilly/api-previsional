@@ -193,16 +193,8 @@ class AnalyseController extends Controller
           $abonnements=$session->getAbonnements();
           $tokens= array( );
         foreach ($abonnements as $key => $abonnement) {
-            
-             $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($abonnement->getInfo(),$session);
-         if($analyse!=null){
-              $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10'];
-              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre'];
-              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
-              $analyse->setEvalues($nombre);
-              }
-             $analyse= $this->compare($analyse) ;
-
+             $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
+             if(!is_null($analyse)){
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
            $notification=new Notification('private');
            $notification->setTitre("Resultats-".$session->getNomConcours())
@@ -221,7 +213,8 @@ class AnalyseController extends Controller
                 $tokens[]=$value;
              }
              $event=new NotificationEvent($registrations,$notification,$data);
-            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
+            $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event); 
+            } 
         }
         $this->addFlash('success', 'Rresultat envoyé à . '.count($tokens).' personnes'); 
         return $this->redirectToRoute('session_show', array('id' => $session->getId()));
