@@ -206,11 +206,14 @@ class AnalyseController extends Controller
             $em->persist($notification);
              $em->flush();             
              $data=array('page'=>'notification','id'=>$notification->getId());
-             $event=new NotificationEvent($abonnement->getInfo()->getRegistrations(),$notification,$data);
+             $registrations = array();
+             foreach ($abonnement->getInfo()->getRegistrations() as $key => $value) {
+                $registrations[$key]=$value;
+             }
+             $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
-
         }
-        $this->addFlash('success', 'Rresultat envoyé à . '.count($abonnement->getInfo()->getRegistrations()).' personnes'); 
+        $this->addFlash('success', 'Rresultat envoyé à . '.count($registrations).' personnes'); 
         return $this->redirectToRoute('session_show', array('id' => $session->getId()));
     }
 
