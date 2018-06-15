@@ -206,7 +206,7 @@ class AnalyseController extends Controller
             $em->persist($notification);
              $em->flush();             
              $data=array('page'=>'notification','id'=>$notification->getId());
-             $event=new NotificationEvent($abonnement->getInfo()->getRegistrations(),$notification,$data);
+             $event=new NotificationEvent($abonnement->getInfo()->getRegistrations()->toArray(),$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
 
         }
