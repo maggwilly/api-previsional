@@ -208,8 +208,8 @@ class AnalyseController extends Controller
              $data=array('page'=>'notification','id'=>$notification->getId());
              $registrations = array();
              foreach ($abonnement->getInfo()->getRegistrations() as $key => $value) {
-                $registrations[$key]=$value;
-                $tokens[$key]=$value;
+                $registrations[]=$value;
+                $tokens[]=$value;
              }
              $event=new NotificationEvent($registrations,$notification,$data);
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
