@@ -193,7 +193,16 @@ class AnalyseController extends Controller
           $abonnements=$session->getAbonnements();
           $tokens= array( );
         foreach ($abonnements as $key => $abonnement) {
-             $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
+            
+             $analyse = $em->getRepository('AdminBundle:Analyse')->findOneOrNull($abonnement->getInfo(),$session);
+         if($analyse!=null){
+              $sup10=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['sup10'];
+              $nombre=$em->getRepository('AdminBundle:Analyse')->noteSuperieur10($session,$matiere,$partie)[0]['nombre'];
+              $analyse->setSup10($nombre>0?$sup10*100/$nombre:'--');
+              $analyse->setEvalues($nombre);
+              }
+             $analyse= $this->compare($analyse) ;
+
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
            $notification=new Notification('private');
            $notification->setTitre("Resultats-".$session->getNomConcours())
