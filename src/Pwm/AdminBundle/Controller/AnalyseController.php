@@ -210,7 +210,7 @@ class AnalyseController extends Controller
             $this->get('event_dispatcher')->dispatch('notification.shedule.to.send', $event);  
 
         }
-        $this->addFlash('success', 'Rresultat envoyé à . '.count($abonnements).' personnes'); 
+        $this->addFlash('success', 'Rresultat envoyé à . '.count($abonnement->getInfo()->getRegistrations()->toArray()).' personnes'); 
         return $this->redirectToRoute('session_show', array('id' => $session->getId()));
     }
 
