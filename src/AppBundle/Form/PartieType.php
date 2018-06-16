@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 class PartieType extends AbstractType
 {
     /**
@@ -17,7 +18,7 @@ class PartieType extends AbstractType
         $builder->add('titre','text',array('label'=>'Titre de la partie'))
                 ->add('objectif', 'textarea',array('label'=>'Brève description'))
         ->add('sources', 'textarea' ,array('label'=>'Description complete','attr'=>array('class'=>'ckeditor')))
-
+        ->add('cours', UrlType::class,array('label'=>'lien vers le cours','required'=>false))
         ->add('containMath', 'checkbox' ,array('label'=>'Contient des formules mathematiques ?','required'=>false))
         ->add('index')
         ->add('type', ChoiceType::class, array(
