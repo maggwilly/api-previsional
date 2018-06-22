@@ -243,8 +243,7 @@ class SessionController extends Controller
 */
     public function analyseAction(Session $session)
     {
-        
-        
+    
         return $this->redirectToRoute('session_show', array('id' => $session->getId()));
     }
 

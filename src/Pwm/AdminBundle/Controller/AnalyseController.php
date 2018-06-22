@@ -194,7 +194,6 @@ class AnalyseController extends Controller
           $tokens= array( );
         foreach ($abonnements as $key => $abonnement) {
              $analyse=$this->showJsonAction($abonnement->getInfo(),$session);
-       
              $body=$this->renderView('AdminBundle:analyse:analyse.html.twig', array('abonnement' => $abonnement,'analyseSession' => $analyse));
            $notification=new Notification('private');
            $notification->setTitre("Resultats-".$session->getNomConcours())
