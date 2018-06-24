@@ -237,10 +237,7 @@ class Session
       * @ORM\PreUpdate()
     */
     public function PostPersist(){
-         if (is_null($this->groupe)) {
-            $this->groupe= new Groupe($this->nomConcours,$this);
-             $this->discussionName =  $this->nomConcours;
-          }
+
     }  
 
     /**

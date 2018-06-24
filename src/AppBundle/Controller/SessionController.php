@@ -223,13 +223,19 @@ class SessionController extends Controller
     public function showAction(Session $session)
     {
         $deleteForm = $this->createDeleteForm($session);  
+
+            if (is_null($session->getGroupe())) {
+                 $em=$this->getDoctrine()->getManager();
+                 $session->setGroupe(new Groupe($this->nomConcours,$session));
+                  $em->flush();
+             }
          $this->get("session")->set('current_session_id', $session->getId());  
                  $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
                  $data = array(
                 'info'=>array('groupName' => $session->getNomConcours()),
                 'owner'=>$this->getUser()->getId()
               );
-             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');            
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');           
         return $this->render('session/show.html.twig', array(
             'session' => $session,
             'delete_form' => $deleteForm->createView(),
