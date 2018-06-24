@@ -307,7 +307,7 @@ class SessionController extends Controller
               );
              $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
 
-            return $this->redirectToRoute('session_index');
+             return $this->redirectToRoute('session_show', array('id' => $session->getId()));
         }elseif($editForm->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
 
