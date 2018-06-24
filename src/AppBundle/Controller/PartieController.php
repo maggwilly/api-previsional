@@ -62,12 +62,12 @@ class PartieController extends Controller
     {   
         $session  = $this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findOneById($this->get("session")->get('current_session_id'));
         if(is_null($session))
-            return $this->redirectToRoute('partie_index');
+            return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
          //prevoir une notif
          $session->removePartie($partie);
          $session->addPartie($partie);
          $this->getDoctrine()->getManager()->flush();
-        return $this->redirectToRoute('partie_index');
+        return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
     }
 
     /**
