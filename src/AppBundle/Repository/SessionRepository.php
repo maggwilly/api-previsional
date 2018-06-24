@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 use Pwm\AdminBundle\Entity\Info;
 use AppBundle\Entity\Session;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Concours;
 /**
  * SessionRepository
  *
@@ -92,9 +93,14 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
         return   $qb->getQuery()->getResult();
     } 
 
-        public function findAll(){
+      public function findAll(Concours $concours=null){
          $qb = $this->createQueryBuilder('s')
-         ->where('s.archived=:archived')->setParameter('archived',false); 
+         ->where('s.archived=:archived')
+         ->setParameter('archived',false); 
+         if (!is_null($concours)) {
+            ->andWhere('s.concours=:concours')
+             ->setParameter('concours',$concours); 
+         }
           return $qb->getQuery()->getResult();
   } 
 }
