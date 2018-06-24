@@ -98,7 +98,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
          ->where('s.archived=:archived')
          ->setParameter('archived',false); 
          if (!is_null($concours)) {
-            ->andWhere('s.concours=:concours')
+            $qb->andWhere('s.concours=:concours')
              ->setParameter('concours',$concours); 
          }
           return $qb->getQuery()->getResult();
