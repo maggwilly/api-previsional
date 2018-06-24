@@ -226,10 +226,13 @@ class Session
 
       /**
     * @ORM\PrePersist()
+    * @ORM\PreUpdate()
     */
     public function PrePersist(){
-      $this->groupe= new Groupe($this->nomConcours,$this);
-        $this->discussionName =  $this->nomConcours;
+        if (is_null($this->getGroupe())) {
+            $this->groupe= new Groupe($this->nomConcours,$this);
+             $this->discussionName =  $this->nomConcours;
+          }
     }
 
       /**

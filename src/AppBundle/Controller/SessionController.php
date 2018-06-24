@@ -293,7 +293,14 @@ class SessionController extends Controller
                $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
                return $this->redirectToRoute('notification_edit', array('id' =>  $notification->getId()));
             }
-            $em->flush();
+              $em->flush();
+               $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
+                 $data = array(
+                'info'=>array('groupName' => $session->getNomConcours()),
+                'owner'=>$this->getUser()->getId()
+              );
+             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
+
             return $this->redirectToRoute('session_index');
         }elseif($editForm->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');

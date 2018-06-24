@@ -87,8 +87,8 @@
                     {% endif %}
                 </td>
                 <td class="center ">
-                               <a class="btn btn-success" href="{{ path('session_show', { 'id': session.id }) }}">
-                                        <i class="halflings-icon white zoom-in"></i>  
+                               <a class="btn btn-success" href="{{ path('session_edit', { 'id': session.id }) }}">
+                                        <i class="halflings-icon white  edit"></i>  
                                 </a>
                                 {% if  is_granted('ROLE_CONTROLEUR') %}    
                                     <a class="btn btn-info" href="{{ path('session_attr', { 'id': session.id }) }}">
