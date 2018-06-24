@@ -25,13 +25,13 @@ class SessionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
          $sessions=array();
-          if(!$all){
+     /*     if(!$all){
               $sessions= $em->getRepository('AppBundle:Session')->findListByUser($this->getUser());
               return $this->render('session/index.html.twig', array(
             'sessions' => $sessions,'concour' => $concours,
              ));
            }
-          else
+          else*/
              $sessions = $em->getRepository('AppBundle:Session')->findAll($concours);
          /*foreach ($sessions as $key => $session) {
                  $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
