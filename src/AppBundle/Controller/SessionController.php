@@ -226,7 +226,7 @@ class SessionController extends Controller
 
             if (is_null($session->getGroupe())) {
                  $em=$this->getDoctrine()->getManager();
-                 $session->setGroupe(new Groupe($this->nomConcours,$session));
+                 $session->setGroupe(new Groupe($session->getNomConcours(),$session));
                   $em->flush();
              }
          $this->get("session")->set('current_session_id', $session->getId());  
