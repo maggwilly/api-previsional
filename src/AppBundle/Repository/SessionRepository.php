@@ -74,13 +74,10 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
      return $query->getResult();
 } 
 
-     /**
-  *Nombre de synchro effectue par utilisateur 
-  */
   public function findForUser(Info $user){
     $qb = $this->createQueryBuilder('s')->where('s.archived=:archived and s.dateLancement is not NULL')->setParameter('archived',false)
     ->andWhere('s.niveau=:niveau')->setParameter('niveau', $user->getNiveau())
-    ->andWhere('s.serie=:serie')->setParameter('serie', $user->getSerie())
+    ->andWhere('s.serie=:serie or s.serie is NULL')->setParameter('serie', $user->getSerie())
     ->andWhere('s.dateMax<=:dateMax')->setParameter('dateMax', $user->getDateMax())
     ->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();

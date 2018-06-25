@@ -28,7 +28,8 @@ class SessionType extends AbstractType
                                          'Lettres' => 'Lettres',
                                          'economie' => 'economie', 
                                          'droit' => 'droit', 
-                                         'technique' => 'technique'),
+                                         'technique' => 'technique')
+                                  ,'required' => false
                                    ))
         ->add('niveau', ChoiceType::class, array(
                                   'choices'  => array(
@@ -37,7 +38,8 @@ class SessionType extends AbstractType
                                          'BEPC - GCE O/L' => 'BEPC - GCE O/L',
                                          'BAC - GCE A/L' => 'BAC - GCE A/L', 
                                          'Licence & equiv' => 'Licence & equiv', 
-                                         'Master & equiv' => 'Master & equiv'),
+                                         'Master & equiv' => 'Master & equiv')
+                                  ,'required' => false
                                    ))
         ->add('nom','text', array('label'=>'Liste des séries consernées','required' => true))
         ->add('dateMax', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','years' => range(1980, 2035),'label'=>'Etre né après') )       
