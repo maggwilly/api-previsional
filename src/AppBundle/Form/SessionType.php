@@ -42,7 +42,7 @@ class SessionType extends AbstractType
                                   ,'required' => false
                                    ))
         ->add('nom','text', array('label'=>'Liste des séries consernées','required' => true))
-        ->add('dateMax', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','years' => range(1980, 2035),'label'=>'Etre né après') )       
+        ->add('dateMax', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','years' => range(1980, 2035),'label'=>'Etre né après','required' => false) )       
         ->add('nombrePlace', 'integer', array('label'=>'Places disponibles','required' => false))
         ->add('nombreInscrit', 'integer', array('label'=>'Déjà inscrit au concours','required' => false))
         ->add('dateLancement', 'date', array('widget' => 'single_text','format' => 'yyyy-MM-dd','required' => false) )
