@@ -2,9 +2,9 @@ Pwm\AdminBundle\Entity\Ressource:
     exclusion_policy: none
     properties:
         id:
-            groups: ['ressource', 'full']
+            groups: ['matiere','ressource', 'full']
         description:
-             groups: ['ressource', 'full']
+             groups: ['matiere','ressource', 'full']
         detail1:
              groups: ['ressource', 'full']    
         detail2:
@@ -18,7 +18,7 @@ Pwm\AdminBundle\Entity\Ressource:
         detail4:
              groups: ['ressource', 'full']               
         nom:
-             groups: ['ressource', 'full'] 
+             groups: ['matiere','ressource', 'full'] 
         label:
              groups: ['ressource', 'full']              
         url:
@@ -28,4 +28,4 @@ Pwm\AdminBundle\Entity\Ressource:
         paymentUrl:
              groups: ['ressource', 'full']                                                                                                 
         price:
-             groups: ['full']
+             groups: ['matiere','full']
