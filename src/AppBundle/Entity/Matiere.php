@@ -96,7 +96,10 @@ class Matiere
    */
     private $objectifs;
 
-
+        /**
+   * @ORM\ManyToMany(targetEntity="Pwm\AdminBundle\Entity\Ressource",  mappedBy="matieres", cascade={"persist"})
+   */
+    private $ressources; 
 
     /**
      * Constructor
@@ -105,6 +108,7 @@ class Matiere
     {
         $this->parties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->objectifs = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->ressources = new \Doctrine\Common\Collections\ArrayCollection();
         $this->unites = new \Doctrine\Common\Collections\ArrayCollection();
         $this->date=new \DateTime();
     }
@@ -429,5 +433,39 @@ class Matiere
     public function getUnites()
     {
         return $this->unites;
+    }
+
+        /**
+     * Add ressource
+     *
+     * @param \Pwm\AdminBundle\Entity\Ressource $ressource
+     *
+     * @return Session
+     */
+    public function addRessource(\Pwm\AdminBundle\Entity\Ressource $ressource)
+    {
+        $this->ressources[] = $ressource;
+
+        return $this;
+    }
+
+    /**
+     * Remove ressource
+     *
+     * @param \Pwm\AdminBundle\Entity\Ressource $ressource
+     */
+    public function removeRessource(\Pwm\AdminBundle\Entity\Ressource $ressource)
+    {
+        $this->ressources->removeElement($ressource);
+    }
+
+    /**
+     * Get ressources
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRessources()
+    {
+        return $this->ressources;
     }
 }

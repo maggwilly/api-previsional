@@ -60,6 +60,16 @@ class RessourceSuperType extends AbstractType
                             'multiple'=>true,
                             'expanded'=>false,                  
                             'attr'=>array('data-rel'=>'chosen')))
+    ->add('matieres', EntityType::class,
+                       array('class' => 'AppBundle:Matiere', 
+                           'choice_label' => 'getDisplayName()', 
+                           'placeholder' => 'Aucune matière',
+                            'empty_data'  => null,
+                            'required' => false,
+                            'label'=>'Selectionnez les matières',      
+                            'multiple'=>true,
+                            'expanded'=>false,                  
+                            'attr'=>array('data-rel'=>'chosen')))
         ;
     }
     

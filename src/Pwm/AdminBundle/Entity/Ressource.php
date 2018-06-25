@@ -118,6 +118,10 @@ class Ressource
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Session",inversedBy="ressources", cascade={"persist","remove"})*/
     private $sessions; 
 
+        /**
+   * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Matiere",inversedBy="ressources", cascade={"persist","remove"})*/
+    private $matieres; 
+
     private $paymentUrl; 
 
         /**
@@ -134,8 +138,8 @@ class Ressource
         $this->date =new \DateTime();
         if(!is_null($session))
            $this->addSession($session);
-        $this->session = $session; 
         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
      * Get id
@@ -571,4 +575,38 @@ class Ressource
     {
         return $this->sessions;
     } 
+
+        /**
+     * Add matieres
+     *
+     * @param \AppBundle\Entity\Matiere $matieres
+     * @return Concours
+     */
+    public function addMatiere(\AppBundle\Entity\Matiere $matieres)
+    {
+        $this->matieres[] = $matieres;
+
+        return $this;
+    }
+
+    /**
+     * Remove matieres
+     *
+     * @param \AppBundle\Entity\Matiere $matieres
+     */
+    public function removeMatiere(\AppBundle\Entity\Matiere $matieres)
+    {
+        $this->matieres->removeElement($matieres);
+    }
+
+    /**
+     * Get matieres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMatieres()
+    { 
+  
+              return $this->matieres;
+    }
 }

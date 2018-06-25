@@ -18,7 +18,9 @@ AppBundle\Entity\Matiere:
         otherRessourcesLink:
              groups: ['matiere', 'programme', 'full']
         contenu:
-             groups: ['matiere', 'programme', 'full']             
+             groups: ['matiere', 'programme', 'full'] 
+        ressources:
+             groups: ['matiere', 'programme', 'full']                         
     callback_methods:
         pre_serialize: ['getOtherRessourcesLink','getContenu']
                 
