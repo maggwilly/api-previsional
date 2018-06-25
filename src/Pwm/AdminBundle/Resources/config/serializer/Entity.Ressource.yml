@@ -20,7 +20,7 @@ Pwm\AdminBundle\Entity\Ressource:
         nom:
              groups: ['matiere','ressource', 'full'] 
         label:
-             groups: ['ressource', 'full']              
+             groups: ['matiere','ressource', 'full']              
         url:
              groups: ['full']   
         imageUrl:
