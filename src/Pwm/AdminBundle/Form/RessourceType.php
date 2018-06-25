@@ -31,8 +31,13 @@ class RessourceType extends AbstractType
         ->add('detail3','text', array(
            'label' => 'Autre détail 3','required' =>false
          ))
-        ->add('detail4','text', array(
-           'label' => 'Autre détail 4','required' =>false
+        ->add('label','text', array(
+           'label' => 'Label' =>false,
+           'choices'=>array(
+                    'nouveau'=>'nouveau',
+                    'important'=>'important',
+                    'urgent'=>'urgent',
+                    )
          ))
         ->add('style','text', array(
            'label' => 'Type de document (pdf/image/doc/excel etc.)',
