@@ -32,7 +32,7 @@ class RessourceType extends AbstractType
            'label' => 'Autre détail 3','required' =>false
          ))
         ->add('label','text', array(
-           'label' => 'Label' =>false,
+           'label' => 'Label','required' =>false,
            'choices'=>array(
                     'nouveau'=>'nouveau',
                     'important'=>'important',
