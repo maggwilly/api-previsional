@@ -32,16 +32,7 @@ class SessionController extends Controller
              ));
            }
           else*/
-             $sessions = $em->getRepository('AppBundle:Session')->findAll($concours);
-         /*foreach ($sessions as $key => $session) {
-                 $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
-                 $data = array(
-                'info'=>array('groupName' => $session->getNomConcours()),
-                'owner'=>$this->getUser()->getId()
-              );
-             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-            
-         } */
+             $sessions = $em->getRepository('AppBundle:Session')->findAll($concours); 
         return $this->render('session/index.html.twig', array(
             'sessions' => $sessions,'concour' => $concours,
         ));
@@ -360,24 +351,15 @@ class SessionController extends Controller
         $form = $this->createAttForm($session);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-             $em = $this->getDoctrine()->getManager();
-              $formData=$form->getData();
-              $superviseur=$em->getRepository('AppBundle:User')->findOneByUsername($formData['user']);
-              if($superviseur!=null){
-                  $session->setOwner($formData['user']);
-                   $session->setUser( $superviseur);
-                   $em->flush();
-                 $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/.json";
-                 $data = array(
-                'info'=>array('groupName' => $session->getNomConcours()),
-                'owner'=>$formData['user']
-              );
-             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-             $this->addFlash('success', 'Attribution de responsabilité à '.$session->getUser()->getNom());
-              return $this->redirectToRoute('session_attr', array('id' => $session->getId()));
-              }
-              $this->addFlash('error', "Le numéro de téléphone ne corresponds à celui d'aucun utilisateur enrégistré. Veillez saisir un numéro de 09 chiffres.");
-
+            $em = $this->getDoctrine()->getManager();
+            $formData=$form->getData();
+            $session->setOwner($formData['user']);
+            $em->flush();
+            $url="https://trainings-fa73e.firebaseio.com/groups/".$info->getUid()."/".$session->getOwner()."/.json";
+            $data = array('groupName' =>$session->getNomConcours());
+            $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
+            $this->addFlash('success', 'Attribution de responsabilité ');
+            return $this->redirectToRoute('session_attr', array('id' => $session->getId()));    
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
        return $this->render('session/attr.html.twig', array(

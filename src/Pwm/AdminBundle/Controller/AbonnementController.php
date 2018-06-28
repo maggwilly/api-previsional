@@ -213,8 +213,8 @@ class AbonnementController extends Controller
          $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
           if ( $abonnement!=null&&$session!=null) {
           $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/groups/".$info->getUid()."/".$session->getId()."/.json";
-          $data = array('groupName' =>$session->getNomConcours());
+          $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/members/.json";
+          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
            $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
         }
         return $abonnement;
