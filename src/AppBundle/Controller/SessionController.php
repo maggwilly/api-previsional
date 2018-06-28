@@ -355,7 +355,7 @@ class SessionController extends Controller
             $formData=$form->getData();
             $session->setOwner($formData['user']);
             $em->flush();
-            $url="https://trainings-fa73e.firebaseio.com/groups/".$info->getUid()."/".$session->getOwner()."/.json";
+            $url="https://trainings-fa73e.firebaseio.com/groups/".$session->getOwner()."/".$session->getId()."/.json";
             $data = array('groupName' =>$session->getNomConcours());
             $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
             $this->addFlash('success', 'Attribution de responsabilité ');
