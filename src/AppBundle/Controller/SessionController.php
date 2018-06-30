@@ -341,14 +341,14 @@ class SessionController extends Controller
         ;
     }
 
- 
+
  /**
  * @Security("is_granted('ROLE_CONTROLEUR')")
 */
     public function attrAction(Request $request, Session $session)
     {
          $referer = $this->getRequest()->headers->get('referer');   
-        $form = $this->createAttForm($session);
+        $form = $this->createAttForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -368,6 +368,41 @@ class SessionController extends Controller
         ));
     }
 
+ /**
+ * @Security("is_granted('ROLE_CONTROLEUR')")
+*/
+    public function whatsappAction(Request $request, Session $session)
+    {  
+        $form = $this->createWhatsappForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData=$form->getData();
+          $texthml=  $this->get('twig')->render('MessagerBundle:notification:whatsapp.html.twig',
+           array('lien' => $formData['whatsapp'] ));
+       $msg=array(
+                'displayName' => "Centor .inc",
+                'pending' =>false ,
+                'photoURL' =>"https://firebasestorage.googleapis.com/v0/b/trainings-fa73e.appspot.com/o/profileimages%2F2a72f23d-1469-ffaa-bb12-ad86671b9922?alt=media&token=8fc71cef-70ba-4bfc-ae31-5f6595d19fd0" ,
+                'sentby' =>"CVW79irmCwd2c9CMOFpYTbLi9iG3" ,
+                'message' => array(
+                  'fileurl' => "",
+                  'fromAdmin' => true,
+                  'text' => $texthml,
+                  'toAdmin' => false,
+                  'type' => "simplemsg"
+                 )
+                );
+            $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/documents.json";
+            $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
+             $this->addFlash('success', 'groupe whatsapp envoyé ');
+            return $this->redirectToRoute('session_whatapp', array('id' => $session->getId()));    
+        }elseif($form->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+       return $this->render('session/whatsapp.html.twig', array(
+            'session' => $session,
+            'form' => $form->createView(),
+        ));
+    }
      /**
      * Creates a form to delete a partie entity.
      * @param Partie $partie The partie entity
@@ -378,9 +413,17 @@ class SessionController extends Controller
     {
         return $this->createFormBuilder()
                ->add('user','text',array('label'=>'Telephone superviseur'))
-             //->setAction($this->generateUrl('session_attr', array('id' => $session->getId())))
              ->setMethod('GET')
             ->getForm()
         ;
-    }   
+    }  
+
+     private function createWhatsappForm()
+    {
+        return $this->createFormBuilder()
+               ->add('whatsapp','text',array('label'=>'Lien Groupe'))
+             ->setMethod('GET')
+            ->getForm()
+        ;
+    }    
 }

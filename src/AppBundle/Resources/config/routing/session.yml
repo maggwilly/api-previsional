@@ -19,6 +19,12 @@ session_attr:
     defaults: { _controller: "AppBundle:Session:attr" }
     methods:  [GET, POST]
 
+session_whatsapp:
+    path:     /{id}/whatsapp
+    defaults: { _controller: "AppBundle:Session:whatsapp" }
+    methods:  [GET, POST]
+
+
 session_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Session:edit" }

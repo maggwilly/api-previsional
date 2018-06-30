@@ -115,6 +115,11 @@
                 {% endif %}
           {% endif %} 
             </td>
+                <td>
+                {% if is_granted('ROLE_CONTROLEUR')  %}
+                   <a href="{{ path('session_whatsapp', { 'id': session.id }) }}"><i class="halflings-icon user"></i> Groupe whatsapp</a>
+                {% endif %}
+            </td>            
             </tr> 
                                            
         </tbody>
