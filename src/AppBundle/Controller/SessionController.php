@@ -388,6 +388,7 @@ class SessionController extends Controller
                   'fileurl' => "",
                   'fromAdmin' => true,
                   'text' => $texthml,
+                  'title' => "Intégrez le groupe whatsapp",
                   'toAdmin' => false,
                   'type' => "simplemsg"
                  )
@@ -395,7 +396,7 @@ class SessionController extends Controller
             $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/documents.json";
             $this->get('fmc_manager')->sendOrGetData($url, $msg,'POST',false);
              $this->addFlash('success', 'groupe whatsapp envoyé ');
-            return $this->redirectToRoute('session_whatapp', array('id' => $session->getId()));    
+            return $this->redirectToRoute('session_whatsapp', array('id' => $session->getId()));    
         }elseif($form->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
        return $this->render('session/whatsapp.html.twig', array(
