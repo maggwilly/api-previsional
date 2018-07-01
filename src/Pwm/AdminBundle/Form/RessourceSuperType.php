@@ -55,16 +55,7 @@ class RessourceSuperType extends AbstractType
         ->add('imageUrl', UrlType::class, array(
        'label' => 'Lien vers la photo',
 ))
-  ->add('sessions', EntityType::class,
-                       array('class' => 'AppBundle:Session', 
-                           'choice_label' => 'nomConcours', 
-                           'placeholder' => 'Toute les sessions',
-                            'empty_data'  => null,
-                            'required' => false,
-                            'label'=>'Selectionnez les concours',      
-                            'multiple'=>true,
-                            'expanded'=>false,                  
-                            'attr'=>array('data-rel'=>'chosen')))
+
     ->add('matieres', EntityType::class,
                        array('class' => 'AppBundle:Matiere', 
                            'choice_label' => 'getDisplayName', 
