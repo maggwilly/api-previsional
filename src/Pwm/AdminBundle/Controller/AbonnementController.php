@@ -91,7 +91,7 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='standard')
+    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='')
     {
           $em = $this->getDoctrine()->getManager();
           $amount=0;
