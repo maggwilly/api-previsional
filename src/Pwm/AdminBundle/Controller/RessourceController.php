@@ -104,7 +104,7 @@ class RessourceController extends Controller
                          'id'=>$ressource->getId()
                       );
              if($ressource->getIsPublic())
-                  $registrations = $em->getRepository('MessagerBundle:Registration')->findAll();
+                  $registrations = $this->getDoctrine()->getManager()->getRepository('MessagerBundle:Registration')->findAll();
              elseif(!is_null($session)){
                   $destinations=$session->getInfos();
                   $registrations=$this->findRegistrations($destinations); 
