@@ -70,7 +70,7 @@ class Programme
     private $matieres;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session",inversedBy="preparation", cascade={"persist","remove"})*/
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session",mappedBy="preparation", cascade={"persist","remove"})*/
     private $sessions; 
 
     /**
