@@ -40,7 +40,7 @@ class RessourceController extends Controller
   */
     public function newAction(Request $request,Session $session=null)
     {
-        $ressource = new Ressource($session);
+        $ressource = new Ressource();
         $form =is_null($session)? $this->createForm('Pwm\AdminBundle\Form\RessourceSuperType', $ressource):$this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,6 +74,7 @@ class RessourceController extends Controller
               return $this->redirectToRoute('ressource_show', array('id' => $ressource->getId(),'session' => $session->getId()));
        return $this->redirectToRoute('ressource_show',  array('id' => $ressource->getId()));
     }
+
 
 
     public function findRegistrations($destinations)
@@ -214,6 +215,12 @@ class RessourceController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            if($ressource->getIsPublic())
+                 $this->pushInGroup($ressource);
+             else
+              foreach ($ressource->getSessions() as $key => $session) {
+                 $this->pushInGroup($ressource,$session,false);
+              }            
              $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
             return $this->redirectToRoute('ressource_edit', array('id' => $ressource->getId()));
         }elseif($editForm->isSubmitted())

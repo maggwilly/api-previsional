@@ -69,7 +69,9 @@ class Programme
    */
     private $matieres;
 
-  
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Session",inversedBy="preparation", cascade={"persist","remove"})*/
+    private $sessions; 
 
     /**
      * Constructor
@@ -238,11 +240,44 @@ class Programme
      */
     public function getMatieres()
     { 
-        if($this->auMoinsdeMemeQue==$this||$this->auMoinsdeMemeQue==null)
               return $this->matieres;
-            return $this->auMoinsdeMemeQue->getMatieres();
+
     }
 
+
+ /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\Session $session
+     *
+     * @return Partie
+     */
+    public function addSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions[] = $session;
+
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\Session $session
+     */
+    public function removeSession(\AppBundle\Entity\Session $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
     /**
      * Get id
      *

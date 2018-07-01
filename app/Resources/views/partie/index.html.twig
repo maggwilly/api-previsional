@@ -85,7 +85,7 @@
                                     </a>
                                     {% if render(controller( 'AppBundle:Partie:isAvalable', { 'id': partie.id }))  %}
                                   <a class="btn btn-warning" href="{{ path('partie_enable', { 'id': partie.id }) }}">
-                                        <i class="halflings-icon white eye"></i> Deverouiller  
+                                        <i class="halflings-icon white cogwheel"></i>  
                                     </a>  
                                     {% endif %} 
                          {% endif %}

@@ -60,13 +60,21 @@ class PartieController extends Controller
 */
     public function enableAction(Request $request,Partie $partie)
     {   
-        $session  = $this->getDoctrine()->getManager()->getRepository('AppBundle:Session')->findOneById($this->get("session")->get('current_session_id'));
-        if(is_null($session))
-            return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
-         //prevoir une notif
-         $session->removePartie($partie);
-         $session->addPartie($partie);
-         $this->getDoctrine()->getManager()->flush();
+
+         $editForm = $this->createForm('AppBundle\Form\PartieEditType', $partie);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+             $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
+             if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
+                return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
+              return $this->redirectToRoute('partie_index');
+        }elseif($editForm->isSubmitted())
+               $this->addFlash('error', 'Certains champs ne sont pas corrects.');
+        return $this->render('partie/edit.html.twig', array(
+            'partie' => $partie,
+            'edit_form' => $editForm->createView(),
+        ));
         return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
     }
 
@@ -76,6 +84,7 @@ class PartieController extends Controller
      */
     public function isAvalableAction(Request $request,Partie $partie)
     {
+        
            $em = $this->getDoctrine()->getManager();
            $session  = $this->get("session")->get('current_session_id');
            if(!is_null($session))

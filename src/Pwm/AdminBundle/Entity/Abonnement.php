@@ -145,7 +145,7 @@ class Abonnement
                    break;
            }
            else
-             $this->endDate->modify('+2 month');
+             $this->endDate->modify('+12 month');
     }
 
 

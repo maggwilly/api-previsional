@@ -133,11 +133,9 @@ class Ressource
     /**
      * Constructor
      */
-    public function __construct(\AppBundle\Entity\Session $session=null)
+    public function __construct()
     {
         $this->date =new \DateTime();
-        if(!is_null($session))
-           $this->addSession($session);
         $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
          $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -155,7 +153,19 @@ class Ressource
     * @ORM\PostUpdate()
     */
     public function PrePersist(){
+
+        $matieres=$this->getMatieres();
+        if(empty($matieres)){
+       foreach ($matieres as $matiere) {
+          $programme=$matiere->getProgramme();
+          foreach ($matiere->getProgramme()->getSessions() as  $session) {
+             $this->removeSession($session);
+              $this->addSession($session);
+          }
+         }
+         }
        $this->setIsPublic(empty($this->sessions));
+
     }
 
  
