@@ -67,7 +67,7 @@ class PartieController extends Controller
             $this->getDoctrine()->getManager()->flush();
              $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
              if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
-                return $this->redirectToRoute('partie_index', array('id' => $matiere->getId()));
+                return $this->redirectToRoute('partie_index', array('id' => $partie->getMmatiere()->getId()));
               return $this->redirectToRoute('partie_index');
         }elseif($editForm->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
