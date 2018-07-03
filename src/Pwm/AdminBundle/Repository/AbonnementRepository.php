@@ -30,8 +30,8 @@ class AbonnementRepository extends EntityRepository
   public function findHasPremium(Info $info){
          $qb = $this->createQueryBuilder('a')
          ->where('a.info=:info')->setParameter('info',$info)
-          ->andWhere('a.plan=:plan')
-          ->setParameter('plan','premium')
+          ->andWhere('a.plan=:standard or a.plan=:premium')
+          ->setParameter('standard','standard')->setParameter('premium','premium')
           ->andWhere('a.session is NOT NULL');
           return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
   }

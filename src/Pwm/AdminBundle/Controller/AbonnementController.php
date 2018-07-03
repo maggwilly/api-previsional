@@ -91,7 +91,7 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='')
+    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='sepecial')
     {
           $em = $this->getDoctrine()->getManager();
           $amount=0;
@@ -103,6 +103,7 @@ class AbonnementController extends Controller
               
           if(is_null($session))
             $amount=500;
+
           else{
         switch ($package) {
           case 'starter':
