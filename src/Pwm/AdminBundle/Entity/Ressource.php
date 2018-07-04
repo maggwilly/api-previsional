@@ -154,12 +154,7 @@ class Ressource
     */
     public function PrePersist(){
 
-       foreach ($this->getMatieres() as $matiere) {
-          foreach ($matiere->getProgramme()->getSessions() as  $session) {
-             $this->removeSession($session);
-              $this->addSession($session);
-          }
-         }
+
        $this->setIsPublic(empty($this->sessions));
 
     }

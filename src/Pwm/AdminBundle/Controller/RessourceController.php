@@ -45,6 +45,12 @@ class RessourceController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+                  foreach ($ressource->getMatieres() as $matiere) {
+                     foreach ($matiere->getProgramme()->getSessions() as  $session) {
+                      $ressource->removeSession($session);
+                       $ressource->addSession($session);
+                    }
+                   }           
             $em->persist($ressource);
             $em->flush();
             if($ressource->getIsPublic())
@@ -214,6 +220,12 @@ class RessourceController extends Controller
          $editForm =is_null($session)? $this->createForm('Pwm\AdminBundle\Form\RessourceSuperType', $ressource):$this->createForm('Pwm\AdminBundle\Form\RessourceType', $ressource);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+                 foreach ($ressource->getMatieres() as $matiere) {
+                     foreach ($matiere->getProgramme()->getSessions() as  $session) {
+                      $ressource->removeSession($session);
+                       $ressource->addSession($session);
+                    }
+                   }
             $this->getDoctrine()->getManager()->flush();
             if($ressource->getIsPublic())
                  $this->pushInGroup($ressource);
