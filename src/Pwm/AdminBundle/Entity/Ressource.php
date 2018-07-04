@@ -150,7 +150,7 @@ class Ressource
     }
       /**
     * @ORM\PrePersist()
-    * @ORM\PostUpdate()
+    * @ORM\PreUpdate()
     */
     public function PrePersist(){
 
