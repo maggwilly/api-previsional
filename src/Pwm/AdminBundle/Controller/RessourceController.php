@@ -225,7 +225,6 @@ class RessourceController extends Controller
             return $this->redirectToRoute('ressource_edit', array('id' => $ressource->getId()));
         }elseif($editForm->isSubmitted())
                $this->addFlash('error', 'Certains champs ne sont pas corrects.');
-
         return $this->render('ressource/edit.html.twig', array(
             'ressource' => $ressource,
             'edit_form' => $editForm->createView(),
