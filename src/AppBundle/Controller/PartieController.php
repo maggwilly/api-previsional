@@ -64,7 +64,13 @@ class PartieController extends Controller
          $editForm = $this->createForm('AppBundle\Form\PartieEditType', $partie);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            foreach ($partie->getSessions() as $key => $session) {
+              $session->removeSession($session);
+              $session->addSession($session);
+            }
+            $this->getDoctrine()
+            ->getManager()
+            ->flush();
              $this->addFlash('success', 'Modifications  enrégistrées avec succès.');
              if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
                 return $this->redirectToRoute('partie_index', array('id' => $partie->getMatiere()->getId()));
