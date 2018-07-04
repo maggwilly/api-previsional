@@ -155,7 +155,7 @@ class Ressource
     public function PrePersist(){
 
         $matieres=$this->getMatieres();
-        if(empty($matieres)){
+        if(!empty($matieres)){
        foreach ($matieres as $matiere) {
           $programme=$matiere->getProgramme();
           foreach ($matiere->getProgramme()->getSessions() as  $session) {
