@@ -153,13 +153,12 @@ class Ressource
     * @ORM\PostUpdate()
     */
     public function PrePersist(){
-        if(!empty($matieres)){
+
        foreach ($this->getMatieres() as $matiere) {
           foreach ($matiere->getProgramme()->getSessions() as  $session) {
              $this->removeSession($session);
               $this->addSession($session);
           }
-         }
          }
        $this->setIsPublic(empty($this->sessions));
 
