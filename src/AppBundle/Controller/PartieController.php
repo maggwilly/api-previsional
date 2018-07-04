@@ -65,8 +65,8 @@ class PartieController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             foreach ($partie->getSessions() as $key => $session) {
-              $session->removeSession($session);
-              $session->addSession($session);
+              $session->removePartie($partie);
+              $session->addPartie($partie);
             }
             $this->getDoctrine()
             ->getManager()
