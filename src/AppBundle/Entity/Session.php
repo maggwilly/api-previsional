@@ -135,7 +135,7 @@ class Session
      */
     private $date;
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Programme",inversedBy="sessions")
      */
     private $preparation;
 
