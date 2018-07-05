@@ -126,7 +126,7 @@ class RessourceController extends Controller
                 'message' =>array(
                      'ressource'=>array(
                           'id'=> $ressource->getId(),
-                          'price'=> $ressource->getPrice(),
+                          'price'=> '',
                           'nom'=> $ressource->getNom(),
                           'description'=> $ressource->getDescription(),
                           'size'=> $ressource->getSize(),
