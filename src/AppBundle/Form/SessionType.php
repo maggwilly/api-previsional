@@ -28,7 +28,7 @@ class SessionType extends AbstractType
                                          'Lettres' => 'Lettres',
                                          'economie' => 'economie', 
                                          'droit' => 'droit', 
-                                         'technique' => 'technique')
+                                         'technique' => 'technique'),
                                   'multiple'=>true,
                                   'expanded'=>false,
                                   'attr'=>array('data-rel'=>'chosen'),
