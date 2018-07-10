@@ -23,15 +23,15 @@ class SessionType extends AbstractType
 
         ->add('serie', ChoiceType::class, array(
                                   'choices' => array(
-                                    'science' => 'science',
-                                     'Lettres' => 'Lettres',
-                                     'economie' => 'economie',
-                                      'droit' => 'droit', 
-                                      'technique' => 'technique'),
+                                           'science' => 'science',
+                                           'Lettres' => 'Lettres',
+                                           'economie' => 'economie',
+                                           'droit' => 'droit', 
+                                           'technique' => 'technique'),
                                   'multiple'=>true,
                                   'expanded'=>false,
                                   'attr'=>array('data-rel'=>'chosen'),
-                                  ,'required' => false
+                                  'required' => false
                                    ))
         ->add('niveau', ChoiceType::class, array(
                                   'choices'  => array(
