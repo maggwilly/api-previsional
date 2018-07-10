@@ -23,7 +23,6 @@ class SessionType extends AbstractType
 
         ->add('serie', ChoiceType::class, array(
                                   'choices'  => array(
-                                         '' => 'Toute series',
                                          'science' => 'science',
                                          'Lettres' => 'Lettres',
                                          'economie' => 'economie', 
