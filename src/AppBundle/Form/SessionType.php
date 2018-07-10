@@ -22,12 +22,12 @@ class SessionType extends AbstractType
         ->add('abreviation')
 
         ->add('serie', ChoiceType::class, array(
-                                  'choices'  => array(
-                                         'science' => 'science',
-                                         'Lettres' => 'Lettres',
-                                         'economie' => 'economie', 
-                                         'droit' => 'droit', 
-                                         'technique' => 'technique'),
+                                  'choices' => array(
+                                    'science' => 'science',
+                                     'Lettres' => 'Lettres',
+                                     'economie' => 'economie',
+                                      'droit' => 'droit', 
+                                      'technique' => 'technique'),
                                   'multiple'=>true,
                                   'expanded'=>false,
                                   'attr'=>array('data-rel'=>'chosen'),
