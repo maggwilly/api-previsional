@@ -21,7 +21,7 @@ class SessionType extends AbstractType
         ->add('nomConcours','text', array('label'=>'Nom cours du concours','required' => true))
         ->add('abreviation')
 
-        ->add('serie', ChoiceType::class, array('required' => false,
+        ->add('serie', 'collection', array('required' => false,
                                   'choices'  => array(
                                          '' => 'Toute series',
                                          'science' => 'science',
