@@ -77,7 +77,7 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
   public function findForUser(Info $user){
     $qb = $this->createQueryBuilder('s')->where('s.archived=:archived and s.dateLancement is not NULL')->setParameter('archived',false)
     ->andWhere('s.niveau=:niveau')->setParameter('niveau', $user->getNiveau())
-    ->andWhere(':serie IN s.serie or s.serie is  NULL')->setParameter('serie', $user->getSerie())
+    ->andWhere('(:serie) IN s.serie or s.serie is  NULL')->setParameter('serie', $user->getSerie())
     ->andWhere('s.dateMax<=:dateMax or s.dateMax is NULL')->setParameter('dateMax', $user->getDateMax())
     ->orderBy('s.nomConcours', 'asc'); 
     $query=$qb->getQuery();
