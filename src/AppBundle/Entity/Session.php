@@ -756,8 +756,6 @@ class Session
      */
     public function getSerie()
     {
-         if($this->serie==null)
-              $this->concours->getSerie();
         return $this->serie;
     }
 
