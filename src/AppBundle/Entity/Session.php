@@ -59,7 +59,7 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="serie", type="string", length=255, nullable=true)
+     * @ORM\Column(name="serie", type="array", length=255, nullable=true)
      */
     private $serie;
 

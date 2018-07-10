@@ -29,6 +29,9 @@ class SessionType extends AbstractType
                                          'economie' => 'economie', 
                                          'droit' => 'droit', 
                                          'technique' => 'technique')
+                                  'multiple'=>true,
+                                  'expanded'=>false,
+                                  'attr'=>array('data-rel'=>'chosen'),
                                   ,'required' => false
                                    ))
         ->add('niveau', ChoiceType::class, array(
