@@ -20,7 +20,6 @@ class SessionType extends AbstractType
        
         ->add('nomConcours','text', array('label'=>'Nom cours du concours','required' => true))
         ->add('abreviation')
-
         ->add('serie', ChoiceType::class, array(
                                   'choices' => array(
                                            'science' => 'science',

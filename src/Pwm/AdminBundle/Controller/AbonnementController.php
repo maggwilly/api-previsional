@@ -101,9 +101,10 @@ class AbonnementController extends Controller
                $em->persist( $commande);
            }
               
-          if(is_null($session))
+          if(is_null($session)){
             $amount=500;
-
+            $package='sepecial';
+          }
           else{
         switch ($package) {
           case 'starter':
