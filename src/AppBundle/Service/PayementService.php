@@ -13,7 +13,7 @@ class PayementService
 
 const AUTORISATION_HEADERS=array(
     "accept: application/json",
-    "authorization: Bearer Xz5nLaE2iQiDsYDsW5eibTM9YDUJ",
+    "authorization: Bearer pyNpdWEkOUZAv9A4abOqQ4QPzla6",
     "cache-control: no-cache",
     "content-type: application/json"
   );
