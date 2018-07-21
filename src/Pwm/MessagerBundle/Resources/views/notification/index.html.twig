@@ -33,15 +33,16 @@
                         <span class="label">
                              {{ render(controller( 'MessagerBundle:Notification:getDestNumber', { 'id': notification.id }))|number_format(1, ',', '.') }}
                         </span>
-                   {% else %}
-                       <span class="label label-success">{{notification.sendings|length}}</span>
+                 {# {% else %}
+                       <span class="label label-success">{{notification.sendings|length}}</span>#}
                    {% endif %}
                 </td>
                 <td>{% if render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id })) %} 
                   <b >{{ render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id }))|number_format(1, ',', '.') }}%</b>
                    {% endif %}
                 </td>
-                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id }))|number_format(1, ',', '.') }}/5</b></td>
+                <td><b>{{ render(controller( 'MessagerBundle:Notification:getRate', { 'id': notification.id }))|number_format(1, ',', '.') }}/5</b>
+                </td>
                 <td class="center ">
                                <a class="btn btn-success" href="{{ path('notification_show', { 'id': notification.id }) }}">
                                         <i class="halflings-icon white zoom-in"></i>  
@@ -57,7 +58,6 @@
         </tbody>
     </table>
     <br>
-
     <table class="table  no-table-bordered bootstrap-datatable">
         <tr> 
         <td>
@@ -69,7 +69,6 @@
         <td>
            <a href="{{ path('notification_resent') }}" class="btn btn-success">Rappeler les messages non lus</a>
         </td>
-
          </tr>
     </table>
 {% endblock %}
