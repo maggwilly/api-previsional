@@ -33,8 +33,6 @@
                         <span class="label">
                              {{ render(controller( 'MessagerBundle:Notification:getDestNumber', { 'id': notification.id }))|number_format(1, ',', '.') }}
                         </span>
-                 {# {% else %}
-                       <span class="label label-success">{{notification.sendings|length}}</span>#}
                    {% endif %}
                 </td>
                 <td>{% if render(controller( 'MessagerBundle:Notification:getReading', { 'id': notification.id })) %} 

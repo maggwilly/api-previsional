@@ -19,7 +19,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
           ->where('a.type is NULL')
           ->andWhere('a.date >:date')->setParameter('date',$startdate->modify('+ 30 day'))
           ->orWhere('a.type =:type')->setParameter('type','public');
-          return $qb->getQuery()->getResult();
+          return $qb->getQuery()->setMaxResults(10)->getResult();
   }
 
 
