@@ -448,7 +448,7 @@ class NotificationController extends Controller
              $contacts=$contacts.'%2C'.$numero;
      }
       $msg=$form->getData()['msg'];
-      $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Concours&msg='.$msg;
+      $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=LPM&msg='.$msg;
       $res = $this->get('fmc_manager')->sendOrGetData($url,null,'GET');
        $this->addFlash('success', $url);
     return $this->redirectToRoute('sms_send');  
