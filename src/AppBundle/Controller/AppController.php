@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-
 /**
  * Etape controller.
  *
@@ -18,29 +17,11 @@ class AppController extends Controller
      *
      */
     public function indexAction()
-
-    {    if ($this->get('security.authorization_checker')->isGranted('ROLE_DELEGUE')) 
-              return $this->redirectToRoute('abonnement_index');
-        elseif ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
-              return $this->redirectToRoute('user_index');
-        elseif ($this->get('security.authorization_checker')->isGranted('ROLE_CONTROLEUR')) 
-              return $this->redirectToRoute('concours_index');
-          elseif ($this->get('security.authorization_checker')->isGranted('ROLE_SUPERVISEUR'))
-              return $this->redirectToRoute('session_index');              
-         elseif($this->get('security.authorization_checker')->isGranted('ROLE_SAISIE')) 
-              return $this->redirectToRoute('partie_index');
-        elseif ($this->get('security.authorization_checker')->isGranted('ROLE_MESSAGER'))
-              return $this->redirectToRoute('notification_index');  
-        return $this->redirectToRoute('notification_index');             
+    {   
+        //require __DIR__ . '/../../../vendor/google/apiclient/src/Google/Client.php'; /
+        //$client = new Google_Client();
+   
+        return $this->render('layout.html.twig');
     }
 
-     public function helpAction($topic)
-    {      
-    return $this->render('reads/help.html.twig', array());
-    }
-
-    public function cguAction()
-    {      
-    return $this->render('reads/cgu.html.twig', array());
-    }   
 }

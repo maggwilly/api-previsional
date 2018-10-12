@@ -30,13 +30,7 @@ security:
       # since anonymous is allowed users will not be forced to login
            pattern:   ^/(login|register)$
            anonymous:      true
-
-        mobile:
-      # since anonymous is allowed users will not be forced to login
-            pattern:   auth-token|mobile|formated|apk|update|xml|ambassador|cron|job|pay|for
-            anonymous: true
-            security: false
-            stateless: true
+         
         main:
             pattern:        ^/
             anonymous:      false
@@ -51,11 +45,3 @@ security:
                 target:    /login
             remember_me:
                 key:        %secret% # %secret% est un paramètre de parameters.yml
-
-               
-            # activate different ways to authenticate
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

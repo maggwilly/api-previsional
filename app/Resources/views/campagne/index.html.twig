@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Campagnes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Pays</th>
+                <th>Ville</th>
+                <th>Dprospects</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for campagne in campagnes %}
+            <tr>
+                <td><a href="{{ path('campagne_show', { 'id': campagne.id }) }}">{{ campagne.id }}</a></td>
+                <td>{{ campagne.nom }}</td>
+                <td>{{ campagne.pays }}</td>
+                <td>{{ campagne.ville }}</td>
+                <td>{{ campagne.dprospects }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('campagne_show', { 'id': campagne.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('campagne_edit', { 'id': campagne.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('campagne_new') }}">Create a new campagne</a>
+        </li>
+    </ul>
+{% endblock %}

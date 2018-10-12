@@ -1,7 +1,0 @@
-AppBundle\Entity\Programme:
-    exclusion_policy: none
-    properties:
-        id:
-            groups: ['session','programme', 'full','abonnement']
-        nom:  
-            groups: ['session','programme', 'full','abonnement']         

@@ -1,10 +1,10 @@
 parameters:
     database_driver: pdo_pgsql 
-    database_host: ec2-54-163-240-54.compute-1.amazonaws.com
+    database_host: ec2-54-247-101-205.eu-west-1.compute.amazonaws.com
     database_port: 5432
-    database_name: dbh3f629fadbss
-    database_user: tgeedmhhwfdzxj
-    database_password: 9ad7438a61a7478d2f8e52ad163631242b03601037160cb51c34a6b941a15224
+    database_name: d4d2qsutlc6uu9
+    database_user: uedtvxginmleed
+    database_password: 8846b1393b8b5e49dbe55e67cc0c4de659ae4359255f48c2e749b18b6f320d9a
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null

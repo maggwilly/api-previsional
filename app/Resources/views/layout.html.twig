@@ -1,18 +1,384 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>{% block page_title %} CENTOR {% endblock %} </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css"  />
-      {% endblock %}     
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>
+        {% block title %}GROUPE BEL{% endblock %}
+    </title>
+    <meta name="description" content=""/>
+    <meta name="Author" content="PENKA WILLIAMS MAGLOIRE"/>
+    <!-- mobile settings -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
+    <!-- WEB FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css"/>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('home/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('home/css/essentials.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('home/css/layout.css') }}" type="text/css"/>
+        <link href="{{ asset('home/css/header-1.css') }}" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('home/css/color_scheme/green.css') }}" type="text/css" id="color_scheme"/>
+    {% endblock %}
 </head>
-{% block body %}
+<body class="smoothscroll enable-animation">
 
-{% endblock body %}
+    <!-- wrapper -->
+    <div id="wrapper">
+
+        <div id="header" class="sticky clearfix">
+
+            <!-- TOP NAV -->
+            <header id="topNav">
+                <div class="">
+
+                    <!-- Mobile Menu Button -->
+                    <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Logo -->
+                    <a class="logo pull-left" href="#">
+                        <img src="{{ asset('home/images/lpm.png') }}" alt=""/>
+                    </a>
+                    <a class="logo pull-left" href="#">
+                        <img src="https://www.groupe-bel.com/wp-content/themes/bel/assets/images/logo-fr.svg" alt=""/>
+                    </a>
+                    <!-- AVAILABLE CLASSES: submenu-dark = dark sub menu -->
+                    <div class="navbar-collapse pull-right nav-main-collapse collapse">
+                        <nav class="nav-main">
+                            <ul id="topMain" class="nav nav-pills nav-main nav-onepage">
+                                <li>
+                                    <!-- TESTIMONIALS -->
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}
+                                        {% else %}
+										Deconnexion 
+										{% endif %}
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </nav>
+                        </div>
+
+                    </div>
+                </header>
+                <!-- /Top Nav -->
+            </div>
+
+            <section class="page-header page-header-xs">
+                <div class="container">
+                    <h1>DATABASE</h1>
+                    <span class="font-lato fs-18 hidden-xs-down">Plateforme de centralisation des données</span>
+                    <!-- page tabs -->
+                    <ul class="page-header-tabs list-inline">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab" aria-expanded="true">Back to school</a>
+                        </li>
+                        <li>
+                            <a href="#profile" data-toggle="tab">Prices Off</a>
+                        </li>
+                    </ul>
+                    <!-- /page tabs -->
+                </div>
+            </section>
+            <section>
+                <div class="container">
+                    <div class="tab-content">
+                        <div class="tab-pane tab-pane active in" id="home">
+                            <div class="row m-0">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="heading-title heading-border">
+                                        <h2>BACK TO SCHOOL
+                                            <span>
+                                                Cameroun</span></h2>
+                                        <ul class="list-inline categories m-0">
+                                            <li>
+                                                <a href="#">Vache kit rit</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="3" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
+                                        {% image '@AppBundle/Resources/public/activations/cameroun/backtoschool/images/*' %}
+                                        <a class="image-hover" href="{{ asset_url }}">
+                                            <img src="{{ asset_url }}" alt="..."/>
+                                        </a>
+                                        {% endimage %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="card card-default">
+                                        <div class="card-block">
+                                            <p class="font-lato fs-18">Activation dans les points de vente</p>
+                                            <ul class="portfolio-detail-list list-unstyled m-0">
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-user"></i>Cmpagnie:</span>
+                                                    Groupe BEL.</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-calendar"></i>Debut:</span>
+                                                    17 septempbre 2018</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-eye"></i>Statut:</span>
+                                                    En cours</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
+                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-link"></i>Rapport:</span>
+                                                    <a href="#">Rapport de fin.pdf</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer">
+                                            <!-- Social Icons -->
+                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                                <i class="icon-facebook"></i>
+                                                <i class="icon-facebook"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                                <i class="icon-twitter"></i>
+                                                <i class="icon-twitter"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
+                                                <i class="icon-gplus"></i>
+                                                <i class="icon-gplus"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
+                                                <i class="icon-linkedin"></i>
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
+                                                <i class="icon-pinterest"></i>
+                                                <i class="icon-pinterest"></i>
+                                            </a>
+                                            <!-- /Social Icons -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br><br><br><br><br><br><br><br>
+                            <div class="row m-0">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="heading-title heading-border">
+                                        <h2>BACK TO SCHOOL
+                                            <span>
+                                                Congo</span></h2>
+                                        <ul class="list-inline categories m-0">
+                                            <li>
+                                                <a href="#">Vache kit rit</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
+                                        {% image '@AppBundle/Resources/public/activations/congo/backtoschool/images/*' %}
+                                        <a class="image-hover" href="{{ asset_url }}">
+                                            <img src="{{ asset_url }}" alt="..."/>
+                                        </a>
+                                        {% endimage %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="card card-default">
+                                        <div class="card-block">
+                                            <p class="font-lato fs-18">Activation dans les points de vente</p>
+                                            <ul class="portfolio-detail-list list-unstyled m-0">
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-user"></i>Cmpagnie:</span>
+                                                    Groupe BEL.</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-calendar"></i>Debut:</span>
+                                                    17 septempbre 2018</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-eye"></i>Statut:</span>
+                                                    En cours</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
+                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-link"></i>Rapport:</span>
+                                                    <a href="#">Rapport de fin.pdf</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer">
+                                            <!-- Social Icons -->
+                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                                <i class="icon-facebook"></i>
+                                                <i class="icon-facebook"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                                <i class="icon-twitter"></i>
+                                                <i class="icon-twitter"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
+                                                <i class="icon-gplus"></i>
+                                                <i class="icon-gplus"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
+                                                <i class="icon-linkedin"></i>
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
+                                                <i class="icon-pinterest"></i>
+                                                <i class="icon-pinterest"></i>
+                                            </a>
+                                            <!-- /Social Icons -->
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade active show" id="profile">
+                            <div class="row m-0">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="heading-title heading-border">
+                                        <h2>PRICE OFF
+                                            <span>
+                                                Congo</span></h2>
+                                        <ul class="list-inline categories m-0">
+                                            <li>
+                                                <a href="#">Vache kit rit</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
+                                        {% image '@AppBundle/Resources/public/activations/congo/backtoschool/images/*' %}
+                                        <a class="image-hover" href="{{ asset_url }}">
+                                            <img src="{{ asset_url }}" alt="..."/>
+                                        </a>
+                                        {% endimage %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="card card-default">
+                                        <div class="card-block">
+                                            <p class="font-lato fs-18">Campagne sur les prix</p>
+                                            <ul class="portfolio-detail-list list-unstyled m-0">
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-user"></i>Cmpagnie:</span>
+                                                    Groupe BEL.</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-calendar"></i>Debut:</span>
+                                                    17 septempbre 2018</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-eye"></i>Statut:</span>
+                                                    Terminée</li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
+                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <i class="fa fa-link"></i>Rapport:</span>
+                                                    <a href="#">Rapport de fin.pdf</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer">
+                                            <!-- Social Icons -->
+                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                                <i class="icon-facebook"></i>
+                                                <i class="icon-facebook"></i>
+                                            </a>
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                                <i class="icon-twitter"></i>
+                                                <i class="icon-twitter"></i>
+                                            </a>
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
+                                                <i class="icon-gplus"></i>
+                                                <i class="icon-gplus"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
+                                                <i class="icon-linkedin"></i>
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+
+                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
+                                                <i class="icon-pinterest"></i>
+                                                <i class="icon-pinterest"></i>
+                                            </a>
+                                            <!-- /Social Icons -->
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer id="footer">
+
+                <div class="copyright">
+                    <div class="container">
+                        <ul class="pull-right nomargin list-inline mobile-block">
+
+                            <li>&bull;</li>
+
+                        </ul>
+                        &copy; 2016 Tous droits reservés, LPM Consulting.
+                    </div>
+                </div>
+            </footer>
+            <!-- /FOOTER -->
+
+        </div>
+        <!-- /wrapper -->
+
+        <!-- SCROLL TO TOP -->
+        <a href="#" id="toTop"></a>
+        <!-- PRELOADER -->
+        <div id="preloader">
+            <div class="inner">
+                <span class="loader"></span>
+            </div>
+        </div>
+        <!-- /PRELOADER -->
+
+        <!-- JAVASCRIPT FILES -->
+        {% block javascripts %}
+            <script type="text/javascript">
+                var plugin_path = "{{ asset('home/plugins/') }}";
+            </script>
+            <script type="text/javascript" src="{{ asset('home/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
+
+        {% endblock %}
+
+    </body>
 </html>
-

@@ -1,4 +1,0 @@
-services:
-#    messager.example:
-#        class: Pwm\MessagerBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]

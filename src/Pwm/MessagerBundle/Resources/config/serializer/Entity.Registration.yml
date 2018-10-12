@@ -1,7 +1,0 @@
-Pwm\MessagerBundle\Entity\Registration:
-    exclusion_policy: none
-    properties:
-        id:
-             groups: ['sending', 'full']             
-        registrationId:
-             groups: ['sending', 'full']

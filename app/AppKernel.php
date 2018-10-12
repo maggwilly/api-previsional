@@ -21,9 +21,8 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new Misteio\CloudinaryBundle\MisteioCloudinaryBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new Pwm\AdminBundle\AdminBundle(),
-            new Pwm\MessagerBundle\MessagerBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

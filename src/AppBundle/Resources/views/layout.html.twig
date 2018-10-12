@@ -1,169 +1,150 @@
-{% extends 'global-layout.html.twig' %}
-{% block page_title %}ADMIN{% endblock %}
-{% block fos_user_content %}
-<body>
-		<!-- start: Header -->
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				<a class="brand" href="#"><span>CENTOR</span></a>
-								
-				<!-- start: Header Menu -->
-				<div class="nav-no-collapse header-nav">
-					<ul class="nav pull-right">
-						<!-- start: User Dropdown -->
-						<li class="dropdown">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i>{{ app.user.nom }}~ {{ app.user.username }}
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown-menu-title">
- 									<span>Account Settings</span>
-								</li>
-								<li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-								<li><a href="{{ path('fos_user_security_logout') }}"><i class="halflings-icon off"></i> Logout</a></li>
-							</ul>
-						</li>
-						<!-- end: User Dropdown -->
-					</ul>
-				</div>
-				<!-- end: Header Menu -->
-				
-			</div>
-		</div>
-	</div>
-	<!-- start: Header -->
-	
-		<div class="container-fluid-full">
-		<div class="row-fluid">
-			<!-- start: Main Menu -->
-			<div id="sidebar-left" class="span2">
-				<div class="nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="{{ path('homepage')}}"><span class="hidden-home">ACCEUIL</span></a></li>
-						{% if is_granted('ROLE_PRICER') %}
-						<li><a href="{{ path('price_index')}}"><span class="hidden-home">Tarifaire</span></a></li>
-                        {% endif %}						
-						{% if is_granted('ROLE_ADMIN') %}
-						<li><a href="{{ path('programme_index')}}"><span class="hidden-home">Programmes</span></a></li>								
-						<li><a href="{{ path('user_index')}}"><span class="hidden-home">Utilisateurs</span></a></li>
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %}CANAL SAT {% endblock %}</title>       
+        <meta name="description" content="" />
+        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
+        <!-- mobile settings -->
+        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+        <!-- WEB FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
+         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
+        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/layout-datatable.css') }}"  />
+        {% endblock %}
+    </head>         
+    <body>
+        {% block fos_user_content %}
+        <!-- WRAPPER -->
+        <div id="wrapper">
+            <aside id="aside">
 
-                        {% endif %}
-                         {% if is_granted('ROLE_SUPERVISEUR') %}
-                        <li><a href="{{ path('ressource_index')}}"><span class="hidden-home">Documents</span></a></li>
-                        <li><a href="{{ path('objectif_index')}}"><span class="hidden-home">Liens utils</span></a></li>                        
-                          {% endif %}
-                        {% if is_granted('ROLE_CONTROLEUR') %}
-                        <li><a href="{{ path('concours_index')}}"><span class="hidden-home">Ecoles</span></a></li>
-						<li><a href="{{ path('session_index', {'all': is_granted('ROLE_CONTROLEUR')})}}"><span class="hidden-home">Concours</span></a></li>
-                        {% endif %}
-                         {% if is_granted('ROLE_MESSAGER') %}
-						<li><a href="{{ path('notification_index')}}"><span class="hidden-home">Communication</span></a></li>
-						<li><a href="{{ path('resultat_index')}}"><span class="hidden-home">Resultat</span></a></li>
-                        {% endif %}
-					</ul>
-				</div>
-			</div>
-			<!-- end: Main Menu -->
-			
-			<noscript>
-				<div class="alert alert-block span10">
-					<h4 class="alert-heading">Warning!</h4>
-					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
-				</div>
-			</noscript>
-			
-			<!-- start: Content -->
-			<div id="content" class="span10">
-              {% block body %}
+                <nav id="sideNav"><!-- MAIN MENU -->
+                    <ul class="nav nav-list">
 
-			<ul class="breadcrumb">
-				<li>
-					<i class="icon-home"></i>
-					<a href="">Home</a> 
-					<i class="icon-angle-right"></i>
-				</li>
-				<li><a href="#">Tables</a></li>
-			</ul> 
+                        <li>
+                            <a href="{{ path('user_homepage') }}">
+                               <i class="main-icon fa  fa-home"></i><span>Accueil</span>
+                            </a>
+                        </li>   
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-menu-arrow pull-right"></i>
+                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Les ventes</span>
+                            </a>
+                            <ul><!-- submenus -->
+                                <li><a href="{{ path('vente_index',{ 'src':0 }) }}">Ventes aux Menages</a></li>
+                                <li><a href="{{ path('vente_index',{ 'src':1 }) }}">Ventes aux revendeurs</a></li>
+                            </ul>
+                        </li>                                                 
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-menu-arrow pull-right"></i>
+                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Points de vente</span>
+                            </a>
 
-             {% endblock body %}
-	</div><!--/.fluid-container-->
-	
-			<!-- end: Content -->
-		</div><!--/#content.span10-->
-		</div><!--/fluid-row-->
-		
+                            <ul><!-- submenus -->
+                                <li><a href="{{ path('point_vente_index') }}">Liste des points</a></li>
+                                <li><a href="{{ path('point_vente_map') }}">La carte des points</a></li>
+                            </ul>
+                        </li>                        
+                        <li><!-- dashboard -->
+                            <a class="dashboard" href="{{ path('prospect_index') }}">
+                                <i class="main-icon fa fa-calendar"></i><span>Les prospects</span>
+                            </a>
+                        </li>                                             
+                      </ul>
+                </nav>
+                <span id="asidebg"><!-- aside fixed background --></span>
+            </aside>
 
-	<div class="clearfix"></div>
+            <header id="header">
+                <!-- Mobile Button -->
+                <button id="mobileMenuBtn"></button>
+                <span class="logo pull-left">
+                    <img src="assets/images/logo_light.png" alt="AllReport" height="35">
+                </span>
+                <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
+                 <label><strong>Periode:</strong> </label>
+    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):app.session.get('start_date_formated')|date('01/01/Y') %}
+    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):app.session.get('end_date_formated')|date('31/12/Y')  %}
+    {% set periode=app.session.get('periode')%}
+<input type="text" class="form-control rangepicker" 
+name="periode" data-format="dd/mm/yyyy" 
+ value="{{start_date_formated}} - {{end_date_formated}}"  placeholder="Selectionnez une période" 
+ data-from="{{ start_date_formated}}" data-to="{{ end_date_formated }}" required="">
+
+                <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+                <label><strong>Region:</strong></strong></label>
+                <select class="" name="region" selected>
+                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toutes régions</option>
+                   <option value="Brazzaville"  {% if app.session.get('region')=='Brazzaville'  %}selected="true"{% endif %}>Brazzaville</option>
+                   <option value="Pointe-Noire" {% if  app.session.get('region')=='Pointe-Noire'  %}selected="true"{% endif %}>Pointe-Noire</option>
+              </select>
+                <button type="submit" class="btn btn-primary btn-sm">Afficher les données</button>
+                </form>
+                <nav>
+                    <!-- OPTIONS LIST -->
+                    <ul class="nav pull-right">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <!-- USER OPTIONS -->
+                        <li class="dropdown pull-left">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img class="user-avatar" alt="" src="{{ asset('assets/images/noavatar.jpg') }}" height="34" /> 
+                                <span class="user-name">
+                                    <span class="hidden-xs">
+                                        {{  app.user.username }}<i class="fa fa-angle-down"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu hold-on-click">
+                                <li><!-- settings -->
+                                    <a href="#"><i class="fa fa-cogs"></i> Paramètres</a>
+                                </li>
+
+                                <li class="divider"></li> 
+                                <li><!-- logout -->
+                                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Deconnexion</a>
+                                </li>
+                                 
+                            </ul>
+                        </li>
+                        <!-- /USER OPTIONS -->
+                 {% endif %}
+                    </ul>
+                    <!-- /OPTIONS LIST -->
+
+                </nav>
+
+            </header>
+            <!-- /HEADER -->
+            <!-- 
+                MIDDLE 
+            -->
+            <section id="middle">
+               {% block body %}
 
 
-	<!-- end: JavaScript-->
- {% block javascripts %}
-		<script src="{{ asset('js/jquery-1.9.1.min.js') }}"></script>
-	     <script src="{{ asset('js/jquery-migrate-1.0.0.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery-ui-1.10.0.custom.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.ui.touch-punch.js') }}"></script>
-	
-		<script src="{{ asset('js/modernizr.js') }}"></script>
-	
-		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.cookie.js') }}"></script>
-	
-		<script src="{{ asset('js/fullcalendar.min.js') }}"></script>
-	    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+              {% endblock %}
 
-		<!--<script src="{{ asset('js/excanvas.js') }}"></script>
-	    <script src="{{ asset('js/jquery.flot.js') }}"></script>
-	    <script src="{{ asset('js/jquery.flot.pie.js') }}"></script>
-	    <script src="{{ asset('js/jquery.flot.stack.js') }}"></script>
-	    <script src="{{ asset('js/jquery.flot.resize.min.js') }}"></script>
-	-->
-	
-		<script src="{{ asset('js/jquery.chosen.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.uniform.min.js') }}"></script>
-		
-		<script src="{{ asset('js/jquery.cleditor.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.noty.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.elfinder.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.raty.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.iphone.toggle.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.uploadify-3.1.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.gritter.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.imagesloaded.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.masonry.min.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.knob.modified.js') }}"></script>
-	
-		<script src="{{ asset('js/jquery.sparkline.min.js') }}"></script>
-	
-		<script src="{{ asset('js/counter.js') }}"></script>
-	
-		<script src="{{ asset('js/retina.js') }}"></script>
 
-		<script src="{{ asset('js/custom.js') }}"></script>	  
-       <script type="text/javascript">
-     /*  $(document).ready(function() {
-       $('#my-table').DataTable();
-        } );*/
-   </script>            
- {% endblock %} 	
-</body>
-{% endblock fos_user_content %}
+            </section>
+            <!-- /MIDDLE -->
+
+        </div>
+    
+        {% endblock fos_user_content %}
+
+       {% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+       {% endblock %}
+
+    </body>
+</html>

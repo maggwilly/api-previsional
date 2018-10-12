@@ -16,20 +16,7 @@ class UserType extends AbstractType
         $builder->add('nom')
         ->add('ville')
         ->add('username')
-        ->add('email')
-        ->add('roles', ChoiceType::class, array(
-                                  'choices'  => array(
-                                  'ROLE_SAISIE' => 'Editeur/correcteur',
-                                   'ROLE_AMBASSADOR' => 'Ambassadeur',
-                                   'ROLE_SUPERVISEUR' => 'Superviseur',
-                                   'ROLE_MESSAGER' => 'Push Messager',
-                                   'ROLE_CONTROLEUR' => 'Controleur',
-                                   'ROLE_ADMIN' => 'Administrateur'
-                                   ), 
-                                  'multiple'=>true,
-                                  'expanded'=>false,
-                                  'attr'=>array('data-rel'=>'chosen'),
-                                   ));
+        ->add('email');
     }
     
     /**

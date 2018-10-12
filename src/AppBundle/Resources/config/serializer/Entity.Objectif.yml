@@ -1,9 +1,0 @@
-AppBundle\Entity\Objectif:
-    exclusion_policy: none
-    properties:
-        id:
-            groups: ['session','full', ]
-        titre:
-             groups: ['session','full']
-        description:
-             groups: ['session','full']

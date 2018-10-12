@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Campagne</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ campagne.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ campagne.nom }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ campagne.pays }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ campagne.ville }}</td>
+            </tr>
+            <tr>
+                <th>Dprospects</th>
+                <td>{{ campagne.dprospects }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('campagne_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('campagne_edit', { 'id': campagne.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

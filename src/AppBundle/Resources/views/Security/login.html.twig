@@ -1,64 +1,66 @@
-{% extends 'global-layout.html.twig' %}
-{% block page_title %}Connexion{% endblock %}
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block title %}Connexion {% endblock %}
 {% block fos_user_content %}
-<body>
-	<a class="brand" href="#"><span>CENTOR</span></a>	
-		<div class="container-fluid-full">
-		<div class="row-fluid">
-					
-			<div class="row-fluid">
-				<div class="login-box">
-					<div class="icons">
-						<a href="#"><i class="halflings-icon home"></i></a>
-						<a href="#"><i class="halflings-icon cog"></i></a>
+
+		<div class="padding-15">
+
+
+			<div class="login-box">
+				<!-- login form -->
+				<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
+					<header><i class="fa fa-users"></i> Connexion</header>
+					{% if error %}
+					<div class="alert alert-danger noborder text-center weight-400 nomargin noradius">
+						
+                    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+                    
 					</div>
-					<h2>Connectez-vous à votre compte</h2>
-					<form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
-						  <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-						<fieldset>
-							
-							<div class="input-prepend" title="Adresse mail">
-								<span class="add-on"><i class="halflings-icon user"></i></span>
-				<input class="input-large span10" type="text" name="_username" id="username"  placeholder="Adresse mail ou telephone" value="{{ last_username }}" required="required">
-							</div>
-							<div class="clearfix"></div>
+					 {% endif %}
+					<fieldset>	
 
-							<div class="input-prepend" title="Mot de passe">
-								<span class="add-on"><i class="halflings-icon lock"></i></span>
-				<input class="input-large span10"   type="password" id="password" name="_password" required="required"  placeholder="type password">
-							</div>
-							<div class="clearfix"></div>
-							
-							<label class="remember" for="remember"><input type="checkbox" id="remember_me" name="_remember_me" value="true" />Se souvenir de moi</label>
+						<section>
+							<label class="label">Email ou nom d'utilisateur</label>
+							<label class="input">
+								<i class="icon-append fa fa-envelope"></i>
+								<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+								<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
+							</label>
+						</section>
+						
+						<section>
+							<label class="label">Mot de passe</label>
+							<label class="input">
+								<i class="icon-append fa fa-lock"></i>
+								<input type="password" id="password" name="_password" required="required"/>
+								<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
+							</label>
+					<label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+						</section>
 
-							<div class="button-login">	
-								<button type="submit" class="btn btn-primary">Connexion</button>
-							</div>
-							<div class="clearfix"></div>
-					</form>
-<br>					
-{% if error %}
-<div class="alert alert-error">
-	<strong>Oh snap!</strong> {{ error|trans({}, 'FOSUserBundle') }}.
-</div>	
-{% endif %}										
-					<hr>
-					<h3>Mot de passe oublié ?</h3>
-					<p>
-						pas de problème, <a href="#">cliquez ici</a> pour reinitialiser.
-					</p>	
-				</div><!--/span-->
-			</div><!--/row-->		
-	</div><!--/.fluid-container-->
-		</div><!--/fluid-row-->
-	    <div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-content">
-				<ul class="list-inline item-details">
-					<li><a href="#">Centor .in</a></li>
-					<li><a href="#">Espace interne</a></li>
-				</ul>
+					</fieldset>
+
+					<footer>
+						<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+
+						<div class="forgot-password pull-left">
+							<a href="#">Mot de passe oublié ?</a> <br />
+
+						</div>
+
+					</footer>
+				</form>
+				<!-- /login form -->
+
+
+      <p style="text-align:center;"><a href="{{ path('homepage') }}"><strong>Retour à l'accueil</strong></a></p>
 			</div>
+
 		</div>
 
-</body>
 {% endblock fos_user_content %}
+{% block javascripts %}
+       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
+       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
+
+ {% endblock %}
