@@ -45,21 +45,21 @@ class Campagne
     /**
      * @var string
      *
-     * @ORM\Column(name="feedback", type="text")
+     * @ORM\Column(name="feedback", type="text", nullable=true)
      */
     private $feedback;
 
         /**
      * @var string
      *
-     * @ORM\Column(name="concurrence", type="text")
+     * @ORM\Column(name="concurrence", type="text", nullable=true)
      */
     private $concurrence;
 
          /**
      * @var string
      *
-     * @ORM\Column(name="commentaire", type="text")
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
      */
     private $commentaire;
    
