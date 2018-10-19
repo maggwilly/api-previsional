@@ -66,7 +66,7 @@ class CampagneController extends Controller
         $folder=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getFolder().'/rapports';
         $rapports =array_diff( scandir( $folder), array('..', '.'));
         $folder1=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getFolder().'/donnees';
-        $donnees =array_diff( scandir( $folder1), array('..', '.'));
+        $donnees =array();//array_diff( scandir( $folder1), array('..', '.'));
         return $this->render('campagne/show.html.twig', array(
             'campagne' => $campagne,
             'rapports' => $rapports,
