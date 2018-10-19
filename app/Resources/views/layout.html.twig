@@ -114,7 +114,7 @@
 											</a>
 										</span>
 									</span>
-									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/1.jpg') }}" width="400" height="250" alt="">                                   
+									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~campagne.firstPicture~'') }}" width="400" height="250" alt="">                                   
 								</figure>
 								<div class="item-box-desc">
 									<h3><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.nom}}</a></h3>

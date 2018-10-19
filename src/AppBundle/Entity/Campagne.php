@@ -254,6 +254,20 @@ class Campagne
         return $this->description;
     }
 
+    public function getPictures()
+    {
+        $folder=__DIR__ . '/../../../web/activations/'.$this->getPays().'/'.$this->getFolder().'/images';
+        $images =array_diff( scandir( $folder), array('..', '.'));
+        return $images;
+    }
+
+    public function getFirstPicture()
+    {
+        $folder=__DIR__ . '/../../../web/activations/'.$this->getPays().'/'.$this->getFolder().'/images';
+        $images =array_diff( scandir( $folder), array('..', '.'));
+        
+        return count($images)>1?array_values($images)[0]:'';
+    }    
     /**
      * Set feedback
      *
