@@ -121,6 +121,7 @@
 <div class="tab-content">
 <div class="tab-pane active" id="home_justified">
  <div class="container">
+ <br>
    <div class="card-block">
         <ul class="portfolio-detail-list list-unstyled m-0">
         {% for rapport in rapports %}
@@ -139,13 +140,16 @@
  </div>
  <div class="tab-pane fade" id="profile_justified">
  <div class="container">
+ <br>
  <div class="card-block">
         <ul class="portfolio-detail-list list-unstyled m-0">
+        
         {% for donnee in donnees %}
             <li>
                 <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/donnees/'~donnee~'') }}">{{donnee}}</a>
             </li>   
         {% endfor %} 
+        
         {% if campagne.dprospects is not null %} 
             <li>
                 <a href="{{campagne.dprospects}}">Liste des prospects</a>
