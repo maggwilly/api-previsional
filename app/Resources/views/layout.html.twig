@@ -105,7 +105,7 @@
 										<span class="overlay dark-5"></span>
 										<span class="inner">
 											<!-- lightbox -->
-											<a class="ico-rounded lightbox" href="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/1.jpg') }}" data-plugin-options="{&quot;type&quot;:&quot;image&quot;}">
+											<a class="ico-rounded lightbox" href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/1.jpg') }}" data-plugin-options="{&quot;type&quot;:&quot;image&quot;}">
 												<span class="fa fa-plus fs-20"></span>
 											</a>
 											<!-- details -->
@@ -114,7 +114,7 @@
 											</a>
 										</span>
 									</span>
-									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/1.jpg') }}" width="400" height="250" alt="">                                   
+									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/1.jpg') }}" width="400" height="250" alt="">                                   
 								</figure>
 								<div class="item-box-desc">
 									<h3><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.nom}}</a></h3>
@@ -136,7 +136,8 @@
                 {% endblock %}
 				</div>
 			</section>
-<section class="page-header page-header-xs">
+   {% block pagination %}         
+     <section class="page-header page-header-xs">
 				<div class="container text-center">
 					<!-- Pagination Default -->
 					<ul class="pagination pagination-lg pagination-simple">
@@ -148,6 +149,7 @@
 
 				</div>
 			</section>
+        {% endblock %}
 {% endblock fos_user_content %}
             <!-- FOOTER -->
             <footer id="footer">

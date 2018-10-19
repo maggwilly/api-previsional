@@ -47,6 +47,7 @@
 		<div class="tab-content tab-stacked nav-alternate">
 <div id="tab_f" class="tab-pane active">
 	<h4>Détails de la campagne</h4>
+     <p class="font-lato fs-18">{{campagne.description}}</p>
     <div class="card-block">
         <ul class="portfolio-detail-list list-unstyled m-0">
             <li>
@@ -64,7 +65,7 @@
             <li>
             <li>
                 <span>
-                    <i class="fa fa-eye"></i>Ville:</span>
+                    <i class="fa fa-eye"></i>Villes:</span>
                 {{campagne.ville}}</li>
             <li> 
 
@@ -76,7 +77,7 @@
                     </li>
                 <li>                       
         </ul>
-            <a type="button" class="" href="{{ path('campagne_edit',{'id':campagne.id}) }}"> Modifier </a>
+            <a type="button" class="" href="{{ path('campagne_edit',{'id':campagne.id}) }}"> Modifier les informations</a>
         
     </div>
 </div>
@@ -110,9 +111,8 @@
 			</div>
 		</div>
 	</div>
-
 </div>   
-<br><br><br><br><br>
+<br><br>
  <div class="row">
 <ul class="nav nav-tabs nav-justified">
 	<li class="nav-item active"><a class="nav-link " href="#home_justified" data-toggle="tab">Télecharger les rapports</a></li>
@@ -125,7 +125,7 @@
         <ul class="portfolio-detail-list list-unstyled m-0">
         {% for rapport in rapports %}
             <li>
-                <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/rapports/'~rapport~'') }}">{{rapport}}</a>
+                <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/rapports/'~rapport~'') }}">{{rapport}}</a>
             </li>   
         {% endfor %} 
         {% if campagne.drapports is not null %} 
@@ -143,7 +143,7 @@
         <ul class="portfolio-detail-list list-unstyled m-0">
         {% for donnee in donnees %}
             <li>
-                <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/donnees/'~donnee~'') }}">{{donnee}}</a>
+                <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/donnees/'~donnee~'') }}">{{donnee}}</a>
             </li>   
         {% endfor %} 
         {% if campagne.dprospects is not null %} 
@@ -162,10 +162,13 @@
 <h4>Gallerie d'images</h4>
     <div class="masonry-gallery columns-5 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
         {% for i in 1..10 %}
-            <a class="image-hover" href="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/'~i~'.jpg') }}">
-                <img src="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/'~i~'.jpg') }}" alt="..."/>
+            <a class="image-hover" href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~i~'.jpg') }}">
+                <img src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~i~'.jpg') }}" alt="..."/>
             </a>
         {% endfor %}
     </div>
 </div>
-{% endblock %}
+   {% endblock %}
+    {% block pagination %}         
+
+   {% endblock %}

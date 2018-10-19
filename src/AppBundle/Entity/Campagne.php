@@ -111,6 +111,14 @@ class Campagne
      */
     private $drapports;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="folder", type="string", length=255, nullable=true)
+     */
+    private $folder;
+
      /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="campagne", cascade={"persist","remove"})
    * @ORM\OrderBy({ "datedebut" = "ASC"})
@@ -477,5 +485,29 @@ class Campagne
     public function getEtapes()
     {
         return $this->etapes;
+    }
+
+    /**
+     * Set folder
+     *
+     * @param string $folder
+     *
+     * @return Campagne
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+
+        return $this;
+    }
+
+    /**
+     * Get folder
+     *
+     * @return string
+     */
+    public function getFolder()
+    {
+        return $this->folder;
     }
 }

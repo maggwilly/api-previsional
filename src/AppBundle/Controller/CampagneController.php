@@ -63,9 +63,9 @@ class CampagneController extends Controller
     public function showAction(Campagne $campagne)
     {
         $deleteForm = $this->createDeleteForm($campagne);
-        $folder=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getNom().'/rapports';
+        $folder=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getFolder().'/rapports';
         $rapports =array_diff( scandir( $folder), array('..', '.'));
-        $folder1=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getNom().'/donnees';
+        $folder1=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getFolder().'/donnees';
         $donnees =array_diff( scandir( $folder1), array('..', '.'));
         return $this->render('campagne/show.html.twig', array(
             'campagne' => $campagne,
@@ -86,7 +86,7 @@ class CampagneController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('campagne_edit', array('id' => $campagne->getId()));
+            return $this->redirectToRoute('campagne_show', array('id' => $campagne->getId()));
         }
         return $this->render('campagne/edit.html.twig', array(
             'campagne' => $campagne,
@@ -121,7 +121,7 @@ class CampagneController extends Controller
              $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('campagne_edit_one', array('id' => $campagne->getId(),'field' => $field));
+            return $this->redirectToRoute('campagne_show', array('id' => $campagne->getId(),'field' => $field));
         }
         return $this->render('campagne/editOne.html.twig', array(
             'campagne' => $campagne,

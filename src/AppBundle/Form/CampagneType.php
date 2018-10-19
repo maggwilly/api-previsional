@@ -16,14 +16,14 @@ class CampagneType extends AbstractType
     {
         $builder->add('nom')
         ->add('pays', ChoiceType::class, array(
-            'label'  => 'Ville de la campagne',
+            'label'  => 'Pays de la campagne',
             'choices'  => array(
                'cameroun' => 'Cameroun',
                'congo' => 'Congo', 
                'cote ivoire' => 'cote ivoire'),
             ))
         ->add('ville','text', array(
-            'label'  => 'Ville de la campagne',
+            'label'  => 'Villes de la campagne',
             ))
         ->add('statut', ChoiceType::class, array(
               'choices'  => array(
@@ -36,10 +36,15 @@ class CampagneType extends AbstractType
             ))
         ->add('dprospects',UrlType::class, array(
             'label'  => 'Lien vers le dernier rapports',
+            'required'=>false
             ))
         ->add('drapports',UrlType::class, array(
             'label'  => 'Lien vers la liste des prospects',
-            ))     
+            'required'=>false
+            )) 
+            ->add('folder','text', array(
+                'label'  => 'Nom du dossier',
+                ))                
         ->add('description');  
     }/**
      * {@inheritdoc}
