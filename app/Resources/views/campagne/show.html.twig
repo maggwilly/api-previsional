@@ -161,9 +161,9 @@
 <div class="row">
 <h4>Gallerie d'images</h4>
     <div class="masonry-gallery columns-5 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
-        {% for i in 1..10 %}
-            <a class="image-hover" href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~i~'.jpg') }}">
-                <img src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~i~'.jpg') }}" alt="..."/>
+        {% for image in campagne.pictures %}
+            <a class="image-hover" href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~image~'') }}">
+                <img src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~image~'') }}" alt="..."/>
             </a>
         {% endfor %}
     </div>
