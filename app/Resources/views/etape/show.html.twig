@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Etape</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ etape.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ etape.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ etape.description }}</td>
+            </tr>
+            <tr>
+                <th>Ressources</th>
+                <td>{{ etape.ressources }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('etape_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('etape_edit', { 'id': etape.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

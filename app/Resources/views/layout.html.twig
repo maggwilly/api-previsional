@@ -36,24 +36,29 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <!-- Logo -->
-                    <a class="logo pull-left" href="#">
+                    <a class="logo pull-left" href="{{ path('homepage') }}">
                         <img src="{{ asset('home/images/lpm.png') }}" alt=""/>
                     </a>
-                    <a class="logo pull-left" href="#">
+                    <a class="logo pull-left" href="{{ path('homepage') }}">
                         <img src="https://www.groupe-bel.com/wp-content/themes/bel/assets/images/logo-fr.svg" alt=""/>
                     </a>
                     <!-- AVAILABLE CLASSES: submenu-dark = dark sub menu -->
                     <div class="navbar-collapse pull-right nav-main-collapse collapse">
                         <nav class="nav-main">
                             <ul id="topMain" class="nav nav-pills nav-main nav-onepage">
-                                <li>
-                                    <!-- TESTIMONIALS -->
-                                    <a href="{{ path('fos_user_security_logout') }}">
-                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}{{  app.user.username }}
+                            		<li ><!-- HOME -->
+										<a href="{{ path('homepage') }}">
+											ACCUEIL
+										</a>
+									</li>
+                                   <li>
+                                    <!-- TESTIMONIALS -->                                
+                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                        <a href="{{ path('fos_user_security_logout') }}">Deconnexion </a>
                                         {% else %}
-										Deconnexion 
+										<a href="{{ path('homepage') }}">Connexion </a>
 										{% endif %}
-                                        </a>
+                                        
                                     </li>
 
                                 </ul>
@@ -66,297 +71,96 @@
                 <!-- /Top Nav -->
             </div>
 
-            <section class="page-header page-header-xs">
-                <div class="container">
-                    <h1>eREPORT</h1>
-                    <span class="font-lato fs-18 hidden-xs-down">Plateforme de centralisation des données</span>
-                    <!-- page tabs -->
-                    <ul class="page-header-tabs list-inline">
-                        <li class="active">
-                            <a href="#home" data-toggle="tab" aria-expanded="true">Back to school</a>
-                        </li>
-                        <li>
-                            <a href="#profile" data-toggle="tab">Prices Off</a>
-                        </li>
-                    </ul>
-                    <!-- /page tabs -->
-                </div>
-            </section>
-            <section>
-                <div class="container">
-                    <div class="tab-content">
-                        <div class="tab-pane tab-pane active in" id="home">
-                            <div class="row m-0">
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="heading-title heading-border">
-                                        <h2>BACK TO SCHOOL
-                                            <span>
-                                                Cameroun</span></h2>
-                                        <ul class="list-inline categories m-0">
-                                            <li>
-                                                <a href="#">Vache qui rit</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="3" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
-                                        {% image '@AppBundle/Resources/public/activations/cameroun/backtoschool/images/*' %}
-                                        <a class="image-hover" href="{{ asset_url }}">
-                                            <img src="{{ asset_url }}" alt="..."/>
-                                        </a>
-                                        {% endimage %}
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="card card-default">
-                                        <div class="card-block">
-                                            <p class="font-lato fs-18">Activation dans les points de vente</p>
-                                            <ul class="portfolio-detail-list list-unstyled m-0">
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-user"></i>Compagnie:</span>
-                                                    FROMAGERIE BEL.</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-calendar"></i>Debut:</span>
-                                                    17 septempbre 2018</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-eye"></i>Statut:</span>
-                                                    En cours</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
-                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
-                                                </li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-link"></i>Rapport:</span>
-                                                    <a href="#">Rapport de fin.pdf</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="card-footer">
-                                            <!-- Social Icons -->
-                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-                                                <i class="icon-facebook"></i>
-                                                <i class="icon-facebook"></i>
-                                            </a>
+{% block fos_user_content %}
+            {% block baniere %}
+     <section class="page-header page-header-xs dark">
+				<div class="container">
+					<h1>eREPORT</h1>
+                     <span class="font-lato fs-18 hidden-xs-down">Plateforme de centralisation des données</span>
+                      {% block tabs %}
+					<!-- page tabs -->
+					<ul class="page-header-tabs list-inline mix-filter">
+						<li data-filter="all" class="filter active"><a href="#">Tout</a></li>
+						<li data-filter="cameroun" class="filter"><a href="#">Cameroun</a></li>
+						<li data-filter="congo" class="filter"><a href="#">Congo</a></li>
+						<li  class="filter"><a href="#">Côte d'ivoire</a></li>
+                        <li  class="filter"><a href="#">Senegal</a></li>
+                        <li  class="filter"><a href="#">RCA</a></li>
+					</ul><!-- /page tabs -->
+                 {% endblock %}
+				</div>
+			</section>
+    {% endblock %}
+       <section>
+			<div class="container">
+            {% block body %}
+				<!-- Portfolio Items -->
+				<div id="portfolio" class="portfolio-nogutter">
+					<div class="row mix-grid" style="   ">
+                         {% for campagne in campagnes %}  
+						<div class="col-md-3 col-sm-3 mix {{campagne.pays}} mix_all" style=" display: block; opacity: 1;"><!-- item -->
+							<div class="item-box">
+								<figure>
+									<span class="item-hover">
+										<span class="overlay dark-5"></span>
+										<span class="inner">
+											<!-- lightbox -->
+											<a class="ico-rounded lightbox" href="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/1.jpg') }}" data-plugin-options="{&quot;type&quot;:&quot;image&quot;}">
+												<span class="fa fa-plus fs-20"></span>
+											</a>
+											<!-- details -->
+											<a class="ico-rounded" href="{{ path('campagne_show',{'id':campagne.id}) }}">
+												<span class="glyphicon glyphicon-option-horizontal fs-20"></span>
+											</a>
+										</span>
+									</span>
+									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.nom~'/images/1.jpg') }}" width="400" height="250" alt="">                                   
+								</figure>
+								<div class="item-box-desc">
+									<h3><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.nom}}</a></h3>
+									<ul class="list-inline categories m-0">
+										<li><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.pays|upper}}</a></li>
+										<li><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.ville}}</a></li>
+									</ul>
+								</div>
 
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-                                                <i class="icon-twitter"></i>
-                                                <i class="icon-twitter"></i>
-                                            </a>
+							</div>
 
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
-                                                <i class="icon-gplus"></i>
-                                                <i class="icon-gplus"></i>
-                                            </a>
+						</div><!-- /item -->
 
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
-                                                <i class="icon-linkedin"></i>
-                                                <i class="icon-linkedin"></i>
-                                            </a>
 
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
-                                                <i class="icon-pinterest"></i>
-                                                <i class="icon-pinterest"></i>
-                                            </a>
-                                            <!-- /Social Icons -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br><br><br><br><br><br><br><br>
-                            <div class="row m-0">
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="heading-title heading-border">
-                                        <h2>BACK TO SCHOOL
-                                            <span>
-                                                Congo</span></h2>
-                                        <ul class="list-inline categories m-0">
-                                            <li>
-                                                <a href="#">Vache kit rit</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
-                                        {% image '@AppBundle/Resources/public/activations/congo/backtoschool/images/*' %}
-                                        <a class="image-hover" href="{{ asset_url }}">
-                                            <img src="{{ asset_url }}" alt="..."/>
-                                        </a>
-                                        {% endimage %}
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="card card-default">
-                                        <div class="card-block">
-                                            <p class="font-lato fs-18">Activation dans les points de vente</p>
-                                            <ul class="portfolio-detail-list list-unstyled m-0">
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-user"></i>Cmpagnie:</span>
-                                                    Groupe BEL.</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-calendar"></i>Debut:</span>
-                                                    17 septempbre 2018</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-eye"></i>Statut:</span>
-                                                    En cours</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
-                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
-                                                </li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-link"></i>Rapport:</span>
-                                                    <a href="#">Rapport de fin.pdf</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="card-footer">
-                                            <!-- Social Icons -->
-                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-                                                <i class="icon-facebook"></i>
-                                                <i class="icon-facebook"></i>
-                                            </a>
+                       {% endfor %}  
+					
+				</div>
+				<!-- /Portfolio Items -->
+                {% endblock %}
+				</div>
+			</section>
+<section class="page-header page-header-xs">
+				<div class="container text-center">
+					<!-- Pagination Default -->
+					<ul class="pagination pagination-lg pagination-simple">
+						<li><a href="#">Prec.</a></li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">Suiv.</a></li>
+					</ul>
+					<!-- /Pagination Default -->
 
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-                                                <i class="icon-twitter"></i>
-                                                <i class="icon-twitter"></i>
-                                            </a>
-
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
-                                                <i class="icon-gplus"></i>
-                                                <i class="icon-gplus"></i>
-                                            </a>
-
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
-                                                <i class="icon-linkedin"></i>
-                                                <i class="icon-linkedin"></i>
-                                            </a>
-
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
-                                                <i class="icon-pinterest"></i>
-                                                <i class="icon-pinterest"></i>
-                                            </a>
-                                            <!-- /Social Icons -->
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade active show" id="profile">
-                            <div class="row m-0">
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="heading-title heading-border">
-                                        <h2>PRICE OFF
-                                            <span>
-                                                Congo</span></h2>
-                                        <ul class="list-inline categories m-0">
-                                            <li>
-                                                <a href="#">Vache kit rit</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="masonry-gallery columns-6 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
-                                        {% image '@AppBundle/Resources/public/activations/congo/backtoschool/images/*' %}
-                                        <a class="image-hover" href="{{ asset_url }}">
-                                            <img src="{{ asset_url }}" alt="..."/>
-                                        </a>
-                                        {% endimage %}
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="card card-default">
-                                        <div class="card-block">
-                                            <p class="font-lato fs-18">Campagne sur les prix</p>
-                                            <ul class="portfolio-detail-list list-unstyled m-0">
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-user"></i>Cmpagnie:</span>
-                                                    Groupe BEL.</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-calendar"></i>Debut:</span>
-                                                    17 septempbre 2018</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-eye"></i>Statut:</span>
-                                                    Terminée</li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-lightbulb-o"></i>Prospects</span>
-                                                    <a href="https://drive.google.com/open?id=1S6VeNMCW9u46r5vExWhwxw4I1FMaSKTFc2Jk3Oq2L7U">Liste des prospects.sxls</a>
-                                                </li>
-                                                <li>
-                                                    <span>
-                                                        <i class="fa fa-link"></i>Rapport:</span>
-                                                    <a href="#">Rapport de fin.pdf</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="card-footer">
-                                            <!-- Social Icons -->
-                                            <a href="https://www.facebook.com/LPMConsulting/" class="social-icon social-icon-sm social-icon-transparent social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-                                                <i class="icon-facebook"></i>
-                                                <i class="icon-facebook"></i>
-                                            </a>
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-                                                <i class="icon-twitter"></i>
-                                                <i class="icon-twitter"></i>
-                                            </a>
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
-                                                <i class="icon-gplus"></i>
-                                                <i class="icon-gplus"></i>
-                                            </a>
-
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
-                                                <i class="icon-linkedin"></i>
-                                                <i class="icon-linkedin"></i>
-                                            </a>
-
-                                            <a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
-                                                <i class="icon-pinterest"></i>
-                                                <i class="icon-pinterest"></i>
-                                            </a>
-                                            <!-- /Social Icons -->
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
+				</div>
+			</section>
+{% endblock fos_user_content %}
             <!-- FOOTER -->
             <footer id="footer">
-
                 <div class="copyright">
                     <div class="container">
                         <ul class="pull-right nomargin list-inline mobile-block">
-
                             <li>&bull;</li>
-
                         </ul>
                         &copy; 2016 Tous droits reservés, LPM Consulting.
                     </div>
                 </div>
             </footer>
             <!-- /FOOTER -->
-
         </div>
         <!-- /wrapper -->
 
@@ -376,8 +180,9 @@
                 var plugin_path = "{{ asset('home/plugins/') }}";
             </script>
             <script type="text/javascript" src="{{ asset('home/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('home/plugins/mixitup/jquery.mixitup.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('home/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
-
         {% endblock %}
 
     </body>

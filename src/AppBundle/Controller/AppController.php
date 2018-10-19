@@ -20,8 +20,12 @@ class AppController extends Controller
     {   
         //require __DIR__ . '/../../../vendor/google/apiclient/src/Google/Client.php'; /
         //$client = new Google_Client();
-   
-        return $this->render('layout.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $campagnes = $em->getRepository('AppBundle:Campagne')->findAll();
+        return $this->render('layout.html.twig', array(
+            'campagnes' => $campagnes,
+        ));
     }
+
 
 }

@@ -3,8 +3,13 @@ campagne_index:
     defaults: { _controller: "AppBundle:Campagne:index" }
     methods:  GET
 
+campagnes_by_pays:
+    path:     /campagnes/{pays}
+    defaults: { _controller: "AppBundle:Campagne:camapgnesByContry" }
+    methods:  GET
+
 campagne_show:
-    path:     /{id}/show
+    path:     /see/{id}/show
     defaults: { _controller: "AppBundle:Campagne:show" }
     methods:  GET
 
@@ -14,9 +19,16 @@ campagne_new:
     methods:  [GET, POST]
 
 campagne_edit:
-    path:     /{id}/edit
+    path:     /see/{id}/edit
     defaults: { _controller: "AppBundle:Campagne:edit" }
     methods:  [GET, POST]
+
+
+campagne_edit_one:
+    path:     /one/{field}/{id}/edit
+    defaults: { _controller: "AppBundle:Campagne:editOne" }
+    methods:  [GET, POST]
+
 
 campagne_delete:
     path:     /{id}/delete

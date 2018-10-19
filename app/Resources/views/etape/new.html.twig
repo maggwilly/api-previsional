@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% block baniere %}
+<section class="page-header page-header-xs">
+				<div class="container">
+					<h1>{{campagne.nom}}</h1>
+                     <span class="font-lato fs-18 hidden-xs-down">Ajouter une étape</span>
+				</div>
+</section>
+{% endblock %}
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Enrégistrer" />
+    {{ form_end(form) }}
+{% endblock %}

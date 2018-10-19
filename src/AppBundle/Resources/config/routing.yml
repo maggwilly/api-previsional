@@ -2,6 +2,10 @@ app_campagne:
     resource: "@AppBundle/Resources/config/routing/campagne.yml"
     prefix:   /campagne
 
+app_etape:
+    resource: "@AppBundle/Resources/config/routing/etape.yml"
+    prefix:   /etape
+
 homepage:
     path:     /
     defaults: { _controller: "AppBundle:App:index" }

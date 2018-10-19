@@ -1,66 +1,164 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-{% block title %}Connexion {% endblock %}
+{% extends "layout.html.twig" %}
+{% block title %}Bienenue {% endblock %}
 {% block fos_user_content %}
+<section style="background:url('{{ asset('home/images/wall2.jpg') }}')">
+				<div class="display-table">
+					<div class="display-table-cell vertical-align-middle">						
+						<div class="container">						
+							<div class="row">
 
-		<div class="padding-15">
+								<div class="col-12 col-md-7 col-sm-7 col-lg-8 order-md-1 order-sm-1 order-lg-1">
 
+									<h2 class="fs-20 text-center-xs">Purquoi LPM Consulting ?</h2>
 
-			<div class="login-box">
-				<!-- login form -->
-				<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
-					<header><i class="fa fa-users"></i> Connexion</header>
-					{% if error %}
-					<div class="alert alert-danger noborder text-center weight-400 nomargin noradius">
-						
-                    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-                    
-					</div>
-					 {% endif %}
-					<fieldset>	
+									<p>Nous créons et lançons les campagnes clés en main, pour atteindre les objectifs de nos cliensts; 
+									Nous accompagnons les marques dans leurs problématiques de developpement des ventes, de fidélisation et de notriété. </p>
 
-						<section>
-							<label class="label">Email ou nom d'utilisateur</label>
-							<label class="input">
-								<i class="icon-append fa fa-envelope"></i>
-								<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-								<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
-							</label>
-						</section>
-						
-						<section>
-							<label class="label">Mot de passe</label>
-							<label class="input">
-								<i class="icon-append fa fa-lock"></i>
-								<input type="password" id="password" name="_password" required="required"/>
-								<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
-							</label>
-					<label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-						</section>
+									<ul class="list-unstyled login-features">
+										<li>
+											<i class="glyphicon glyphicon-road"></i> <strong>Engagement</strong> Nous prenons à vos projets à coeur.
+										</li>
+										<li>
+											<i class="glyphicon glyphicon-cog"></i> <strong>Réactivité</strong> Nos équipes dynamiques sont à l'écoute et vous repondent dans l'heure.
+										</li>
+										<li>
+											<i class="glyphicon glyphicon-tint"></i> <strong>Flexibilité</strong> Nous proposons mais nous savons nous adopter à vos choix . 
+										</li>
+										<li>
+											<i class="glyphicon glyphicon-screenshot"></i> <strong>Efficience</strong> Nous vous garantissons une visibilité pendant notre execution.
+										</li>
+										<li>
+											<i class="glyphicon glyphicon-fire"></i> <strong>Confiance</strong> Notre parcours et notre expérience nous valent d'être digne de confiance.
+										</li>
+									</ul>
 
-					</fieldset>
+								</div>
+								<div class="col-12 col-sm-5 col-md-5 col-lg-4 order-md-2 order-sm-2 order-lg-2">
+									<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
+										<header><i class="fa fa-users"></i> Connexion</header>
+					                   {% if error %}
+					                     <div class="alert alert-danger noborder text-center weight-400 nomargin noradius">						
+                                          <div>{{ error|trans({}, 'FOSUserBundle') }}</div>                   
+					                   </div>
+					                     {% endif %}									
+										<fieldset class="m-0">											
+											<label class="label mt-20">Email</label>
+											<label class="input">
+												<i class="ico-append fa fa-envelope"></i>
+												<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" >
+												<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
+											</label>										
+											<label class="label mt-20">Mot de passe</label>
+											<label class="input">
+												<i class="ico-append fa fa-lock"></i>
+												<input type="password" id="password" name="_password" required="required">
+												<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
+											</label>
+											<label class="checkbox mt-20">
+                                          <label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+										</fieldset>
+										<footer class="celarfix">
+											<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+											<div class="login-forgot-password float-left">
+												<a href="#">Forgot password?</a>
+											</div>
+										</footer>
+									</form>
+									<!-- /login form -->
 
-					<footer>
-						<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+									<div class="socials m-top10 text-center"><!-- more buttons: ui-buttons.html -->
+										<a href="#" class="social-icon social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+											<i class="icon-facebook"></i>
+											<i class="icon-facebook"></i>
+										</a>
+										<a href="#" class="social-icon social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+											<i class="icon-twitter"></i>
+											<i class="icon-twitter"></i>
+										</a>
+										<a href="#" class="social-icon social-google" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google">
+											<i class="icon-google-plus"></i>
+											<i class="icon-google-plus"></i>
+										</a>
 
-						<div class="forgot-password pull-left">
-							<a href="#">Mot de passe oublié ?</a> <br />
+									</div>
+
+								</div>
+
+							</div>
 
 						</div>
 
-					</footer>
-				</form>
-				<!-- /login form -->
+					</div>
+				</div>
 
+			</section>
+      <section>
+				<div class="container">
+					<div class="row">
+					
+						<div class="col-md-4">
+							
+							<div class="heading-title heading-border-bottom heading-color">
+								<h3>Marketing operationnel</h3>
+							</div>
+							
+							<p>Nous proposons de rehausser l'image de votre marque à travers des Brand Activation et Brand Ambassadoring.</p>
+							
+							<a href="#">
+								En savoir
+								<!-- /word rotator -->
+								<span class="word-rotator active" data-delay="2000" style="height: 24px;">
+									<span class="items" style="top: -24px;">
+										<span>plus</span>
+										<span>maintenant</span>
+									<span>plus</span></span>
+								</span><!-- /word rotator -->
+								<i class="glyphicon glyphicon-menu-right fs-12"></i>
+							</a>
 
-      <p style="text-align:center;"><a href="{{ path('homepage') }}"><strong>Retour à l'accueil</strong></a></p>
-			</div>
+						</div>
 
-		</div>
+						<div class="col-md-4">
+							<div class="heading-title heading-border-bottom heading-color">
+								<h3>Recherche Marketing</h3>
+							</div>
+							<p>Grâce aux outils digitaux de collecte de données de marché, nous vous aidons à mieux connaître votre marché.</p>
 
+							<a href="#">
+								En savoir
+								<!-- /word rotator -->
+								<span class="word-rotator active" data-delay="2000" style="height: 24px;">
+									<span class="items" style="top: -24px;">
+										<span>plus</span>
+										<span>maintenant</span>
+									<span>plus</span></span>
+								</span><!-- /word rotator -->
+								<i class="glyphicon glyphicon-menu-right fs-12"></i>
+							</a>
+						</div>
+
+						<div class="col-md-4">
+							<div class="heading-title heading-border-bottom heading-color">
+								<h3>Communication</h3>
+							</div>
+							<p>Nous élaborons des campagnes de communication percutante; nous assurons votre relation presse</p>
+
+							<a href="#">
+								En savoir
+								<!-- /word rotator -->
+								<span class="word-rotator active" data-delay="2000" style="height: 24px;">
+									<span class="items" style="top: -24px;">
+										<span>plus</span>
+										<span>maintenant</span>
+									<span>plus</span></span>
+								</span><!-- /word rotator -->
+								<i class="glyphicon glyphicon-menu-right fs-12"></i>
+							</a>
+
+						</div>
+
+					</div>
+					
+				</div>
+			</section>			
 {% endblock fos_user_content %}
-{% block javascripts %}
-       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-
- {% endblock %}
