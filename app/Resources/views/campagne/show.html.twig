@@ -131,7 +131,7 @@
         {% endfor %} 
         {% if campagne.drapports is not null %} 
             <li>
-                <a href="{{campagne.drapports}}">Dernier rapport</a>
+                <a href="{{campagne.drapports}}">Rapport d’activité BTS  S5</a>
             </li>  
         {% endif %}             
         </ul>
@@ -143,13 +143,11 @@
  <br>
  <div class="card-block">
         <ul class="portfolio-detail-list list-unstyled m-0">
-        
         {% for donnee in donnees %}
             <li>
                 <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/donnees/'~donnee~'') }}">{{donnee}}</a>
             </li>   
-        {% endfor %} 
-        
+        {% endfor %}        
         {% if campagne.dprospects is not null %} 
             <li>
                 <a href="{{campagne.dprospects}}">Liste des prospects</a>
