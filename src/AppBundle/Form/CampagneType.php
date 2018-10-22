@@ -35,11 +35,11 @@ class CampagneType extends AbstractType
             'label'  => "Debut de l'actiité",
             ))
         ->add('dprospects',UrlType::class, array(
-            'label'  => 'Lien vers le dernier rapports',
+            'label'  => 'Lien vers la liste des prospects',
             'required'=>false
             ))
         ->add('drapports',UrlType::class, array(
-            'label'  => 'Lien vers la liste des prospects',
+            'label'  => ' Lien vers le dernier rapports',
             'required'=>false
             )) 
             ->add('folder','text', array(

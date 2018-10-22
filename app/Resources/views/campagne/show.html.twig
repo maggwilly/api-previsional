@@ -143,7 +143,7 @@
                 <a href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/rapports/'~rapport~'') }}">{{rapport}}</a>
             </li>   
         {% endfor %} 
-        {% if campagne.drapports is not null %} 
+        {% if campagne.drapports is not null and  campagne.id==1 %} 
             <li>
                 <a href="{{campagne.drapports}}">Rapport d’activité BTS  S5.pdf</a>
             </li>  
