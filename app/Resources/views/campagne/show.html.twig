@@ -46,9 +46,11 @@
 	<div class="col-md-9 col-sm-9">
 		<div class="tab-content tab-stacked nav-alternate">
 <div id="tab_f" class="tab-pane active">
+ 
 	<h4>Détails de la campagne</h4>
+    <div class="box-image padding-20">
      <p class="font-lato fs-18">{{campagne.description}}</p>
-    <div class="card-block">
+   
         <ul class="portfolio-detail-list list-unstyled m-0">
             <li>
                 <span>
@@ -73,7 +75,7 @@
                  <span>
                      <i class="fa fa-eye"></i>Statut:</span>
                         {{campagne.statut}}
-                         <a  class="btn btn-default btn-outline  btn-sm  btn-round btn-sm" href="#"> Déroulement</a>
+                      <!--   <a  class="btn btn-default btn-outline  btn-sm  btn-round btn-sm" href="#"> Déroulement</a>-->
                     </li>
                 <li>                       
         </ul>
@@ -83,36 +85,48 @@
 </div>
         <div id="tab_g" class="tab-pane ">
 			<h4>Mécanisme de l'activité</h4>
+            <div class="box-image padding-20">
                  <p>
 				{{campagne.mecanisme|raw}}
                 <p>
                 <a type="button" class="" href="{{ path('campagne_edit_one',{'id':campagne.id,'field':'mecanisme'}) }}"> Modifier </a>
+                </div>
 			</div>
 			<div id="tab_j" class="tab-pane">
 				<h4>Principe de l'activité</h4>
+                <div class="box-image padding-20">
                 <p>
 				{{campagne.principe|raw}}
                 </p>
                 <a type="button" class="" href="{{ path('campagne_edit_one',{'id':campagne.id,'field':'principe'}) }}"> Modifier </a>
+                </div>
 			</div>
 			<div id="tab_h" class="tab-pane">
 				<h4>Activité de la concurrence</h4>
+                  <div class="box-image padding-20">
                 <p>
 				{{campagne.concurrence|raw}}
                 </p>
                 <a type="button" class="" href="{{ path('campagne_edit_one',{'id':campagne.id,'field':'concurrence'}) }}"> Modifier </a>
+                 </div>
 			</div>            
 			<div id="tab_i" class="tab-pane">
 				<h4>Feedback consomateurs</h4>
+                  <div class="box-image padding-20">
                 <p>
 				{{campagne.feedback|raw}}
                 </p>
                 <a type="button" class="" href="{{ path('campagne_edit_one',{'id':campagne.id,'field':'feedback'}) }}"> Modifier </a>
+                 </div>
 			</div>
-		</div>
+		
 	</div>
+    </div>
 </div>   
 <br><br>
+<div class="divider divider-circle divider-color divider-right"><!-- divider -->
+	<i class="fa fa-star-o"></i>
+</div>
  <div class="row">
 <ul class="nav nav-tabs nav-justified">
 	<li class="nav-item active"><a class="nav-link " href="#home_justified" data-toggle="tab">Télecharger les rapports</a></li>
@@ -160,6 +174,9 @@
 </div> 
 </div>
 <br><br><br><br><br>
+<div class="divider divider-circle divider-color divider-right"><!-- divider -->
+	<i class="fa fa-star-o"></i>
+</div>
 <div class="row">
 <h4>Gallerie d'images</h4>
     <div class="masonry-gallery columns-5 clearfix lightbox" data-img-big="1" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'>
