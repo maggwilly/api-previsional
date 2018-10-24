@@ -29,6 +29,11 @@ campagne_edit_one:
     defaults: { _controller: "AppBundle:Campagne:editOne" }
     methods:  [GET, POST]
 
+campagne_add_repport:
+    path:     /one/add/{id}/repport
+    defaults: { _controller: "AppBundle:Campagne:addRapport" }
+    methods:  [GET, POST]
+
 
 campagne_delete:
     path:     /{id}/delete
