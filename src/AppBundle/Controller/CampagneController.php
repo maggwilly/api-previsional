@@ -94,6 +94,30 @@ class CampagneController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+    public function addRapportAction(Request $request, Campagne $campagne)
+    {
+        $editForm = $this->createFormBuilder(array())
+        ->add('rapportName','text' , array('label'=>'Nom du rapport'))
+        ->add('rapport','file' , array('label'=>'Télecharger le fichier'))
+        ->getForm();
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+           $data= $editForm->getData();
+            $file = $data['rapport'];
+            $rapportName=$data['rapportName'];
+            $folder=__DIR__ . '/../../../web/activations/'.$campagne->getPays().'/'.$campagne->getFolder().'/rapports';
+            if(file_exists( $folder.'/'.$rapportName.'.pdf')){
+                unlink($folder.'/'.$rapportName.'.pdf');
+            }
+            $file->move($folder, $rapportName.'.pdf');
+            return $this->redirectToRoute('campagne_show', array('id' => $campagne->getId()));
+        }
+        return $this->render('campagne/editOne.html.twig', array(
+            'campagne' => $campagne,
+            'label' => 'Ajouter un nouveau rapport',
+            'edit_form' => $editForm->createView(),
+        ));
+    }
 
     public function editOneAction(Request $request, Campagne $campagne,$field)
     {
