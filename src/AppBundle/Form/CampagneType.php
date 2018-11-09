@@ -39,7 +39,11 @@ class CampagneType extends AbstractType
             'required'=>false
             ))
         ->add('drapports',UrlType::class, array(
+<<<<<<< HEAD
+            'label'  => ' Lien vers le dernier rapports',
+=======
             'label'  => 'Lien vers le dernier rapports',
+>>>>>>> 02a74b2f0773fd33a770d848ab9a1defaa48f9d8
             'required'=>false
             )) 
             ->add('folder','text', array(
