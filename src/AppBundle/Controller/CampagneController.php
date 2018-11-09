@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Campagne;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Validator\Constraints\File;
 /**
  * Campagne controller.
  *
@@ -96,9 +96,24 @@ class CampagneController extends Controller
     }
     public function addRapportAction(Request $request, Campagne $campagne)
     {
+        ini_set('post_max_size', '64M');
+        ini_set('upload_max_filesize', '64M');
         $editForm = $this->createFormBuilder(array())
         ->add('rapportName','text' , array('label'=>'Nom du rapport'))
-        ->add('rapport','file' , array('label'=>'Télecharger le fichier'))
+        ->add('rapport','file' , array(
+            'label'=>'Télecharger le fichier',
+            'required' => true,
+            'constraints' => [
+                new File([
+                    'maxSize' => '20M',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid PDF fle',
+                ])
+            ]
+        ))
         ->getForm();
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
