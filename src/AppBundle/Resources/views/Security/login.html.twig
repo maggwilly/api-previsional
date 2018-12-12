@@ -1,186 +1,123 @@
 {% extends "layout.html.twig" %}
 {% block title %}Bienenue {% endblock %}
 {% block fos_user_content %}
-<section style="background:url('{{ asset('home/images/wall2.jpg') }}')">
-				<div class="display-table">
-					<div class="display-table-cell vertical-align-middle">						
-						<div class="container">						
-							<div class="row">
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+      <div class="container px-4">
+        <a class="navbar-brand" href="#">
+          <img src="{{ asset('assets/img/brand/lpm.png') }}" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-collapse-main">
+          <!-- Collapse header -->
+          <div class="navbar-collapse-header d-md-none">
+            <div class="row">
+              <div class="col-6 collapse-brand">
+                <a href="../index.html">
+                  <img src="{{ asset('assets/img/brand/blue.png') }}">
+                </a>
+              </div>
+              <div class="col-6 collapse-close">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-								<div class="col-12 col-md-7 col-sm-7 col-lg-8 order-md-1 order-sm-1 order-lg-1">
-
-									<h2 class="fs-20 text-center-xs">Pourquoi LPM Consulting ?</h2>
-
-									<p>Nous créons et lançons les campagnes clés en main, pour atteindre les objectifs de nos cliensts; 
-									Nous accompagnons les marques dans leurs problématiques de developpement des ventes, de fidélisation et de notriété. </p>
-
-									<ul class="list-unstyled login-features">
-										<li>
-											<i class="glyphicon glyphicon-road"></i> <strong>Engagement</strong> Nous prenons  vos projets à coeur.
-										</li>
-										<li>
-											<i class="glyphicon glyphicon-cog"></i> <strong>Réactivité</strong> Nos équipes dynamiques sont à l'écoute et vous repondent dans l'heure.
-										</li>
-										<li>
-											<i class="glyphicon glyphicon-tint"></i> <strong>Flexibilité</strong> Nous savons nous adopter à vos choix et contraintes. 
-										</li>
-										<li>
-											<i class="glyphicon glyphicon-screenshot"></i> <strong>Efficience</strong> Nous vous garantissons une visibilité pendant notre execution.
-										</li>
-										<li>
-											<i class="glyphicon glyphicon-fire"></i> <strong>Confiance</strong> Notre parcours et notre expérience nous valent d'être digne de confiance.
-										</li>
-									</ul>
-
-								</div>
-								<div class="col-12 col-sm-5 col-md-5 col-lg-4 order-md-2 order-sm-2 order-lg-2">
-									<form action="{{ path("fos_user_security_check") }}" method="post" class="sky-form boxed">
-										<header><i class="fa fa-users"></i> Connexion</header>
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-7 py-lg-8">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
+              <h1 class="text-white">Bienvenue!</h1>
+              <p class="text-lead text-light">Notre plateforme de reporting en ligne designée pour vous.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-body px-lg-5 py-lg-5">
+              <div class="text-center text-muted mb-4">
+                <small>Or sign in with credentials</small>
+              </div>
+              <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
 					                   {% if error %}
 					                     <div class="alert alert-danger noborder text-center weight-400 nomargin noradius">						
                                           <div>{{ error|trans({}, 'FOSUserBundle') }}</div>                   
 					                   </div>
-					                     {% endif %}									
-										<fieldset class="m-0">											
-											<label class="label mt-20">Email</label>
-											<label class="input">
-												<i class="ico-append fa fa-envelope"></i>
-												<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" >
-												<span class="tooltip tooltip-top-right">Email ou nom d'utilisateur</span>
-											</label>										
-											<label class="label mt-20">Mot de passe</label>
-											<label class="input">
-												<i class="ico-append fa fa-lock"></i>
-												<input type="password" id="password" name="_password" required="required">
-												<b class="tooltip tooltip-top-right">Saisir votre mot de passe</b>
-											</label>
-											<label class="checkbox mt-20">
-                                          <label class="checkbox"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /><i></i>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-										</fieldset>
-										<footer class="celarfix">
-											<button type="submit" id="_submit" name="_submit"  class="btn btn-primary pull-right">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
-											<div class="login-forgot-password float-left">
-												<a href="#">Forgot password?</a>
-											</div>
-										</footer>
-									</form>
-									<!-- /login form -->
-
-									<div class="socials m-top10 text-center"><!-- more buttons: ui-buttons.html -->
-										<a href="#" class="social-icon social-facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-											<i class="icon-facebook"></i>
-											<i class="icon-facebook"></i>
-										</a>
-										<a href="#" class="social-icon social-twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-											<i class="icon-twitter"></i>
-											<i class="icon-twitter"></i>
-										</a>
-										<a href="#" class="social-icon social-google" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google">
-											<i class="icon-google-plus"></i>
-											<i class="icon-google-plus"></i>
-										</a>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-					</div>
-				</div>
-
-			</section>
-
-             <section>
-				<div class="container">
-
-					<!-- FEATURED BOXES 3 -->
-					<div class="row">
-						<div class="col-md-3 col-xs-6">
-							<div class="text-center">
-								<i class="ico-light ico-lg ico-rounded ico-hover et-circle-compass"></i>
-								<h4>Marketing opérationnel & Recherche</h4>
-								<p>Brand ambassador et brand activation, veille concurrentielle</p>
-								<a href="#">
-									En savoir  
-									<!-- /word rotator -->
-									<span class="word-rotator active" data-delay="2000" style="height: 24px;">
-										<span class="items" style="top: 0px;">
-											<span>plus </span>
-											<span>maintenant</span>
-										<span>plus</span></span>
-									</span><!-- /word rotator -->
-									<i class="glyphicon glyphicon-menu-right size-12"></i>
-								</a>
-
-							</div>
-						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="text-center">
-								<i class="ico-light ico-lg ico-rounded ico-hover et-piechart"></i>
-								<h4>Digitalisation & Design</h4>
-								<p>Des outils de collecte de données de marché et de reporting terrain.</p>
-								<a href="#">
-									En savoir  
-									<!-- /word rotator -->
-									<span class="word-rotator active" data-delay="2000" style="height: 24px;">
-										<span class="items" style="top: 0px;">
-											<span>plus </span>
-											<span>maintenant</span>
-										<span>plus</span></span>
-									</span><!-- /word rotator -->
-									<i class="glyphicon glyphicon-menu-right size-12"></i>
-								</a>
-
-							</div>
-						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="text-center">
-								<i class="ico-light ico-lg ico-rounded ico-hover et-strategy"></i>
-								<h4>Communication, RSE & RP</h4>
-								<p>Des camapagnes de communication percutantes, Accompagnement dans la stratégie RSE et RP.</p>
-
-								<a href="#">
-									En savoir  
-									<!-- /word rotator -->
-									<span class="word-rotator active" data-delay="2000" style="height: 24px;">
-										<span class="items" style="top: 0px;">
-											<span>plus </span>
-											<span>maintenant</span>
-										<span>plus</span></span>
-									</span><!-- /word rotator -->
-									<i class="glyphicon glyphicon-menu-right size-12"></i>
-								</a>
-
-
-							</div>
-						</div>
-						<div class="col-md-3 col-xs-6">
-							<div class="text-center">
-								<i class="ico-light ico-lg ico-rounded ico-hover et-streetsign"></i>
-								<h4>Commerciale</h4>
-								<p>Brand Représentative, Distribution, field force Management. </p>
-
-								<a href="#">
-									En savoir  
-									<!-- /word rotator -->
-									<span class="word-rotator active" data-delay="2000" style="height: 24px;">
-										<span class="items" style="top: 0px;">
-											<span>plus </span>
-											<span>maintenant</span>
-										<span>plus</span></span>
-									</span><!-- /word rotator -->
-									<i class="glyphicon glyphicon-menu-right size-12"></i>
-								</a>
-
-
-							</div>
-						</div>
-					</div>
-					<!-- /FEATURED BOXES 3 -->
-
-				</div>
-			</section>						
+					                     {% endif %}              
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Email" type="text" id="username" name="_username" value="{{ last_username }}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                <input class="form-control" placeholder="Mot de passe" type="password" id="password" name="_password">
+                  </div>
+                </div>
+                <div class="custom-control custom-control-alternative custom-checkbox">
+                  <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                  <label class="custom-control-label" for=" customCheckLogin">
+                    <span class="text-muted" id="remember_me" name="_remember_me" value="on">Remember me</span>
+                  </label>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary my-4">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; 2018 <a href="#" class="font-weight-bold ml-1" target="_blank">LPM consulting</a>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Digital reporting tools</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>					
 {% endblock fos_user_content %}
+{% block javascripts %}
+ {{parent()}}
+   <script type="text/javascript" src="{{ asset('assets/js/argon.js?v=1.0.0') }}"></script>
+  {% endblock %}

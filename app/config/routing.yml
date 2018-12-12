@@ -1,18 +1,7 @@
 
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
-    prefix: /v1
      
-homepage:
-    path:     /
-    defaults: { _controller: "AppBundle:App:index" }
-    methods:  GET
-
-user_homepage:
-    path:     /
-    defaults: { _controller: "AppBundle:App:index" }
-    methods:  GET
-      
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

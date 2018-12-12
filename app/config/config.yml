@@ -91,7 +91,7 @@ fos_rest:
             html: true
     format_listener:
         rules:
-           - { path: ^/v1/formated , priorities: [json], fallback_format: 'json'} 
+           - { path: ^/formated , priorities: [json], fallback_format: 'json'} 
            - { path: ^/, priorities: [html], fallback_format: 'html'}
          
 

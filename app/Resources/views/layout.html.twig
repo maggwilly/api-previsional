@@ -4,188 +4,29 @@
     <meta charset="utf-8"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title>
-        {% block title %}FROMAGERIE BEL{% endblock %}
+        {% block title %}D.B.S{% endblock %}
     </title>
     <meta name="description" content=""/>
     <meta name="Author" content="PENKA WILLIAMS MAGLOIRE"/>
     <!-- mobile settings -->
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
     <!-- WEB FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css"/>
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('home/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('home/css/essentials.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('home/css/layout.css') }}" type="text/css"/>
-        <link href="{{ asset('home/css/header-1.css') }}" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('home/css/color_scheme/green.css') }}" type="text/css" id="color_scheme"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/nucleo/css/nucleo.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/argon.css?v=1.0.0') }}" type="text/css"/>
     {% endblock %}
 </head>
-<body class="smoothscroll enable-animation" >
-
-    <!-- wrapper -->
-    <div id="wrapper">
-
-        <div id="header" class="sticky clearfix">
-
-            <!-- TOP NAV -->
-            <header id="topNav">
-                <div class="">
-
-                    <!-- Mobile Menu Button -->
-                    <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <!-- Logo -->
-                    <a class="logo pull-left" href="{{ path('homepage') }}">
-                        <img src="{{ asset('home/images/lpm.png') }}" alt=""/>
-                    </a>
-                    <a class="logo pull-left" href="{{ path('homepage') }}">
-                        <img src="https://www.groupe-bel.com/wp-content/themes/bel/assets/images/logo-fr.svg" alt=""/>
-                    </a>
-                    <!-- AVAILABLE CLASSES: submenu-dark = dark sub menu -->
-                    <div class="navbar-collapse pull-right nav-main-collapse collapse">
-                        <nav class="nav-main">
-                            <ul id="topMain" class="nav nav-pills nav-main nav-onepage">
-                            		<li ><!-- HOME -->
-										<a href="{{ path('homepage') }}">
-											ACCUEIL
-										</a>
-									</li>
-                                   <li>
-                                    <!-- TESTIMONIALS -->                                
-                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                        <a href="{{ path('fos_user_security_logout') }}">Deconnexion </a>
-                                        {% else %}
-										<a href="{{ path('homepage') }}">Connexion </a>
-										{% endif %}
-                                        
-                                    </li>
-
-                                </ul>
-
-                            </nav>
-                        </div>
-
-                    </div>
-                </header>
-                <!-- /Top Nav -->
-            </div>
-
+<body  {% block class %}  class="bg-default" {% endblock %} >
 {% block fos_user_content %}
-            {% block baniere %}
-     <section class="page-header page-header-xs dark">
-				<div class="container">
-					<h1>eREPORT</h1>
-                     <span class="font-lato fs-18 hidden-xs-down">Plateforme de centralisation des données</span>
-                      {% block tabs %}
-					<!-- page tabs -->
-					<ul class="page-header-tabs list-inline mix-filter">
-						<li data-filter="all" class="filter active"><a href="#">Toutes les campagnes</a></li>
-						<li data-filter="cameroun" class="filter"><a href="#">Cameroun</a></li>
-						<li data-filter="congo" class="filter"><a href="#">Congo</a></li>
-						<li  class="filter"><a href="#">Côte d'ivoire</a></li>
-                        <li  class="filter"><a href="#">Senegal</a></li>
-                        <li  class="filter"><a href="#">RCA</a></li>
-					</ul><!-- /page tabs -->
-                 {% endblock %}
-				</div>
-			</section>
-    {% endblock %}
-       <section>
-			<div class="container">
-            {% block body %}
-				<!-- Portfolio Items -->
-				<div id="portfolio" class="portfolio-nogutter">
-					<div class="row mix-grid" style="   ">
-                         {% for campagne in campagnes %}  
-						<div class="col-md-3 col-sm-3 mix {{campagne.pays}} mix_all" style=" display: block; opacity: 1;"><!-- item -->
-							<div class="item-box">
-								<figure>
-									<span class="item-hover">
-										<span class="overlay dark-5"></span>
-										<span class="inner">
-											<!-- lightbox -->
-											<a class="ico-rounded lightbox" href="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~campagne.firstPicture~'') }}" data-plugin-options="{&quot;type&quot;:&quot;image&quot;}">
-												<span class="fa fa-plus fs-20"></span>
-											</a>
-											<!-- details -->
-											<a class="ico-rounded" href="{{ path('campagne_show',{'id':campagne.id}) }}">
-												<span class="glyphicon glyphicon-option-horizontal fs-20"></span>
-											</a>
-										</span>
-									</span>
-									<img class="img-fluid" src="{{ asset('activations/'~campagne.pays~'/'~campagne.folder~'/images/'~campagne.firstPicture~'') }}" width="400" height="250" alt="">                                   
-								</figure>
-								<div class="item-box-desc">
-									<h3><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.nom}}</a></h3>
-									<ul class="list-inline categories m-0">
-										<li><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.pays|upper}}</a></li>
-										<li><a href="{{ path('campagne_show',{'id':campagne.id}) }}">{{campagne.ville}}</a></li>
-									</ul>
-								</div>
-
-							</div>
-
-						</div><!-- /item -->
 
 
-                       {% endfor %}  
-					
-				</div>
-				<!-- /Portfolio Items -->
-                {% endblock %}
-				</div>
-			</section>
-   {% block pagination %}         
-     <section class="page-header page-header-xs">
-				<div class="container text-center">
-					<!-- Pagination Default -->
-					<ul class="pagination pagination-lg pagination-simple">
-						<li><a href="#">Prec.</a></li>
-						<li class="page-item active"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">Suiv.</a></li>
-					</ul>
-					<!-- /Pagination Default -->
-
-				</div>
-			</section>
-        {% endblock %}
-{% endblock fos_user_content %}
-            <!-- FOOTER -->
-            <footer id="footer">
-                <div class="copyright">
-                    <div class="container">
-                        <ul class="pull-right nomargin list-inline mobile-block">
-                            <li>&bull;</li>
-                        </ul>
-                        &copy; 2016 Tous droits reservés, LPM Consulting.
-                    </div>
-                </div>
-            </footer>
-            <!-- /FOOTER -->
-        </div>
-        <!-- /wrapper -->
-
-        <!-- SCROLL TO TOP -->
-        <a href="#" id="toTop"></a>
-        <!-- PRELOADER -->
-        <div id="preloader">
-            <div class="inner">
-                <span class="loader"></span>
-            </div>
-        </div>
-        <!-- /PRELOADER -->
-
-        <!-- JAVASCRIPT FILES -->
-        {% block javascripts %}
-            <script type="text/javascript">
-                var plugin_path = "{{ asset('home/plugins/') }}";
-            </script>
-            <script type="text/javascript" src="{{ asset('home/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('home/plugins/mixitup/jquery.mixitup.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('home/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('home/js/scripts.js') }}"></script>
-        {% endblock %}
-
+ {% endblock fos_user_content %}
+ {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/js/argon.js?v=1.0.0') }}"></script>
+  {% endblock %}
     </body>
 </html>

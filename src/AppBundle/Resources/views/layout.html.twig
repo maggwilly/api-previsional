@@ -1,150 +1,29 @@
-<!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>{% block title %}CANAL SAT {% endblock %}</title>       
-        <meta name="description" content="" />
-        <meta name="Author" content="PENKA WILLIAMS MAGLOIRE" />
-        <!-- mobile settings -->
-        <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-        <!-- WEB FONTS -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />
-         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/essentials.css') }}"  type="text/css" />
-        <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" type="text/css"  />
-        <link rel="stylesheet" href="{{ asset('assets/css/color_scheme/green.css') }}"  type="text/css"  id="color_scheme" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/layout-datatable.css') }}"  />
-        {% endblock %}
-    </head>         
-    <body>
-        {% block fos_user_content %}
-        <!-- WRAPPER -->
-        <div id="wrapper">
-            <aside id="aside">
+{% extends "layout.html.twig" %}
+{% block title %}Bienenue {% endblock %} 
+     {% block stylesheets %}
+     {{parent()}}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('assets/vendor/bootstrap.daterangepicker/daterangepicker-bs3.css') }}" />
+    {% endblock %} 
+{% block fos_user_content %}
+     {% include 'AppBundle:part:menu.html.twig' %}
+    {% block main_content %}
 
-                <nav id="sideNav"><!-- MAIN MENU -->
-                    <ul class="nav nav-list">
-
-                        <li>
-                            <a href="{{ path('user_homepage') }}">
-                               <i class="main-icon fa  fa-home"></i><span>Accueil</span>
-                            </a>
-                        </li>   
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Les ventes</span>
-                            </a>
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('vente_index',{ 'src':0 }) }}">Ventes aux Menages</a></li>
-                                <li><a href="{{ path('vente_index',{ 'src':1 }) }}">Ventes aux revendeurs</a></li>
-                            </ul>
-                        </li>                                                 
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-menu-arrow pull-right"></i>
-                                <i class="main-icon fa fa-dot-circle-o"></i> <span>Points de vente</span>
-                            </a>
-
-                            <ul><!-- submenus -->
-                                <li><a href="{{ path('point_vente_index') }}">Liste des points</a></li>
-                                <li><a href="{{ path('point_vente_map') }}">La carte des points</a></li>
-                            </ul>
-                        </li>                        
-                        <li><!-- dashboard -->
-                            <a class="dashboard" href="{{ path('prospect_index') }}">
-                                <i class="main-icon fa fa-calendar"></i><span>Les prospects</span>
-                            </a>
-                        </li>                                             
-                      </ul>
-                </nav>
-                <span id="asidebg"><!-- aside fixed background --></span>
-            </aside>
-
-            <header id="header">
-                <!-- Mobile Button -->
-                <button id="mobileMenuBtn"></button>
-                <span class="logo pull-left">
-                    <img src="assets/images/logo_light.png" alt="AllReport" height="35">
-                </span>
-                <form method="post" action="{{ path('set_periode') }}" class="search form-inline  pull-left hidden-xs">
-                 <label><strong>Periode:</strong> </label>
-    {% set start_date_formated=app.session.get('start_date_formated')?app.session.get('start_date_formated'):app.session.get('start_date_formated')|date('01/01/Y') %}
-    {% set end_date_formated=app.session.get('end_date_formated')? app.session.get('end_date_formated'):app.session.get('end_date_formated')|date('31/12/Y')  %}
-    {% set periode=app.session.get('periode')%}
-<input type="text" class="form-control rangepicker" 
-name="periode" data-format="dd/mm/yyyy" 
- value="{{start_date_formated}} - {{end_date_formated}}"  placeholder="Selectionnez une période" 
- data-from="{{ start_date_formated}}" data-to="{{ end_date_formated }}" required="">
-
-                <input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-                <label><strong>Region:</strong></strong></label>
-                <select class="" name="region" selected>
-                   <option value="" {% if not app.session.get('region')  %}selected="true"{% endif %}>Toutes régions</option>
-                   <option value="Brazzaville"  {% if app.session.get('region')=='Brazzaville'  %}selected="true"{% endif %}>Brazzaville</option>
-                   <option value="Pointe-Noire" {% if  app.session.get('region')=='Pointe-Noire'  %}selected="true"{% endif %}>Pointe-Noire</option>
-              </select>
-                <button type="submit" class="btn btn-primary btn-sm">Afficher les données</button>
-                </form>
-                <nav>
-                    <!-- OPTIONS LIST -->
-                    <ul class="nav pull-right">
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <!-- USER OPTIONS -->
-                        <li class="dropdown pull-left">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img class="user-avatar" alt="" src="{{ asset('assets/images/noavatar.jpg') }}" height="34" /> 
-                                <span class="user-name">
-                                    <span class="hidden-xs">
-                                        {{  app.user.username }}<i class="fa fa-angle-down"></i>
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu hold-on-click">
-                                <li><!-- settings -->
-                                    <a href="#"><i class="fa fa-cogs"></i> Paramètres</a>
-                                </li>
-
-                                <li class="divider"></li> 
-                                <li><!-- logout -->
-                                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Deconnexion</a>
-                                </li>
-                                 
-                            </ul>
-                        </li>
-                        <!-- /USER OPTIONS -->
-                 {% endif %}
-                    </ul>
-                    <!-- /OPTIONS LIST -->
-
-                </nav>
-
-            </header>
-            <!-- /HEADER -->
-            <!-- 
-                MIDDLE 
-            -->
-            <section id="middle">
-               {% block body %}
-
-
-              {% endblock %}
-
-
-            </section>
-            <!-- /MIDDLE -->
-
-        </div>
-    
-        {% endblock fos_user_content %}
-
-       {% block javascripts %}
-       <script type="text/javascript"> var plugin_path = "{{ asset('assets/plugins/') }}";</script>
-       <script type="text/javascript" src="{{ asset('assets/plugins/jquery/jquery-2.2.3.min.js') }}"></script>
-       <script type="text/javascript"  src="{{ asset('assets/js/app.js') }}"></script>
-       {% endblock %}
-
-    </body>
-</html>
+    {% endblock %}
+{% endblock fos_user_content %}
+{% block javascripts %}
+ {{parent()}}
+  <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js') }}"></script> 
+  <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap.daterangepicker/moment.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap.daterangepicker/daterangepicker.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/argon.js?v=1.0.0') }}"></script>
+   <script type="text/javascript">
+               $(document).ready(function() {
+                  $('#periode').daterangepicker({
+                    format: 'DD/MM/YYYY'
+                  }, function(start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                  });
+               });
+               </script>
+  {% endblock %}
