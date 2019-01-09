@@ -1,3 +1,7 @@
+app_souscripteur:
+    resource: "@AppBundle/Resources/config/routing/souscripteur.yml"
+    prefix:   /souscripteur
+
 
 homepage:
     path:     /
