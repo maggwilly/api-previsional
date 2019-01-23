@@ -26,8 +26,8 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Depuis le semaine passé</span>
+                    <span class="text-success mr-2"></span>
+                    <span class="text-nowrap">Nombre total de souscriptions</span>
                   </p>
                 </div>
               </div>
@@ -47,8 +47,8 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                    <span class="text-nowrap">Depuis semaine passée</span>
+                    <span class="text-danger mr-2"></span>
+                    <span class="text-nowrap">Espèces collectées</span>
                   </p>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Catégorie majoritaire</h5>
-                      <span class="h2 font-weight-bold mb-0">Groupe 1</span>
+                      <span class="h2 font-weight-bold mb-0">{{majoritaireCSP}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -68,8 +68,8 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                    <span class="text-nowrap">Since yesterday</span>
+                    <span class="text-warning mr-2"></span>
+                    <span class="text-nowrap">Catégorie la plus en vue</span>
                   </p>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Age majoritaire</h5>
-                      <span class="h2 font-weight-bold mb-0">[18 - 25] ans</span>
+                      <span class="h2 font-weight-bold mb-0">{{majoritaireAge}} ans</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -89,8 +89,8 @@
                     </div>
                   </div>
                   <p class="mt-3 mb-0 text-muted text-sm">
-                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                    <span class="text-nowrap">Since last month</span>
+                    <span class="text-success mr-2"></span>
+                    <span class="text-nowrap">Tranche d'âge la plus en vue</span>
                   </p>
                 </div>
               </div>
@@ -112,13 +112,13 @@
                 </div>
                 <div class="col">
                   <ul class="nav nav-pills justify-content-end">
-                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}],"labels": ["Jan", "Fév", "Mars", "Avril", "Mai", "Juin", "Août", "Sept."]}}' data-prefix="" data-suffix="">
+                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[{% for item in evolutionByMonth %} {{item.nombre}}{% if not loop.last %},{% endif %} {% endfor %}]}],"labels": [{% for item in evolutionByMonth %} "{{item.month}}" {% if not loop.last %},{% endif %}{% endfor %}]}}' data-prefix="" data-suffix="">
                       <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
                         <span class="d-none d-md-block">Mois</span>
                         <span class="d-md-none">M</span>
                       </a>
                     </li>
-                    <li class="nav-item" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}],"labels": ["Sem 1", "Sem 2", "Sem 3", "Sem 4", "Sem 5", "Sem 6", "Sem 7", "Sem 8."]}}' data-prefix="" data-suffix="">
+                    <li class="nav-item" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[{% for item in evolutionByMonth %} {{item.nombre}} {% if not loop.last %},{% endif %}{% endfor %}]}],"labels": [{% for item in evolutionByWeek %} "{{item.week}}" {% if not loop.last %},{% endif %}{% endfor %}]}}' data-prefix="" data-suffix="">
                       <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
                         <span class="d-none d-md-block">Semaine</span>
                         <span class="d-md-none">W</span>
@@ -180,21 +180,24 @@
                     <th scope="col">Progression</th>
                   </tr>
                 </thead>
+                {% set dayTarget=5 %}
                 <tbody>
+                  {% for user in performences %}
                   <tr>
                     <th scope="row">
-                      Brice Fandjon
+                     {{ user.username|e }}
                     </th>
                     <td>
-                     12
+                      {{ user.nbrejours }}
                     </td>
                     <td>
-                      79
+                      {{ user.nombre }}
                     </td>
                     <td>
-                      <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
+                      <i class="fas fa-arrow-up text-success mr-3"></i>{{ user.nbrejours*100/dayTarget }}
                     </td>
                   </tr
+                   {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -222,97 +225,32 @@
                     <th scope="col"></th>
                   </tr>
                 </thead>
+                {% set total=0 %}
+                  {% for item in repartitions %}
+                     {% set total=total+item.nombre %}
+                  {% endfor %}
                 <tbody>
+                   {% for item in repartitions %}
+                   
                   <tr>
                     <th scope="row">
-                       Assurance Funeraire
+                       {{ item.nom|e }}
                     </th>
                     <td>
-                      305
+                      {{ item.nombre }}
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <span class="mr-2">10%</span>
+                        <span class="mr-2">{{ item.nombre*100/total }}%</span>
                         <div>
                           <div class="progress">
-                            <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%;"></div>
+                            <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="{{ item.nombre*100/total }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ item.nombre*100/total }}%;"></div>
                           </div>
                         </div>
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <th scope="row">
-                      Assurance Maladie+invalidité
-                    </th>
-                    <td>
-                     50
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <span class="mr-2">1%</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      Grossesse+ Accouchement
-                    </th>
-                    <td>
-                      14 
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <span class="mr-2">16%</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-primary" role="progressbar" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100" style="width: 16%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      Enfant+Scolaire
-                    </th>
-                    <td>
-                      56
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <span class="mr-2">12%</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100" style="width: 12%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                       Assurance Retraite
-                    </th>
-                    <td>
-                      65
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <span class="mr-2">11%</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-warning" role="progressbar" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100" style="width: 11%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
             </div>

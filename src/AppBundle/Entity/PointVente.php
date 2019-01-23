@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Produit
+ * PointVente
  *
- * @ORM\Table(name="produit")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProduitRepository")
+ * @ORM\Table(name="point_vente")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
  */
-class Produit
+class PointVente
 {
     /**
      * @var int
@@ -31,18 +31,15 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="duree", type="string", length=255)
+     * @ORM\Column(name="telephone", type="string", length=255)
      */
-    private $duree;
+    private $telephone;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="cout", type="integer")
+        /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var User
      */
-    private $cout;
-
-
+    protected $user;
     /**
      * Get id
      *
@@ -58,7 +55,7 @@ class Produit
      *
      * @param string $nom
      *
-     * @return Produit
+     * @return PointVente
      */
     public function setNom($nom)
     {
@@ -78,50 +75,27 @@ class Produit
     }
 
     /**
-     * Set duree
+     * Set telephone
      *
-     * @param string $duree
+     * @param string $telephone
      *
-     * @return Produit
+     * @return PointVente
      */
-    public function setDuree($duree)
+    public function setTelephone($telephone)
     {
-        $this->duree = $duree;
+        $this->telephone = $telephone;
 
         return $this;
     }
 
     /**
-     * Get duree
+     * Get telephone
      *
      * @return string
      */
-    public function getDuree()
+    public function getTelephone()
     {
-        return $this->duree;
-    }
-
-    /**
-     * Set cout
-     *
-     * @param integer $cout
-     *
-     * @return Produit
-     */
-    public function setCout($cout)
-    {
-        $this->cout = $cout;
-
-        return $this;
-    }
-
-    /**
-     * Get cout
-     *
-     * @return int
-     */
-    public function getCout()
-    {
-        return $this->cout;
+        return $this->telephone;
     }
 }
+

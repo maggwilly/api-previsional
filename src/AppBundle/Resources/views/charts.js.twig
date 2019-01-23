@@ -461,10 +461,10 @@ var OrdersChart = (function() {
 				}
 			},
 			data: {
-				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: [{% for item in especesByMonth %} "{{item.month}}" {% if not loop.last %},{% endif %}{% endfor %}],
 				datasets: [{
 					label: 'Sales',
-					data: [25, 20, 30, 22, 17, 29]
+					data: [{% for item in especesByMonth %} {{item.cout}}{% if not loop.last %},{% endif %} {% endfor %}]
 				}]
 			}
 		});
@@ -515,7 +515,7 @@ var SalesChart = (function() {
 							callback: function(value) {
 								if (!(value % 10)) {
 									//return '$' + value + 'k';
-									return  value*7;
+									return  value;
 								}
 							}
 						}
@@ -539,10 +539,10 @@ var SalesChart = (function() {
 				}
 			},
 			data: {
-				labels: ['Jan', 'Fév', 'Mars', 'Avril', 'Mai', 'Juin', 'Août', 'Sept.'],
+				labels: [{% for item in evolutionByMonth %} "{{item.month}}" {% if not loop.last %},{% endif %}{% endfor %}],
 				datasets: [{
 					label: 'Performance',
-					data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+					data: [{% for item in evolutionByMonth %} {{item.nombre}}{% if not loop.last %},{% endif %} {% endfor %}]
 				}]
 			}
 		});

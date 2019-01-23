@@ -36,6 +36,11 @@ class User extends BaseUser
      */
     private $ville;
 
+   /**
+     * @var string
+     * @ORM\Column(name="secteur", type="string", length=255,nullable=true)
+     */
+    private $secteur;
 
    /**
      * @var string
