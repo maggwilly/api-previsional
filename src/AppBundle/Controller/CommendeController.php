@@ -19,7 +19,7 @@ class CommendeController extends Controller
      * Lists all commende entities.
      *
      */
-    public function indexAction(PointVente $pointVente=$null,User $user=null)
+    public function indexAction(PointVente $pointVente=null,User $user=null)
     {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
@@ -37,11 +37,12 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"commende"})
      * 
      */
-    public function indexJsonAction(PointVente $pointVente)
+    public function indexJsonAction()
     {
+         $order=$request->query->get('order');
+         $start=$request->query->get('start');
         $em = $this->getDoctrine()->getManager();
-
-        $commendes = $em->getRepository('AppBundle:Commende')->findByPointVente($pointVente);
+        $commendes = $em->getRepository('AppBundle:Commende')->findAll();
 
         return $commendes;
     }
@@ -105,7 +106,7 @@ class CommendeController extends Controller
 
 
     /**
-     * @Rest\View(serializerGroups={"commende"})
+     * @Rest\View(serializerGroups={"full"})
      * 
      */
     public function showJsonAction(Commende $commende)
@@ -162,8 +163,12 @@ class CommendeController extends Controller
     public function deleteJsonAction(Request $request, Commende $commende)
     {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($commende);
-            $em->flush();
+       try {
+          $em->remove($commende);
+          $em->flush();
+        } catch (\Exception $e) {
+       return array('status' => "error" );
+     }
         return array('status' => "ok" );
     }
 
@@ -183,4 +188,11 @@ class CommendeController extends Controller
             ->getForm()
         ;
     }
+
+        public function getMobileUser(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
+        return $commercial;
+    }   
 }

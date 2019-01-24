@@ -34,14 +34,17 @@ class ProduitController extends Controller
      * @Rest\View(serializerGroups={"produit"})
      * 
      */
-    public function indexJsonAction()
+    public function indexJsonAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $order=$request->query->get('order');
+        $start=$request->query->get('start');
         $produits = $em->getRepository('AppBundle:Produit')->findAll();
 
         return $produits;
     }
+
+
 
     /**
      * Creates a new produit entity.
@@ -67,6 +70,25 @@ class ProduitController extends Controller
         ));
     }
 
+    /**
+     * @Rest\View(serializerGroups={"full"})
+     * 
+     */
+    public function newAJsonction(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+        $produit = new Produit();
+        $form = $this->createForm('AppBundle\Form\PointVenteType', $produit);
+        $form->submit($request->request->all());
+        if ($form->isValid()) {
+            $em->persist($produit);
+            $em->flush();
+            return $produit;
+        }
+
+        return  array(
+            'status' => 'error');
+    }
     /**
      * Finds and displays a produit entity.
      *
@@ -122,6 +144,18 @@ class ProduitController extends Controller
         return $this->redirectToRoute('produit_index');
     }
 
+    public function deleteJsonAction(Request $request, Produit $produit)
+    {
+         $em = $this->getDoctrine()->getManager();    
+       try {
+          $em->remove($produit);
+          $em->flush();
+        } catch (\Exception $e) {
+       return array('status' => "error" );
+     }
+
+        return array('status' => "ok" );
+    }
     /**
      * Creates a form to delete a produit entity.
      *
@@ -137,4 +171,11 @@ class ProduitController extends Controller
             ->getForm()
         ;
     }
+
+       public function getMobileUser(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
+        return $commercial;
+    } 
 }

@@ -30,11 +30,12 @@ class PointVenteController extends Controller
     /**
      * @Rest\View(serializerGroups={"pointvente"})
      */
-    public function indexJsonAction()
+    public function indexJsonAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user);
+        $order=$request->query->get('order');
+        $start=$request->query->get('start');
+         $em = $this->getDoctrine()->getManager();
+        $pointVentes = $em->getRepository('AppBundle:PointVente')->findAll();
         return  $pointVentes ;
     }
 
@@ -59,6 +60,26 @@ class PointVenteController extends Controller
         ));
     }
 
+
+    /**
+     * @Rest\View(serializerGroups={"full"})
+     * 
+     */
+    public function newAJsonction(Request $request)
+    {
+        $pointVente = new PointVente();
+        $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
+        $form->submit($request->request->all());
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($pointVente);
+            $em->flush();
+            return $pointVente;
+        }
+
+        return  array(
+            'status' => 'error');
+    }
     /**
      * Finds and displays a pointVente entity.
      *
@@ -71,7 +92,14 @@ class PointVenteController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
+    /**
+     * @Rest\View(serializerGroups={"full"})
+     * 
+     */
+    public function showJsonAction(Request $request,PointVente $pointVente)
+    {
+        return $pointVente;
+    }
     /**
      * Displays a form to edit an existing pointVente entity.
      *
@@ -113,6 +141,19 @@ class PointVenteController extends Controller
         return $this->redirectToRoute('pointvente_index');
     }
 
+    public function deleteJsonAction(Request $request, PointVente $pointVente)
+    {
+            $em = $this->getDoctrine()->getManager();
+       try {
+          $em->remove($pointVente);
+          $em->flush();
+        } catch (\Exception $e) {
+       return array('status' => "error" );
+     }
+
+        return array('status' => "ok" );
+    }
+    
     /**
      * Creates a form to delete a pointVente entity.
      *
@@ -127,5 +168,12 @@ class PointVenteController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+        public function getMobileUser(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
+        return $commercial;
     }
 }

@@ -2,9 +2,9 @@ AppBundle\Entity\Ligne:
     exclusion_policy: none
     properties:
         id:
-            groups: ['commende','ligne']
+            groups: ['ligne','full']
         produit:
-            groups: ['commende','ligne']
+            groups: ['ligne','full']
         quantite:
-            groups: ['commende','ligne']
+            groups: ['ligne','full']
               

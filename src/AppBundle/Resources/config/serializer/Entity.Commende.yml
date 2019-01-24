@@ -2,17 +2,17 @@ AppBundle\Entity\Commende:
     exclusion_policy: none
     properties:
         id:
-            groups: ['commende']
+            groups: ['commende','full']
         pointVente:
-            groups: ['commende']
+            groups: ['commende','full']
         status:
-            groups: ['commende']  
+            groups: ['commende','full']  
         numFacture:
-            groups: ['commende']                      
+            groups: ['commende','full']                      
         lignes:
-            groups: ['commende']
+            groups: ['full']
         date:
-            groups: ['commende']
+            groups: ['commende','full']
             expose: true
             type: DateTime<'Y-m-d'> 
               

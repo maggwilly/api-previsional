@@ -12,7 +12,6 @@ app_point_vente:
 
 app_formated:
     resource: "@AppBundle/Resources/config/routing/formated.yml"
-    prefix:   /formated
    
 
 homepage:

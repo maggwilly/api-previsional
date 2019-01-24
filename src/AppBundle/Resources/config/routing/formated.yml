@@ -1,5 +1,5 @@
 commende_index_json:
-    path:     /commande/{id}/json
+    path:     /commande/json
     defaults: { _controller: "AppBundle:Commende:indexJson"}
     methods:  GET
 
@@ -29,7 +29,11 @@ produit_index_json:
     methods:  GET
 
 point_vente_index_json:
-    path:     /point/vente/json
+    path:     /pointvente/json
     defaults: { _controller: "AppBundle:PointVente:indexJson" }
     methods:  GET
 
+commende_show_json:
+    path:     /pointvente/{id}/show/json
+    defaults: { _controller: "AppBundle:PointVente:showJson" }
+    methods:  GET

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use AppBundle\Entity\User; 
+use Doctrine\ORM\NoResultException;
 /**
  * PointVenteRepository
  *
@@ -16,9 +17,10 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
          return $qb->getQuery()->getResult();  
   }
 
-    public function fullSoldierCount( $startDate=null, $endDate=null){
+    public function pointVenteCount(User $user, $startDate=null, $endDate=null){
 
-        $qb = $this->createQueryBuilder('p')->join('p.commende', 'c');
+        $qb = $this->createQueryBuilder('p')->join('p.commende', 'c')
+        ->where('c.user=:user')->setParameter('user', $user);
          if($startDate!=null){
            $qb->andWhere('c.date is null or c.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
           }

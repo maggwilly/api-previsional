@@ -16,7 +16,7 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
          return $qb->getQuery()->getResult();  
   }
 
-  	  	public function findAll(User $user,$startDate=null, $endDate=null){
+  /*	public function findAll(User $user,$startDate=null, $endDate=null){
            $qb = $this->createQueryBuilder('c')->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente);
            if($user!=null){
            $qb ->andWhere('c.user=:user')->setParameter('user', $user);
@@ -28,5 +28,5 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
            $qb->andWhere('c.date is null or c.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
           }
          return $qb->getQuery()->getResult();  
-  }
+  }*/
 }
