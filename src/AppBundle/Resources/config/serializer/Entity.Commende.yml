@@ -5,6 +5,10 @@ AppBundle\Entity\Commende:
             groups: ['commende']
         pointVente:
             groups: ['commende']
+        status:
+            groups: ['commende']  
+        numFacture:
+            groups: ['commende']                      
         lignes:
             groups: ['commende']
         date:

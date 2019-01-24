@@ -43,6 +43,20 @@ class Commende
      */
     private $weekText;
 
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="string", length=255, nullable=true)
+     */
+    private $status;
+
+            /**
+     * @var int
+     *
+     * @ORM\Column(name="num_facture", type="string", length=255)
+     */
+    private $numFacture;
     /**
      * @var int
      *
@@ -115,7 +129,8 @@ class Commende
     $startDate=$date->format('d/m');
     $date->modify('+6 days');
     $endDate=$date->format('d/m');
-    $this->weekText=$startDate.' - '.$endDate;
+
+    $this->numFacture=uniqid();
   }
     /**
      * Constructor
