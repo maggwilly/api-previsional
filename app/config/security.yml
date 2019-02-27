@@ -15,7 +15,7 @@ security:
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
 
     encoders:
-        AppBundle\Entity\User: sha512
+        AppBundle\Entity\User: bcrypt
     providers:
          main:
             id: fos_user.user_provider.username_email

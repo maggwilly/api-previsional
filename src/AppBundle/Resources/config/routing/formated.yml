@@ -16,7 +16,7 @@ commende_new_json:
 commende_edit_json:
     path:      /commande/{id}/edit/json
     defaults: { _controller: "AppBundle:Commende:editJson" }
-    methods:  [GET, POST]
+    methods:  [GET, POST,PUT]
 
 commende_delete_json:
     path:      /commande/{id}/delete/json
@@ -37,3 +37,43 @@ commende_show_json:
     path:     /pointvente/{id}/show/json
     defaults: { _controller: "AppBundle:PointVente:showJson" }
     methods:  GET
+
+user_new_json:
+    path:     /user/new/json
+    defaults: { _controller: "AppBundle:MobileUser:registerJson" }
+    methods:  [GET, POST]
+
+user_show_json:
+    path:     /user/{id}/show/json
+    defaults: { _controller: "AppBundle:MobileUser:showJson" }
+    methods:  GET
+
+user_edit_json:
+    path:      /user/{id}/edit/json
+    defaults: { _controller: "AppBundle:MobileUser:editJson" }
+    methods:  [GET, POST,PUT]
+
+create_token:
+    path:      /token/new/json
+    defaults: { _controller: "AppBundle:AuthToken:postAuthTokens" }
+    methods:  POST
+
+create_credentials:
+    path:      /credential/new/json
+    defaults: { _controller: "AppBundle:AuthToken:postCredential" }
+    methods:  POST
+
+check_token:
+    path:      /token/check/json
+    defaults: { _controller: "AppBundle:AuthToken:checkAuthTokens" }
+    methods:  POST   
+
+create_request:
+    path:      /request/new/json
+    defaults: { _controller: "AppBundle:MobileUser:newJson" }
+    methods:  POST  
+
+accept_request:
+    path:      /request/{id}/edit/json
+    defaults: { _controller: "AppBundle:MobileUser:acceptRefuseJson" }
+    methods:   [GET, POST,PUT]  

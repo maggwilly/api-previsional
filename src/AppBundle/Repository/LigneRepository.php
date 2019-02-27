@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 use Doctrine\ORM\NoResultException;
+use AppBundle\Entity\Produit; 
+use AppBundle\Entity\PointVente; 
 /**
  * LigneRepository
  *
@@ -10,37 +12,37 @@ use Doctrine\ORM\NoResultException;
  */
 class LigneRepository extends \Doctrine\ORM\EntityRepository
 {
-	 public function souscriptionCount( $startDate=null, $endDate=null){
 
-        $qb = $this->createQueryBuilder('l')->join('l.commende', 'c');
-         if($startDate!=null){
-           $qb->andWhere('c.date is null or c.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+      public function findLastCommende(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
+           $qb = $this->createQueryBuilder('l')->join('l.commende','c')
+          ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente)
+          ->andWhere('l.produit=:produit')->setParameter('produit', $produit)
+            if($startDate!=null){
+           $qb->andWhere('c.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
           }
           if($endDate!=null){
-           $qb->andWhere('c.date is null or c.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
-          }     
-try {
-    $qb->select('sum(l.quantite) as nombre');
-         return $qb->getQuery()->getSingleScalarResult();  
-   } catch (NoResultException $e) {
-        return 0;
-     }
-  }	
+           $qb->andWhere('c.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+          ->orderBy('c.date', 'desc');
+         return $qb->getQuery()->setMaxResults(1)->getResult();  
+  }
+     
 
-  	 public function totalCash( $startDate=null, $endDate=null){
-
-        $qb = $this->createQueryBuilder('l')->join('l.produit', 'p')->join('l.commende', 'c');
-         if($startDate!=null){
-           $qb->andWhere('c.date is null or c.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
+      public function findCommendes(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
+           $qb = $this->createQueryBuilder('l')->join('l.commende','c')
+          ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente)
+          ->andWhere('l.produit=:produit')->setParameter('produit', $produit)
+            if($startDate!=null){
+           $qb->andWhere('c.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
           }
           if($endDate!=null){
-           $qb->andWhere('c.date is null or c.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
-          }     
-try {
-    $qb->select('sum(l.quantite*p.cout) as total');
-         return $qb->getQuery()->getSingleScalarResult();  
-   } catch (NoResultException $e) {
-        return 0;
-     }
-  }	
+           $qb->andWhere('c.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+          ->orderBy('c.date', 'asc');
+         return $qb->getQuery()->getResult();  
+  }
 }

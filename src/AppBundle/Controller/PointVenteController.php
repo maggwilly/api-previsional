@@ -35,7 +35,8 @@ class PointVenteController extends Controller
         $order=$request->query->get('order');
         $start=$request->query->get('start');
          $em = $this->getDoctrine()->getManager();
-        $pointVentes = $em->getRepository('AppBundle:PointVente')->findAll();
+         $user=$this->getMobileUser($request);
+         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
         return  $pointVentes ;
     }
 
@@ -45,7 +46,8 @@ class PointVenteController extends Controller
      */
     public function newAction(Request $request)
     {
-        $pointVente = new Pointvente();
+         $user=$this->getUser();
+        $pointVente = new Pointvente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,7 +69,8 @@ class PointVenteController extends Controller
      */
     public function newAJsonction(Request $request)
     {
-        $pointVente = new PointVente();
+        $user=$this->getMobileUser($request);
+        $pointVente = new PointVente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $form->submit($request->request->all());
         if ($form->isValid()) {
@@ -173,7 +176,7 @@ class PointVenteController extends Controller
         public function getMobileUser(Request $request)
     {
          $em = $this->getDoctrine()->getManager();
-         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
-        return $commercial;
-    }
+          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
+        return $user;
+    }  
 }

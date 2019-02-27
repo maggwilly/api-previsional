@@ -23,7 +23,12 @@ class User extends BaseUser
      */
     protected $id;
 	
-
+   
+    /**
+     * @var string
+     * @ORM\Column(name="entreprise", type="string", length=255,nullable=true)
+     */
+    private $entreprise;
     /**
      * @var string
      * @ORM\Column(name="nom", type="string", length=255,nullable=true)
@@ -36,11 +41,33 @@ class User extends BaseUser
      */
     private $ville;
 
-   /**
+
+       /**
      * @var string
-     * @ORM\Column(name="secteur", type="string", length=255,nullable=true)
+     * @ORM\Column(name="quartier", type="string", length=255,nullable=true)
      */
-    private $secteur;
+    private $quartier;
+
+       /**
+     * @var string
+     * @ORM\Column(name="registration", type="text",nullable=true)
+     */
+    private $registration;
+
+
+           /**
+     * @var string
+     * @ORM\Column(name="pays", type="string", length=255,nullable=true)
+     */
+    private $pays;
+
+
+               /**
+     * @var string
+     * @ORM\Column(name="adresse", type="string", length=255,nullable=true)
+     */
+    private $adresse;
+
 
    /**
      * @var string
@@ -142,6 +169,13 @@ class User extends BaseUser
      */
     protected $locked;
 
+        /**
+     * @var bool
+     *
+     * @ORM\Column(name="terms_accepted", type="boolean",nullable=true)
+     */
+    protected $termsAccepted;
+
     /**
      * @var bool
      *
@@ -156,6 +190,12 @@ class User extends BaseUser
      */
     protected $expiresAt;
 
+
+   /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur")
+     * @var User
+     */
+    protected $secteur;
      /**
      * @var array
      *
@@ -178,20 +218,72 @@ class User extends BaseUser
     protected $credentialsExpireAt;
 
     /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Request", mappedBy="user", cascade={"persist","remove"})
+   */
+    private $receiveRequests;
+
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Request", mappedBy="parent", cascade={"persist","remove"})
+   */
+    private $sendRequests;
+
+
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="user", cascade={"persist","remove"})
+   */
+    private $pointVentes;
+
+
+     /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\Abonnement", mappedBy="user")
+   */
+    private $abonnement;
+
+
+
+   /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit", mappedBy="user", cascade={"persist","remove"})
+   */
+    private $produits;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="agents")
+     * @var User
+     */
+    protected $pointsPassages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var User
+     */
+    protected $parent;
+
+    /**
      * Constructor
      */
  
  public function __construct()
     {
         parent::__construct();
-
+      $this->pointsPassages = new \Doctrine\Common\Collections\ArrayCollection();
+       $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
+         $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->pays='Cameroun';
     }
 
  /**
-  * @ORM\PrePersist()
+  * @ORM\PrePersist
  */
  public function prePersist(){
-      
+       $this->phone = $this->username;
+       if (!$this->parent) {
+         $this->parent=$this;
+       }
+        if (!$this->entreprise) {
+           $this->entreprise=$this->nom;
+       }
  } 
   
     /**
@@ -226,9 +318,11 @@ class User extends BaseUser
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
    
+
     /**
      * Get nom
      *
@@ -415,5 +509,390 @@ class User extends BaseUser
         return $this->phone;
     }
 
-    
+      public function getUsername()
+    {
+        return $this->email;
+    }  
+
+
+
+    /**
+     * Set termsAccepted
+     *
+     * @param boolean $termsAccepted
+     *
+     * @return User
+     */
+    public function setTermsAccepted($termsAccepted)
+    {
+        $this->termsAccepted = $termsAccepted;
+
+        return $this;
+    }
+
+    /**
+     * Get termsAccepted
+     *
+     * @return boolean
+     */
+    public function getTermsAccepted()
+    {
+        return $this->termsAccepted;
+    }
+
+    /**
+     * Add receiveRequest
+     *
+     * @param \AppBundle\Entity\Request $receiveRequest
+     *
+     * @return User
+     */
+    public function addReceiveRequest(\AppBundle\Entity\Request $receiveRequest)
+    {
+        $this->receiveRequests[] = $receiveRequest;
+
+        return $this;
+    }
+
+    /**
+     * Remove receiveRequest
+     *
+     * @param \AppBundle\Entity\Request $receiveRequest
+     */
+    public function removeReceiveRequest(\AppBundle\Entity\Request $receiveRequest)
+    {
+        $this->receiveRequests->removeElement($receiveRequest);
+    }
+
+    /**
+     * Get receiveRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReceiveRequests()
+    {
+        return $this->receiveRequests;
+    }
+
+    /**
+     * Add sendRequest
+     *
+     * @param \AppBundle\Entity\Request $sendRequest
+     *
+     * @return User
+     */
+    public function addSendRequest(\AppBundle\Entity\Request $sendRequest)
+    {
+        $this->sendRequests[] = $sendRequest;
+
+        return $this;
+    }
+
+    /**
+     * Remove sendRequest
+     *
+     * @param \AppBundle\Entity\Request $sendRequest
+     */
+    public function removeSendRequest(\AppBundle\Entity\Request $sendRequest)
+    {
+        $this->sendRequests->removeElement($sendRequest);
+    }
+
+    /**
+     * Get sendRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSendRequests()
+    {
+        return $this->sendRequests;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \AppBundle\Entity\User $parent
+     *
+     * @return User
+     */
+    public function setParent(\AppBundle\Entity\User $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+
+   public function isMe(){
+
+    return ($this->parent->getId()== $this->id);
+   }
+    /**
+     * Add pointVente
+     *
+     * @param \AppBundle\Entity\PointVente $pointVente
+     *
+     * @return User
+     */
+    public function addPointVente(\AppBundle\Entity\PointVente $pointVente)
+    {
+        $this->pointVentes[] = $pointVente;
+
+        return $this;
+    }
+
+    /**
+     * Remove pointVente
+     *
+     * @param \AppBundle\Entity\PointVente $pointVente
+     */
+    public function removePointVente(\AppBundle\Entity\PointVente $pointVente)
+    {
+        $this->pointVentes->removeElement($pointVente);
+    }
+
+    /**
+     * Get pointVentes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPointVentes()
+    {
+        return $this->pointVentes;
+    }
+
+    /**
+     * Add pointsPassage
+     *
+     * @param \AppBundle\Entity\PointVente $pointsPassage
+     *
+     * @return User
+     */
+    public function addPointsPassage(\AppBundle\Entity\PointVente $pointsPassage)
+    {
+        $this->pointsPassages[] = $pointsPassage;
+
+        return $this;
+    }
+
+    /**
+     * Remove pointsPassage
+     *
+     * @param \AppBundle\Entity\PointVente $pointsPassage
+     */
+    public function removePointsPassage(\AppBundle\Entity\PointVente $pointsPassage)
+    {
+        $this->pointsPassages->removeElement($pointsPassage);
+    }
+
+    /**
+     * Get pointsPassages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPointsPassages()
+    {
+        return $this->pointsPassages;
+    }
+
+    /**
+     * Set entreprise
+     *
+     * @param string $entreprise
+     *
+     * @return User
+     */
+    public function setEntreprise($entreprise)
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    /**
+     * Get entreprise
+     *
+     * @return string
+     */
+    public function getEntreprise()
+    {    if ($this->isMe()) {
+        return $this->entreprise;
+    }
+        return $this->parent->getEntreprise();
+    }
+
+    /**
+     * Set quartier
+     *
+     * @param string $quartier
+     *
+     * @return User
+     */
+    public function setQuartier($quartier)
+    {
+        $this->quartier = $quartier;
+
+        return $this;
+    }
+
+    /**
+     * Get quartier
+     *
+     * @return string
+     */
+    public function getQuartier()
+    {
+        return $this->quartier;
+    }
+
+    /**
+     * Set pays
+     *
+     * @param string $pays
+     *
+     * @return User
+     */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays
+     *
+     * @return string
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return User
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Add produit
+     *
+     * @param \AppBundle\Entity\Produit $produit
+     *
+     * @return User
+     */
+    public function addProduit(\AppBundle\Entity\Produit $produit)
+    {
+        $this->produits[] = $produit;
+
+        return $this;
+    }
+
+    /**
+     * Remove produit
+     *
+     * @param \AppBundle\Entity\Produit $produit
+     */
+    public function removeProduit(\AppBundle\Entity\Produit $produit)
+    {
+        $this->produits->removeElement($produit);
+    }
+
+    /**
+     * Get produits
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProduits()
+    {
+        return $this->produits;
+    }
+
+    /**
+     * Set secteur
+     *
+     * @param \AppBundle\Entity\Secteur $secteur
+     *
+     * @return User
+     */
+    public function setSecteur(\AppBundle\Entity\Secteur $secteur = null)
+    {
+        $this->secteur = $secteur;
+
+        return $this;
+    }
+
+    /**
+     * Get secteur
+     *
+     * @return \AppBundle\Entity\Secteur
+     */
+    public function getSecteur()
+    {
+        return $this->secteur;
+    }
+
+    /**
+     * Add secteur
+     *
+     * @param \AppBundle\Entity\Secteur $secteur
+     *
+     * @return User
+     */
+    public function addSecteur(\AppBundle\Entity\Secteur $secteur)
+    {
+        $this->secteurs[] = $secteur;
+
+        return $this;
+    }
+
+    /**
+     * Remove secteur
+     *
+     * @param \AppBundle\Entity\Secteur $secteur
+     */
+    public function removeSecteur(\AppBundle\Entity\Secteur $secteur)
+    {
+        $this->secteurs->removeElement($secteur);
+    }
+
+    /**
+     * Get secteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSecteurs()
+    {       if ($this->isMe()) 
+                    return $this->secteurs;
+        return $this->parent->getSecteurs();
+    }
 }

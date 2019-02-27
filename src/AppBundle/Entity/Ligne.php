@@ -29,7 +29,7 @@ class Ligne
     private $quantite;
 
     /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Produit")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Produit",inversedBy="lignes")
    */
     private $produit;
     

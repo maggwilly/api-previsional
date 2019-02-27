@@ -25,8 +25,4 @@ set_periode:
     defaults: { _controller: "AppBundle:App:setPeriode" }
     methods:  POST
 
-  
-create_token:
-    path:      /formated/create/auth-token
-    defaults: { _controller: "AppBundle:App:postAuthTokens" }
-    methods:  POST
+

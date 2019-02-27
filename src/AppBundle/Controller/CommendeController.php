@@ -37,30 +37,31 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"commende"})
      * 
      */
-    public function indexJsonAction()
+    public function indexJsonAction(Request $request)
     {
-         $order=$request->query->get('order');
-         $start=$request->query->get('start');
-        $em = $this->getDoctrine()->getManager();
-        $commendes = $em->getRepository('AppBundle:Commende')->findAll();
-
+         $em = $this->getDoctrine()->getManager();
+          $order=$request->query->get('order');
+          $start=$request->query->get('start');
+          $pointVente = $em->getRepository('AppBundle:User')->findOneById($request->query->get('pointvente_id'));
+          $user=$this->getMobileUser($request);
+          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($pointVente,$user);
         return $commendes;
     }
+
     /**
      * Creates a new commende entity.
      *
      */
     public function newAction(Request $request)
     {
-        $commende = new Commende();
+         $user=$this->getUser();
+        $commende = new Commende($user);
         $form = $this->createForm('AppBundle\Form\CommendeType', $commende);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($commende);
             $em->flush();
-
             return $this->redirectToRoute('commende_show', array('id' => $commende->getId()));
         }
 
@@ -76,13 +77,17 @@ class CommendeController extends Controller
      */
     public function newAJsonction(Request $request)
     {
-        $commende = new Commende();
+        $user=$this->getMobileUser($request);
+        $commende = new Commende($user);
         $form = $this->createForm('AppBundle\Form\CommendeType', $commende);
         $form->submit($request->request->all());
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($commende);
             $em->flush();
+             $commende->setNumFacture(str_pad((string)$this->id, 5, "0", STR_PAD_LEFT));
+              $em->flush();
             return $commende;
         }
 
@@ -138,6 +143,23 @@ class CommendeController extends Controller
     }
 
     /**
+     * @Rest\View(serializerGroups={"commende"})
+     * 
+     */
+    public function editJsonAction(Request $request, Commende $commende)
+    {
+        $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
+        $form->submit($request->request->all());
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $commende;
+        }
+
+        return $form;
+    }
+    /**
      * Deletes a commende entity.
      *
      */
@@ -192,7 +214,7 @@ class CommendeController extends Controller
         public function getMobileUser(Request $request)
     {
          $em = $this->getDoctrine()->getManager();
-         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
-        return $commercial;
+          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
+        return $user;
     }   
 }

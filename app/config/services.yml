@@ -4,3 +4,15 @@ parameters:
 #    parameter_name: value
      my_service_connection: default
      logout.target: /
+
+services:
+      http_request_maker:
+         class: AppBundle\Service\HttpRequestMaker
+
+      previsonal_produit:
+          class: AppBundle\Service\PrevisonalProduit
+          arguments: ["@doctrine.orm.entity_manager"]
+
+      previsonal_client:
+          class: AppBundle\Service\PrevisonalClient
+          arguments: ["@doctrine.orm.entity_manager", "@previsonal_produit"]

@@ -51,16 +51,17 @@ class Commende
      */
     private $status;
 
-            /**
+
+        /**
      * @var int
      *
-     * @ORM\Column(name="num_facture", type="string", length=255)
+     * @ORM\Column(name="num_facture", type="string", length=255, nullable=true)
      */
     private $numFacture;
     /**
      * @var int
      *
-     * @ORM\Column(name="month", type="integer", nullable=true)
+     * @ORM\Column(name="month", type="string", length=255, nullable=true)
      */
     private $month;
 
@@ -71,7 +72,7 @@ class Commende
     protected $user;
 
         /**
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PointVente")
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PointVente",inversedBy="commendes")
    */
     private $pointVente;
 
@@ -81,6 +82,15 @@ class Commende
     private $lignes;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct(User $user=null)
+    {
+        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user=$user;
+        $this->date=new \DateTime();
+    }
 
     /**
      * Get id
@@ -119,26 +129,23 @@ class Commende
     /**
 * @ORM\PrePersist
 */
- public function prePersist(){
+ public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
     $this->month =$this->date->format("M");
-
      $year=$this->date->format("Y");
     $date = new \DateTime();
     $date->setISODate($year, $this->week);
     $startDate=$date->format('d/m');
     $date->modify('+6 days');
     $endDate=$date->format('d/m');
-
-    $this->numFacture=uniqid();
-  }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->weekText=$startDate.' - '.$endDate;
+    foreach ($this->lignes as $key => $ligne) {
+        $ligne->setCommende($this);
     }
+  }
+
+
+
 
     /**
      * Set week
@@ -292,5 +299,53 @@ class Commende
     public function getLignes()
     {
         return $this->lignes;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Commende
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set numFacture
+     *
+     * @param string $numFacture
+     *
+     * @return Commende
+     */
+    public function setNumFacture($numFacture)
+    {
+        $this->numFacture = $numFacture;
+
+        return $this;
+    }
+
+    /**
+     * Get numFacture
+     *
+     * @return string
+     */
+    public function getNumFacture()
+    {
+        return $this->numFacture;
     }
 }

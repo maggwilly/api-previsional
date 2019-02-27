@@ -1,0 +1,19 @@
+Pwm\AdminBundle\Entity\Abonnement:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['abonnement', 'user']
+        status:
+             groups: ['abonnement', 'user']             
+        price:
+             groups: ['abonnement', 'user']
+        amount:
+             groups: ['abonnement', 'user']             
+        startDate:
+             groups: ['abonnement', 'user']
+             expose: true
+             type: DateTime<'Y-m-d'>           
+        endDate:
+             groups: ['abonnement', 'user']
+             expose: true
+             type: DateTime<'Y-m-d'> 

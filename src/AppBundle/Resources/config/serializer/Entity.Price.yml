@@ -1,0 +1,16 @@
+AppBundle\Entity\Price:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['price','abonnement']
+        nom:
+            groups: ['price','abonnement']
+        duree:
+            groups: ['price','abonnement']
+        amount:
+            groups: ['price','abonnement']   
+        nombreusers:
+            groups: ['price','abonnement']                         
+        description:
+            groups: ['price','abonnement'] 
+              

@@ -2,10 +2,10 @@ AppBundle\Entity\AuthToken:
     exclusion_policy: ALL
     properties:
         id:
-            groups: ['auth-token']
+            groups: ['auth-token','full']
         value:
-            groups: ['auth-token']
+            groups: ['auth-token','full']
         createdAt:
-            groups: ['auth-token']
+            groups: ['auth-token','full']
         user:
-            groups: ['auth-token']
+            groups: ['auth-token','full']

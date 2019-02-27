@@ -1,0 +1,8 @@
+AppBundle\Entity\Request:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['auth-token','request']
+        object:
+            groups: ['auth-token','request']
+              

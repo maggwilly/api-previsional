@@ -11,27 +11,23 @@ use Doctrine\ORM\NoResultException;
  */
 class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 {
-		  public function findByUser(User $user){
-           $qb = $this->createQueryBuilder('p')
-           ->where('c.user=:user')->setParameter('user', $user);
-         return $qb->getQuery()->getResult();  
+		  
+
+      public function findByUser(User $user,$start=0,$all=false){
+        $qb = $this->createQueryBuilder('p');
+        if ($user->isMe()) {
+           $qb->where('p.user=:user') ->setParameter('user', $user);
+        }else
+            $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
+          return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
   }
 
-    public function pointVenteCount(User $user, $startDate=null, $endDate=null){
 
-        $qb = $this->createQueryBuilder('p')->join('p.commende', 'c')
-        ->where('c.user=:user')->setParameter('user', $user);
-         if($startDate!=null){
-           $qb->andWhere('c.date is null or c.date>=:startDate')->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('c.date is null or c.date<=:endDate')->setParameter('endDate',new \DateTime($endDate));
-          }     
-try {
-    $qb->select('count(p.id) as nombre');
-         return $qb->getQuery()->getSingleScalarResult();  
-   } catch (NoResultException $e) {
-        return 0;
-     }
-  }	
+    public function getPointVenteIds(User $user){
+        $ids= array();
+     foreach ($user->getPointsPassages() as $pointVente) {
+         $ids[]=$pointVente->getId();
+       }
+     return $ids;  
+}
 }

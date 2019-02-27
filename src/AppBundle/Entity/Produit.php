@@ -42,7 +42,28 @@ class Produit
      */
     private $cout;
 
+        /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="produits")
+     * @var User
+     */
+    protected $user;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    private $date;
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="produit", cascade={"persist","remove"})
+   */
+    private $lignes;
 
+        public function __construct(User $user=null)
+    {
+         $this->date=new \DateTime();
+        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user=$user->getParent();
+    }
     /**
      * Get id
      *
@@ -123,5 +144,87 @@ class Produit
     public function getCout()
     {
         return $this->cout;
+    }
+
+        /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Commende
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add ligne
+     *
+     * @param \AppBundle\Entity\Ligne $ligne
+     *
+     * @return Produit
+     */
+    public function addLigne(\AppBundle\Entity\Ligne $ligne)
+    {
+        $this->lignes[] = $ligne;
+
+        return $this;
+    }
+
+    /**
+     * Remove ligne
+     *
+     * @param \AppBundle\Entity\Ligne $ligne
+     */
+    public function removeLigne(\AppBundle\Entity\Ligne $ligne)
+    {
+        $this->lignes->removeElement($ligne);
+    }
+
+    /**
+     * Get lignes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLignes()
+    {
+        return $this->lignes;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Produit
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

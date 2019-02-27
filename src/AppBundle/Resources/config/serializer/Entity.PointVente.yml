@@ -1,0 +1,17 @@
+AppBundle\Entity\PointVente:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['pointvente']
+        nom:
+            groups: ['pointvente']
+        telephone:
+            groups: ['pointvente'] 
+        ville:
+            groups: ['pointvente'] 
+        quartier:
+            groups: ['pointvente'] 
+        adresse:
+            groups: ['pointvente'] 
+        secteur:
+            groups: ['pointvente']

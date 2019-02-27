@@ -1,0 +1,11 @@
+AppBundle\Entity\Secteur:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['pointvente','secteur','user']
+        nom:
+            groups: ['pointvente','secteur','user']
+        ville:
+            groups: ['secteur'] 
+        description:
+            groups: ['secteur'] 

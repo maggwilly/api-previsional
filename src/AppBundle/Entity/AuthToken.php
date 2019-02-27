@@ -29,12 +29,20 @@ class AuthToken
     protected $createdAt;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="enabled", type="boolean",nullable=true)
+     */
+    protected $enabled;
+    /**
      * @ORM\ManyToOne(targetEntity="User")
      * @var User
      */
     protected $user;
 
-
+   public function __construct()
+    {
+    }
     public function getId()
     {
         return $this->id;
@@ -75,13 +83,31 @@ class AuthToken
         $this->user = $user;
     }
 
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+         return $this;
+    }
+
     static function create(User $user)
     {   
         $authToken = new AuthToken();
-        $str = uniqid();
-        $authToken->setValue(md5($str));
+       
+        $authToken->setValue($authToken->generatePIN());
         $authToken->setCreatedAt(new \DateTime('now'));
         $authToken->setUser($user);
         return  $authToken;
     }  
+
+
+   public function generatePIN($digits = 6){
+    $i = 0; //counter
+    $pin = ""; //our default pin is blank.
+    while($i < $digits){
+        //generate a random number between 0 and 9.
+        $pin .= mt_rand(0, 9);
+        $i++;
+    }
+    return $pin;
+}
 }

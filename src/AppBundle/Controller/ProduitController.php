@@ -21,9 +21,7 @@ class ProduitController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $produits = $em->getRepository('AppBundle:Produit')->findAll();
-
+        $produits = $em->getRepository('AppBundle:Produit')->findByUser($this->getUser());
         return $this->render('produit/index.html.twig', array(
             'produits' => $produits,
         ));
@@ -39,8 +37,8 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $order=$request->query->get('order');
         $start=$request->query->get('start');
-        $produits = $em->getRepository('AppBundle:Produit')->findAll();
-
+        $user=$this->getMobileUser($request);
+        $produits = $em->getRepository('AppBundle:Produit')->findByUser($user->getParent(),$start);
         return $produits;
     }
 
@@ -52,15 +50,14 @@ class ProduitController extends Controller
      */
     public function newAction(Request $request)
     {
-        $produit = new Produit();
+        $user=$this->getUser();
+        $produit = new Produit($user);
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($produit);
             $em->flush();
-
             return $this->redirectToRoute('produit_show', array('id' => $produit->getId()));
         }
 
@@ -76,11 +73,12 @@ class ProduitController extends Controller
      */
     public function newAJsonction(Request $request)
     {
-         $em = $this->getDoctrine()->getManager();
-        $produit = new Produit();
+        $user=$this->getMobileUser($request);
+        $produit = new Produit($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $produit);
         $form->submit($request->request->all());
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($produit);
             $em->flush();
             return $produit;
@@ -96,7 +94,6 @@ class ProduitController extends Controller
     public function showAction(Produit $produit)
     {
         $deleteForm = $this->createDeleteForm($produit);
-
         return $this->render('produit/show.html.twig', array(
             'produit' => $produit,
             'delete_form' => $deleteForm->createView(),
@@ -172,10 +169,10 @@ class ProduitController extends Controller
         ;
     }
 
-       public function getMobileUser(Request $request)
+        public function getMobileUser(Request $request)
     {
          $em = $this->getDoctrine()->getManager();
-         $commercial = $em->getRepository('AppBundle:Commercial')->findOneById($request->headers->get('X-Commercial-Id'));
-        return $commercial;
-    } 
+          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
+        return $user;
+    }   
 }

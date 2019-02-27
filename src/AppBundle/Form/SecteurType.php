@@ -6,23 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProduitType extends AbstractType
+class SecteurType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('cout');
+        $builder->add('nom')->add('description')->add('ville');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Produit',
-           'csrf_protection' => false,
-            'allow_extra_fields' => true
+            'data_class' => 'AppBundle\Entity\Secteur'
         ));
     }
 
@@ -31,7 +29,7 @@ class ProduitType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_produit';
+        return 'appbundle_secteur';
     }
 
 
