@@ -1,19 +1,15 @@
 <?php
 
-namespace Pwm\AdminBundle\Controller;
+namespace AppBundle\Controller;
 
-use Pwm\AdminBundle\Entity\Abonnement;
-use Pwm\MessagerBundle\Entity\Notification;
-use Pwm\AdminBundle\Entity\Info;
-use Pwm\AdminBundle\Entity\Commande;
-use Pwm\MessagerBundle\Controller\NotificationController;
+
+use AppBundle\Entity\Commande;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View; 
-use AppBundle\Entity\Session;
-use AppBundle\Event\CommandeEvent;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Abonnement controller.
@@ -22,15 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class AbonnementController extends Controller
 {
 
-    private   $authorization='Bearer 9xBFBcOar5G5ACWWL0gmLFR0dtXt';
-    private  $merchant_key='027d30fb';
-    private  $currency='XAF';
-    private  $id_prefix='CMD.CM.';
-    private  $return_url='http://help.centor.org/return.html';
-    private  $cancel_url='http://help.centor.org/cancel.html';
- 
-   private  $base_url='https://concours.centor.org/v1/formated/commende/';
-
+  
   /**
    * @Security("is_granted('ROLE_DELEGUE')")
   */
@@ -40,30 +28,14 @@ class AbonnementController extends Controller
         $abonnements = $em->getRepository('AdminBundle:Abonnement')->findList();
          $extrats = $em->getRepository('AdminBundle:Abonnement')->findSinceDate();
         $concours = $em->getRepository('AppBundle:Session')->findList();
-         foreach ($extrats as $key => $abonnement) {
-          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement->getSession()->getId()."/members/.json";
-        $info=$abonnement->getInfo();
-        $data = array($info->getUid() => array('isActive' => true,'uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-        // $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH'); 
 
-         }
         return $this->render('AdminBundle:abonnement:index.html.twig', array(
             'abonnements' => $abonnements, 'concours' => $concours,
         ));
     }
 
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"abonnement"})
-     */
-    public function indexJsonAction(Info $info)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $abonnements = $em->getRepository('AdminBundle:Abonnement')->findForMe($info);
-        return  $abonnements;
-    }
-
+ 
     
     /**
      * Lists all Produit entities.
@@ -77,65 +49,30 @@ class AbonnementController extends Controller
 }
 
 
-    public function goToPaiementAction(Request $request,Commande $commande)
-    {
-      if( $commande->getStatus()==='SUCCESS')
-            return $this->redirect('http://help.centor.org/return.html');
-        $res=$this->get('payment_service')->getPayementUrl($commande);
-        if(array_key_exists('payment_url', $res))
-            return $this->redirect($res['payment_url']);
-      return  new Response('Une erreur se produit. Prevenez un administrateur svp');
-}
-
     /**
-     * Lists all Produit entities.
-     *@Rest\View()
+     * @Rest\View()
+     * 
      */
-    public function startCommandeAction(Request $request,Info $info, Session $session=null,$package='sepecial')
+    public function initAction(Request $request)
     {
-          $em = $this->getDoctrine()->getManager();
-          $amount=0;
-          $commande=$em->getRepository('AdminBundle:Commande')->findOneByUserSession($info,$session);
-            if(is_null($commande)){
-               $commande= new Commande($info, $session, $package, $amount);
-               $em->persist( $commande);
-           }
-              
-          if(is_null($session)){
-            $amount=500;
-            $package='sepecial';
-          }
-          else{
-        switch ($package) {
-          case 'starter':
-            $amount=  $session->getPrice()->getStarter();
-            $commande->setDate(new \DateTime())
-            ->setAmount($amount)
-            ->setPackage($package)
-            ->setSession($session)
-            ->setRessource(null);
-             $em->flush();
-            return array('success'=>true,'id'=>$commande->getId());
-          case 'standard':
-              $amount=$session->getPrice()->getStandard();
-              break;          
-           default:
-               $amount=$session->getPrice()-> getPremium();
-              break;
-        }    
-          $session->removeInfo($info);
-          $session->addInfo($info);
-          }
-            $commande->setDate(new \DateTime())
-            ->setAmount($amount)
-            ->setPackage($package)
-            ->setSession($session)
-            ->setRessource(null);
-             $em->flush(); 
-         // $res=$this->get('payment_service')->getPayementUrl($commande);
-          $res= array('payment_url' => 'https://concours.centor.org/v1/abonnement/'.$commande->getId().'/pay/for/me', );
-        return array('data' =>$res ,'id' =>$commande->getId(),'amount' =>$commande->getAmount());
+             $user=$this->getMobileUser($request);
+              $em = $this->getDoctrine()->getManager();
+               $commande= new Commande($user);
+              $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
+              $form->submit($request->request->all());              
+                if ($form->isValid()) {
+                   $em->persist($commande);
+                   $em->flush(); 
+                   $res=$this->get('payment_service')->getPaimentCredentials($commande);
+                   $res['duree']=$commande->getDuree();
+                 return $res; // $this->redirect($res['payment_url']);
+              }
+         return   array(
+                'status' => 'error'); 
     }
+
+
+
 
 
 
@@ -236,27 +173,6 @@ class AbonnementController extends Controller
         return $abonnement;
     }
 
-    /**
-     * Creates a new abonnement entity.
-     *
-     */
-    public function newAction(Request $request)
-    {
-        $abonnement = new Abonnement();
-        $form = $this->createForm('Pwm\AdminBundle\Form\AbonnementType', $abonnement);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($abonnement);
-            $em->flush($abonnement);
-            return $this->redirectToRoute('abonnement_show', array('id' => $abonnement->getId()));
-        }
-
-        return $this->render('AdminBundle:abonnement:new.html.twig', array(
-            'abonnement' => $abonnement,
-            'form' => $form->createView(),
-        ));
-    }
 
   /**
    * @Security("is_granted('ROLE_DELEGUE')")
@@ -311,4 +227,12 @@ class AbonnementController extends Controller
             ->getForm()
         ;
     }
+
+public function getMobileUser(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
+        return $user;
+    } 
+   
 }

@@ -8,7 +8,11 @@ parameters:
 services:
       http_request_maker:
          class: AppBundle\Service\HttpRequestMaker
+      
+      payment_service:
+         class: AppBundle\Service\PayementService
 
+      
       previsonal_produit:
           class: AppBundle\Service\PrevisonalProduit
           arguments: ["@doctrine.orm.entity_manager"]

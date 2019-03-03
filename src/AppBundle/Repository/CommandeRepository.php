@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
-
+use AppBundle\Entity\User;
 /**
  * CommandeRepository
  *
@@ -11,4 +11,9 @@ namespace AppBundle\Repository;
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
 
+  public function findOneByUser(User $user){
+ $qb =$this->createQueryBuilder('a')
+       ->where('a.user=:user') ->setParameter('user', $user)->andWhere('a.status is NULL');
+        return   $qb->getQuery()->getOneOrNullResult();
+ }
 }

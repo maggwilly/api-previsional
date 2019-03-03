@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Prices list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Duree</th>
+                <th>Nombreusers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for price in prices %}
+            <tr>
+                <td><a href="{{ path('price_show', { 'id': price.id }) }}">{{ price.id }}</a></td>
+                <td>{{ price.amount }}</td>
+                <td>{{ price.nom }}</td>
+                <td>{{ price.description }}</td>
+                <td>{{ price.duree }}</td>
+                <td>{{ price.nombreusers }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('price_show', { 'id': price.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('price_edit', { 'id': price.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('price_new') }}">Create a new price</a>
+        </li>
+    </ul>
+{% endblock %}

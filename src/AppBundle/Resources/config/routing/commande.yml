@@ -1,0 +1,14 @@
+price_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Price:index" }
+    methods:  GET
+
+price_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Price:show" }
+    methods:  GET
+
+price_new:
+    path:     /new/json
+    defaults: { _controller: "AppBundle:Abonnement:init" }
+    methods:  [GET, POST]

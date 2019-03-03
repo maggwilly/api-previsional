@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="commande")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommandeRepository")
+  * @ORM\HasLifecycleCallbacks
  */
 class Commande
 {
@@ -33,14 +34,14 @@ class Commande
     /**
      * @var int
      *
-     * @ORM\Column(name="amount", type="integer")
+     * @ORM\Column(name="amount", type="integer", nullable=true)
      */
     private $amount;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="currency", type="string", length=255)
+     * @ORM\Column(name="currency", type="string", length=255, nullable=true)
      */
     private $currency;
 
@@ -66,12 +67,6 @@ class Commande
      */
     private $txnid;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="package", type="string", length=255, nullable=true)
-     */
-    private $package;
 
         /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -86,15 +81,61 @@ class Commande
 
 
         /**
+     * @var string
+     *
+     * @ORM\Column(name="duree", type="integer", nullable=true)
+     */
+    private $duree;
+
+
+        /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Price")
+     * @var User
+     */
+    protected $price;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="method", type="string", length=255, nullable=true)
+     */
+    private $method;
+
+
+        /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(\AppBundle\Entity\User $user = null)
     {
         $this->date =new \DateTime();  
+         $this->user =$user;  
+    }
+
+    /**
+     *@ORM\Prepersist()
+    * @ORM\PreUpdate()
+    */
+    public function PreUpdate(){
+         $this->date =new \DateTime();
+         switch ($this->duree) {
+             case 1:
+                $this->amount=$this->price->getAmount();
+                 break;
+             case 6:
+                 $this->amount=$this->price->getAmount()*5;
+                 break;            
+             default:
+                 $this->amount=$this->price->getAmount()*10;
+                 break;
+         }
+    }
+
+public function getUId() {
+
+        return strtoupper(uniqid());
     }
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -176,31 +217,30 @@ class Commande
         return $this->currency;
     }
 
+
     /**
-     * Set package
+     * Set duree
      *
-     * @param string $package
+     * @param integer $duree
      *
-     * @return Commande
+     * @return Price
      */
-    public function setPackage($package)
+    public function setDuree($duree)
     {
-        $this->package = $package;
+        $this->duree = $duree;
 
         return $this;
     }
 
     /**
-     * Get package
+     * Get duree
      *
-     * @return string
+     * @return int
      */
-    public function getPackage()
+    public function getDuree()
     {
-        return $this->package;
+        return $this->duree;
     }
-
-  
 
 
     /**
@@ -299,5 +339,75 @@ class Commande
         return $this->abonnement;
     }
 
+    /**
+     * Set method
+     *
+     * @param string $method
+     * @return Abonnement
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    /**
+     * Get method
+     *
+     * @return string 
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+
+
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     * @return Abonnement
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer 
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+   /**
+     * Set user
+     *
+     * @param \Pwm\AdminBundle\Entity\User $user
+     * @return Question
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Pwm\AdminBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
 }

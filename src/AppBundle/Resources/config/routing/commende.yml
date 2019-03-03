@@ -22,3 +22,30 @@ commende_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Commende:delete" }
     methods:  DELETE
+
+
+commende_index_json:
+    path:     /json
+    defaults: { _controller: "AppBundle:Commende:indexJson"}
+    methods:  GET
+
+commende_show_json:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:Commende:showJson" }
+    methods:  GET
+
+commende_new_json:
+    path:     /new/json
+    defaults: { _controller: "AppBundle:Commende:newJson" }
+    methods:  [GET, POST]
+
+commende_edit_json:
+    path:      /{id}/edit/json
+    defaults: { _controller: "AppBundle:Commende:editJson" }
+    methods:  [GET, POST,PUT]
+
+commende_delete_json:
+    path:      /{id}/delete/json
+    defaults: { _controller: "AppBundle:Commende:deleteJson" }
+    methods:  DELETE
+   

@@ -6,13 +6,20 @@ app_produit:
     resource: "@AppBundle/Resources/config/routing/produit.yml"
     prefix:   /produit
 
+app_price:
+    resource: "@AppBundle/Resources/config/routing/price.yml"
+    prefix:   /price
+
 app_point_vente:
     resource: "@AppBundle/Resources/config/routing/pointvente.yml"
-    prefix:   /point/vente
+    prefix:   /pointvente
 
-app_formated:
-    resource: "@AppBundle/Resources/config/routing/formated.yml"
-   
+app_account:
+    resource: "@AppBundle/Resources/config/routing/account.yml"
+  
+app_payement:
+    resource: "@AppBundle/Resources/config/routing/commande.yml"
+    prefix:   /payement  
 
 homepage:
     path:     /

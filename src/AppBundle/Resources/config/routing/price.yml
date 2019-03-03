@@ -1,0 +1,34 @@
+price_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Price:index" }
+    methods:  GET
+
+price_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Price:show" }
+    methods:  GET
+
+price_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Price:new" }
+    methods:  [GET, POST]
+
+price_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Price:edit" }
+    methods:  [GET, POST]
+
+price_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Price:delete" }
+    methods:  DELETE
+
+price_index_json:
+    path:     /json
+    defaults: { _controller: "AppBundle:Price:indexJson" }
+    methods:  GET
+
+price_show_json:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:Price:showJson" }
+    methods:  GET

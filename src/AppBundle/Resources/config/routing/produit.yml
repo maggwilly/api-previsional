@@ -22,3 +22,28 @@ produit_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Produit:delete" }
     methods:  DELETE
+
+produit_index_json:
+    path:     /json
+    defaults: { _controller: "AppBundle:Produit:indexJson" }
+    methods:  GET
+
+produit_show_json:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:Produit:showJson" }
+    methods:  GET
+
+produit_new_json:
+    path:     /new/json
+    defaults: { _controller: "AppBundle:Produit:newJson" }
+    methods:  [GET, POST]
+
+produit_edit_json:
+    path:      /{id}/edit/json
+    defaults: { _controller: "AppBundle:Produit:editJson" }
+    methods:  [GET, POST,PUT]
+
+produit_delete_json:
+    path:      /{id}/delete/json
+    defaults: { _controller: "AppBundle:Produit:deleteJson" }
+    methods:  DELETE

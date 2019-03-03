@@ -43,21 +43,7 @@ class Abonnement
      */
     private $startDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="method", type="string", length=255)
-     */
-    private $method;
 
-
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="amount", type="integer")
-     */
-    private $amount;
 
 
     /**
@@ -74,11 +60,6 @@ class Abonnement
      */
     protected $user;
 
-        /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Price")
-     * @var User
-     */
-    protected $price;
 
 
         /**
@@ -90,11 +71,11 @@ class Abonnement
      /**
      * Constructor
      */
-    public function __construct(\AppBundle\Entity\Price $price = null)
+    public function __construct()
     {
           $this->date =new \DateTime(); 
            $this->startDate=new \DateTime();
-          $this->price=$price; 
+
     }
 
 
@@ -206,75 +187,6 @@ class Abonnement
     }
 
 
-    /**
-     * Set method
-     *
-     * @param string $method
-     * @return Abonnement
-     */
-    public function setMethod($method)
-    {
-        $this->method = $method;
-
-        return $this;
-    }
-
-    /**
-     * Get method
-     *
-     * @return string 
-     */
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-
-    /**
-     * Set plan
-     *
-     * @param string $plan
-     * @return Abonnement
-     */
-    public function setPlan($plan)
-    {
-        $this->plan = $plan;
-
-        return $this;
-    }
-
-    /**
-     * Get plan
-     *
-     * @return string 
-     */
-    public function getPlan()
-    {
-        return $this->plan;
-    }
-
-    /**
-     * Set price
-     *
-     * @param integer $price
-     * @return Abonnement
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return integer 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
 
     /**
      * Set status

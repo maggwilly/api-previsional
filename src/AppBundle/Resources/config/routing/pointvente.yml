@@ -22,3 +22,30 @@ pointvente_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:PointVente:delete" }
     methods:  DELETE
+
+
+point_vente_index_json:
+    path:     /json
+    defaults: { _controller: "AppBundle:PointVente:indexJson" }
+    methods:  GET
+
+
+point_vente_show_json:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:PointVente:showJson" }
+    methods:  GET
+
+point_vente_new_json:
+    path:     /new/json
+    defaults: { _controller: "AppBundle:PointVente:newJson" }
+    methods:  [GET, POST]
+
+point_vente_edit_json:
+    path:      /{id}/edit/json
+    defaults: { _controller: "AppBundle:PointVente:editJson" }
+    methods:  [GET, POST,PUT]
+
+point_vente_delete_json:
+    path:      /{id}/delete/json
+    defaults: { _controller: "AppBundle:PointVente:deleteJson" }
+    methods:  DELETE
