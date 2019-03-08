@@ -53,33 +53,40 @@ class MobileUserController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"request"})
+     * @Rest\View(serializerGroups={"user"})
      * 
      */
     public function newJsonAction(Request $request)
     {
-        $invite= new UserInvite($this->getMobileUser($request));
+        $user=$this->getMobileUser($request);
+        $invite= new UserInvite($user);
         $form = $this->createForm(RequestType::class,$invite);
          $form->submit($request->request->all());
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('AppBundle:User')->findOneByUsername($invite->getUsername());
-         if ($user) {
-            $tmp=$em->getRepository('AppBundle:Request')->findByUserParent($this->getMobileUser($request),$user);
+            $touser = $em->getRepository('AppBundle:User')->findOneByUsername($invite->getUsername());
+         if ($touser) {
+            if($user->getId()==$touser->getId())
+               return array( ); 
+            $tmp=$em->getRepository('AppBundle:Request')->findByUserParent($user,$touser);
             if(is_null($tmp)){
-               $invite->setUser($user);
+               $invite->setUser($touser);
                 $em->persist($invite);
                 $em->flush();
                return $invite;
             }
             return $tmp;
           }
-          $user= new User();
-          $user->setUsername($invite->getUsername())
+          $touser= new User();
+          $touser->setUsername($invite->getUsername())
           ->setEmail($invite->getUsername())
+          ->setNom($invite->getNom())
           ->setPlainPassword('provisional')
-          ->setParent($this->getMobileUser($request));
-          $invite->setUser($this->register($user));
+          ->setParent($touser);
+          $touser=$this->register($touser);
+          if(is_null($touser))
+             return array( );
+          $invite->setUser($touser);
            $em->persist($invite);
            $em->flush();
          return $invite;
@@ -89,35 +96,15 @@ class MobileUserController extends Controller
 
 
 
-    /**
-     * @Rest\View(serializerGroups={"request"})
-     * 
-     */
-    public function acceptRefuseJsonAction(Request $request, UserInvite $invite)
-    {
-         $editForm = $this->createForm('AppBundle\Form\RequestType',$invite);
-         $editForm ->submit($request->request->all());
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-           $em=$this->getDoctrine()->getManager();
-           if ($invite->getStatus()=='REFUSED') {
-               $invite->getUser()->setParent($invite->getUser());
-               $em->remove($invite);
-               $em->flush();
-           }elseif ($invite->getStatus()=='ACCEPTED') {
-               $invite->getUser()->setParent($invite->getParent());
-               $em->flush();
-           }
-            return ['success'=>true];
-        }         
-        return $editForm;
-    }
-
 
 
 
     public function register(User $user)
     {
-        // 1) build the form
+        if(is_null($user->getUsername())||
+            !is_string($user->getUsername())||
+            count_chars($user->getUsername())<9)
+               return null;
             $userManager = $this->get('fos_user.user_manager');
             $user->setEnabled(true);
             $encoder = $this->container->get('security.password_encoder');
@@ -142,16 +129,81 @@ class MobileUserController extends Controller
         return $form;
     }
 
+
+    /**
+     * @Rest\View(serializerGroups={"user"})
+     * 
+     */
+    public function indexJsonAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+         $user=$this->getMobileUser($request);
+         $users = $em->getRepository('AppBundle:User')->findByUser($user);
+        return array('users' =>$users ,'requests' =>$user->getSendRequests() );
+    }
+
+
     /**
      * @Rest\View(serializerGroups={"user"})
      * 
      */
     public function showJsonAction(User $user)
     {
-            return $user->getParent();
-        
-      
+      return  array('parent' =>$user->getParent() ,'receiveRequests' =>$user->getReceiveRequests());;  
     }
+
+
+   /**
+     * @Rest\View()
+     * 
+     */
+public function deleteRequestJsonAction(Request $request, UserInvite $invite)
+{
+   $id=$invite->getId();
+   $em = $this->getDoctrine()->getManager();    
+       try {
+          $em->remove($invite);
+          $em->flush();
+        } catch (\Exception $e) {
+       return array('error' => true );
+     }
+
+      return array('ok' => true,'deletedId' => $id );
+    }
+
+
+   /**
+     * @Rest\View()
+     * 
+     */
+    public function acceptRequestJsonAction(Request $request, UserInvite $invite)
+    {
+         $id=$invite->getId();
+         $user=$this->getMobileUser($request);
+         $user->setParent($invite->getParent());
+         $em= $this->getDoctrine()->getManer();
+          try {
+         foreach ($user->getReceiveRequests() as $key => $value) {
+            $em->remove($value);
+             }
+           $em->flush();  
+       } catch (\Exception $e) {
+       return array('error' => true );
+     }
+      return array('ok' => true,'deletedId' => $id );
+      }
+
+   /**
+     * @Rest\View()
+     * 
+     **/
+public function deleteUserJsonAction(Request $request, User $user)
+{
+     $user->setParent($user);
+     $em = $this->getDoctrine()->getManager()->flush();    
+      return array('ok' => true,'deletedId' => $user->getId() );
+    }
+
 
     public function getMobileUser(Request $request)
     {

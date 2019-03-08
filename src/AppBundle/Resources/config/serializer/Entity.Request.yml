@@ -2,7 +2,9 @@ AppBundle\Entity\Request:
     exclusion_policy: none
     properties:
         id:
-            groups: ['auth-token','request']
+            groups: ['auth-token','request','user']
+        user:
+            groups: ['user']            
         object:
             groups: ['auth-token','request']
               

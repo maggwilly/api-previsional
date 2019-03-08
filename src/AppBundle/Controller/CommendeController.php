@@ -42,9 +42,8 @@ class CommendeController extends Controller
          $em = $this->getDoctrine()->getManager();
           $order=$request->query->get('order');
           $start=$request->query->get('start');
-          $pointVente = $em->getRepository('AppBundle:User')->findOneById($request->query->get('pointvente_id'));
           $user=$this->getMobileUser($request);
-          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($pointVente,$user);
+          $commendes = $em->getRepository('AppBundle:Commende')->findByUser($user,$start);
         return $commendes;
     }
 
@@ -184,6 +183,7 @@ class CommendeController extends Controller
      */
     public function deleteJsonAction(Request $request, Commende $commende)
     {
+         $id=$commende->getId();
             $em = $this->getDoctrine()->getManager();
        try {
           $em->remove($commende);
@@ -191,7 +191,7 @@ class CommendeController extends Controller
         } catch (\Exception $e) {
        return array('status' => "error" );
      }
-        return array('status' => "ok" );
+        return array('ok' => true,'deletedId' => $id );
     }
 
 

@@ -18,6 +18,7 @@ class PointVenteType extends AbstractType
         ->add('ville')
         ->add('quartier')
         ->add('long')
+        ->add('type')
         ->add('lat')
         ->add('adresse')
         ->add('pays')

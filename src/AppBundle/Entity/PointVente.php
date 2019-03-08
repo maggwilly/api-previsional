@@ -34,6 +34,11 @@ class PointVente
      */
     private $telephone;
 
+   /**
+     * @var string
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
     /**
      * @var \DateTime
      *
@@ -91,7 +96,7 @@ class PointVente
      */
     protected $secteur;
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User",inversedBy="pointsPassages", cascade={"persist","remove"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User",inversedBy="pointsPassages", cascade={"persist"})
      * @var User
      */
     protected $agents;
@@ -440,6 +445,29 @@ class PointVente
         $this->secteur = $secteur;
 
         return $this;
+    }
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return User
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

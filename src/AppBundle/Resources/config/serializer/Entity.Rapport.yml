@@ -1,0 +1,12 @@
+AppBundle\Entity\Rapport:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['rapport']
+        periode:
+            groups: ['rapport','secteur','user']
+        date:
+            groups: ['rapport'] 
+            type: DateTime<'Y-m-d'> 
+        description:
+            groups: ['rapport'] 

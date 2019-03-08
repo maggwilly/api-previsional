@@ -10,8 +10,7 @@ security:
          ROLE_DELEGUE:   [ROLE_ADMIN, ROLE_PRICER]
         
     access_control:
-        - { path: ^/v1/admin, roles: ROLE_ADMIN }   
-        - { path: ^/v1/ambassador, roles: IS_AUTHENTICATED_ANONYMOUSLY }   
+        - { path: ^/admin, roles: ROLE_ADMIN }    
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
 
     encoders:
@@ -27,15 +26,16 @@ security:
             security: false
         
         public:
-      # since anonymous is allowed users will not be forced to login
            pattern:   ^/(login|register)$
            anonymous:      true
  
+        help:
+           pattern:   .html$
+           anonymous:   true
+       
         mobile:
-      # since anonymous is allowed users will not be forced to login
            pattern:   /json$
            anonymous:      true
-
         main:
             pattern:        ^/
             anonymous:      false

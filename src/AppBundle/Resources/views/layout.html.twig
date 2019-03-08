@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 {% block title %}Bienenue {% endblock %} 
-     {% block stylesheets %}
-     {{parent()}}
+     {% block stylesheets %}<p></p>
+     {{parent()}}<p></p>
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('assets/vendor/bootstrap.daterangepicker/daterangepicker-bs3.css') }}" />
     {% endblock %} 
 {% block fos_user_content %}
@@ -12,10 +12,10 @@
 {% endblock fos_user_content %}
 {% block javascripts %}
  {{parent()}}
-  <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js') }}"></script> 
-  <script type="text/javascript" src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap.daterangepicker/moment.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap.daterangepicker/daterangepicker.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/app/assets/vendor/chart.js/dist/Chart.min.js') }}"></script> 
+  <script type="text/javascript" src="{{ asset('bundles/app/assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/app/assets/vendor/bootstrap.daterangepicker/moment.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/app/assets/vendor/bootstrap.daterangepicker/daterangepicker.js') }}"></script>
 
    <script type="text/javascript">
                $(document).ready(function() {
@@ -26,5 +26,5 @@
                   });
                });
                </script>
-   <script type="text/javascript" src="{{ asset('assets/js/argon.js?v=1.0.0') }}"></script>              
+   <script type="text/javascript" src="{{ asset('bundles/app/assets/js/argon.js?v=1.0.0') }}"></script>              
   {% endblock %}

@@ -49,6 +49,8 @@ class Request
 
     protected $username;
 
+     private $nom;
+
 
     /**
      * @var string
@@ -205,4 +207,30 @@ class Request
     {
         return $this->parent;
     }
+
+ /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Client
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+
 }

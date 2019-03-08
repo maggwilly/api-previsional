@@ -1,14 +1,25 @@
-price_index:
+paiment_index:
     path:     /
-    defaults: { _controller: "AppBundle:Price:index" }
+    defaults: { _controller: "AppBundle:Abonnement:index" }
     methods:  GET
 
-price_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:Price:show" }
+paiment_show:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:Abonnement:showJson" }
     methods:  GET
 
-price_new:
+paiment_confirm:
+    path:     /{id}/confirm/json
+    defaults: { _controller: "AppBundle:Abonnement:confirm" }
+    methods: [GET, POST]
+
+paiment_cancel:
+    path:     /{id}/cancel/json
+    defaults: { _controller: "AppBundle:Abonnement:cancel" }
+    methods:  GET
+
+
+paiment_new:
     path:     /new/json
     defaults: { _controller: "AppBundle:Abonnement:init" }
     methods:  [GET, POST]

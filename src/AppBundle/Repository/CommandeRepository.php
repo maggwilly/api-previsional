@@ -16,4 +16,13 @@ class CommandeRepository extends \Doctrine\ORM\EntityRepository
        ->where('a.user=:user') ->setParameter('user', $user)->andWhere('a.status is NULL');
         return   $qb->getQuery()->getOneOrNullResult();
  }
+
+       public function findByUser(User $user,$start=0){
+        $qb = $this->createQueryBuilder('c')->join('c.user','u');
+        if (!$user->isMe()) {
+           $qb->where('c.user=:user')->setParameter('user', $user);
+        }else
+           $qb->where('u.parent=:parent')->setParameter('parent', $user);
+          return   $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
+  }
 }

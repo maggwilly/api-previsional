@@ -5,7 +5,7 @@ AppBundle\Entity\Produit:
             groups: ['produit','ligne','commende']
         nom:
             groups: ['produit','ligne','commende']
-        duree:
+        description:
             groups: ['produit','ligne','commende'] 
         cout:
             groups: ['produit','ligne','commende'] 

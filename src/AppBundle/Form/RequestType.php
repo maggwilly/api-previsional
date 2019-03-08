@@ -13,7 +13,8 @@ class RequestType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username')->add('status');
+        $builder->add('username')
+        ->add('nom');
     }/**
      * {@inheritdoc}
      */

@@ -62,19 +62,17 @@ class User extends BaseUser
     private $pays;
 
 
-               /**
+     /**
      * @var string
      * @ORM\Column(name="adresse", type="string", length=255,nullable=true)
      */
     private $adresse;
 
-
    /**
      * @var string
-     * @ORM\Column(name="type", type="string", length=255,nullable=true)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
-
 
    /**
      * @var string
@@ -84,25 +82,21 @@ class User extends BaseUser
 
      /**
      * @var string
-     *
      * @ORM\Column(name="username", type="string", length=255,unique=true)
      */
     protected $username;
 
-        /**
+    /**
      * @var string
-     *
      * @ORM\Column(name="password", type="string")
      */
     protected $password;
 
     /**
      * Plain password. Used for model validation. Must not be persisted.
-     *
      * @var string
      */
     protected $plainPassword;
-
 
      /**
      * @var string
@@ -239,7 +233,7 @@ class User extends BaseUser
    */
     private $abonnement;
 
-
+   private $invited;
 
    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit", mappedBy="user", cascade={"persist","remove"})
@@ -266,11 +260,12 @@ class User extends BaseUser
  public function __construct()
     {
         parent::__construct();
-      $this->pointsPassages = new \Doctrine\Common\Collections\ArrayCollection();
-       $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pointsPassages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
-         $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
-      $this->pays='Cameroun';
+        $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sendRequests= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pays='Cameroun';
     }
 
  /**
@@ -406,6 +401,27 @@ class User extends BaseUser
         return $this->expired;
     }
 
+
+    /**
+     * Get locked
+     *
+     * @return boolean 
+     */
+    public function setInvited($invited)
+    {
+        $this->invited=$invited;
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean 
+     */
+    public function getInvited()
+    {
+        return $this->invited;
+    }
     /**
      * Get expiresAt
      *
@@ -894,5 +910,53 @@ class User extends BaseUser
     {       if ($this->isMe()) 
                     return $this->secteurs;
         return $this->parent->getSecteurs();
+    }
+
+    /**
+     * Set registration
+     *
+     * @param string $registration
+     *
+     * @return User
+     */
+    public function setRegistration($registration)
+    {
+        $this->registration = $registration;
+
+        return $this;
+    }
+
+    /**
+     * Get registration
+     *
+     * @return string
+     */
+    public function getRegistration()
+    {
+        return $this->registration;
+    }
+
+    /**
+     * Set abonnement
+     *
+     * @param \AppBundle\Entity\Abonnement $abonnement
+     *
+     * @return User
+     */
+    public function setAbonnement(\AppBundle\Entity\Abonnement $abonnement = null)
+    {
+        $this->abonnement = $abonnement;
+
+        return $this;
+    }
+
+    /**
+     * Get abonnement
+     *
+     * @return \AppBundle\Entity\Abonnement
+     */
+    public function getAbonnement()
+    {
+        return $this->abonnement;
     }
 }

@@ -7,9 +7,9 @@ class PayementService
     private  $merchant_key='027d30fb';
     private  $currency='XAF';
     private  $id_prefix='CMD.CM.';
-    private  $return_url='http://help.centor.org/return.html';
-    private  $cancel_url='http://help.centor.org/cancel.html';
-    private  $base_url='https://';
+    private  $return_url='http://...';
+    private  $cancel_url='http://...';
+    private  $base_url='https://...';
 
 const AUTORISATION_HEADERS=array(
     "accept: application/json",
@@ -60,8 +60,8 @@ $data = array(
   'lang' =>'fr',
   'reference' =>'previsional',
   'notif_url' =>$this->base_url.$commande->getId()."/confirm/json",
-  'return_url' =>$this->base_url.$commande->getId()."/confirm/json",
-  'cancel_url' =>$this->base_url.$commande->getId()."/confirm/json"
+  'return_url' =>$this->base_url.$commande->getId()."/return/json",
+  'cancel_url' =>$this->base_url.$commande->getId()."/cancel/json"
   );
   $content = json_encode($data);
   $curl = curl_init();

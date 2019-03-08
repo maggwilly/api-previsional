@@ -8,7 +8,9 @@ AppBundle\Entity\Commende:
         status:
             groups: ['commende','full']  
         numFacture:
-            groups: ['commende','full']                      
+            groups: ['commende','full']   
+        user:
+            groups: ['commende','full']                                 
         lignes:
             groups: ['full']
         date:

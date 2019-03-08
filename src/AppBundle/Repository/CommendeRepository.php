@@ -11,12 +11,16 @@ use AppBundle\Entity\User;
  */
 class CommendeRepository extends \Doctrine\ORM\EntityRepository
 {
-	  	 public function findByPointVente(PointVente $pointVente){
+	  	
+
+   public function findByPointVente(PointVente $pointVente){
            $qb = $this->createQueryBuilder('c')
            ->where('c.pointVente=:pointVente')
            ->setParameter('pointVente', $pointVente);
          return $qb->getQuery()->getResult();  
   }
+
+
 
       public function findCommendes(PointVente $pointVente,User $user, $startDate=null, $endDate=null){
            $qb = $this->createQueryBuilder('c');
@@ -36,7 +40,7 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
             }
           $qb->orderBy('c.date', 'asc');
          return $qb->getQuery()->getResult();  
-  }
+       }
 
 
 

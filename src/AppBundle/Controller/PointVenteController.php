@@ -64,10 +64,10 @@ class PointVenteController extends Controller
 
 
     /**
-     * @Rest\View(serializerGroups={"full"})
+     * @Rest\View(serializerGroups={"pointvente"})
      * 
      */
-    public function newAJsonction(Request $request)
+    public function newJsonAction(Request $request)
     {
         $user=$this->getMobileUser($request);
         $pointVente = new PointVente($user);
@@ -96,7 +96,7 @@ class PointVenteController extends Controller
         ));
     }
     /**
-     * @Rest\View(serializerGroups={"full"})
+     * @Rest\View(serializerGroups={"pointvente"})
      * 
      */
     public function showJsonAction(Request $request,PointVente $pointVente)
@@ -126,6 +126,22 @@ class PointVenteController extends Controller
         ));
     }
 
+
+    /**
+     * @Rest\View(serializerGroups={"pointvente"})
+     * 
+     */
+    public function editJsonAction(Request $request, PointVente $pointVente)
+    {
+        $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
+        $editForm->submit($request->request->all());
+        if ( $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $pointVente;
+        }
+        return array( 'status' => 'error');
+    }
+    
     /**
      * Deletes a pointVente entity.
      *
@@ -144,24 +160,26 @@ class PointVenteController extends Controller
         return $this->redirectToRoute('pointvente_index');
     }
 
+    /**
+     * @Rest\View()
+     * 
+     */
     public function deleteJsonAction(Request $request, PointVente $pointVente)
     {
+        $id=$pointVente->getId();
             $em = $this->getDoctrine()->getManager();
        try {
           $em->remove($pointVente);
           $em->flush();
         } catch (\Exception $e) {
-       return array('status' => "error" );
+       return array('error' => true );
      }
 
-        return array('status' => "ok" );
+        return array('ok' => true,'deletedId' => $id );
     }
     
     /**
      * Creates a form to delete a pointVente entity.
-     *
-     * @param PointVente $pointVente The pointVente entity
-     *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(PointVente $pointVente)
@@ -173,7 +191,7 @@ class PointVenteController extends Controller
         ;
     }
 
-        public function getMobileUser(Request $request)
+    public function getMobileUser(Request $request)
     {
          $em = $this->getDoctrine()->getManager();
           $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));

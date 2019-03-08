@@ -1,0 +1,15 @@
+AppBundle\Entity\Commande:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['commande',]
+        status:
+             groups: ['commande']             
+        txnid:
+             groups: ['commande']
+        amount:
+             groups: ['commande']                     
+        date:
+             groups: ['commande']
+             expose: true
+             type: DateTime<'Y-m-d'> 

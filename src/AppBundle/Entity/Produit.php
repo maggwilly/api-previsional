@@ -31,9 +31,9 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="duree", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
-    private $duree;
+    private $description;
 
     /**
      * @var int
@@ -87,7 +87,29 @@ class Produit
 
         return $this;
     }
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Rapport
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
     /**
      * Get nom
      *
@@ -98,29 +120,6 @@ class Produit
         return $this->nom;
     }
 
-    /**
-     * Set duree
-     *
-     * @param string $duree
-     *
-     * @return Produit
-     */
-    public function setDuree($duree)
-    {
-        $this->duree = $duree;
-
-        return $this;
-    }
-
-    /**
-     * Get duree
-     *
-     * @return string
-     */
-    public function getDuree()
-    {
-        return $this->duree;
-    }
 
     /**
      * Set cout

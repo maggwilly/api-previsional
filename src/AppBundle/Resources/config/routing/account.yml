@@ -1,3 +1,8 @@
+user_index_json:
+    path:     /user/json
+    defaults: { _controller: "AppBundle:MobileUser:indexJson" }
+    methods:  [GET, POST]
+
 
 user_new_json:
     path:     /user/new/json
@@ -34,7 +39,22 @@ create_request:
     defaults: { _controller: "AppBundle:MobileUser:newJson" }
     methods:  POST  
 
+delete_request:
+    path:      /request/{id}/delete/json
+    defaults: { _controller: "AppBundle:MobileUser:deleteRequestJson" }
+    methods:   DELETE
+
 accept_request:
-    path:      /request/{id}/edit/json
-    defaults: { _controller: "AppBundle:MobileUser:acceptRefuseJson" }
-    methods:   [GET, POST,PUT]  
+    path:      /request/{id}/accept/json
+    defaults: { _controller: "AppBundle:MobileUser:acceptRequestJson" }
+    methods:   DELETE
+
+refuse_request:
+    path:      /request/{id}/refuse/json
+    defaults: { _controller: "AppBundle:MobileUser:deleteRequestJson" }
+    methods:   DELETE
+
+delete_user:
+    path:      /user/{id}/delete/json
+    defaults: { _controller: "AppBundle:MobileUser:deleteUserJson" }
+    methods:  DELETE

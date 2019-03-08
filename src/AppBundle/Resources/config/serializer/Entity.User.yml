@@ -2,9 +2,9 @@ AppBundle\Entity\User:
     exclusion_policy: none
     properties:
         id:
-            groups: ['user', 'auth-token','parent']
+            groups: ['user', 'auth-token','parent','commende']
         nom:
-            groups: ['user','parent']
+            groups: ['user','parent','commende']
         entreprise:
             groups: ['user','parent']
         username:
@@ -12,6 +12,8 @@ AppBundle\Entity\User:
         abonnement:
             groups: ['user','parent']            
         email:
+            groups: ['user']
+        invited:
             groups: ['user']
         phone:
             groups: ['user']   

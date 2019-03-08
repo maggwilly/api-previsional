@@ -35,7 +35,8 @@ class Secteur
      */
     private $description;
 
-    /* @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+    /**
+     @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @var User
      */
     protected $user;
@@ -136,8 +137,9 @@ class Secteur
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(User $user=null)
     {
+         $this->user=$user->getParent();
         $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

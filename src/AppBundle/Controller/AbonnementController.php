@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Commande;
+use AppBundle\Entity\Abonnement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,6 +66,7 @@ class AbonnementController extends Controller
                    $em->flush(); 
                    $res=$this->get('payment_service')->getPaimentCredentials($commande);
                    $res['duree']=$commande->getDuree();
+                    $res['cmd']=$commande->getId();
                  return $res; // $this->redirect($res['payment_url']);
               }
          return   array(
@@ -80,32 +82,23 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View(serializerGroups={"abonnement"})
      */
-    public function confirmCommandeAction(Request $request,Commande $commande)
+    public function confirmAction(Request $request,Commande $commande)
     {
-         $form = $this->createForm('Pwm\AdminBundle\Form\CommandeType', $commande);
+         $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
          $form->submit($request->request->all(),false);
-        if ($form->isValid()&&$commande->getStatus()=='SUCCESS') {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if (is_null($commande->getRessource())) {
-           $abonnement=$em->getRepository('AdminBundle:Abonnement')
-                          ->findMeOnThis($commande->getInfo(), $commande->getSession());
+            $abonnement=$commande->getUser()->getAbonnement();
             if($abonnement==null){
-                 $abonnement=new Abonnement($commande); 
-                 if(!is_null($commande->getSession())){
-                  $commande->getSession()->removeInfo($commande->getInfo()); 
-                  $commande->getSession()->addInfo($commande->getInfo());
-                  $commande->getSession()->setNombreInscrit($commande->getSession()->getNombreInscrit()+1) ;
-                  }              
+                 $abonnement=new Abonnement($commande->getUser(),$commande->getDuree()); 
                  $em->persist($abonnement);
                 }
-              $abonnement->setPlan($commande->getPackage());
-              $abonnement->setPrice($commande->getAmount());
+              $abonnement->setUser($commande->getUser())
+                        ->setDuree($commande->getDuree())
+                        ->setNombreusers($commande->getPrice()->getNombreusers());
               $commande->setAbonnement($abonnement); 
-              }
               $em->flush();
-              $event= new CommandeEvent($commande);
-               $this->get('event_dispatcher')->dispatch('commande.confirmed', $event);
-            return $commande;
+            return $abonnement;
         }
         return $form;
     }
@@ -115,7 +108,7 @@ class AbonnementController extends Controller
      * Lists all Produit entities.
      *@Rest\View()
      */
-    public function cancelCommandeAction(Request $request,Commande $commande)
+    public function cancelAction(Request $request,Commande $commande)
     {
             $em = $this->getDoctrine()->getManager();
             $em->remove($commande);
@@ -143,49 +136,18 @@ class AbonnementController extends Controller
 
 
 
-    /**
-     * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"abonnement"})
-     */
-    public function showJsonAction(Info $info, Session $session=null){
-        $em = $this->getDoctrine()->getManager();
-         $abonnement = $em->getRepository('AdminBundle:Abonnement')->findMeOnThis($info, $session);
-          if ( $abonnement!=null&&$session!=null) {
-          $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/session/".$session->getId()."/members/.json";
-          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-        }
-        return $abonnement;
-    }
-
         /**
      * Lists all Produit entities.
-     *@Rest\View(serializerGroups={"abonnement"})
+     *@Rest\View(serializerGroups={"commande"})
      */
-    public function showOneJsonAction(Abonnement $abonnement){
-          if ( $abonnement!=nulll&&$abonnement-> getSession()!=null) {
-          $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
-          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-        }
-        return $abonnement;
+    public function showJsonAction(Commande $commande){
+        return $commande;
     }
 
 
-  /**
-   * @Security("is_granted('ROLE_DELEGUE')")
-  */
+
     public function showAction(Abonnement $abonnement)
     {
-
-        if ( $abonnement!=null) {
-          $info= $abonnement->getInfo();
-          $url="https://trainings-fa73e.firebaseio.com/session/".$abonnement-> getSession()->getId()."/members/.json";
-          $data = array($info->getUid() => array('uid' => $info->getUid(),'displayName' => $info->getDisplayName(),'photoURL' => $info->getPhotoURL()));
-           $this->get('fmc_manager')->sendOrGetData($url,$data,'PATCH');
-        } 
         $deleteForm = $this->createDeleteForm($abonnement);
         return $this->render('AdminBundle:abonnement:show.html.twig', array(
             'abonnement' => $abonnement,
@@ -195,9 +157,6 @@ class AbonnementController extends Controller
 
 
 
-  /**
-   * @Security("is_granted('ROLE_DELEGUE')")
-  */
     public function deleteAction(Request $request, Abonnement $abonnement)
     {
         $form = $this->createDeleteForm($abonnement);

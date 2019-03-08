@@ -1,0 +1,23 @@
+rapport_index:
+    path:     /rapport/
+    defaults: { _controller: "AppBundle:Rapport:index" }
+    methods:  GET
+
+rapport_index_json:
+    path:     /rapport/json
+    defaults: { _controller: "AppBundle:Rapport:indexJson" }
+    methods:  GET
+
+stats_index_json:
+    path:     /stat/json
+    defaults: { _controller: "AppBundle:Rapport:statsJson" }
+    methods:  GET
+
+
+rapport_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Rapport:show" }
+    methods:  GET
+
+
+

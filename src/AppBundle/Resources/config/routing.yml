@@ -14,6 +14,16 @@ app_point_vente:
     resource: "@AppBundle/Resources/config/routing/pointvente.yml"
     prefix:   /pointvente
 
+
+app_secteur:
+    resource: "@AppBundle/Resources/config/routing/secteur.yml"
+    prefix:   /secteur
+
+
+app_rapport:
+    resource: "@AppBundle/Resources/config/routing/rapport.yml"
+
+
 app_account:
     resource: "@AppBundle/Resources/config/routing/account.yml"
   
@@ -24,6 +34,11 @@ app_payement:
 homepage:
     path:     /
     defaults: { _controller: "AppBundle:App:index" }
+    methods:  GET
+
+helppage:
+    path:     /help.{page}.html
+    defaults: { _controller: "AppBundle:App:help" }
     methods:  GET
 
 

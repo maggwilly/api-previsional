@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use AppBundle\Entity\User; 
+use AppBundle\Entity\Secteur; 
 use Doctrine\ORM\NoResultException;
 /**
  * PointVenteRepository
@@ -13,14 +14,54 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 {
 		  
 
-      public function findByUser(User $user,$start=0,$all=false){
+      public function findByUser(User $user,$start=0,$all=false, $startDate=null, $endDate=null){
         $qb = $this->createQueryBuilder('p');
         if ($user->isMe()) {
            $qb->where('p.user=:user') ->setParameter('user', $user);
         }else
             $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
+        if($startDate!=null){
+               $qb->andWhere('c.date>=:startDate')
+              ->setParameter('startDate', new \DateTime($startDate));
+            }
+         if($endDate!=null){
+             $qb->andWhere('c.date<=:endDate')
+             ->setParameter('endDate',new \DateTime($endDate));
+            }            
           return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
   }
+
+
+      public function findBySecteur(Secteur $secteur,$start=0,$all=false, $startDate=null, $endDate=null){
+        $qb = $this->createQueryBuilder('p');
+           $qb->where('p.secteur=:secteur') ->setParameter('secteur', $secteur);
+        if($startDate!=null){
+               $qb->andWhere('c.date>=:startDate')
+              ->setParameter('startDate', new \DateTime($startDate));
+            }
+         if($endDate!=null){
+             $qb->andWhere('c.date<=:endDate')
+             ->setParameter('endDate',new \DateTime($endDate));
+            }            
+          return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
+  }
+
+
+      public function findVisited(User $user, $startDate=null, $endDate=null){
+           $qb = $this->createQueryBuilder('p')->join('p.commendes','c')
+          ->where('c.user=:user')->setParameter('user', $user);
+          if($startDate!=null){
+           $qb->andWhere('c.date>=:startDate')
+          ->setParameter('startDate', new \DateTime($startDate));
+          }
+          if($endDate!=null){
+           $qb->andWhere('c.date<=:endDate')
+          ->setParameter('endDate',new \DateTime($endDate));
+          }
+          $qb->orderBy('c.date', 'desc');
+         return $qb->getQuery()->getArrayResult();  
+     }
+
 
 
     public function getPointVenteIds(User $user){

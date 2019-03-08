@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Abonnement
  *
- * @ORM\Table(name="abonnement_")
+ * @ORM\Table(name="abonnement")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AbonnementRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -26,7 +26,7 @@ class Abonnement
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endDate", type="datetime")
+     * @ORM\Column(name="end_date", type="datetime")
      */
     private $endDate;
 
@@ -39,11 +39,9 @@ class Abonnement
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startDate", type="datetime")
+     * @ORM\Column(name="start_date", type="datetime")
      */
     private $startDate;
-
-
 
 
     /**
@@ -61,6 +59,12 @@ class Abonnement
     protected $user;
 
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="duree", type="integer")
+     */
+    private $duree;
 
         /**
      * @var int
@@ -71,20 +75,25 @@ class Abonnement
      /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(\AppBundle\Entity\User $user = null, $duree=1)
     {
+           $this->status='ACTIVE';
+            $this->duree=$duree;
           $this->date =new \DateTime(); 
+           $this->user = $user;
            $this->startDate=new \DateTime();
 
     }
 
 
-     /**
-    * @ORM\PrePersist()
+    /**
+     *@ORM\Prepersist()
+    * @ORM\PreUpdate()
     */
     public function PrePersist(){
+
           $this->endDate=new \DateTime();
-          $this->endDate->modify('+'.$this->$price->getDuree().' month');
+          $this->endDate->modify('+'.$this->duree.' month');
     }
 
 
@@ -186,6 +195,27 @@ class Abonnement
         return $this->startDate;
     }
 
+     /*
+     * @param integer $duree
+     *
+     * @return Price
+     */
+    public function setDuree($duree)
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    /**
+     * Get duree
+     *
+     * @return int
+     */
+    public function getDuree()
+    {
+        return $this->duree;
+    }
 
 
     /**

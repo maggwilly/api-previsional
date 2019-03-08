@@ -68,14 +68,14 @@ class ProduitController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"full"})
+     * @Rest\View(serializerGroups={"produit"})
      * 
      */
-    public function newAJsonction(Request $request)
+    public function newJsonAction(Request $request)
     {
         $user=$this->getMobileUser($request);
         $produit = new Produit($user);
-        $form = $this->createForm('AppBundle\Form\PointVenteType', $produit);
+        $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $form->submit($request->request->all());
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -123,6 +123,24 @@ class ProduitController extends Controller
         ));
     }
 
+        /**
+     * @Rest\View(serializerGroups={"produit"})
+     * 
+     */
+    public function editJsonAction(Request $request, Produit $produit)
+    {
+        $user=$this->getMobileUser($request);
+        $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
+        $form->submit($request->request->all());
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $produit;
+        }
+
+        return  array(
+            'status' => 'error');
+    }
     /**
      * Deletes a produit entity.
      *
@@ -141,17 +159,22 @@ class ProduitController extends Controller
         return $this->redirectToRoute('produit_index');
     }
 
+    /**
+     * @Rest\View()
+     * 
+     */
     public function deleteJsonAction(Request $request, Produit $produit)
     {
+         $id=$produit->getId();
          $em = $this->getDoctrine()->getManager();    
        try {
           $em->remove($produit);
           $em->flush();
         } catch (\Exception $e) {
-       return array('status' => "error" );
+       return array('error' => true );
      }
 
-        return array('status' => "ok" );
+      return array('ok' => true,'deletedId' => $id );
     }
     /**
      * Creates a form to delete a produit entity.

@@ -22,13 +22,16 @@ class AppController extends Controller
      */
     public function indexAction()
     {   
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
-        $region=$session->get('region');
-        $startDate=$session->get('startDate',date('Y').'-01-01');
-        $endDate=$session->get('endDate', date('Y').'-12-31');
-        return $this->render('AppBundle::index.html.twig',   array());
+
+
+        return $this->render('AppBundle::index.html.php',   array(  'name' =>'penka'));
     }
+
+    public function helpAction($page='index')
+    {   
+        return $this->render('AppBundle:help:'.$page.'.html.twig',   array());
+    }
+
 
     /**
      * @Rest\View()

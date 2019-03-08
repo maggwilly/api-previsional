@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rapports list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Periode</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rapport in rapports %}
+            <tr>
+                <td><a href="{{ path('rapport_show', { 'id': rapport.id }) }}">{{ rapport.id }}</a></td>
+                <td>{% if rapport.date %}{{ rapport.date|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ rapport.periode }}</td>
+                <td>{{ rapport.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('rapport_show', { 'id': rapport.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

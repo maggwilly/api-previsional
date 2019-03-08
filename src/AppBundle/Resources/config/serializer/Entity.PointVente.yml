@@ -9,6 +9,8 @@ AppBundle\Entity\PointVente:
             groups: ['pointvente'] 
         ville:
             groups: ['pointvente'] 
+        type:
+            groups: ['pointvente'] 
         quartier:
             groups: ['pointvente'] 
         adresse:
