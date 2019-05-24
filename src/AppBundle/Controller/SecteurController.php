@@ -35,7 +35,7 @@ class SecteurController extends Controller
      */
     public function indexJsonAction(Request $request)
     {
-          $user=$this->getMobileUser($request);
+          $user=$this->getUser();
           $em = $this->getDoctrine()->getManager();
         $secteurs = $em->getRepository('AppBundle:Secteur')->findByUser($user->getParent());
         return $secteurs;
@@ -71,7 +71,7 @@ class SecteurController extends Controller
      */
      public function newJsonAction(Request $request)
     {
-        $user=$this->getMobileUser($request);
+        $user=$this->getUser();
         $secteur = new Secteur($user);
         $form = $this->createForm('AppBundle\Form\SecteurType', $secteur);
         $form->submit($request->request->all());
@@ -83,8 +83,7 @@ class SecteurController extends Controller
             return $secteur;
         }
 
-        return array(
-            'status' => 'error');
+        return array('error' => true );
     }
     
 

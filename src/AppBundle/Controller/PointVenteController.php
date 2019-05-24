@@ -35,10 +35,30 @@ class PointVenteController extends Controller
         $order=$request->query->get('order');
         $start=$request->query->get('start');
          $em = $this->getDoctrine()->getManager();
-         $user=$this->getMobileUser($request);
+         $user=$this->getUser();
          $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
         return  $pointVentes ;
     }
+
+    /**
+     * @Rest\View(serializerGroups={"rendezvous"})
+     */
+    public function toVisitJsonAction(Request $request)
+    {
+        $order=$request->query->get('order');
+        $start=$request->query->get('start');
+         $em = $this->getDoctrine()->getManager();
+         $user=$this->getUser();
+         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
+         foreach ($pointVentes as $key => $pointVente) {
+          $rendezvous= $this->get('previsonal_client')
+          ->dateProchaineCommende($pointVente);
+          $rendezvous->setUser($user);
+          $pointVente->setRendezvous($rendezvous);
+         }     
+        return  $pointVentes;
+    }
+
 
     /**
      * Creates a new pointVente entity.
@@ -46,7 +66,7 @@ class PointVenteController extends Controller
      */
     public function newAction(Request $request)
     {
-         $user=$this->getUser();
+        $user=$this->getUser();
         $pointVente = new Pointvente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $form->handleRequest($request);
@@ -69,7 +89,7 @@ class PointVenteController extends Controller
      */
     public function newJsonAction(Request $request)
     {
-        $user=$this->getMobileUser($request);
+         $user=$this->getUser();
         $pointVente = new PointVente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $form->submit($request->request->all());
@@ -80,8 +100,7 @@ class PointVenteController extends Controller
             return $pointVente;
         }
 
-        return  array(
-            'status' => 'error');
+        return  array('error' => true );
     }
     /**
      * Finds and displays a pointVente entity.
@@ -115,7 +134,6 @@ class PointVenteController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('pointvente_edit', array('id' => $pointVente->getId()));
         }
 
@@ -139,7 +157,7 @@ class PointVenteController extends Controller
             $this->getDoctrine()->getManager()->flush();
             return $pointVente;
         }
-        return array( 'status' => 'error');
+        return array('error' => true );
     }
     
     /**
@@ -190,11 +208,5 @@ class PointVenteController extends Controller
             ->getForm()
         ;
     }
-
-    public function getMobileUser(Request $request)
-    {
-         $em = $this->getDoctrine()->getManager();
-          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        return $user;
-    }  
+ 
 }

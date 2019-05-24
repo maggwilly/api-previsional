@@ -18,6 +18,10 @@ security:
     providers:
          main:
             id: fos_user.user_provider.username_email
+         our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: apiKey        
            
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -26,7 +30,7 @@ security:
             security: false
         
         public:
-           pattern:   ^/(login|register)$
+           pattern:   ^/token|credential|login|register$
            anonymous:      true
  
         help:
@@ -35,7 +39,11 @@ security:
        
         mobile:
            pattern:   /json$
-           anonymous:      true
+           anonymous:      false
+           provider: our_db_provider
+           guard:
+             authenticators:
+                - app.token_authenticator
         main:
             pattern:        ^/
             anonymous:      false
@@ -44,7 +52,7 @@ security:
                  login_path: fos_user_security_login
                  check_path: fos_user_security_check
                  always_use_default_target_path: false
-                 default_target_path:  homepage          
+                 default_target_path:  homepage           
             logout:  
                 path:      fos_user_security_logout
                 target:    /login

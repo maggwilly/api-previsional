@@ -35,7 +35,7 @@ class RapportController extends Controller
     public function indexJsonAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-         $user=$this->getMobileUser($request);
+         $user=$this->getUser();
         $rapports = $em->getRepository('AppBundle:Rapport')->findByUser($user);
 
         return $rapports;

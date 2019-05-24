@@ -11,7 +11,9 @@ services:
       
       payment_service:
          class: AppBundle\Service\PayementService
-
+         
+      app.token_authenticator:
+        class: AppBundle\Security\TokenAuthenticator
       
       previsonal_produit:
           class: AppBundle\Service\PrevisonalProduit

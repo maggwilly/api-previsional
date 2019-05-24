@@ -1,0 +1,34 @@
+rendezvous_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Rendezvous:index" }
+    methods:  GET
+
+rendezvous_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Rendezvous:show" }
+    methods:  GET
+
+rendezvous_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Rendezvous:new" }
+    methods:  [GET, POST]
+    
+rendezvous_new_json:
+    path:     /new/json
+    defaults: { _controller: "AppBundle:Rendezvous:newJson" }
+    methods:  [GET, POST]
+
+rendezvous_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Rendezvous:edit" }
+    methods:  [GET, POST]
+
+rendezvous_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Rendezvous:delete" }
+    methods:  DELETE
+    
+rendezvous_index_json:
+    path:     /json
+    defaults: { _controller: "AppBundle:Rendezvous:toVisitJson" }
+    methods:  GET

@@ -87,7 +87,6 @@ class PointVente
     /**
 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="pointVentes")
-     * @var User
      */
     protected $user;
    /**
@@ -101,14 +100,22 @@ class PointVente
      */
     protected $agents;
 
-       /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commende", mappedBy="user", cascade={"persist","remove"})
+    /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commende", mappedBy="user", cascade={"persist"})
    */
     private $commendes;
 
+ /**
+   *@ORM\OneToOne(
+   targetEntity="AppBundle\Entity\Rendezvous", 
+   inversedBy="pointVente", 
+   orphanRemoval=true,
+   cascade={"persist","remove"})
+   */
+    private $rendezvous;
 
-
-        public function __construct(User $user=null)
+    
+    public function __construct(User $user=null)
     {
         $this->date=new \DateTime();
         $this->pays='Cameroun';
@@ -478,5 +485,32 @@ class PointVente
     public function getSecteur()
     {
         return $this->secteur;
+    }
+
+    /**
+     * Set rendezvous
+     *
+     * @param \AppBundle\Entity\Rendezvous $rendezvous
+     *
+     * @return PointVente
+     */
+    public function setRendezvous(\AppBundle\Entity\Rendezvous $rendezvous = null)
+    {
+        if($this->rendezvous==null&&$rendezvous!=null)
+           $this->rendezvous = $rendezvous;
+        elseif (($rendezvous!=null)&&($this->rendezvous->getDateat()<=$rendezvous->getDateat())) {
+            $this->rendezvous = $rendezvous->setCommentaire($this->rendezvous->getCommentaire());
+        }
+        return $this;
+    }
+
+    /**
+     * Get rendezvous
+     *
+     * @return \AppBundle\Entity\Rendezvous
+     */
+    public function getRendezvous()
+    {
+        return $this->rendezvous;
     }
 }

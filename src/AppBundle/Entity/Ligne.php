@@ -21,6 +21,20 @@ class Ligne
      */
     private $id;
 
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="acn", type="boolean", nullable=true)
+     */
+    private $acn;
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="stock", type="integer", nullable=true)
+     */
+    private $stock;
     /**
      * @var int
      *
@@ -30,11 +44,13 @@ class Ligne
 
     /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Produit",inversedBy="lignes")
+   * @ORM\JoinColumn(nullable=false)
    */
     private $produit;
     
         /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Commende",inversedBy="lignes")
+   * @ORM\JoinColumn(nullable=false)
    */
     private $commende;
     
@@ -118,5 +134,53 @@ class Ligne
     public function getCommende()
     {
         return $this->commende;
+    }
+
+    /**
+     * Set acn
+     *
+     * @param boolean $acn
+     *
+     * @return Ligne
+     */
+    public function setAcn($acn)
+    {
+        $this->acn = $acn;
+
+        return $this;
+    }
+
+    /**
+     * Get acn
+     *
+     * @return boolean
+     */
+    public function getAcn()
+    {
+        return $this->acn;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Ligne
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 }

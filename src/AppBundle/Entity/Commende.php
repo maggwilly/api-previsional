@@ -25,9 +25,22 @@ class Commende
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="datesave", type="date")
      */
     private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="is_terminated", type="boolean", nullable=true)
+     */
+    private $terminated;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="terminated_date", type="datetime", nullable=true)
+     */
+    private $terminateddate;
 
     /**
      * @var int
@@ -67,17 +80,19 @@ class Commende
 
         /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      * @var User
      */
     protected $user;
 
         /**
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PointVente",inversedBy="commendes")
+   * @ORM\JoinColumn(nullable=false)
    */
     private $pointVente;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="commende", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="commende", cascade={"persist","remove","merge"},orphanRemoval=true)
    */
     private $lignes;
 
@@ -127,24 +142,25 @@ class Commende
     }
 
     /**
-* @ORM\PrePersist
+* @ORM\PrePersist()
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
     $this->month =$this->date->format("M");
-     $year=$this->date->format("Y");
-    $date = new \DateTime();
-    $date->setISODate($year, $this->week);
-    $startDate=$date->format('d/m');
-    $date->modify('+6 days');
-    $endDate=$date->format('d/m');
-    $this->weekText=$startDate.' - '.$endDate;
+   // $this->doStuffOnUpdate();
+  }
+    /**
+  @ORM\PreFlush
+*/
+ public function doStuffOnUpdate(){
     foreach ($this->lignes as $key => $ligne) {
-        $ligne->setCommende($this);
+        if($ligne->getProduit()==null){
+          $this->removeLigne($ligne);
+          continue;  
+        }
+         $ligne->setCommende($this);
     }
   }
-
-
 
 
     /**
@@ -277,7 +293,7 @@ class Commende
     public function addLigne(\AppBundle\Entity\Ligne $ligne)
     {
         $this->lignes[] = $ligne;
-
+        $ligne->setCommende($this);
         return $this;
     }
 
@@ -347,5 +363,53 @@ class Commende
     public function getNumFacture()
     {
         return $this->numFacture;
+    }
+
+    /**
+     * Set terminated
+     *
+     * @param boolean $terminated
+     *
+     * @return Commende
+     */
+    public function setTerminated($terminated)
+    {
+        $this->terminated = $terminated;
+
+        return $this;
+    }
+
+    /**
+     * Get terminated
+     *
+     * @return boolean
+     */
+    public function getTerminated()
+    {
+        return $this->terminated;
+    }
+
+    /**
+     * Set terminateddate
+     *
+     * @param \DateTime $terminateddate
+     *
+     * @return Commende
+     */
+    public function setTerminateddate($terminateddate)
+    {
+        $this->terminateddate = $terminateddate;
+
+        return $this;
+    }
+
+    /**
+     * Get terminateddate
+     *
+     * @return \DateTime
+     */
+    public function getTerminateddate()
+    {
+        return $this->terminateddate;
     }
 }

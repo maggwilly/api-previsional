@@ -5,27 +5,27 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-class LigneType extends AbstractType
+
+class RendezvousType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        $builder->add('dateat')
+        ->add('date')
         ->add('quantite')
-        ->add('stock')
-        ->add('acn')
-        ->add('produit', EntityType::class, array('class' => 'AppBundle:Produit'));
+        ->add('commentaire')
+        ->add('pointVente');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Ligne',
-           'csrf_protection' => false,
+            'data_class' => 'AppBundle\Entity\Rendezvous',
+             'csrf_protection' => false,
             'allow_extra_fields' => true
         ));
     }
@@ -35,7 +35,7 @@ class LigneType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_ligne';
+        return 'appbundle_rendezvous';
     }
 
 

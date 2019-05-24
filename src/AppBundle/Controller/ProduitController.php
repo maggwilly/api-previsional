@@ -37,7 +37,7 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $order=$request->query->get('order');
         $start=$request->query->get('start');
-        $user=$this->getMobileUser($request);
+         $user=$this->getUser();
         $produits = $em->getRepository('AppBundle:Produit')->findByUser($user->getParent(),$start);
         return $produits;
     }
@@ -73,7 +73,7 @@ class ProduitController extends Controller
      */
     public function newJsonAction(Request $request)
     {
-        $user=$this->getMobileUser($request);
+        $user=$this->getUser();
         $produit = new Produit($user);
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $form->submit($request->request->all());
@@ -84,8 +84,7 @@ class ProduitController extends Controller
             return $produit;
         }
 
-        return  array(
-            'status' => 'error');
+        return array('error' => true );
     }
     /**
      * Finds and displays a produit entity.
@@ -129,7 +128,7 @@ class ProduitController extends Controller
      */
     public function editJsonAction(Request $request, Produit $produit)
     {
-        $user=$this->getMobileUser($request);
+       $user=$this->getUser();
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
         $form->submit($request->request->all());
         if ($form->isValid()) {
@@ -191,11 +190,5 @@ class ProduitController extends Controller
             ->getForm()
         ;
     }
-
-        public function getMobileUser(Request $request)
-    {
-         $em = $this->getDoctrine()->getManager();
-          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        return $user;
-    }   
+ 
 }

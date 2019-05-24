@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 class CommendeType extends AbstractType
 {
     /**
@@ -14,16 +14,10 @@ class CommendeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder ->add('date','datetime', array(
-              'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'invalid_message' => 'Validation date',
-                'error_bubbling' => true,
-                'input' => 'datetime' 
-            ))
+        $builder 
+        ->add('terminated')
         ->add('lignes',CollectionType::class, array('entry_type'=> LigneType::class,'allow_add' => true))
-        ->add('pointVente', EntityType::class, array('class' => 'AppBundle:PointVente'))
-        ->add('user', EntityType::class, array('class' => 'AppBundle:User'));
+        ->add('pointVente', EntityType::class, array('class' => 'AppBundle:PointVente'));
     }/**
      * {@inheritdoc}
      */

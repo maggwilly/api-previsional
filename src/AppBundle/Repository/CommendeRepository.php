@@ -13,23 +13,20 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
 {
 	  	
 
-   public function findByPointVente(PointVente $pointVente){
-           $qb = $this->createQueryBuilder('c')
-           ->where('c.pointVente=:pointVente')
-           ->setParameter('pointVente', $pointVente);
-         return $qb->getQuery()->getResult();  
-  }
-
-
-
-      public function findCommendes(PointVente $pointVente,User $user, $startDate=null, $endDate=null){
+   public function findCommendes(User $user=null,PointVente $pointVente=null, $startDate=null, $endDate=null){
            $qb = $this->createQueryBuilder('c');
+          if($user!=null){
+            $qb->join('c.user','u');
+         if (!$user->isMe()) {
+             $qb->andWhere('c.user=:user')->setParameter('user', $user);
+        }else
+             $qb->andWhere('u.parent=:parent')->setParameter('parent', $user);
+            } 
           if($pointVente!=null){
-             $qb->andWhere('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente);
-            }      
-            if($user!=null&&!$user->isMe() ){
-                $qb ->andWhere('p.user=:user')->setParameter('user', $user);
-              }
+            $qb->andWhere('c.pointVente=:pointVente')
+             ->setParameter('pointVente', $pointVente);
+            }       
+           
           if($startDate!=null){
                $qb->andWhere('c.date>=:startDate')
               ->setParameter('startDate', new \DateTime($startDate));
@@ -37,27 +34,10 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
           if($endDate!=null){
              $qb->andWhere('c.date<=:endDate')
              ->setParameter('endDate',new \DateTime($endDate));
-            }
-          $qb->orderBy('c.date', 'asc');
+            } 
+          $qb->orderBy('c.date','asc');
          return $qb->getQuery()->getResult();  
-       }
-
-
-
-      public function findLastCommende(PointVente $pointVente, $startDate=null, $endDate=null){
-           $qb = $this->createQueryBuilder('c')
-          ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente);
-
-          if($startDate!=null){
-           $qb->andWhere('c.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('c.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
-          $qb->orderBy('c.date', 'desc');
-         return $qb->getQuery()->setMaxResults(1)->getResult();  
   }
+
 
 }

@@ -13,10 +13,10 @@ use AppBundle\Entity\PointVente;
 class LigneRepository extends \Doctrine\ORM\EntityRepository
 {
 
-      public function findLastCommende(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
+      public function findLignes(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
            $qb = $this->createQueryBuilder('l')->join('l.commende','c')
           ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente)
-          ->andWhere('l.produit=:produit')->setParameter('produit', $produit)
+          ->andWhere('l.produit=:produit')->setParameter('produit', $produit);
             if($startDate!=null){
            $qb->andWhere('c.date>=:startDate')
           ->setParameter('startDate', new \DateTime($startDate));
@@ -25,24 +25,7 @@ class LigneRepository extends \Doctrine\ORM\EntityRepository
            $qb->andWhere('c.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
           }
-          ->orderBy('c.date', 'desc');
-         return $qb->getQuery()->setMaxResults(1)->getResult();  
-  }
-     
-
-      public function findCommendes(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
-           $qb = $this->createQueryBuilder('l')->join('l.commende','c')
-          ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente)
-          ->andWhere('l.produit=:produit')->setParameter('produit', $produit)
-            if($startDate!=null){
-           $qb->andWhere('c.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('c.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
-          ->orderBy('c.date', 'asc');
+          $qb->orderBy('c.date', 'asc');
          return $qb->getQuery()->getResult();  
   }
 }

@@ -252,7 +252,10 @@ class User extends BaseUser
      * @var User
      */
     protected $parent;
-
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $apiKey;
     /**
      * Constructor
      */
@@ -279,6 +282,7 @@ class User extends BaseUser
         if (!$this->entreprise) {
            $this->entreprise=$this->nom;
        }
+       $this->apiKey=md5(uniqid());
  } 
   
     /**
@@ -645,7 +649,9 @@ class User extends BaseUser
      */
     public function getParent()
     {
-        return $this->parent;
+        if($this->isMe())
+            return $this;  
+        return $this->getParent();
     }
 
 
@@ -958,5 +964,29 @@ class User extends BaseUser
     public function getAbonnement()
     {
         return $this->abonnement;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param string $apiKey
+     *
+     * @return User
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
     }
 }

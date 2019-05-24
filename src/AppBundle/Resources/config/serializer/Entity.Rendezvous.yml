@@ -1,0 +1,24 @@
+AppBundle\Entity\Rendezvous:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['rendezvous','full']
+        commentaire:
+            groups: ['rendezvous','full']                                    
+        quantite:
+            groups: ['rendezvous','full']
+        user:
+            groups: ['rendezvous','full']
+        dateat:
+            groups: ['rendezvous','full']
+            expose: true
+            type: DateTime<'Y-m-d'> 
+        date:
+            groups: ['rendezvous','full']
+            expose: true
+            type: DateTime<'Y-m-d'>  
+        passdays:
+             groups: ['rendezvous','full'] 
+        previsions:
+             groups: ['rendezvous','full']          
+              

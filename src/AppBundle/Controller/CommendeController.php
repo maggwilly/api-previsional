@@ -35,15 +35,12 @@ class CommendeController extends Controller
 
     /**
      * @Rest\View(serializerGroups={"commende"})
-     * 
      */
     public function indexJsonAction(Request $request)
     {
          $em = $this->getDoctrine()->getManager();
-          $order=$request->query->get('order');
-          $start=$request->query->get('start');
-          $user=$this->getMobileUser($request);
-          $commendes = $em->getRepository('AppBundle:Commende')->findByUser($user,$start);
+          $user=$this->getUser();
+          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($user);
         return $commendes;
     }
 
@@ -74,24 +71,21 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"commende"})
      * 
      */
-    public function newAJsonction(Request $request)
+    public function newJsonAction(Request $request)
     {
-        $user=$this->getMobileUser($request);
+         $user=$this->getUser();
         $commende = new Commende($user);
         $form = $this->createForm('AppBundle\Form\CommendeType', $commende);
         $form->submit($request->request->all());
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
             $em->persist($commende);
-            $em->flush();
-             $commende->setNumFacture(str_pad((string)$this->id, 5, "0", STR_PAD_LEFT));
               $em->flush();
+            $commende->setNumFacture(str_pad((string)$commende->getId(), 5, "0", STR_PAD_LEFT));
             return $commende;
         }
 
-        return  array(
-            'status' => 'error');
+        return array('error' => true );
     }
 
     /**
@@ -127,10 +121,9 @@ class CommendeController extends Controller
         $deleteForm = $this->createDeleteForm($commende);
         $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('commende_edit', array('id' => $commende->getId()));
         }
 
@@ -142,26 +135,21 @@ class CommendeController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"commende"})
+     * @Rest\View(serializerGroups={"full"})
      * 
      */
     public function editJsonAction(Request $request, Commende $commende)
     {
         $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
-        $form->submit($request->request->all());
-
+        $editForm->submit($request->request->all());
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $commende;
         }
-
-        return $form;
+        return $editForm;//array('error' => true );
     }
-    /**
-     * Deletes a commende entity.
-     *
-     */
+    
+
     public function deleteAction(Request $request, Commende $commende)
     {
         $form = $this->createDeleteForm($commende);
@@ -178,8 +166,8 @@ class CommendeController extends Controller
 
 
     /**
-     * Deletes a commende entity.
-     *
+     * @Rest\View()
+     * 
      */
     public function deleteJsonAction(Request $request, Commende $commende)
     {
@@ -189,7 +177,7 @@ class CommendeController extends Controller
           $em->remove($commende);
           $em->flush();
         } catch (\Exception $e) {
-       return array('status' => "error" );
+       return array('error' => true );
      }
         return array('ok' => true,'deletedId' => $id );
     }
@@ -211,10 +199,5 @@ class CommendeController extends Controller
         ;
     }
 
-        public function getMobileUser(Request $request)
-    {
-         $em = $this->getDoctrine()->getManager();
-          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        return $user;
-    }   
+ 
 }

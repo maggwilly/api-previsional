@@ -2,18 +2,20 @@ AppBundle\Entity\PointVente:
     exclusion_policy: none
     properties:
         id:
-            groups: ['pointvente']
+            groups: ['rendezvous','commende','pointvente']
         nom:
-            groups: ['pointvente']
+            groups: ['rendezvous','commende','pointvente']
         telephone:
-            groups: ['pointvente'] 
+            groups: ['rendezvous','commende','pointvente'] 
         ville:
-            groups: ['pointvente'] 
+            groups: ['commende','pointvente'] 
         type:
-            groups: ['pointvente'] 
+            groups: ['rendezvous','commende','pointvente'] 
         quartier:
-            groups: ['pointvente'] 
+            groups: ['rendezvous','commende','pointvente'] 
         adresse:
-            groups: ['pointvente'] 
+            groups: ['rendezvous','commende','pointvente'] 
         secteur:
             groups: ['pointvente']
+        rendezvous:
+            groups: ['rendezvous',pointvente']

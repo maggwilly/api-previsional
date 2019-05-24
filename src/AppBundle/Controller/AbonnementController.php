@@ -56,7 +56,7 @@ class AbonnementController extends Controller
      */
     public function initAction(Request $request)
     {
-             $user=$this->getMobileUser($request);
+              $user=$this->getUser();
               $em = $this->getDoctrine()->getManager();
                $commande= new Commande($user);
               $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
@@ -69,8 +69,7 @@ class AbonnementController extends Controller
                     $res['cmd']=$commande->getId();
                  return $res; // $this->redirect($res['payment_url']);
               }
-         return   array(
-                'status' => 'error'); 
+         return array('error' => true );
     }
 
 
