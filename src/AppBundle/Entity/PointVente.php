@@ -13,10 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class PointVente
 {
     /**
-     * @var int
-     * @ORM\Column(name="id", type="integer")
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

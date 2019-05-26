@@ -656,7 +656,9 @@ class User extends BaseUser
 
 
    public function isMe(){
-
+     if (is_null($this->parent)) {
+        return true;
+     }
     return ($this->parent->getId()== $this->id);
    }
     /**

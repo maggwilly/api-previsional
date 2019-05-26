@@ -118,8 +118,10 @@ class PointVenteController extends Controller
      * @Rest\View(serializerGroups={"pointvente"})
      * 
      */
-    public function showJsonAction(Request $request,PointVente $pointVente)
+    public function showJsonAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $pointVente=$em->getRepository('AppBundle:PointVente')->find($request->request->get('id'));
         return $pointVente;
     }
     /**
@@ -151,6 +153,7 @@ class PointVenteController extends Controller
      */
     public function editJsonAction(Request $request, PointVente $pointVente)
     {
+        
         $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $editForm->submit($request->request->all());
         if ( $editForm->isValid()) {

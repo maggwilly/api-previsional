@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Secteur
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="string", unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -52,7 +51,15 @@ class Secteur
    */
     private $pointVentes;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct(User $user=null)
+    {
+        $this->date =new \DateTime(); 
+         $this->user=$user->getParent();
+        $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -66,6 +73,19 @@ class Secteur
     /**
      * Set nom
      *
+     * @param string $id
+     *
+     * @return Secteur
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    /**
+     * Set nom
+     *
      * @param string $nom
      *
      * @return Secteur
@@ -76,7 +96,12 @@ class Secteur
 
         return $this;
     }
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
     /**
      * Get nom
      *
@@ -134,14 +159,7 @@ class Secteur
     {
         return $this->ville;
     }
-    /**
-     * Constructor
-     */
-    public function __construct(User $user=null)
-    {
-         $this->user=$user->getParent();
-        $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add pointVente
@@ -175,5 +193,29 @@ class Secteur
     public function getPointVentes()
     {
         return $this->pointVentes;
+    }
+
+        /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return PointVente
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

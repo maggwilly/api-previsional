@@ -5,12 +5,12 @@ user_index_json:
 
 
 user_new_json:
-    path:     /user/new/json
+    path:     /register/new/json
     defaults: { _controller: "AppBundle:MobileUser:registerJson" }
     methods:  [GET, POST]
 
 user_show_json:
-    path:     /user/{id}/show/json
+    path:     /user/show/json
     defaults: { _controller: "AppBundle:MobileUser:showJson" }
     methods:  GET
 

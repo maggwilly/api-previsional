@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Produit
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="string", unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -74,6 +73,19 @@ class Produit
         return $this->id;
     }
 
+    /**
+     * Set nom
+     *
+     * @param string $id
+     *
+     * @return Secteur
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     /**
      * Set nom
      *

@@ -147,8 +147,10 @@ class MobileUserController extends Controller
      * @Rest\View(serializerGroups={"user"})
      * 
      */
-    public function showJsonAction(User $user)
+    public function showJsonAction()
     {
+
+        $user=$this->getUser();
       return  array('parent' =>$user->getParent() ,'receiveRequests' =>$user->getReceiveRequests());;  
     }
 

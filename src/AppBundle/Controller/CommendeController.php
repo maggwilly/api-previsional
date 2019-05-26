@@ -107,8 +107,10 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"full"})
      * 
      */
-    public function showJsonAction(Commende $commende)
+    public function showJsonAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $commende=$em->getRepository('AppBundle:Commende')->find($request->request->get('id'));
         return $commende;
     }
 

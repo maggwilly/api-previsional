@@ -13,8 +13,9 @@ class RendezvousType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dateat')
-        ->add('date')
+        $builder
+        ->add('dateat')
+         ->add('id')
         ->add('quantite')
         ->add('commentaire')
         ->add('pointVente');

@@ -15,6 +15,7 @@ class PointVenteType extends AbstractType
     {
         $builder
         ->add('nom')
+         ->add('id')
         ->add('ville')
         ->add('quartier')
         ->add('long')

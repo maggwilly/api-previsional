@@ -16,6 +16,7 @@ class CommendeType extends AbstractType
     {
         $builder 
         ->add('terminated')
+         ->add('id')
         ->add('lignes',CollectionType::class, array('entry_type'=> LigneType::class,'allow_add' => true))
         ->add('pointVente', EntityType::class, array('class' => 'AppBundle:PointVente'));
     }/**
