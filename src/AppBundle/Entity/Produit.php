@@ -55,7 +55,12 @@ class Produit
     /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="produit",orphanRemoval=true ,cascade={"persist","remove"})
    */
-    private $lignes;
+   private $lignes;
+
+
+    private $stored=true;
+
+   
 
         public function __construct(User $user=null)
     {

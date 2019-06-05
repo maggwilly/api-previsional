@@ -47,6 +47,8 @@ class Rapport
      * @var User
      */
     protected $user;
+
+    private $stored=true;
     /**
      * Get id
      *

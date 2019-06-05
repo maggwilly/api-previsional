@@ -10,3 +10,5 @@ AppBundle\Entity\Rapport:
             type: DateTime<'Y-m-d'> 
         description:
             groups: ['rapport'] 
+        stored:
+            groups: ['rapport']  

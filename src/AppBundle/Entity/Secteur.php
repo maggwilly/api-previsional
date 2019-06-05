@@ -51,6 +51,7 @@ class Secteur
    */
     private $pointVentes;
 
+   private $stored=true;
     /**
      * Constructor
      */

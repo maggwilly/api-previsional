@@ -34,9 +34,13 @@ class RapportController extends Controller
      */
     public function indexJsonAction(Request $request)
     {
+           $keys=$request->query->get('keys');
+         if (count_chars($keys)>0) {
+             $keys=explode(".", $keys);
+         }else $keys=[0];
         $em = $this->getDoctrine()->getManager();
          $user=$this->getUser();
-        $rapports = $em->getRepository('AppBundle:Rapport')->findByUser($user);
+        $rapports = $em->getRepository('AppBundle:Rapport')->findByUser($user,0,null,$keys);
 
         return $rapports;
     }

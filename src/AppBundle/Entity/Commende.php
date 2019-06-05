@@ -95,7 +95,7 @@ class Commende
    */
     private $lignes;
 
-
+    private $stored=true;
     /**
      * Constructor
      */
@@ -115,7 +115,11 @@ class Commende
     {
         return $this->id;
     }
-
+    public function setId($id)
+    {
+        $this->id=$id;
+        return $this;
+    }
     /**
      * Set date
      *

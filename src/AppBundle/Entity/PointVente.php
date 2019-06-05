@@ -23,20 +23,20 @@ class PointVente
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=120)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telephone", type="string", length=255)
+     * @ORM\Column(name="telephone", type="string", length=120)
      */
     private $telephone;
 
    /**
      * @var string
-     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     * @ORM\Column(name="type", type="string", length=120, nullable=true)
      */
     private $type;
     /**
@@ -48,38 +48,43 @@ class PointVente
         /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="string", length=255, nullable=true)
+     * @ORM\Column(name="longitude", type="string", length=120, nullable=true)
      */
     private $long;
 
             /**
      * @var string
      *
-     * @ORM\Column(name="lat", type="string", length=255, nullable=true)
+     * @ORM\Column(name="lat", type="string", length=120, nullable=true)
      */
     private $lat;
 
    /**
      * @var string
-     * @ORM\Column(name="ville", type="string", length=255,nullable=true)
+     * @ORM\Column(name="ville", type="string", length=120,nullable=true)
      */
     private $ville;
 
        /**
      * @var string
-     * @ORM\Column(name="quartier", type="string", length=255,nullable=true)
+     * @ORM\Column(name="quartier", type="string", length=120,nullable=true)
      */
     private $quartier;
 
-
-           /**
+       /**
      * @var string
-     * @ORM\Column(name="pays", type="string", length=255,nullable=true)
+     * @ORM\Column(name="relativeTo", type="string", length=180,nullable=true)
+     */
+    private $relativeTo;
+
+    
+      /**
+     * @var string
+     * @ORM\Column(name="pays", type="string", length=120,nullable=true)
      */
     private $pays;
 
-
-               /**
+    /**
      * @var string
      * @ORM\Column(name="adresse", type="string", length=255,nullable=true)
      */
@@ -89,6 +94,11 @@ class PointVente
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="pointVentes")
      */
     protected $user;
+    
+    /*
+      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $createdBy;
    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur" ,inversedBy="pointVentes")
      * @var User
@@ -104,7 +114,10 @@ class PointVente
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commende", mappedBy="user", cascade={"persist"})
    */
     private $commendes;
+  
+    private $lastLines;
 
+    private $stored=true;
  /**
    *@ORM\OneToOne(
    targetEntity="AppBundle\Entity\Rendezvous", 
@@ -114,7 +127,6 @@ class PointVente
    */
     private $rendezvous;
 
-    
     public function __construct(User $user=null)
     {
         $this->date=new \DateTime();
@@ -122,6 +134,7 @@ class PointVente
         $this->commendes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->agents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
+        $this->createdBy=$user;
         $this->secteur=$user->getSecteur();
         $this->addAgent($user);
     }
@@ -134,7 +147,11 @@ class PointVente
     {
         return $this->id;
     }
-
+    public function setId($id)
+    {
+        $this->id=$id;
+        return $this;
+    }
     /**
      * Set nom
      *
@@ -149,6 +166,19 @@ class PointVente
         return $this;
     }
 
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return PointVente
+     */
+    public function setLastLines($lastLines)
+    {
+        $this->lastLines = $lastLines;
+
+        return $this;
+    }
     /**
      * Get nom
      *
@@ -496,11 +526,11 @@ class PointVente
      */
     public function setRendezvous(\AppBundle\Entity\Rendezvous $rendezvous = null)
     {
-        if($this->rendezvous==null&&$rendezvous!=null)
+        //if($this->rendezvous==null&&$rendezvous!=null)
            $this->rendezvous = $rendezvous;
-        elseif (($rendezvous!=null)&&($this->rendezvous->getDateat()<=$rendezvous->getDateat())) {
+        /*elseif (($rendezvous!=null)&&($this->rendezvous->getDateat()<=$rendezvous->getDateat())) {
             $this->rendezvous = $rendezvous->setCommentaire($this->rendezvous->getCommentaire());
-        }
+        }*/
         return $this;
     }
 
@@ -512,5 +542,29 @@ class PointVente
     public function getRendezvous()
     {
         return $this->rendezvous;
+    }
+
+    /**
+     * Set relativeTo
+     *
+     * @param string $relativeTo
+     *
+     * @return PointVente
+     */
+    public function setRelativeTo($relativeTo)
+    {
+        $this->relativeTo = $relativeTo;
+
+        return $this;
+    }
+
+    /**
+     * Get relativeTo
+     *
+     * @return string
+     */
+    public function getRelativeTo()
+    {
+        return $this->relativeTo;
     }
 }

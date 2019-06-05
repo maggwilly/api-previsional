@@ -35,10 +35,13 @@ class ProduitController extends Controller
     public function indexJsonAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $order=$request->query->get('order');
-        $start=$request->query->get('start');
+        $start=$request->request->get('start');
+        $keys=$request->query->get('keys');
+         if (count_chars($keys)>0) {
+              $keys=explode(".", $keys);
+         }else $keys=[0];
          $user=$this->getUser();
-        $produits = $em->getRepository('AppBundle:Produit')->findByUser($user->getParent(),$start);
+        $produits = $em->getRepository('AppBundle:Produit')->findByUser($user->getParent(),$start,$keys);
         return $produits;
     }
 

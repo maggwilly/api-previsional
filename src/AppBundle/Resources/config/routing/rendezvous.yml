@@ -18,6 +18,11 @@ rendezvous_new_json:
     defaults: { _controller: "AppBundle:Rendezvous:newJson" }
     methods:  [GET, POST]
 
+rendezvous_edit_json:
+    path:     /{id}/edit/json
+    defaults: { _controller: "AppBundle:Rendezvous:editJson" }
+    methods:  [GET, POST,PUT]
+
 rendezvous_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Rendezvous:edit" }
@@ -28,7 +33,8 @@ rendezvous_delete:
     defaults: { _controller: "AppBundle:Rendezvous:delete" }
     methods:  DELETE
     
+
 rendezvous_index_json:
     path:     /json
-    defaults: { _controller: "AppBundle:Rendezvous:toVisitJson" }
+    defaults: { _controller: "AppBundle:Rendezvous:indexJson" }
     methods:  GET

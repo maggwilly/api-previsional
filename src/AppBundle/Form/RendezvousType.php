@@ -14,11 +14,18 @@ class RendezvousType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('dateat')
-         ->add('id')
+        ->add('dateat','datetime', array(
+              'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'invalid_message' => 'Validation date',
+                'error_bubbling' => true,
+                'input' => 'datetime' 
+            ))
+        ->add('id')
         ->add('quantite')
         ->add('commentaire')
-        ->add('pointVente');
+        ->add('pointVente')
+        ->add('user');
     }/**
      * {@inheritdoc}
      */

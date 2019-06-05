@@ -29,12 +29,6 @@ point_vente_index_json:
     defaults: { _controller: "AppBundle:PointVente:indexJson" }
     methods:  GET
 
-point_vente_to_day_visite_json:
-    path:     /to/visite/json
-    defaults: { _controller: "AppBundle:PointVente:toVisitJson" }
-    methods:  GET
-
-
 
 point_vente_show_json:
     path:     /{id}/show/json

@@ -119,10 +119,11 @@ $this->_em=$_em;
          if($nobreJourPrevisionnel<0)
             return   array('next_cmd_date' => null, );
           $date->modify('+'.$nobreJourPrevisionnel.' day');
-      
        $previsions['next_cmd_date']=(clone $date);
+       $previsions['produit']= $produit->getNom();
        $previsions['next_cmd_quantity']=$this->quanteteMoyenneCommende( $lignes);
        $previsions['fq_of_cmd_']=$this->dureeMoyenneEntreDeuxCommendes( $lignes);
+       //$pointVente->setLastLines($this->getLignes($pointVente,$produit, $startDate, $endDate,'desc',15));
         return $previsions;
     }
 

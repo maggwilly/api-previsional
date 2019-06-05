@@ -13,10 +13,12 @@ use AppBundle\Entity\PointVente;
 class LigneRepository extends \Doctrine\ORM\EntityRepository
 {
 
-      public function findLignes(PointVente $pointVente,Produit $produit, $startDate=null, $endDate=null){
-           $qb = $this->createQueryBuilder('l')->join('l.commende','c')
-          ->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente)
-          ->andWhere('l.produit=:produit')->setParameter('produit', $produit);
+      public function findLignes(PointVente $pointVente=null,Produit $produit=null, $startDate=null, $endDate=null,$order='asc',$limit=null){
+           $qb = $this->createQueryBuilder('l')->join('l.commende','c');
+           if($pointVente)
+           $qb->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente);
+          if($produit)
+          $qb->andWhere('l.produit=:produit')->setParameter('produit', $produit);
             if($startDate!=null){
            $qb->andWhere('c.date>=:startDate')
           ->setParameter('startDate', new \DateTime($startDate));
@@ -25,7 +27,9 @@ class LigneRepository extends \Doctrine\ORM\EntityRepository
            $qb->andWhere('c.date<=:endDate')
           ->setParameter('endDate',new \DateTime($endDate));
           }
-          $qb->orderBy('c.date', 'asc');
+          $qb->orderBy('c.date', $order);
+          if($limit)
+            return $qb->getQuery()->setFirstResult(0)->setMaxResults($limit)->getResult();
          return $qb->getQuery()->getResult();  
   }
 }

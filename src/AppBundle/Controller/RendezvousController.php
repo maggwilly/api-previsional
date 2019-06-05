@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Controller;
-
+use AppBundle\Entity\PointVente;
 use AppBundle\Entity\Rendezvous;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,20 +31,23 @@ class RendezvousController extends Controller
     /**
      * @Rest\View(serializerGroups={"rendezvous"})
      */
-    public function toVisitJsonAction(Request $request)
+    public function indexJsonAction(Request $request)
     {
-        $order=$request->query->get('order');
-        $start=$request->query->get('start');
+            $start=$request->query->get('start');
+            $keys=$request->query->get('keys');
+        if (count_chars($keys)>0) {
+             $keys=explode(".", $keys);
+         }else $keys=[0];     
          $em = $this->getDoctrine()->getManager();
          $user=$this->getUser();
-         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
+         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user, $start,true,null,null,$keys);
+         $rendezvous=[];
          foreach ($pointVentes as $key => $pointVente) {
-          $rendezvous= $this->get('previsonal_client')
-          ->dateProchaineCommende($pointVente);
-          $rendezvous->setUser($user);
-          $pointVente->setRendezvous($rendezvous);
-         }     
-        return  $pointVentes;
+          $rendezvous[]= $this->get('previsonal_client')
+          ->dateProchaineCommende($pointVente)->setUser($user);
+          //$pointVente->setRendezvous($rendezvous);
+         }
+        return  $rendezvous;
     }
 
     /**
@@ -70,13 +73,13 @@ class RendezvousController extends Controller
             'form' => $form->createView(),
         ));
     }
+
     /**
      * @Rest\View(serializerGroups={"rendezvous"})
-     * 
      */
     public function newJsonAction(Request $request)
     {
-         $user=$this->getUser();
+        $user=$this->getUser();
         $rendezvous = new Rendezvous(null,null,$user);
         $form = $this->createForm('AppBundle\Form\RendezvousType', $rendezvous);
         $form->submit($request->request->all());
@@ -90,6 +93,23 @@ class RendezvousController extends Controller
         return  array('error' => true );
     }
 
+    /**
+     * @Rest\View(serializerGroups={"rendezvous"})
+     * 
+     */
+    public function editJsonAction(Request $request, PointVente $pointVente)
+    {
+        $user=$this->getUser();
+        $rendezvous=$pointVente->getRendezvous()==null?new Rendezvous(null,$pointVente,$user):$pointVente->getRendezvous();
+        $editForm = $this->createForm('AppBundle\Form\RendezvousType', $rendezvous);
+        $editForm->submit($request->request->all(),false);
+        if ( $editForm->isValid()) {
+            $pointVente->setRendezvous($rendezvous);
+            $this->getDoctrine()->getManager()->flush();
+            return $pointVente->getRendezvous();
+        }
+        return $editForm;//array('error' => true );
+    }
     /**
      * Finds and displays a rendezvous entity.
      *
@@ -128,10 +148,26 @@ class RendezvousController extends Controller
     }
 
     /**
+     * @Rest\View()
+     */
+    public function deleteJsonAction(Request $request, PointVente $pointVente)
+    {
+           $id=$pointVente->getId();
+       try {
+            $em = $this->getDoctrine()->getManager();
+            $pointVente->setRendezvous(null);        
+            $em->flush();
+        } catch (\Exception $e) {
+       return array('error' => true );
+     }
+        return array('ok' => true,'deletedId' => $id );
+    }
+
+    /**
      * Deletes a rendezvous entity.
      *
      */
-    public function deleteAction(Request $request, Rendezvous $rendezvous)
+    public function deleteAction(Request $request, PointVente $pointVente)
     {
         $form = $this->createDeleteForm($rendezvous);
         $form->handleRequest($request);
@@ -147,9 +183,7 @@ class RendezvousController extends Controller
 
     /**
      * Creates a form to delete a rendezvous entity.
-     *
-     * @param Rendezvous $rendezvous The rendezvous entity
-     *
+
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Rendezvous $rendezvous)

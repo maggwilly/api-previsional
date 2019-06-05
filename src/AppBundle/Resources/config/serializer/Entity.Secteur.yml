@@ -7,5 +7,7 @@ AppBundle\Entity\Secteur:
             groups: ['pointvente','secteur','user']
         ville:
             groups: ['pointvente','secteur'] 
+        stored:
+            groups: ['pointvente','secteur'] 
         description:
             groups: ['secteur'] 

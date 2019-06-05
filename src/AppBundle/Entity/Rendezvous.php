@@ -27,6 +27,8 @@ class Rendezvous
      */
     private $dateat;
 
+    private $realdateat;
+
     /**
      * @var \DateTime
      *
@@ -36,12 +38,13 @@ class Rendezvous
 
     private $passdays;
 
+
     private $previsions;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="quantite", type="integer")
+     * @ORM\Column(name="quantite", type="integer", nullable=true)
      */
     private $quantite;
 
@@ -59,10 +62,17 @@ class Rendezvous
     private $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var User
+     */
+    private $createdBy;
+
+    /**
    * @ORM\OneToOne(targetEntity="AppBundle\Entity\PointVente",mappedBy="rendezvous")
    */
     private $pointVente;
 
+  private $stored=true;
 
     /**
      * Constructor
@@ -70,15 +80,19 @@ class Rendezvous
     public function __construct(
            \DateTime $dateat=null,
            \AppBundle\Entity\PointVente $pointVente = null,
-           \AppBundle\Entity\User $user = null
+           \AppBundle\Entity\User $user = null,
+           $stored=true
      
     )
     {
          $this->date =new \DateTime(); 
          $this->dateat =$dateat!=null?clone $dateat:$dateat; 
-         $this->user =$user;  
+         $this->createdBy =$user;  
          $this->pointVente=$pointVente;
          $this->previsions=[];
+         $this->stored=$stored;
+         if($this->pointVente)
+            $this->id=$pointVente->getId();
     }
 
 
@@ -90,6 +104,8 @@ class Rendezvous
     {
         return $this->id;
     }
+
+
     /**
      * Set nom
      *
@@ -107,14 +123,18 @@ class Rendezvous
     /** @ORM\PostLoad */
     public function doStuffOnPostLoad()
     {
-        $today=new \DateTime();  
+         $today=new \DateTime();  
          $interval=$today->diff($this->dateat); 
         $this->passdays=(int)$interval->format('%R%a'); 
         $this->previsions=[];
         if($this->dateat<=$today){
            $this->dateat= $today; 
         }
-
+        if ($this->user==null) {
+            $this->user=$this->createdBy;
+        }
+         if($this->pointVente)
+            $this->id=$this->pointVente->getId();
         
     }
     /**

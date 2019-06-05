@@ -37,10 +37,14 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"commende"})
      */
     public function indexJsonAction(Request $request)
-    {
+    {    
+       $keys=$request->query->get('keys');
+         if (count_chars($keys)>0) {
+              $keys=explode(".", $keys);
+         }else $keys=[0];
          $em = $this->getDoctrine()->getManager();
           $user=$this->getUser();
-          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($user);
+          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($user,null,null,null,$keys);
         return $commendes;
     }
 
@@ -68,7 +72,7 @@ class CommendeController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"commende"})
+     * @Rest\View(serializerGroups={"full"})
      * 
      */
     public function newJsonAction(Request $request)
@@ -143,7 +147,7 @@ class CommendeController extends Controller
     public function editJsonAction(Request $request, Commende $commende)
     {
         $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
-        $editForm->submit($request->request->all());
+        $editForm->submit($request->request->all(),false);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $commende;

@@ -11,9 +11,10 @@ use AppBundle\Entity\User;
  */
 class RapportRepository extends \Doctrine\ORM\EntityRepository
 {
-		      public function findByUser(User $user,$start=0,$all=false){
+		      public function findByUser(User $user,$start=0,$all=false,$keys=[0]){
            $qb = $this->createQueryBuilder('p');
            $qb->where('p.user=:user') ->setParameter('user', $user);
+            $qb->andWhere($qb->expr()->notIn('p.id', $keys)); 
           return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
   }
 }

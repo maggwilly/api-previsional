@@ -35,9 +35,13 @@ class SecteurController extends Controller
      */
     public function indexJsonAction(Request $request)
     {
+         $keys=$request->request->get('keys');
+         if (count_chars($keys)>0) {
+            $keys=explode(".", $keys);
+         }else $keys=[];
           $user=$this->getUser();
           $em = $this->getDoctrine()->getManager();
-        $secteurs = $em->getRepository('AppBundle:Secteur')->findByUser($user->getParent());
+        $secteurs = $em->getRepository('AppBundle:Secteur')->findByUser($user->getParent(),null,null,$keys);
         return $secteurs;
     }
 

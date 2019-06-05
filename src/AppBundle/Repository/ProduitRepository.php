@@ -11,10 +11,11 @@ use AppBundle\Entity\User;
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
 
-      public function findByUser(User $user,$start=0){
+      public function findByUser(User $user,$start=0,$keys=[0]){
            $qb = $this->createQueryBuilder('p')
            ->where('p.user=:user')
            ->setParameter('user', $user);
+            $qb->andWhere($qb->expr()->notIn('p.id', $keys)); 
          return $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult(); 
   }
 

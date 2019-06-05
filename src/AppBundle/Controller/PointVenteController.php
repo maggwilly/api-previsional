@@ -32,32 +32,17 @@ class PointVenteController extends Controller
      */
     public function indexJsonAction(Request $request)
     {
-        $order=$request->query->get('order');
-        $start=$request->query->get('start');
+        $start=$request->request->get('start');
+        $keys=$request->query->get('keys');
+         if (count_chars($keys)>0) {
+              $keys=explode(".", $keys);
+         }else $keys=[0];
          $em = $this->getDoctrine()->getManager();
          $user=$this->getUser();
-         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
+         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start,true,null,null,$keys);
         return  $pointVentes ;
     }
 
-    /**
-     * @Rest\View(serializerGroups={"rendezvous"})
-     */
-    public function toVisitJsonAction(Request $request)
-    {
-        $order=$request->query->get('order');
-        $start=$request->query->get('start');
-         $em = $this->getDoctrine()->getManager();
-         $user=$this->getUser();
-         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start);
-         foreach ($pointVentes as $key => $pointVente) {
-          $rendezvous= $this->get('previsonal_client')
-          ->dateProchaineCommende($pointVente);
-          $rendezvous->setUser($user);
-          $pointVente->setRendezvous($rendezvous);
-         }     
-        return  $pointVentes;
-    }
 
 
     /**
@@ -155,7 +140,7 @@ class PointVenteController extends Controller
     {
         
         $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $editForm->submit($request->request->all());
+        $editForm->submit($request->request->all(),false);
         if ( $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $pointVente;
@@ -195,7 +180,6 @@ class PointVenteController extends Controller
         } catch (\Exception $e) {
        return array('error' => true );
      }
-
         return array('ok' => true,'deletedId' => $id );
     }
     

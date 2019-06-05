@@ -2,9 +2,9 @@ AppBundle\Entity\Ligne:
     exclusion_policy: none
     properties:
         id:
-            groups: ['ligne','full']
+            groups: ['ligne','rendezvous','full']
         produit:
-            groups: ['ligne','full']
+            groups: ['ligne','rendezvous','full']
         quantite:
-            groups: ['ligne','full']
+            groups: ['ligne','rendezvous','full']
               

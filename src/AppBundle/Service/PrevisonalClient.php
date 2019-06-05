@@ -23,11 +23,11 @@ $this->_em=$_em;
 
     public function dateProchaineCommende(PointVente $pointVente, $startDate=null, $endDate=null)
     {
-        $rendezvous = new Rendezvous(null,$pointVente);
+           $rendezvous=$pointVente->getRendezvous()==null?new Rendezvous(null,$pointVente,null):$pointVente->getRendezvous();
         $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
         foreach ($produits as $produit) {
         $previsions= $this->_provisionalProduit->dateProchaineCommende($pointVente,$produit, $startDate, $endDate);
-         if ($previsions['next_cmd_date']<$rendezvous->getDateat()||$rendezvous->getDateat()==null){
+         if (is_null($rendezvous->getId())&&($previsions['next_cmd_date']<$rendezvous->getDateat()||$rendezvous->getDateat()==null)){
               $rendezvous->setDateat($previsions['next_cmd_date'])
                ->addPrevisions($previsions);
           }

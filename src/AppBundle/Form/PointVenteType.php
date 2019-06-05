@@ -23,8 +23,10 @@ class PointVenteType extends AbstractType
         ->add('lat')
         ->add('adresse')
         ->add('pays')
+        ->add('telephone')
+         ->add('rendezvous',RendezvousType::class)
         ->add('secteur', EntityType::class, array('class' => 'AppBundle:Secteur'))
-        ->add('telephone');
+        ;
     }/**
      * {@inheritdoc}
      */

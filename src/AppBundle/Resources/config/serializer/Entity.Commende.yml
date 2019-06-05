@@ -12,11 +12,13 @@ AppBundle\Entity\Commende:
         user:
             groups: ['commende','full'] 
         terminated:
-            groups: ['commende','full']                                    
+            groups: ['commende','full'] 
+        stored:
+            groups: ['commende','full']                                               
         lignes:
             groups: ['full']
         date:
-            groups: ['commende','full']
+            groups: ['commende','full','rendezvous']
             expose: true
             type: DateTime<'Y-m-d'> 
               

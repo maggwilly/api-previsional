@@ -9,6 +9,10 @@ AppBundle\Entity\Rendezvous:
             groups: ['rendezvous','full']
         user:
             groups: ['rendezvous','full']
+        createdBy:
+            groups: ['rendezvous','full'] 
+        pointVente:
+            groups: ['rendezvous','full']                        
         dateat:
             groups: ['rendezvous','full']
             expose: true
@@ -21,4 +25,5 @@ AppBundle\Entity\Rendezvous:
              groups: ['rendezvous','full'] 
         previsions:
              groups: ['rendezvous','full']          
-              
+        stored:
+            groups: ['rendezvous','full']                

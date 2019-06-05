@@ -13,7 +13,7 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
 {
 	  	
 
-   public function findCommendes(User $user=null,PointVente $pointVente=null, $startDate=null, $endDate=null){
+   public function findCommendes(User $user=null,PointVente $pointVente=null, $startDate=null, $endDate=null,$keys=[0]){
            $qb = $this->createQueryBuilder('c');
           if($user!=null){
             $qb->join('c.user','u');
@@ -35,7 +35,8 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
              $qb->andWhere('c.date<=:endDate')
              ->setParameter('endDate',new \DateTime($endDate));
             } 
-          $qb->orderBy('c.date','asc');
+            $qb->andWhere($qb->expr()->notIn('c.id', $keys))
+            ->orderBy('c.date','asc');
          return $qb->getQuery()->getResult();  
   }
 

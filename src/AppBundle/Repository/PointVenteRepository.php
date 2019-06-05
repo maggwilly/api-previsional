@@ -14,21 +14,23 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 {
 		  
 
-      public function findByUser(User $user,$start=0,$all=false, $startDate=null, $endDate=null){
+      public function findByUser(User $user,$start=0,$all=false, $startDate=null, $endDate=null,$keys=[0]){
         $qb = $this->createQueryBuilder('p');
         if ($user->isMe()) {
            $qb->where('p.user=:user') ->setParameter('user', $user);
         }else
             $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
         if($startDate!=null){
-               $qb->andWhere('c.date>=:startDate')
+               $qb->andWhere('p.date>=:startDate')
               ->setParameter('startDate', new \DateTime($startDate));
             }
          if($endDate!=null){
-             $qb->andWhere('c.date<=:endDate')
+             $qb->andWhere('p.date<=:endDate')
              ->setParameter('endDate',new \DateTime($endDate));
-            }            
-          return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
+            } 
+            $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
+          return  ($all) ? $qb->getQuery()->getResult() : 
+          $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
   }
 
 

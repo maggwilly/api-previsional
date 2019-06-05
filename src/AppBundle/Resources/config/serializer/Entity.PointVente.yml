@@ -8,7 +8,7 @@ AppBundle\Entity\PointVente:
         telephone:
             groups: ['rendezvous','commende','pointvente'] 
         ville:
-            groups: ['commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente'] 
         type:
             groups: ['rendezvous','commende','pointvente'] 
         quartier:
@@ -16,6 +16,8 @@ AppBundle\Entity\PointVente:
         adresse:
             groups: ['rendezvous','commende','pointvente'] 
         secteur:
-            groups: ['pointvente']
-        rendezvous:
-            groups: ['rendezvous',pointvente']
+            groups: ['rendezvous','pointvente']
+        lastLines:
+            groups: ['rendezvous']
+        stored:
+            groups: ['rendezvous','pointvente'] 
