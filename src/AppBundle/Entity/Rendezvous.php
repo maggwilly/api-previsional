@@ -68,11 +68,11 @@ class Rendezvous
     private $createdBy;
 
     /**
-   * @ORM\OneToOne(targetEntity="AppBundle\Entity\PointVente",mappedBy="rendezvous")
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\PointVente",inversedBy="rendezvous")
    */
     private $pointVente;
 
-  private $stored=true;
+    private $stored=true;
 
     /**
      * Constructor
@@ -133,10 +133,20 @@ class Rendezvous
         if ($this->user==null) {
             $this->user=$this->createdBy;
         }
-         if($this->pointVente)
-            $this->id=$this->pointVente->getId();
+       /*  if($this->pointVente)
+            $this->id=$this->pointVente->getId();*/
         
     }
+
+        /**
+* @ORM\PrePersist()
+*/
+ public function doStuffOnPersist(){
+if ($this->id==null) {
+    $this->id=md5(uniqid());
+}
+   // $this->doStuffOnUpdate();
+  }
     /**
      * Set dateat
      *

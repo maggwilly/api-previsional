@@ -2,8 +2,8 @@
 
 namespace AppBundle\Repository;
 use Doctrine\ORM\NoResultException;
-use AppBundle\Entity\Produit; 
 use AppBundle\Entity\PointVente; 
+use AppBundle\Entity\Produit; 
 /**
  * LigneRepository
  *
@@ -15,9 +15,9 @@ class LigneRepository extends \Doctrine\ORM\EntityRepository
 
       public function findLignes(PointVente $pointVente=null,Produit $produit=null, $startDate=null, $endDate=null,$order='asc',$limit=null){
            $qb = $this->createQueryBuilder('l')->join('l.commende','c');
-           if($pointVente)
+           if($pointVente!=null)
            $qb->where('c.pointVente=:pointVente')->setParameter('pointVente', $pointVente);
-          if($produit)
+          if($produit!=null)
           $qb->andWhere('l.produit=:produit')->setParameter('produit', $produit);
             if($startDate!=null){
            $qb->andWhere('c.date>=:startDate')

@@ -55,7 +55,7 @@ class PointVente
             /**
      * @var string
      *
-     * @ORM\Column(name="lat", type="string", length=120, nullable=true)
+     * @ORM\Column(name="latitude", type="string", length=120, nullable=true)
      */
     private $lat;
 
@@ -86,9 +86,15 @@ class PointVente
 
     /**
      * @var string
-     * @ORM\Column(name="adresse", type="string", length=255,nullable=true)
+     * @ORM\Column(name="adresse", type="string", length=500,nullable=true)
      */
     private $adresse;
+
+    /**
+     * @var string
+     * @ORM\Column(name="reference", type="string", length=300,nullable=true)
+     */
+    private $reference;
     /**
 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="pointVentes")
@@ -116,14 +122,12 @@ class PointVente
     private $commendes;
   
     private $lastLines;
-
+    private $lastCommende;
     private $stored=true;
  /**
    *@ORM\OneToOne(
    targetEntity="AppBundle\Entity\Rendezvous", 
-   inversedBy="pointVente", 
-   orphanRemoval=true,
-   cascade={"persist","remove"})
+   mappedBy="pointVente")
    */
     private $rendezvous;
 
@@ -164,6 +168,29 @@ class PointVente
         $this->nom = $nom;
 
         return $this;
+    }
+    /**
+     * Set week
+     *
+     * @param integer $week
+     *
+     * @return Commende
+     */
+    public function setLastCommende($lastCommende)
+    {
+        $this->lastCommende = $lastCommende;
+
+        return $this;
+    }
+
+    /**
+     * Get week
+     *
+     * @return integer
+     */
+    public function getLastCommende()
+    {
+        return $this->lastCommende;
     }
 
     /**
@@ -526,7 +553,7 @@ class PointVente
      */
     public function setRendezvous(\AppBundle\Entity\Rendezvous $rendezvous = null)
     {
-        //if($this->rendezvous==null&&$rendezvous!=null)
+        if($rendezvous!=null&&$rendezvous->getDateat()!=null)
            $this->rendezvous = $rendezvous;
         /*elseif (($rendezvous!=null)&&($this->rendezvous->getDateat()<=$rendezvous->getDateat())) {
             $this->rendezvous = $rendezvous->setCommentaire($this->rendezvous->getCommentaire());
@@ -566,5 +593,29 @@ class PointVente
     public function getRelativeTo()
     {
         return $this->relativeTo;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return PointVente
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
     }
 }

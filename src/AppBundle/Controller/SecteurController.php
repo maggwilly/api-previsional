@@ -78,10 +78,13 @@ class SecteurController extends Controller
         $user=$this->getUser();
         $secteur = new Secteur($user);
         $form = $this->createForm('AppBundle\Form\SecteurType', $secteur);
-        $form->submit($request->request->all());
+        $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($secteur);
+            if ($em->getRepository('AppBundle:Secteur')->find($secteur->getId()==null)) {
+                 $em->persist($secteur);
+            }            
+
             $em->flush();
 
             return $secteur;

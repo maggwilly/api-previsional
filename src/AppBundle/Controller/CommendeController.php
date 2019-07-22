@@ -34,20 +34,30 @@ class CommendeController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"commende"})
+     * @Rest\View(serializerGroups={"full"})
      */
     public function indexJsonAction(Request $request)
     {    
-       $keys=$request->query->get('keys');
+      $alls=$request->query->all();
+      $keys=$request->query->has('keys')?$request->query->get('keys'):'';
          if (count_chars($keys)>0) {
               $keys=explode(".", $keys);
          }else $keys=[0];
-         $em = $this->getDoctrine()->getManager();
-          $user=$this->getUser();
-          $commendes = $em->getRepository('AppBundle:Commende')->findCommendes($user,null,null,null,$keys);
+         if($request->query->get('pointVente')!=null){
+            return $this->redirectToRoute('ligne_index_json', array('id' => $request->query->get('pointVente')));
+         }
+  $commendes =$this->getDoctrine()->getManager()->getRepository('AppBundle:Commende')->findCommendes($this->getUser(),null,'desc',$keys,$alls);
         return $commendes;
     }
 
+    /**
+     * @Rest\View(serializerGroups={"full"})
+     */
+    public function indexLigneJsonAction(PointVente $pointVente)
+    {    $em = $this->getDoctrine()->getManager();
+        $commendes = $em->getRepository('AppBundle:Commende')->findCommendes(null,$pointVente,null,null,'desc',[0],5);
+        return  $commendes;
+    }
     /**
      * Creates a new commende entity.
      *
@@ -80,17 +90,37 @@ class CommendeController extends Controller
          $user=$this->getUser();
         $commende = new Commende($user);
         $form = $this->createForm('AppBundle\Form\CommendeType', $commende);
-        $form->submit($request->request->all());
+        $form->submit($this->makeUp($request),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($commende);
+            if ($em->getRepository('AppBundle:Commende')->find($commende->getId())==null) {
+               $em->persist($commende);
+            }
               $em->flush();
             $commende->setNumFacture(str_pad((string)$commende->getId(), 5, "0", STR_PAD_LEFT));
             return $commende;
         }
-
-        return array('error' => true );
+        return $form;
     }
+
+
+public function makeUp(Request $request,$setId=true){
+    $commende= $request->request->all();
+    foreach ( $commende['lignes']  as $key => &$ligne){
+        if (array_key_exists('produit', $ligne)&&is_array($ligne['produit'])) {
+             $ligne['produit']=$ligne['produit']['id'];  
+        }
+            
+      } 
+      if (array_key_exists('pointVente', $commende)&&is_array($commende['pointVente'])) {
+        $commende['pointVente']=$commende['pointVente']['id'];
+      }
+      if (!$setId) {
+         unset ($commende['id']);
+      }
+    
+    return $commende;
+}
 
     /**
      * Finds and displays a commende entity.
@@ -111,10 +141,9 @@ class CommendeController extends Controller
      * @Rest\View(serializerGroups={"full"})
      * 
      */
-    public function showJsonAction(Request $request)
+    public function showJsonAction(Commende $commende)
     {
-        $em = $this->getDoctrine()->getManager();
-        $commende=$em->getRepository('AppBundle:Commende')->find($request->request->get('id'));
+
         return $commende;
     }
 
@@ -128,7 +157,6 @@ class CommendeController extends Controller
         $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('commende_edit', array('id' => $commende->getId()));
         }
@@ -147,7 +175,7 @@ class CommendeController extends Controller
     public function editJsonAction(Request $request, Commende $commende)
     {
         $editForm = $this->createForm('AppBundle\Form\CommendeType', $commende);
-        $editForm->submit($request->request->all(),false);
+        $editForm->submit($this->makeUp($request,false),false);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $commende;

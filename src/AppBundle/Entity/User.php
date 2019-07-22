@@ -55,7 +55,7 @@ class User extends BaseUser
     private $registration;
 
 
-           /**
+    /**
      * @var string
      * @ORM\Column(name="pays", type="string", length=255,nullable=true)
      */
@@ -240,6 +240,10 @@ class User extends BaseUser
    */
     private $produits;
 
+ /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="parent", cascade={"persist","remove"})
+   */
+    private $vendeurs;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="agents")

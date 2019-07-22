@@ -79,10 +79,13 @@ class ProduitController extends Controller
         $user=$this->getUser();
         $produit = new Produit($user);
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
-        $form->submit($request->request->all());
+        $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($produit);
+           if ($em->getRepository('AppBundle:Produit')->find($produit->getId())==null) {
+               $em->persist($produit);
+            }
+           
             $em->flush();
             return $produit;
         }

@@ -2,25 +2,25 @@ AppBundle\Entity\User:
     exclusion_policy: none
     properties:
         apiKey:
-            groups: ['user', 'auth-token']
+            groups: ['user', 'auth-token','full']
         id:
-            groups: ['rendezvous','user', 'auth-token','parent','commende']            
+            groups: ['rendezvous','user', 'auth-token','parent','commende','full']            
         nom:
-            groups: ['rendezvous','user','parent','commende']
+            groups: ['rendezvous','user','parent','commende','full','last']
         entreprise:
-            groups: ['user','parent']
+            groups: ['user','parent','full']
         username:
-            groups: ['user','auth-token']
+            groups: ['user','auth-token','full']
         abonnement:
             groups: ['user','parent']            
         email:
-            groups: ['user']
+            groups: ['user','full']
         invited:
             groups: ['user']
         phone:
-            groups: ['rendezvous','user']   
+            groups: ['rendezvous','user','full']   
         ville:
-            groups: ['user']
+            groups: ['user','full']
         pays:
             groups: ['user']           
         receiveRequests:

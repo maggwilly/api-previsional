@@ -2,15 +2,15 @@ AppBundle\Entity\Commende:
     exclusion_policy: none
     properties:
         id:
-            groups: ['commende','full']
+            groups: ['commende','full','rendezvous']
         pointVente:
-            groups: ['commende','full']
+            groups: ['commende','full','last']
         status:
             groups: ['commende','full']  
         numFacture:
             groups: ['commende','full']   
         user:
-            groups: ['commende','full'] 
+            groups: ['commende','full','last'] 
         terminated:
             groups: ['commende','full'] 
         stored:
@@ -18,7 +18,7 @@ AppBundle\Entity\Commende:
         lignes:
             groups: ['full']
         date:
-            groups: ['commende','full','rendezvous']
+            groups: ['commende','full','rendezvous','last']
             expose: true
             type: DateTime<'Y-m-d'> 
               

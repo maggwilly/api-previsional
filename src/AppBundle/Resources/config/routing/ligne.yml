@@ -1,0 +1,14 @@
+commende_index:
+    path:     /{pointVente}/{user}/list
+    defaults: { _controller: "AppBundle:Commende:index" ,"pointVente":0,"user":0}
+    methods:  GET
+
+commende_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Commende:show" }
+    methods:  GET
+
+ligne_index_json:
+    path:     /{id}/json
+    defaults: { _controller: "AppBundle:Commende:indexLigneJson"}
+    methods:  GET

@@ -32,7 +32,12 @@ rendezvous_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Rendezvous:delete" }
     methods:  DELETE
-    
+
+rendezvous_delete_json:
+    path:     /{id}/delete/json
+    defaults: { _controller: "AppBundle:Rendezvous:deleteJson" }
+    methods:  DELETE
+        
 
 rendezvous_index_json:
     path:     /json

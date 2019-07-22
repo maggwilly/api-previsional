@@ -19,7 +19,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class AbonnementController extends Controller
 {
 
-  
   /**
    * @Security("is_granted('ROLE_DELEGUE')")
   */
@@ -29,7 +28,6 @@ class AbonnementController extends Controller
         $abonnements = $em->getRepository('AdminBundle:Abonnement')->findList();
          $extrats = $em->getRepository('AdminBundle:Abonnement')->findSinceDate();
         $concours = $em->getRepository('AppBundle:Session')->findList();
-
         return $this->render('AdminBundle:abonnement:index.html.twig', array(
             'abonnements' => $abonnements, 'concours' => $concours,
         ));
@@ -45,8 +43,7 @@ class AbonnementController extends Controller
     public function tokenAction()
     {
     $res=$this->get('payment_service')->getToken();
-
-  return  $res;
+     return  $res;
 }
 
 
@@ -160,7 +157,6 @@ class AbonnementController extends Controller
     {
         $form = $this->createDeleteForm($abonnement);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($abonnement);

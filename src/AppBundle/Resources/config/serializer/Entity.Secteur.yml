@@ -2,12 +2,18 @@ AppBundle\Entity\Secteur:
     exclusion_policy: none
     properties:
         id:
-            groups: ['pointvente','secteur','user']
+            groups: ['pointvente','secteur','rendezvous','user']
         nom:
-            groups: ['pointvente','secteur','user']
+            groups: ['pointvente','secteur','rendezvous','user']
         ville:
             groups: ['pointvente','secteur'] 
         stored:
             groups: ['pointvente','secteur'] 
         description:
             groups: ['secteur'] 
+        longitude:
+            groups: ['pointvente','secteur'] 
+        latitude:
+            groups: ['pointvente','secteur'] 
+        radius:
+            groups: ['pointvente','secteur'] 

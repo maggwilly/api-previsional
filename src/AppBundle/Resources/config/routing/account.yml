@@ -10,7 +10,7 @@ user_new_json:
     methods:  [GET, POST]
 
 user_show_json:
-    path:     /user/show/json
+    path:     /user/{id}/show/json
     defaults: { _controller: "AppBundle:MobileUser:showJson" }
     methods:  GET
 

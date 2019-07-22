@@ -28,21 +28,42 @@ class PointVenteController extends Controller
     }
 
     /**
-     * @Rest\View(serializerGroups={"pointvente"})
+     * @Rest\View(serializerGroups={"rendezvous"})
      */
     public function indexJsonAction(Request $request)
     {
-        $start=$request->request->get('start');
-        $keys=$request->query->get('keys');
+        $alls=$request->query->all();
+        $keys=$request->query->has('keys')?$request->query->get('keys'):'';
          if (count_chars($keys)>0) {
               $keys=explode(".", $keys);
          }else $keys=[0];
-         $em = $this->getDoctrine()->getManager();
-         $user=$this->getUser();
-         $pointVentes = $em->getRepository('AppBundle:PointVente')->findByUser($user,$start,true,null,null,$keys);
-        return  $pointVentes ;
+         $pointVentes = $this->getDoctrine()->getManager()
+                             ->getRepository('AppBundle:PointVente')
+                             ->findByUser($this->getUser(),0,true,$keys,$alls);
+        foreach ($pointVentes as $key => &$pointVente) {
+          $rendezvous= $this->get('previsonal_client')
+          ->dateProchaineCommende($pointVente)
+          ->setUser($this->getUser());
+          $pointVente->setRendezvous($rendezvous)
+               ->setLastCommende($this->get('previsonal_client')
+               ->findLastCommende($this->getUser(),$pointVente));
+         }
+         $pointVentes =new \Doctrine\Common\Collections\ArrayCollection($pointVentes);
+         $pointVentes= $pointVentes->filter(
+             function($entry) use ($alls) {   
+                if(array_key_exists('afterlastvisitedate',$alls)&&array_key_exists('beforelastvisitedate',$alls))
+                    return !is_null($entry->getLastCommende())&&($entry->getLastCommende()->getDate()>=new \DateTime($alls['afterlastvisitedate']))&&
+                           ($entry->getLastCommende()->getDate()<=new \DateTime($alls['beforelastvisitedate']));
+                elseif (array_key_exists('afterlastvisitedate',$alls)) {
+                    return !is_null($entry->getLastCommende())&&($entry->getLastCommende()->getDate()>=new \DateTime($alls['afterlastvisitedate']));
+                }elseif (array_key_exists('beforelastvisitedate',$alls)) {
+                   return !is_null($entry->getLastCommende())&&$entry->getLastCommende()->getDate()<=new \DateTime($alls['beforelastvisitedate']);
+                }
+                 return true;
+             }
+          ); 
+        return $pointVentes;
     }
-
 
 
     /**
@@ -77,12 +98,15 @@ class PointVenteController extends Controller
          $user=$this->getUser();
         $pointVente = new PointVente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $form->submit($request->request->all());
+        $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($pointVente);
+             if ($em->getRepository('AppBundle:PointVente')->find($pointVente->getId())==null) {
+               $em->persist($pointVente);
+            }
+           
             $em->flush();
-            return $pointVente;
+            return  $form;
         }
 
         return  array('error' => true );

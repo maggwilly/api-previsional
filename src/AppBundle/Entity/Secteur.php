@@ -46,12 +46,35 @@ class Secteur
      */
     private $ville;
 
+        
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=120, nullable=true)
+     */
+    private $long;
+
+      
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lat", type="string", length=120, nullable=true)
+     */
+     private $lat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="radius", type="integer", nullable=true)
+     */
+     private $radius;
+
    /**
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\PointVente", mappedBy="secteur", cascade={"persist","remove"})
    */
     private $pointVentes;
 
-   private $stored=true;
+     private $stored=true;
     /**
      * Constructor
      */
@@ -218,5 +241,28 @@ class Secteur
     public function getDate()
     {
         return $this->date;
+    }
+        /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return PointVente
+     */
+    public function setRadius($date)
+    {
+        $this->radius = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getRadius()
+    {
+        return $this->radius;
     }
 }

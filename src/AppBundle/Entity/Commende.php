@@ -24,7 +24,7 @@ class Commende
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datesave", type="date")
+     * @ORM\Column(name="datesave", type="datetime")
      */
     private $date;
 
@@ -96,6 +96,8 @@ class Commende
     private $lignes;
 
     private $stored=true;
+
+
     /**
      * Constructor
      */
@@ -150,12 +152,13 @@ class Commende
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
     $this->month =$this->date->format("M");
-   // $this->doStuffOnUpdate();
+   $this->terminated=is_null($this->terminated)?true:false;
   }
     /**
   @ORM\PreFlush
 */
  public function doStuffOnUpdate(){
+      $this->terminated=is_null($this->terminated)?false:true;
     foreach ($this->lignes as $key => $ligne) {
         if($ligne->getProduit()==null){
           $this->removeLigne($ligne);
@@ -164,8 +167,6 @@ class Commende
          $ligne->setCommende($this);
     }
   }
-
-
     /**
      * Set week
      *
@@ -189,6 +190,7 @@ class Commende
     {
         return $this->week;
     }
+
 
     /**
      * Set weekText

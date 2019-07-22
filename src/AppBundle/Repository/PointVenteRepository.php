@@ -14,59 +14,65 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 {
 		  
 
-      public function findByUser(User $user,$start=0,$all=false, $startDate=null, $endDate=null,$keys=[0]){
+      public function findByUser(User $user,$start=0,$all=false,$keys=[0],$alls=[0]){
         $qb = $this->createQueryBuilder('p');
         if ($user->isMe()) {
-           $qb->where('p.user=:user') ->setParameter('user', $user);
+             $qb->where('p.user=:user') ->setParameter('user', $user);
         }else
-            $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
-        if($startDate!=null){
-               $qb->andWhere('p.date>=:startDate')
-              ->setParameter('startDate', new \DateTime($startDate));
+            $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user))); 
+        
+         if(array_key_exists('user',$alls)){
+             $user= $this->_em->getRepository('AppBundle:User')->find($alls['user']);
+             $qb->andWhere($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
             }
-         if($endDate!=null){
-             $qb->andWhere('p.date<=:endDate')
-             ->setParameter('endDate',new \DateTime($endDate));
+         if(array_key_exists('secteur',$alls)){
+             $qb->andWhere('p.secteur=:secteur')
+             ->setParameter('secteur',$alls['secteur']);
             } 
-            $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
-          return  ($all) ? $qb->getQuery()->getResult() : 
-          $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
+         if(array_key_exists('type',$alls)){
+             $qb->andWhere('p.type=:type')
+             ->setParameter('type',$alls['type']);
+            } 
+         if(array_key_exists('ville',$alls)){
+             $qb->andWhere('p.ville=:ville')
+             ->setParameter('ville',$alls['ville']);
+            }
+         if(array_key_exists('quartier',$alls)){
+             $qb->andWhere('p.quartier=:quartier')
+             ->setParameter('quartier',$alls['quartier']);
+            } 
+         if(array_key_exists('afterdate',$alls)){
+             $qb->andWhere('p.date>=:afterdate')
+             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
+            }
+         if(array_key_exists('beforedate',$alls)){
+             $qb->andWhere('p.date<=:beforedate')
+             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
+            }            
+               $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
+          return   $qb->getQuery()->setMaxResults(100)->getResult() ; 
   }
 
 
-      public function findBySecteur(Secteur $secteur,$start=0,$all=false, $startDate=null, $endDate=null){
+      public function findBySecteur(Secteur $secteur,$start=0,$all=false){
         $qb = $this->createQueryBuilder('p');
-           $qb->where('p.secteur=:secteur') ->setParameter('secteur', $secteur);
-        if($startDate!=null){
-               $qb->andWhere('c.date>=:startDate')
-              ->setParameter('startDate', new \DateTime($startDate));
-            }
-         if($endDate!=null){
-             $qb->andWhere('c.date<=:endDate')
-             ->setParameter('endDate',new \DateTime($endDate));
-            }            
+           $qb->where('p.secteur=:secteur') ->setParameter('secteur', $secteur);           
           return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
   }
 
 
-      public function findVisited(User $user, $startDate=null, $endDate=null){
+      public function findVisited(User $user){
            $qb = $this->createQueryBuilder('p')->join('p.commendes','c')
           ->where('c.user=:user')->setParameter('user', $user);
-          if($startDate!=null){
-           $qb->andWhere('c.date>=:startDate')
-          ->setParameter('startDate', new \DateTime($startDate));
-          }
-          if($endDate!=null){
-           $qb->andWhere('c.date<=:endDate')
-          ->setParameter('endDate',new \DateTime($endDate));
-          }
           $qb->orderBy('c.date', 'desc');
          return $qb->getQuery()->getArrayResult();  
      }
 
 
 
-    public function getPointVenteIds(User $user){
+    public function getPointVenteIds(User $user=null){
+      if(is_null($user))
+        return [0];
         $ids= array();
      foreach ($user->getPointsPassages() as $pointVente) {
          $ids[]=$pointVente->getId();

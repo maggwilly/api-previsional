@@ -139,7 +139,7 @@ class MobileUserController extends Controller
         $em = $this->getDoctrine()->getManager();
          $user=$this->getUser();
          $users = $em->getRepository('AppBundle:User')->findByUser($user);
-        return array('users' =>$users ,'requests' =>$user->getSendRequests() );
+        return $users;
     }
 
 
@@ -151,7 +151,7 @@ class MobileUserController extends Controller
     {
 
         $user=$this->getUser();
-      return  array('parent' =>$user->getParent() ,'receiveRequests' =>$user->getReceiveRequests());;  
+      return  array('id' =>$user->getId(),'parent' =>$user->getParent() ,'receiveRequests' =>$user->getReceiveRequests());;  
     }
 
 

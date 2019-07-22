@@ -12,7 +12,7 @@ AppBundle\Entity\Rendezvous:
         createdBy:
             groups: ['rendezvous','full'] 
         pointVente:
-            groups: ['rendezvous','full']                        
+            groups: ['full']                        
         dateat:
             groups: ['rendezvous','full']
             expose: true

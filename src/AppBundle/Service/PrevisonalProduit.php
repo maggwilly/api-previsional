@@ -54,7 +54,8 @@ $this->_em=$_em;
          if($lignes[$i]->getCommende()->getDate()==$lignes[$i+1]->getCommende()->getDate())
                continue;  
             $interval=$lignes[$i]->getCommende()->getDate()->diff($lignes[$i+1]->getCommende()->getDate());
-            $totalMoyenne+=$quantite/abs((int)$interval->format('%R%a'));
+            if(abs((int)$interval->format('%R%a'))>0)
+                $totalMoyenne+=$quantite/abs((int)$interval->format('%R%a'));
             $quantite=0;
             $count++;
            
@@ -84,8 +85,10 @@ $this->_em=$_em;
     
     public function lastLigne($lignes) //Can be quite small for some ones
     {
-        if (count($lignes)<2) {
-            return $lignes[count($lignes)-1];
+        if (count($lignes)==1) {
+            return $lignes[0];
+        }elseif (empty($lignes)) {
+          return null;
         }
         $quantite=0;
        foreach ($lignes as $key => $ligne) {
@@ -109,14 +112,17 @@ $this->_em=$_em;
         $previsions=[];
         $lignes=$this->getLignes($pointVente,$produit, $startDate, $endDate);
         $lastLigne=$this->lastLigne($lignes);
+        if(is_null($lastLigne))
+          return $previsions;
         $quantite=$lastLigne->getQuantite();
         $previsions['last_cmd_date']=$lastLigne->getCommende()->getDate()->format('Y-m-d');
         $previsions['last_cmd_quantity']=$quantite;
         $date=$lastLigne->getCommende()->getDate();
         if($quantite<$this->quanteteMoyenneJour($lignes))
             $nobreJourPrevisionnel=$this->dureeMoyenneEntreDeuxCommendes($lignes);
-         else $nobreJourPrevisionnel=floor($quantite/$this->quanteteMoyenneJour( $lignes));
-         if($nobreJourPrevisionnel<0)
+         elseif($this->quanteteMoyenneJour($lignes)>0)
+              $nobreJourPrevisionnel=floor($quantite/$this->quanteteMoyenneJour($lignes));
+         else
             return   array('next_cmd_date' => null, );
           $date->modify('+'.$nobreJourPrevisionnel.' day');
        $previsions['next_cmd_date']=(clone $date);

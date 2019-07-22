@@ -13,7 +13,50 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
 {
 	  	
 
-   public function findCommendes(User $user=null,PointVente $pointVente=null, $startDate=null, $endDate=null,$keys=[0]){
+   public function findCommendes(User $user=null,PointVente $pointVente=null,$order='asc',$keys=[0],$alls=[0]){
+           $qb = $this->createQueryBuilder('c')->join('c.pointVente','p');
+          if($user!=null){
+            $qb->join('c.user','u');
+         if (!$user->isMe()) {
+             $qb->andWhere('c.user=:user')->setParameter('user', $user);
+        }else
+             $qb->andWhere('u.parent=:parent')->setParameter('parent', $user);
+            } 
+          if($pointVente!=null){
+            $qb->andWhere('c.pointVente=:pointVente')
+             ->setParameter('pointVente', $pointVente);
+            } 
+         if(array_key_exists('user',$alls)&&$alls['user']){
+             $user= $this->_em->getRepository('AppBundle:User')->find($alls['user']);
+              $qb->andWhere('c.user=:user')->setParameter('user', $user);
+            }      
+         if(array_key_exists('secteur',$alls)){
+             $qb->andWhere('p.secteur=:secteur')
+             ->setParameter('secteur',$alls['secteur']);
+            } 
+         if(array_key_exists('terminated',$alls)){
+             $qb->andWhere('c.terminated=:terminated')
+             ->setParameter('terminated',$alls['terminated']==="true"?true:false);
+            } 
+         if(array_key_exists('ville',$alls)){
+             $qb->andWhere('p.ville=:ville')
+             ->setParameter('ville',$alls['ville']);
+            }
+ 
+         if(array_key_exists('afterdate',$alls)){
+             $qb->andWhere('c.date>=:afterdate')
+             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
+            }
+         if(array_key_exists('beforedate',$alls)){
+             $qb->andWhere('c.date<=:beforedate')
+             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
+            }
+            $qb->andWhere($qb->expr()->notIn('c.id', $keys))
+            ->orderBy('c.date',$order);
+            return $qb->getQuery()->setMaxResults(100)->getResult();  
+  }
+
+   public function findLastCommende(User $user=null,PointVente $pointVente=null){
            $qb = $this->createQueryBuilder('c');
           if($user!=null){
             $qb->join('c.user','u');
@@ -26,19 +69,8 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.pointVente=:pointVente')
              ->setParameter('pointVente', $pointVente);
             }       
-           
-          if($startDate!=null){
-               $qb->andWhere('c.date>=:startDate')
-              ->setParameter('startDate', new \DateTime($startDate));
-            }
-          if($endDate!=null){
-             $qb->andWhere('c.date<=:endDate')
-             ->setParameter('endDate',new \DateTime($endDate));
-            } 
-            $qb->andWhere($qb->expr()->notIn('c.id', $keys))
-            ->orderBy('c.date','asc');
-         return $qb->getQuery()->getResult();  
+            $qb->orderBy('c.date','desc');
+            return $qb->getQuery()->setMaxResults(1)->getOneOrNullresult();  
   }
-
 
 }

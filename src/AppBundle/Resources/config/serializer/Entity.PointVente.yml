@@ -2,22 +2,32 @@ AppBundle\Entity\PointVente:
     exclusion_policy: none
     properties:
         id:
-            groups: ['rendezvous','commende','pointvente']
+            groups: ['rendezvous','commende','pointvente','full','last']
         nom:
-            groups: ['rendezvous','commende','pointvente']
+            groups: ['rendezvous','commende','pointvente','full']
         telephone:
-            groups: ['rendezvous','commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente','full'] 
+        rendezvous:
+            groups: ['rendezvous']           
         ville:
-            groups: ['rendezvous','commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente','full'] 
         type:
-            groups: ['rendezvous','commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente','full'] 
         quartier:
-            groups: ['rendezvous','commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente','full'] 
         adresse:
-            groups: ['rendezvous','commende','pointvente'] 
+            groups: ['rendezvous','commende','pointvente','full'] 
         secteur:
-            groups: ['rendezvous','pointvente']
-        lastLines:
-            groups: ['rendezvous']
+            groups: ['rendezvous','pointvente','full']
+        lastCommende:
+            groups: ['rendezvous','full']
         stored:
-            groups: ['rendezvous','pointvente'] 
+            groups: ['rendezvous','pointvente','full'] 
+        long:
+            groups: ['rendezvous','pointvente','commende','full'] 
+        lat:
+            groups: ['rendezvous','pointvente','commende','full'] 
+        date:
+            groups: ['commende','full','rendezvous','last','pointvente']
+            expose: true
+            type: DateTime<'Y-m-d'> 

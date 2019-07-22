@@ -1,7 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
-
+use AppBundle\Entity\PointVente; 
+use AppBundle\Entity\User; 
 /**
  * RendezvousRepository
  *
@@ -10,4 +11,16 @@ namespace AppBundle\Repository;
  */
 class RendezvousRepository extends \Doctrine\ORM\EntityRepository
 {
+
+      public function findByUser(User $user=null,$keys=[0]){
+        $qb = $this->createQueryBuilder('p')->leftJoin('p.user','u');
+        if ($user->isMe()) {
+             $qb->where('u.parent=:user')->setParameter('user', $user);
+        }else
+            $qb->where('p.user=:user')->setParameter('user', $user); 
+          $qb->andWhere($qb->expr()->notIn('p.id', $keys));     
+          return $qb->getQuery()->setMaxResults(100)->getResult(); 
+  }
+
+
 }

@@ -43,7 +43,7 @@ class Produit
 
         /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="produits")
-     * @var User
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $user;
     /**

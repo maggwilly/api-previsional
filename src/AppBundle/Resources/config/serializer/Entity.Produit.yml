@@ -2,11 +2,11 @@ AppBundle\Entity\Produit:
     exclusion_policy: none
     properties:
         id:
-            groups: ['produit','ligne','commende','rendezvous','full']
+            groups: ['produit','ligne','commende','rendezvous','full','last']
         nom:
-            groups: ['produit','ligne','commende','rendezvous','full']
+            groups: ['produit','ligne','commende','rendezvous','full','last']
         description:
-            groups: ['produit','ligne','commende','full'] 
+            groups: ['produit','ligne','commende','full','last'] 
         cout:
             groups: ['produit','ligne','commende','full'] 
         stored:
