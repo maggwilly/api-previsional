@@ -112,7 +112,7 @@ class Commande
     }
 
     /**
-     *@ORM\Prepersist()
+    * @ORM\PrePersist()
     * @ORM\PreUpdate()
     */
     public function PreUpdate(){

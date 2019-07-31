@@ -68,7 +68,7 @@ $this->_em=$_em;
              }  
               $rendezvous->addPrevisions($previsions);
            }
-           if($rendezvous->getDateat()!=null&&!$rendezvous->getStored()){
+           if($rendezvous&&$rendezvous->getDateat()!=null&&!$rendezvous->getStored()){
                 $rendezvous->setStored(true);
                $this->_em->persist($rendezvous);
             } 
