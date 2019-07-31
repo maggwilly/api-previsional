@@ -35,6 +35,14 @@ class Ligne
      * @ORM\Column(name="stock", type="integer", nullable=true)
      */
     private $stock;
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="pu", type="integer", nullable=true)
+     */
+    private $pu; 
+
     /**
      * @var int
      *
@@ -86,6 +94,30 @@ class Ligne
     public function getQuantite()
     {
         return $this->quantite;
+    }
+
+    /**
+     * Set pu
+     *
+     * @param integer $quantite
+     *
+     * @return Ligne
+     */
+    public function setPu($pu)
+    {
+        $this->pu = $pu;
+
+        return $this;
+    }
+
+    /**
+     * Get pu
+     *
+     * @return int
+     */
+    public function getPu()
+    {
+        return $this->pu;
     }
 
     /**

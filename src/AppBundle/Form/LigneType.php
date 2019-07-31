@@ -16,6 +16,7 @@ class LigneType extends AbstractType
         $builder
         ->add('quantite')
         ->add('stock')
+        ->add('pu')
         ->add('acn')
         ->add('produit', EntityType::class, array('class' => 'AppBundle:Produit'));
     }/**

@@ -23,6 +23,11 @@ rendezvous_edit_json:
     defaults: { _controller: "AppBundle:Rendezvous:editJson" }
     methods:  [GET, POST,PUT]
 
+rendezvous_show_json:
+    path:     /{id}/show/json
+    defaults: { _controller: "AppBundle:Rendezvous:showJson" }
+    methods:  GET
+
 rendezvous_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Rendezvous:edit" }

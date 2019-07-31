@@ -8,9 +8,19 @@ rapport_index_json:
     defaults: { _controller: "AppBundle:Rapport:indexJson" }
     methods:  GET
 
-stats_index_json:
+stats_index_json: 
     path:     /stat/json
     defaults: { _controller: "AppBundle:Rapport:statsJson" }
+    methods:  GET
+
+map_index_json: 
+    path:     /map/json
+    defaults: { _controller: "AppBundle:Rapport:mapJson" }
+    methods:  GET
+
+prevision_index_json: 
+    path:     /prevision/json
+    defaults: { _controller: "AppBundle:Rapport:previsionsJson" }
     methods:  GET
 
 
@@ -19,5 +29,8 @@ rapport_show:
     defaults: { _controller: "AppBundle:Rapport:show" }
     methods:  GET
 
-
+rapport_show_json:
+    path:     /stat/{id}/show/json
+    defaults: { _controller: "AppBundle:Rapport:statsJson" }
+    methods:  GET
 

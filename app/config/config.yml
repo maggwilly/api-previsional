@@ -127,7 +127,6 @@ fos_rest:
     serializer:
         serialize_null:  false
 
-
 nelmio_cors:
         defaults:
             allow_credentials: false

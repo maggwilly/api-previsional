@@ -24,7 +24,7 @@ class Commende
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datesave", type="datetime")
+     * @ORM\Column(name="datesave", type="date")
      */
     private $date;
 
@@ -151,8 +151,7 @@ class Commende
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
-    $this->month =$this->date->format("M");
-   $this->terminated=is_null($this->terminated)?true:false;
+    $this->terminated=is_null($this->terminated)?true:false;
   }
     /**
   @ORM\PreFlush
@@ -167,6 +166,33 @@ class Commende
          $ligne->setCommende($this);
     }
   }
+
+
+    /**
+     * Get week
+     *
+     * @return integer
+     */
+    public function getColisSum()
+    {  $colisSum=0;
+        foreach ($this->lignes as $key => $ligne) {
+          $colisSum+=$ligne->getQuantite();
+        }
+      return $colisSum;  
+    }
+
+    /**
+     * Get week
+     *
+     * @return integer
+     */
+    public function getCaSum()
+    {  $caSum=0;
+        foreach ($this->lignes as $key => $ligne) {
+          $caSum+=$ligne->getQuantite()*$ligne->getPu();
+        }
+      return $caSum;  
+    }
     /**
      * Set week
      *
@@ -187,8 +213,9 @@ class Commende
      * @return integer
      */
     public function getWeek()
-    {
-        return $this->week;
+    {  /*if($this->week)
+        return $this->week;*/
+      return $this->date->format("W");  
     }
 
 

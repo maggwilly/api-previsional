@@ -101,9 +101,9 @@ class PointVente
      */
     protected $user;
     
-    /*
-      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     */
+    /**
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     **/
     protected $createdBy;
    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur" ,inversedBy="pointVentes")
@@ -117,18 +117,48 @@ class PointVente
     protected $agents;
 
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commende", mappedBy="user", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commende", mappedBy="pointVente", cascade={"persist"})
    */
     private $commendes;
-  
-    private $lastLines;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="week", type="integer", nullable=true)
+     */
+    private $week;
+
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="week_text", type="string", length=255, nullable=true)
+     */
+    private $weekText;
+
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="month", type="string", length=255, nullable=true)
+     */
+    private $month;
+    //last commende
     private $lastCommende;
-    private $stored=true;
+    //commende's las lines
+     private $lastLines;
+     //the first commende also called engagement
+    private $firstCommende;
+    //is it stored in db
+    private $stored;
+    // 
+    private $visited;
  /**
-   *@ORM\OneToOne(
+   *@ORM\OneToMany(
    targetEntity="AppBundle\Entity\Rendezvous", 
    mappedBy="pointVente")
    */
+    private $rendezvouss;
+  // last redv
     private $rendezvous;
 
     public function __construct(User $user=null)
@@ -137,11 +167,20 @@ class PointVente
         $this->pays='Cameroun';
         $this->commendes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->agents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rendezvouss = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
         $this->createdBy=$user;
         $this->secteur=$user->getSecteur();
         $this->addAgent($user);
     }
+
+    /**
+* @ORM\PrePersist()
+*/
+ public function doStuffOnPersist(){
+    $this->week =$this->date->format("W");
+  }
+
     /**
      * Get id
      *
@@ -176,7 +215,7 @@ class PointVente
      *
      * @return Commende
      */
-    public function setLastCommende($lastCommende)
+    public function setLastCommende(\AppBundle\Entity\Commende $lastCommende = null)
     {
         $this->lastCommende = $lastCommende;
 
@@ -194,18 +233,29 @@ class PointVente
     }
 
     /**
-     * Set nom
+     * Set week
      *
-     * @param string $nom
+     * @param integer $firstCommende
      *
-     * @return PointVente
+     * @return Commende
      */
-    public function setLastLines($lastLines)
+    public function setFirstCommende(\AppBundle\Entity\Commende $firstCommende = null)
     {
-        $this->lastLines = $lastLines;
+        $this->firstCommende = $firstCommende;
 
         return $this;
     }
+
+    /**
+     * Get firstCommende
+     *
+     * @return integer
+     */
+    public function getLFirstCommende()
+    {
+        return $this->firstCommende;
+    }
+
     /**
      * Get nom
      *
@@ -529,11 +579,57 @@ class PointVente
      *
      * @return string
      */
+    public function getStored()
+    {
+        return $this->stored;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return User
+     */
+    public function setStored($stored)
+    {
+        $this->stored = $stored;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getVisited()
+    {
+        return $this->visited;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return User
+     */
+    public function setVisited($visited)
+    {
+        $this->visited = $visited;
+
+        return $this;
+    }
+    /**
+     * Get type
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
-
     /**
      * Get secteur
      *
@@ -553,11 +649,8 @@ class PointVente
      */
     public function setRendezvous(\AppBundle\Entity\Rendezvous $rendezvous = null)
     {
-        if($rendezvous!=null&&$rendezvous->getDateat()!=null)
            $this->rendezvous = $rendezvous;
-        /*elseif (($rendezvous!=null)&&($this->rendezvous->getDateat()<=$rendezvous->getDateat())) {
-            $this->rendezvous = $rendezvous->setCommentaire($this->rendezvous->getCommentaire());
-        }*/
+
         return $this;
     }
 
@@ -617,5 +710,137 @@ class PointVente
     public function getReference()
     {
         return $this->reference;
+    }
+
+    /**
+     * Get week
+     *
+     * @return integer
+     */
+    public function getWeek()
+    {  /*if($this->week)
+        return $this->week;*/
+      return $this->date->format("W");  
+    }
+
+
+    /**
+     * Set weekText
+     *
+     * @param string $weekText
+     *
+     * @return Commende
+     */
+    public function setWeekText($weekText)
+    {
+        $this->weekText = $weekText;
+
+        return $this;
+    }
+
+    /**
+     * Get weekText
+     *
+     * @return string
+     */
+    public function getWeekText()
+    {
+        return $this->weekText;
+    }
+
+    /**
+     * Set month
+     *
+     * @param integer $month
+     *
+     * @return Commende
+     */
+    public function setMonth($month)
+    {
+        $this->month = $month;
+
+        return $this;
+    }
+
+    /**
+     * Get month
+     *
+     * @return integer
+     */
+    public function getMonth()
+    {
+        return $this->month;
+    }
+
+    /**
+     * Set week
+     *
+     * @param integer $week
+     *
+     * @return PointVente
+     */
+    public function setWeek($week)
+    {
+        $this->week = $week;
+
+        return $this;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \AppBundle\Entity\User $createdBy
+     *
+     * @return PointVente
+     */
+    public function setCreatedBy(\AppBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Add rendezvouss
+     *
+     * @param \AppBundle\Entity\Rendezvous $rendezvouss
+     *
+     * @return PointVente
+     */
+    public function addRendezvouss(\AppBundle\Entity\Rendezvous $rendezvouss)
+    {
+        $this->rendezvouss[] = $rendezvouss;
+
+        return $this;
+    }
+
+    /**
+     * Remove rendezvouss
+     *
+     * @param \AppBundle\Entity\Rendezvous $rendezvouss
+     */
+    public function removeRendezvouss(\AppBundle\Entity\Rendezvous $rendezvouss)
+    {
+        $this->rendezvouss->removeElement($rendezvouss);
+    }
+
+    /**
+     * Get rendezvouss
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRendezvouss()
+    {
+        return $this->rendezvouss;
     }
 }

@@ -11,7 +11,7 @@ use AppBundle\Entity\User;
  */
 class RapportRepository extends \Doctrine\ORM\EntityRepository
 {
-		      public function findByUser(User $user,$start=0,$all=false,$keys=[0]){
+		      public function findByUser(User $user,$start=0,$all=false,$keys=[""]){
            $qb = $this->createQueryBuilder('p');
            $qb->where('p.user=:user') ->setParameter('user', $user);
             $qb->andWhere($qb->expr()->notIn('p.id', $keys)); 

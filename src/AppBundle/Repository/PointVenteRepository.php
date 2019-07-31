@@ -13,17 +13,68 @@ use Doctrine\ORM\NoResultException;
 class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 {
 		  
+      /*Liste des cpoints de vente d'un utilisqteur*/
 
-      public function findByUser(User $user,$start=0,$all=false,$keys=[0],$alls=[0]){
-        $qb = $this->createQueryBuilder('p');
+      public function findByUser(User $user,$alls=[""],$keys=[""],$ignoredate=false){
+        $qb = $this->createQueryBuilder('p')->leftJoin('p.commendes','c');
         if ($user->isMe()) {
              $qb->where('p.user=:user') ->setParameter('user', $user);
         }else
             $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user))); 
         
-         if(array_key_exists('user',$alls)){
-             $user= $this->_em->getRepository('AppBundle:User')->find($alls['user']);
-             $qb->andWhere($qb->expr()->in('p.id', $this->getPointVenteIds($user)));
+          if(array_key_exists('user',$alls)){
+             $qb->andWhere('p.createdBy=:user')->setParameter('user', $alls['user']);
+            }
+
+         if(array_key_exists('secteur',$alls)){
+             $qb->andWhere('p.secteur=:secteur')
+             ->setParameter('secteur',$alls['secteur']);
+            } 
+         if(array_key_exists('type',$alls)){
+             $qb->andWhere('p.type=:type')
+             ->setParameter('type',$alls['type']);
+            } 
+         if(array_key_exists('ville',$alls)){
+             $qb->andWhere('p.ville=:ville')
+             ->setParameter('ville',$alls['ville']);
+            }
+         if(array_key_exists('quartier',$alls)){
+             $qb->andWhere('p.quartier=:quartier')
+             ->setParameter('quartier',$alls['quartier']);
+            }
+        if(!$ignoredate){
+         if(array_key_exists('afterdate',$alls)){
+             $qb->andWhere('p.date>=:afterdate')
+             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
+            }
+         if(array_key_exists('beforedate',$alls)){
+             $qb->andWhere('p.date<=:beforedate')
+             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
+            } 
+         if(array_key_exists('aftervisitedate',$alls)){
+             $qb->andWhere('c.date>=:aftervisitedate or c.date is null')
+             ->setParameter('aftervisitedate',new \DateTime($alls['aftervisitedate']));
+            }
+         if(array_key_exists('beforevisitedate',$alls)){
+             $qb->andWhere('c.date<=:beforevisitedate or c.date is null')
+             ->setParameter('beforevisitedate',new \DateTime($alls['beforevisitedate']));
+            } 
+        }   
+               $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
+          return   $qb->distinct()->getQuery()->getResult() ; 
+  }
+
+          /* Points de vente avec si visités ou pas par un utilisateur*/
+
+      public function findCreatedVisitedEngagedByUser(User $user, $alls=[""]){
+           $qb = $this->createQueryBuilder('p')->leftJoin('p.commendes','c');
+        if ($user->isMe()) {
+             $qb->where('p.user=:user')->setParameter('user', $user);
+        }else
+           $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user))); 
+          
+          if(array_key_exists('user',$alls)){
+             $qb->andWhere('p.createdBy=:user')->setParameter('user', $alls['user']);
             }
          if(array_key_exists('secteur',$alls)){
              $qb->andWhere('p.secteur=:secteur')
@@ -40,34 +91,84 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
          if(array_key_exists('quartier',$alls)){
              $qb->andWhere('p.quartier=:quartier')
              ->setParameter('quartier',$alls['quartier']);
-            } 
-         if(array_key_exists('afterdate',$alls)){
-             $qb->andWhere('p.date>=:afterdate')
-             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
             }
-         if(array_key_exists('beforedate',$alls)){
-             $qb->andWhere('p.date<=:beforedate')
-             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
-            }            
-               $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
-          return   $qb->getQuery()->setMaxResults(100)->getResult() ; 
-  }
-
-
-      public function findBySecteur(Secteur $secteur,$start=0,$all=false){
-        $qb = $this->createQueryBuilder('p');
-           $qb->where('p.secteur=:secteur') ->setParameter('secteur', $secteur);           
-          return  ($all) ? $qb->getQuery()->setFirstResult($start)->getResult() : $qb->getQuery()->setFirstResult($start)->setMaxResults(100)->getResult() ; 
-  }
-
-
-      public function findVisited(User $user){
-           $qb = $this->createQueryBuilder('p')->join('p.commendes','c')
-          ->where('c.user=:user')->setParameter('user', $user);
-          $qb->orderBy('c.date', 'desc');
-         return $qb->getQuery()->getArrayResult();  
+            
+            $qb->select('p.id') 
+            ->addSelect('p.nom')
+            ->addSelect('min(p.date) as date')
+            ->addSelect('p.week as createdweek')
+            ->addSelect('count(DISTINCT c.pointVente) as nombre') 
+            ->addSelect('min(c.week) as engagedweek')
+            ->addSelect('min(c.date) as engageddate')
+            ->addGroupBy('p.id')
+            ->addGroupBy('p.date')
+            ->addGroupBy('p.week ')
+            ->addGroupBy('p.nom');
+            try {
+                   return $qb->getQuery()->getArrayResult();  
+              } catch (NoResultException $e) {
+                  return [];  
+              } 
      }
 
+
+          /* Points de vente avec si visités ou pas par un utilisateur*/
+
+      public function findVisiedDateByUser(User $user, $alls=[""]){
+           $qb = $this->createQueryBuilder('p')->leftJoin('p.commendes','c');
+        if ($user->isMe()) {
+             $qb->where('p.user=:user')->setParameter('user', $user);
+        }else
+           $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user))); 
+          
+          if(array_key_exists('user',$alls)){
+             $qb->andWhere('p.createdBy=:user')->setParameter('user', $alls['user']);
+            }
+         if(array_key_exists('secteur',$alls)){
+             $qb->andWhere('p.secteur=:secteur')
+             ->setParameter('secteur',$alls['secteur']);
+            } 
+         if(array_key_exists('type',$alls)){
+             $qb->andWhere('p.type=:type')
+             ->setParameter('type',$alls['type']);
+            } 
+         if(array_key_exists('ville',$alls)){
+             $qb->andWhere('p.ville=:ville')
+             ->setParameter('ville',$alls['ville']);
+            }
+         if(array_key_exists('quartier',$alls)){
+             $qb->andWhere('p.quartier=:quartier')
+             ->setParameter('quartier',$alls['quartier']);
+            }
+            
+            $qb->select('p.id') 
+            ->addSelect('p.nom')
+            ->addSelect('p.lat')
+            ->addSelect('p.long')
+            ->addSelect('p.telephone')
+            ->addSelect('p.ville')
+            ->addSelect('p.type')
+            ->addSelect('p.quartier')
+            ->addSelect('p.adresse')
+            ->addSelect('min(p.date) as date')
+            ->addSelect('c.date as visiteddate')
+            ->addGroupBy('p.id')
+            ->addGroupBy('p.lat')
+            ->addGroupBy('p.long')
+            ->addGroupBy('p.telephone')
+            ->addGroupBy('p.ville')
+            ->addGroupBy('p.type')
+            ->addGroupBy('p.quartier')
+            ->addGroupBy('p.adresse')
+            ->addGroupBy('p.id')
+            ->addGroupBy('c.date')
+            ->addGroupBy('p.nom');
+            try {
+                   return $qb->getQuery()->getArrayResult();  
+              } catch (NoResultException $e) {
+                  return [];  
+              } 
+     }
 
 
     public function getPointVenteIds(User $user=null){

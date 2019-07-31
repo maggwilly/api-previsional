@@ -2,7 +2,7 @@ AppBundle\Entity\Commende:
     exclusion_policy: none
     properties:
         id:
-            groups: ['commende','full','rendezvous']
+            groups: ['commende','full','pointvente']
         pointVente:
             groups: ['commende','full','last']
         status:
@@ -18,7 +18,7 @@ AppBundle\Entity\Commende:
         lignes:
             groups: ['full']
         date:
-            groups: ['commende','full','rendezvous','last']
+            groups: ['map','commende','full','pointvente','last']
             expose: true
             type: DateTime<'Y-m-d'> 
               

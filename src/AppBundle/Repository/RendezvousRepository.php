@@ -12,15 +12,51 @@ use AppBundle\Entity\User;
 class RendezvousRepository extends \Doctrine\ORM\EntityRepository
 {
 
-      public function findByUser(User $user=null,$keys=[0]){
-        $qb = $this->createQueryBuilder('p')->leftJoin('p.user','u');
-        if ($user->isMe()) {
-             $qb->where('u.parent=:user')->setParameter('user', $user);
-        }else
-            $qb->where('p.user=:user')->setParameter('user', $user); 
-          $qb->andWhere($qb->expr()->notIn('p.id', $keys));     
-          return $qb->getQuery()->setMaxResults(100)->getResult(); 
+      public function findRendezvouss(PointVente $pointVente=null,$alls=[""],$keys=[""]){
+        $qb = $this->createQueryBuilder('r');
+        
+          if($pointVente!=null){
+            $qb->andWhere('r.pointVente=:pointVente')
+             ->setParameter('pointVente', $pointVente);
+            } 
+          if(array_key_exists('honoredBy',$alls)&&$alls['honoredBy']){
+             $user= $this->_em->getRepository('AppBundle:User')->find($alls['honoredBy']);
+              $qb->andWhere('r.user=:honoredBy')->setParameter('honoredBy', $user);
+            }  
+         if(array_key_exists('afterdate',$alls)){
+             $qb->andWhere('r.dateat>=:afterdate')
+             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
+            }
+         if(array_key_exists('beforedate',$alls)){
+             $qb->andWhere('r.dateat<=:beforedate')
+             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
+            }                      
+          $qb->andWhere($qb->expr()->notIn('r.id', $keys));     
+          return $qb->getQuery()->getResult(); 
   }
 
+      /*Dernier commende dans un point de vente*/
+
+   public function findLast(PointVente $pointVente,  $endDate=null,$alls=[""]){
+           $qb = $this->createQueryBuilder('c'); 
+          if($pointVente!=null){
+            $qb->andWhere('c.pointVente=:pointVente')
+             ->setParameter('pointVente', $pointVente);
+            }
+         if(array_key_exists('afterdate',$alls)){
+             $qb->andWhere('c.date>=:afterdate')
+             ->setParameter('afterdate',new \DateTime($alls['afterdate']));
+            }
+         if(array_key_exists('beforedate',$alls)){
+             $qb->andWhere('c.date<=:beforedate')
+             ->setParameter('beforedate',new \DateTime($alls['beforedate']));
+            }
+          if($endDate!=null){
+             $qb->andWhere('c.dateat<=:endDate')
+             ->setParameter('endDate',new \DateTime($endDate));
+          }            
+            $qb->orderBy('c.date','desc');
+            return $qb->getQuery()->setMaxResults(1)->getOneOrNullresult();  
+      }
 
 }

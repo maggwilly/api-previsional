@@ -21,14 +21,15 @@ class PointVenteController extends Controller
     public function indexAction(User $user=null )
     {
         $em = $this->getDoctrine()->getManager();
-        $pointVentes =is_null($user)?$em->getRepository('AppBundle:PointVente')->findAll():$em->getRepository('AppBundle:PointVente')->findByUser($user);
+        $pointVentes =is_null($user)?$em->getRepository('AppBundle:PointVente')->findAll():$em->getRepository('AppBundle:PointVente')
+        ->findByUser($user);
         return $this->render('pointvente/index.html.twig', array(
             'pointVentes' => $pointVentes,
         ));
     }
 
     /**
-     * @Rest\View(serializerGroups={"rendezvous"})
+     * @Rest\View(serializerGroups={"pointvente"})
      */
     public function indexJsonAction(Request $request)
     {
@@ -36,33 +37,38 @@ class PointVenteController extends Controller
         $keys=$request->query->has('keys')?$request->query->get('keys'):'';
          if (count_chars($keys)>0) {
               $keys=explode(".", $keys);
-         }else $keys=[0];
+         }else $keys=[""];
          $pointVentes = $this->getDoctrine()->getManager()
                              ->getRepository('AppBundle:PointVente')
-                             ->findByUser($this->getUser(),0,true,$keys,$alls);
+                             ->findByUser($this->getUser(),$alls,$keys);
+         
         foreach ($pointVentes as $key => &$pointVente) {
-          $rendezvous= $this->get('previsonal_client')
-          ->dateProchaineCommende($pointVente)
-          ->setUser($this->getUser());
-          $pointVente->setRendezvous($rendezvous)
-               ->setLastCommende($this->get('previsonal_client')
-               ->findLastCommende($this->getUser(),$pointVente));
+              $pointVente
+              ->setRendezvous($this->get('previsonal_client')->findNextRendevous($pointVente))
+              ->setLastCommende($this->get('previsonal_client')->findLastCommende($pointVente))
+              ->setFirstCommende($this->get('previsonal_client')->findFirstCommende($pointVente));
          }
          $pointVentes =new \Doctrine\Common\Collections\ArrayCollection($pointVentes);
          $pointVentes= $pointVentes->filter(
              function($entry) use ($alls) {   
-                if(array_key_exists('afterlastvisitedate',$alls)&&array_key_exists('beforelastvisitedate',$alls))
-                    return !is_null($entry->getLastCommende())&&($entry->getLastCommende()->getDate()>=new \DateTime($alls['afterlastvisitedate']))&&
-                           ($entry->getLastCommende()->getDate()<=new \DateTime($alls['beforelastvisitedate']));
-                elseif (array_key_exists('afterlastvisitedate',$alls)) {
-                    return !is_null($entry->getLastCommende())&&($entry->getLastCommende()->getDate()>=new \DateTime($alls['afterlastvisitedate']));
-                }elseif (array_key_exists('beforelastvisitedate',$alls)) {
-                   return !is_null($entry->getLastCommende())&&$entry->getLastCommende()->getDate()<=new \DateTime($alls['beforelastvisitedate']);
+                if(array_key_exists('afterrendevousdate',$alls)&&array_key_exists('beforrendezvousdate',$alls))
+                    return is_null($entry->getRendezvous())
+                         ||!$entry->getRendezvous()->getDateat()
+                         ||!is_null($entry->getRendezvous())&&($entry->getRendezvous()->getDateat()>=new \DateTime($alls['afterrendevousdate'])) &&($entry->getRendezvous()->getDateat()<=new \DateTime($alls['beforrendezvousdate']));
+                elseif (array_key_exists('afterrendevousdate',$alls)) {
+                    return  is_null($entry->getRendezvous())
+                         ||!$entry->getRendezvous()->getDateat()
+                         ||!is_null($entry->getRendezvous())&&($entry->getRendezvous()->getDateat()>=new \DateTime($alls['afterrendevousdate']));
+                }elseif (array_key_exists('beforrendezvousdate',$alls)) {
+                   return  is_null($entry->getRendezvous())
+                         ||!$entry->getRendezvous()->getDateat()
+                         ||!is_null($entry->getRendezvous())&&$entry->getRendezvous()->getDateat()<=new \DateTime($alls['beforrendezvousdate']);
                 }
                  return true;
              }
           ); 
-        return $pointVentes;
+
+        return $pointVentes->getValues();
     }
 
 
@@ -106,10 +112,12 @@ class PointVenteController extends Controller
             }
            
             $em->flush();
-            return  $form;
+            return $pointVente->setRendezvous($this->get('previsonal_client')
+          ->findNextRendevous($pointVente)
+          ->setUser($this->getUser()));
         }
 
-        return  array('error' => true );
+        return  $form;
     }
     /**
      * Finds and displays a pointVente entity.
@@ -127,11 +135,12 @@ class PointVenteController extends Controller
      * @Rest\View(serializerGroups={"pointvente"})
      * 
      */
-    public function showJsonAction(Request $request)
+    public function showJsonAction(PointVente $pointVente)
     {
-        $em = $this->getDoctrine()->getManager();
-        $pointVente=$em->getRepository('AppBundle:PointVente')->find($request->request->get('id'));
-        return $pointVente;
+
+        return $pointVente->setRendezvous($this->get('previsonal_client')
+          ->findNextRendevous($pointVente)
+          ->setUser($this->getUser()));
     }
     /**
      * Displays a form to edit an existing pointVente entity.

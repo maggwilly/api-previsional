@@ -2,31 +2,36 @@ AppBundle\Entity\PointVente:
     exclusion_policy: none
     properties:
         id:
-            groups: ['rendezvous','commende','pointvente','full','last']
+            groups: ['map','rendezvous','commende','pointvente','full','last']
         nom:
-            groups: ['rendezvous','commende','pointvente','full']
+            groups: ['map','rendezvous','commende','pointvente','full']
         telephone:
-            groups: ['rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full'] 
         rendezvous:
-            groups: ['rendezvous']           
+            groups: ['map','pointvente','rendezvous']           
         ville:
-            groups: ['rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full'] 
         type:
-            groups: ['rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full'] 
         quartier:
-            groups: ['rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full'] 
         adresse:
-            groups: ['rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full'] 
         secteur:
-            groups: ['rendezvous','pointvente','full']
+            groups: ['map','rendezvous','pointvente','full']
         lastCommende:
-            groups: ['rendezvous','full']
+            groups: ['map','pointvente','full']
+        firstCommende:
+            groups: ['map','pointvente','full']            
         stored:
-            groups: ['rendezvous','pointvente','full'] 
+            groups: ['rendezvous','pointvente','full']
+        visited:
+            groups: ['map']
+
         long:
-            groups: ['rendezvous','pointvente','commende','full'] 
+            groups: ['map','rendezvous','pointvente','commende','full'] 
         lat:
-            groups: ['rendezvous','pointvente','commende','full'] 
+            groups: ['map','rendezvous','pointvente','commende','full'] 
         date:
             groups: ['commende','full','rendezvous','last','pointvente']
             expose: true

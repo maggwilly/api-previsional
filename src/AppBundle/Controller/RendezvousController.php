@@ -6,6 +6,7 @@ use AppBundle\Entity\Rendezvous;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Rendezvous controller.
  *
@@ -32,15 +33,46 @@ class RendezvousController extends Controller
      * @Rest\View(serializerGroups={"rendezvous"})
      */
     public function indexJsonAction(Request $request)
-    {
-            $start=$request->query->get('start');
-            $keys=$request->query->get('keys');
-        if (count_chars($keys)>0) {
-             $keys=explode(".", $keys);
-         }else $keys=[0];     
-         $user=$this->getUser();
-          $rendezvous = $this->getDoctrine()->getManager()->getRepository('AppBundle:Rendezvous')->findByUser($user,$keys);
-        return  $rendezvous;
+    {   
+        $alls=$request->query->all();
+        $keys=$request->query->has('keys')?$request->query->get('keys'):'';
+         if (count_chars($keys)>0) {
+              $keys=explode(".", $keys);
+         }else $keys=[""]; 
+          $previsioner=$this->get('previsonal_client');
+         $lesrendezvous=[];    
+         ( new ArrayCollection($this->getDoctrine()->getManager()->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys,true)))->map(function($pointVente) use (&$lesrendezvous,$previsioner,$alls){
+             $rendezvous=$previsioner->findLastRendevous($pointVente,null,$alls);
+              if($rendezvous)
+                $lesrendezvous[]=$previsioner->addPrevisions($rendezvous,false); 
+         });      
+        return $lesrendezvous;
+    }
+
+    /**
+     * @Rest\View()
+     */
+    public function previsionsJsonAction(Request $request)
+    {   
+        $alls=$request->query->all();
+        $keys=$request->query->has('keys')?$request->query->get('keys'):'';
+         if (count_chars($keys)>0) {
+              $keys=explode(".", $keys);
+         }else $keys=[""]; 
+          $previsioner=$this->get('previsonal_client');
+          $lesprevisions=[];    
+         (new ArrayCollection($this->getDoctrine()->getManager()->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys,true)))->map(function($pointVente) use (&$lesrendezvous,$previsioner,$alls){
+             $rendezvous=$previsioner->findLastRendevous($pointVente,null,$alls);
+              if($rendezvous)
+                foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
+                    if (!array_key_exists($previsions['id'], $lesprevisions)) 
+                          $lesprevisions[$previsions['id']]=$previsions;
+                    if(array_key_exists('next_cmd_quantity', $lesprevisions[$previsions['id']])&&$previsions['next_cmd_quantity'])
+                      $lesprevisions[$previsions['id']]['next_cmd_quantity']+=$previsions['next_cmd_quantity'];
+                }
+            return;     
+         });      
+        return  $lesprevisions;
     }
 
     /**
@@ -72,23 +104,24 @@ class RendezvousController extends Controller
      */
     public function newJsonAction(Request $request)
     {
-        
         $rendezvous = new Rendezvous();
         $form = $this->createForm('AppBundle\Form\RendezvousType', $rendezvous);
         $form->submit($this->makeUp($request),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $rendezvous->setPersist(true);
             if($rendezvous->getUser()==null)
                   $rendezvous->setUser($this->getUser());
             if ($em->getRepository('AppBundle:Rendezvous')->find($rendezvous->getId())==null) {
                  $em->persist($rendezvous);
             }          
             $em->flush();
-            return $rendezvous;
+            return $this->get('previsonal_client')->addPrevisions($rendezvous);
         }
 
         return  $form;
     }
+
 
 public function makeUp(Request $request,$setId=true){
     $rendezvous= $request->request->all();
@@ -96,7 +129,6 @@ public function makeUp(Request $request,$setId=true){
         $rendezvous['user']=$rendezvous['user']['id'];
       if (array_key_exists('pointVente', $rendezvous)&&is_array($rendezvous['pointVente']))
         $rendezvous['pointVente']=$rendezvous['pointVente']['id'];
-      else $rendezvous['pointVente']=$rendezvous['id'];
       if (!$setId) {
          unset ($rendezvous['id']);
       }
@@ -114,10 +146,20 @@ public function makeUp(Request $request,$setId=true){
             if($rendezvous->getUser()==null)
                   $rendezvous->setUser($this->getUser());
             $this->getDoctrine()->getManager()->flush();
-            return $rendezvous;
+            return $this->get('previsonal_client')->addPrevisions($rendezvous);
         }
         return $editForm;
     }
+
+    /**
+     * @Rest\View(serializerGroups={"rendezvous"})
+     * 
+     */
+    public function showJsonAction(PointVente $pointVente)
+    {
+      return $this->get('previsonal_client')->findNextRendevous($pointVente);
+    }
+
     /**
      * Finds and displays a rendezvous entity.
      *

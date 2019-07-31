@@ -42,11 +42,11 @@ class CommendeController extends Controller
       $keys=$request->query->has('keys')?$request->query->get('keys'):'';
          if (count_chars($keys)>0) {
               $keys=explode(".", $keys);
-         }else $keys=[0];
+         }else $keys=[""];
          if($request->query->get('pointVente')!=null){
             return $this->redirectToRoute('ligne_index_json', array('id' => $request->query->get('pointVente')));
          }
-  $commendes =$this->getDoctrine()->getManager()->getRepository('AppBundle:Commende')->findCommendes($this->getUser(),null,'desc',$keys,$alls);
+    $commendes =$this->getDoctrine()->getManager()->getRepository('AppBundle:Commende')->findCommendes($this->getUser(),null,$alls,$keys);
         return $commendes;
     }
 
@@ -97,7 +97,7 @@ class CommendeController extends Controller
                $em->persist($commende);
             }
               $em->flush();
-            $commende->setNumFacture(str_pad((string)$commende->getId(), 5, "0", STR_PAD_LEFT));
+           $this->get('previsonal_client')->findFirstCommende($commende->getPointVente());
             return $commende;
         }
         return $form;

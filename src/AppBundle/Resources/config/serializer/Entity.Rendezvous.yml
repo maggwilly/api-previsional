@@ -2,9 +2,9 @@ AppBundle\Entity\Rendezvous:
     exclusion_policy: none
     properties:
         id:
-            groups: ['rendezvous','full']
+            groups: ['pointvente','rendezvous','full']
         commentaire:
-            groups: ['rendezvous','full']                                    
+            groups: ['pointvente','rendezvous','full']                                    
         quantite:
             groups: ['rendezvous','full']
         user:
@@ -14,15 +14,18 @@ AppBundle\Entity\Rendezvous:
         pointVente:
             groups: ['full']                        
         dateat:
-            groups: ['rendezvous','full']
-            expose: true
+            groups: ['map','pointvente','rendezvous','full']
             type: DateTime<'Y-m-d'> 
+        persist:
+            groups: ['pointvente','rendezvous','full']            
+        produitnonvendu:
+            groups: ['pointvente','rendezvous','full']            
         date:
-            groups: ['rendezvous','full']
+            groups: ['pointvente','rendezvous','full']
             expose: true
             type: DateTime<'Y-m-d'>  
         passdays:
-             groups: ['rendezvous','full'] 
+             groups: ['pointvente','rendezvous','full'] 
         previsions:
              groups: ['rendezvous','full']          
         stored:

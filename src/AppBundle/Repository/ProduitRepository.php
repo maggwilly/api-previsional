@@ -11,7 +11,7 @@ use AppBundle\Entity\User;
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
 
-      public function findByUser(User $user,$start=0,$keys=[0]){
+      public function findByUser(User $user,$start=0,$keys=[""]){
            $qb = $this->createQueryBuilder('p')
            ->where('p.user=:user')
            ->setParameter('user', $user);

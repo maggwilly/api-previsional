@@ -4,7 +4,7 @@ AppBundle\Entity\Secteur:
         id:
             groups: ['pointvente','secteur','rendezvous','user']
         nom:
-            groups: ['pointvente','secteur','rendezvous','user']
+            groups: ['map','pointvente','secteur','rendezvous','user']
         ville:
             groups: ['pointvente','secteur'] 
         stored:
