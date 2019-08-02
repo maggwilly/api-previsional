@@ -40,6 +40,7 @@ class MobileUserController extends Controller
         }
         return $form;
     }
+    
     public function register(User $user)
     {
         if(is_null($user->getUsername())||

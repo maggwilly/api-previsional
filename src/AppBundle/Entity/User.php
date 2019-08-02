@@ -252,7 +252,7 @@ class User extends BaseUser
     protected $pointsPassages;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="vendeurs")
      * @var User
      */
     protected $parent;

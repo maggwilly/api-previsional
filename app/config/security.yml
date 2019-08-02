@@ -1,17 +1,20 @@
-# To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
     role_hierarchy:
         # Un admin hérite des droits d'auteur et de modérateur
          ROLE_SAISIE:   [ROLE_USER, ROLE_SAISIE]
+         ROLE_SUPERVISEUR:   [ ROLE_SAISIE]
+         ROLE_CONTROLEUR:   [ROLE_SUPERVISEUR]
+         ROLE_ADMIN:   [ROLE_CONTROLEUR,ROLE_MESSAGER]
+         ROLE_DELEGUE:   [ROLE_ADMIN, ROLE_PRICER]
         
-    access_control: 
-        - { path: ^/user/new/json,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/credential,   roles: IS_AUTHENTICATED_ANONYMOUSLY }     
+    access_control:
+        - { path: ^/v1/admin, roles: ROLE_ADMIN }   
+        - { path: ^/v1/ambassador, roles: IS_AUTHENTICATED_ANONYMOUSLY }   
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
 
     encoders:
-        AppBundle\Entity\User: bcrypt
+        AppBundle\Entity\User: sha512
     providers:
          main:
             id: fos_user.user_provider.username_email
@@ -25,13 +28,21 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        public:
-           pattern:   ^/(token|credential|login|register)/
+
+        public_web:
+      # since anonymous is allowed users will not be forced to login
+           pattern:   ^/(login|register)$
            anonymous:      true
-        help:
-           pattern:   .html$
-           anonymous:   true
-       
+
+        home:
+      # since anonymous is allowed users will not be forced to login
+           pattern:   ^/$
+           anonymous:    true 
+
+        public_mobile:
+           pattern:   ^\/(token|credential|login|register)[\/0-9a-z]*\json$
+           anonymous:      true
+
         mobile:
            pattern:   /json$
            anonymous:      false
@@ -39,6 +50,7 @@ security:
            guard:
              authenticators:
                 - app.token_authenticator
+
         main:
             pattern:        ^/
             anonymous:      false
@@ -46,10 +58,10 @@ security:
             form_login:
                  login_path: fos_user_security_login
                  check_path: fos_user_security_check
-                 always_use_default_target_path: false
-                 default_target_path:  homepage           
+                 always_use_default_target_path: true
+                 default_target_path:  homepage          
             logout:  
                 path:      fos_user_security_logout
                 target:    /login
             remember_me:
-                key:        %secret% # %secret% est un paramètre de parameters.yml
+                key:        %secret% 

@@ -39,7 +39,7 @@ app_payement:
     prefix:   /payement  
 
 homepage:
-    path:     /
+    path:     /home
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
 

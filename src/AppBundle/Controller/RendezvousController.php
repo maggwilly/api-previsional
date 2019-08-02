@@ -49,31 +49,7 @@ class RendezvousController extends Controller
         return $lesrendezvous;
     }
 
-    /**
-     * @Rest\View()
-     */
-    public function previsionsJsonAction(Request $request)
-    {   
-        $alls=$request->query->all();
-        $keys=$request->query->has('keys')?$request->query->get('keys'):'';
-         if (count_chars($keys)>0) {
-              $keys=explode(".", $keys);
-         }else $keys=[""]; 
-          $previsioner=$this->get('previsonal_client');
-          $lesprevisions=[];    
-         (new ArrayCollection($this->getDoctrine()->getManager()->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys,true)))->map(function($pointVente) use (&$lesrendezvous,$previsioner,$alls){
-             $rendezvous=$previsioner->findLastRendevous($pointVente,null,$alls);
-              if($rendezvous)
-                foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
-                    if (!array_key_exists($previsions['id'], $lesprevisions)) 
-                          $lesprevisions[$previsions['id']]=$previsions;
-                    if(array_key_exists('next_cmd_quantity', $lesprevisions[$previsions['id']])&&$previsions['next_cmd_quantity'])
-                      $lesprevisions[$previsions['id']]['next_cmd_quantity']+=$previsions['next_cmd_quantity'];
-                }
-            return;     
-         });      
-        return  $lesprevisions;
-    }
+
 
     /**
      * Creates a new rendezvous entity.

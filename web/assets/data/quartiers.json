@@ -1,0 +1,494 @@
+[
+	{
+		"nom": "Akwa",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ange Raphaël",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bali",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bassa",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Beedi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bepanda",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bessengue",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonaberi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonadibong",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonadiwotto",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonakouamang",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonaloka",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonamoussadi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonanjo",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Bonapriso",
+		"ville": "Douala"
+	},
+	{
+		"nom": "C.C.C.",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Casmando",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Cité CICAM",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Cité Cique ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Cité des Palmiers",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Dakar",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Deïdo",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Grand Baobab",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Koto",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Koumassi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Lendi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Log-baba",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Logpom",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Mabanda",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Makepe",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Mbangue",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Mboppi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ndog-Bong",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ndog-Passi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ndokoti",
+		"ville": "Douala"
+	},
+	{
+		"nom": "New-bell",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ngodi",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Ngodjo",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Nkomondo",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Nyalla",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Oyak",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK10 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK11 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK12 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK13 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK14 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK15 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK16 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK17",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK18 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK19 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK23 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK25 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK8 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "PK9 ",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Schell",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Sic-Cacao",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Song-Mahop",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Song-Nkot",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Village",
+		"ville": "Douala"
+	},
+	{
+		"nom": "Anguissa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Biyem-Assi",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "La Briqueterie",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Camp SIC hippodrome",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Elig Edzoa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Etoudi",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Bata-Nlongkak",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Essos",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Koweit city",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Madagascar",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mendong",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mokolo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Ngousso",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkondengui",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Obili",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Omnisports",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Santa Barbara",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Emana",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Camp-Sonel",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Etoa-Meki",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvog Atangana Mballa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvog-Betsi",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvog-Mbi",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Olembe",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Olezoa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Ekounou",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Elig Essono",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Ekoudou",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvan",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Etoug-Ebe",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Melen",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mini-ferme",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Cité Verte",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Oyom-Abang",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkolbisson",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Simbock",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Ngoa Ekélé",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvolyé",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Damas",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Obobogo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Tam-Tam Weekend",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Maison Blanche",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nsimeyong",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Tsinga",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkom Kana",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Carrière",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mvog-Ada.Messa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Odza",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mbankolo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Jean-Vespa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkol-Ewoue",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkolndongo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Mimboman",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Eleveur",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Messa",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkomo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Emonbo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Biteng",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Nkomo",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Fouda",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Febe",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Beatitude",
+		"ville": "Yaoundé"
+	},
+	{
+		"nom": "Coten",
+		"ville": "Yaoundé"
+	}
+]

@@ -9,6 +9,8 @@ user_new_json:
     defaults: { _controller: "AppBundle:MobileUser:registerJson" }
     methods:  [GET, POST]
 
+
+
 user_show_json:
     path:     /user/{id}/show/json
     defaults: { _controller: "AppBundle:MobileUser:showJson" }
@@ -32,7 +34,12 @@ create_credentials:
 check_token:
     path:      /token/check/json
     defaults: { _controller: "AppBundle:AuthToken:checkAuthTokens" }
-    methods:  POST   
+    methods:  POST  
+
+token_show_json:
+    path:     /token/{id}/show/json
+    defaults: { _controller: "AppBundle:AuthToken:showJson" }
+    methods:  GET
 
 create_request:
     path:      /request/new/json

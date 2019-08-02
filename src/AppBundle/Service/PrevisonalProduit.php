@@ -149,7 +149,6 @@ $this->_em=$_em;
           }
          else
           $nobreJourPrevisionnel=ceil(($quantite/$this->quanteteMoyenne($lignes)['quantite'])*$this->quanteteMoyenne($lignes)['target']);
-
        $date=clone $lastLigne->getCommende()->getDate();
        $date->modify('+'.$nobreJourPrevisionnel.' day');
        $previsions['next_cmd_date']=(clone $date);

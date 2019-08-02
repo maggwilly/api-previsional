@@ -221,7 +221,7 @@ class Rendezvous
 
     public function addPrevisions($previsions)
     {
-        $this->previsions[] =$previsions;
+        $this->previsions[]=$previsions;
         if(!array_key_exists('last_cmd_date', $previsions))
            $this->produitnonvendu++;
         return $this;

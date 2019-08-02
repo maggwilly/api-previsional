@@ -1,0 +1,55 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    role_hierarchy:
+        # Un admin hérite des droits d'auteur et de modérateur
+         ROLE_SAISIE:   [ROLE_USER, ROLE_SAISIE]
+        
+    access_control: 
+        - { path: ^/user/new/json,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/credential,   roles: IS_AUTHENTICATED_ANONYMOUSLY }     
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+
+    encoders:
+        AppBundle\Entity\User: bcrypt
+    providers:
+         main:
+            id: fos_user.user_provider.username_email
+         our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: apiKey        
+           
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        public:
+           pattern:   ^/(token|credential)/
+           anonymous:      true
+        help:
+           pattern:   .html$
+           anonymous:   true
+       
+        mobile:
+           pattern:   /json$
+           anonymous:      false
+           provider: our_db_provider
+           guard:
+             authenticators:
+                - app.token_authenticator
+        main:
+            pattern:        ^/
+            anonymous:      false
+            provider:       main
+            form_login:
+                 login_path: fos_user_security_login
+                 check_path: fos_user_security_check
+                 always_use_default_target_path: false
+                 default_target_path:  homepage           
+            logout:  
+                path:      fos_user_security_logout
+                target:    /login
+            remember_me:
+                key:        %secret% # %secret% est un paramètre de parameters.yml

@@ -44,6 +44,17 @@ class AuthTokenController extends Controller
         return  $authToken;
     }
 
+      /**
+     * @Rest\View(serializerGroups={"user"})
+     * 
+     */
+    public function showJsonAction(User $user=null)
+    {
+
+        return $user;
+    }
+
+
    public function postAuthToken(User $user)
     {
         $authToken=AuthToken::create($user);
@@ -73,14 +84,16 @@ class AuthTokenController extends Controller
         if (!$token) { 
              return  array(
                 'error_code' =>'invalid_verify_code',
-                'code' =>$code->getValue()
-            );
+                'code' =>$code->getValue(),
+                'message' =>"Le code n'est pqs correct " 
+                          );
         }
         
         if ($code->getUser()->getId()!=$token->getUser()->getId()) { 
              return  array(
                 'error_code' =>'inconsistant_verify_code',
-                'code' =>$code->getValue()
+                'code' =>$code->getValue(),
+                'message' =>"Le code n'est pqs correct " 
             );
         }
       /*  $requests=$request->request->all()['receiveRequests'];
@@ -124,6 +137,9 @@ class AuthTokenController extends Controller
         $em->flush();
         return $authToken->getUser();
     }
+
+
+
     /**
      * @Rest\View()
       
