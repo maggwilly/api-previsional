@@ -4,6 +4,8 @@ use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Produit;
 use AppBundle\Entity\PointVente; 
 use Doctrine\Common\Collections\ArrayCollection;
+
+
 class PrevisonalProduit
 {
 protected $_em;
@@ -21,15 +23,14 @@ $this->_em=$_em;
 
 
 
-
    public function dureeMoyenneEntreDeuxCommendes($lignes) //en jours
     {   
         if (count($lignes)<2) {
             return -1;
         }
         $int=[];
-         $days=0;
-         $count=0;
+        $days=0;
+        $count=0;
        for ($i=1; $i <count($lignes); $i++) {
           if($lignes[$i]->getCommende()->getDate()==$lignes[$i-1]->getCommende()->getDate())
                continue; 
@@ -48,7 +49,7 @@ $this->_em=$_em;
 
    public function quanteteMoyenne($lignes) //Can be quite small for some ones
     {
-          $qte=[];
+         $qte=[];
         if (count($lignes)<2) {
             return $qte;
         }
@@ -78,18 +79,15 @@ $this->_em=$_em;
            if($qte['quantite']%$qte['target']==0){
               $qte['quantite']=$qte['quantite']/$qte['target'];
               $qte['target']=1;
-           }
-             
+           }     
       return $qte;
     }
 
 
     
-    public function lastLigne($lignes) //Can be quite small for some ones
+    public function lastLigne($lignes)
     {
-        if (count($lignes)==1) {
-               return $lignes[0];
-        }elseif (empty($lignes)) {
+      if (empty($lignes)) {
             return null;
         }
         $quantite=0;
@@ -103,28 +101,28 @@ $this->_em=$_em;
               $quantite=$ligne->getQuantite();
               
             }         
-
       return (clone $lignes[count($lignes)-1])->setQuantite($quantite);
     }
 
 
+
+
        public function quanteteMoyenneCommende($lignes) //Can be quite small for some ones
     {
-        if (count($lignes)<2) {
+       if (count($lignes)<2) {
             return -1;
         }
         $quantite=0;
         $count=0;
-     foreach ($lignes as $key => $ligne) {
+       foreach ($lignes as $key => $ligne) {
             $quantite+=$ligne->getQuantite();
             if($key>0)
             if($lignes[$key-1]->getCommende()->getDate()==$lignes[$key]->getCommende()->getDate())
                 continue;
             $count++;
-            } 
-      return $count>0? ceil($quantite/$count):-1;
+          } 
+      return ceil($quantite/$count);
     }
-
 
 
        public function findPrevisions(PointVente $pointVente,Produit $produit, $endDate=null)
@@ -137,13 +135,13 @@ $this->_em=$_em;
           $lignes=$this->getLignes($pointVente,$produit,  $endDate);
           $lastLigne=$this->lastLigne($lignes);
         if(is_null($lastLigne)){
-          return $previsions;
+              return $previsions;
         }
         $quantite=$lastLigne->getQuantite();
-        $previsions['last_cmd_date']=$lastLigne->getCommende()->getDate();
-        $previsions['last_cmd_quantity']=$quantite;
+         $previsions['last_cmd_date']=$lastLigne->getCommende()->getDate();
+         $previsions['last_cmd_quantity']=$quantite;
          if(empty($this->quanteteMoyenne($lignes)))
-           return $previsions;
+            return $previsions;
         if($quantite<=$this->quanteteMoyenne($lignes)['quantite']){
             $nobreJourPrevisionnel=min($this->dureeMoyenneEntreDeuxCommendes($lignes),$this->quanteteMoyenne($lignes)['target']);
           }
@@ -160,14 +158,11 @@ $this->_em=$_em;
     }
 
 
-
-
     public function dureeEntreDeuxCommendes(PointVente $pointVente,Produit $produit, $endDate=null)
     {   
         $lignes=$this->getCommendes($pointVente,$produit, $endDate);
-        return  dureeMoyenneEntreDeuxCommendes($lignes) ;
+        return  dureeMoyenneEntreDeuxCommendes($lignes);
     }
-
 
 
     public function quantiteJour(PointVente $pointVente,Produit $produit,  $endDate=null)

@@ -5,15 +5,20 @@ use AppBundle\Entity\Produit;
 use AppBundle\Entity\Rendezvous;
 use AppBundle\Entity\PointVente; 
 use AppBundle\Entity\User; 
+
+
+
 class PrevisonalClient
 {
-protected $_provisionalProduit;
-protected $_em;
+    protected $_provisionalProduit;
+    protected $_em;
+
+
 public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalProduit)
-{
-$this->_provisionalProduit=$_provisionalProduit;
-$this->_em=$_em;
-}
+  {
+     $this->_provisionalProduit=$_provisionalProduit;
+     $this->_em=$_em;
+    }
 
     public function getCommendes(User $user=null,PointVente $pointVente=null,$alls=[""])
     {   
@@ -46,6 +51,7 @@ $this->_em=$_em;
     }
 
 
+
     public function findNextRendevous(PointVente $pointVente=null,$endDate=null)
     {
 
@@ -62,7 +68,6 @@ $this->_em=$_em;
           if((is_null($rendezvous)||($lastCommende!=null&&$lastCommende->getDate()>=$rendezvous->getDateat()))){
                $rendezvous=new Rendezvous($previsions['next_cmd_date'],$pointVente,null,false);
                }
-
               if(!$rendezvous->getPersist()&&!is_null($previsions['next_cmd_date'])&&($previsions['next_cmd_date']<$rendezvous->getDateat()||!$rendezvous->getDateat())) 
                   $rendezvous->setDateat($previsions['next_cmd_date']); 
              }  
@@ -76,20 +81,24 @@ $this->_em=$_em;
         return $rendezvous;
     }
 
+
+
+
     public function addPrevisions(Rendezvous $rendezvous=null,$canCreateNew=true,$endDate=null)
     {
        if($rendezvous==null)
          return ;
-      $pointVente=$rendezvous->getPointVente();
+          $pointVente=$rendezvous->getPointVente();
       if($canCreateNew)
         return $this->findNextRendevous( $pointVente,null,$canCreateNew);
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
-      foreach ($produits as $produit) {
+        foreach ($produits as $produit) {
          $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);
          $rendezvous->addPrevisions($previsions);
       }
         return $rendezvous;
     }
+
 
     public function getPrevisions(Rendezvous $rendezvous=null,$endDate=null)
     {

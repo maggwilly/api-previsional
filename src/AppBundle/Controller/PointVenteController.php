@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
 use FOS\RestBundle\View\View;
 use AppBundle\Entity\User; 
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Pointvente controller.
  *
@@ -37,18 +38,17 @@ class PointVenteController extends Controller
          if (count_chars($keys)>0) {
               $keys=explode(".", $keys);
          }else $keys=[""];
-         $pointVentes = $this->getDoctrine()->getManager()
-                             ->getRepository('AppBundle:PointVente')
-                             ->findByUser($this->getUser(),$alls,$keys);
-         
-        foreach ($pointVentes as $key => &$pointVente) {
-              $pointVente
-              ->setRendezvous($this->get('previsonal_client')->findNextRendevous($pointVente))
-              ->setLastCommende($this->get('previsonal_client')->findLastCommende($pointVente))
-              ->setFirstCommende($this->get('previsonal_client')->findFirstCommende($pointVente));
-         }
-         $pointVentes =new \Doctrine\Common\Collections\ArrayCollection($pointVentes);
-         $pointVentes= $pointVentes->filter(
+         $previsioner=$this->get('previsonal_client');
+         $em=$this->getDoctrine()->getManager();
+        $pointVentes= (new ArrayCollection($em->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys)))
+            ->map(function($pointVente) use ($previsioner){
+                $pointVente
+              ->setRendezvous($previsioner->findNextRendevous($pointVente))
+              ->setLastCommende($previsioner->findLastCommende($pointVente))
+              ->setFirstCommende($previsioner->findFirstCommende($pointVente));
+              return $pointVente;
+            })
+            ->filter(
              function($entry) use ($alls) {   
                 if(array_key_exists('afterrendevousdate',$alls)&&array_key_exists('beforrendezvousdate',$alls))
                     return is_null($entry->getRendezvous())
@@ -109,11 +109,9 @@ class PointVenteController extends Controller
              if ($em->getRepository('AppBundle:PointVente')->find($pointVente->getId())==null) {
                $em->persist($pointVente);
             }
-           
             $em->flush();
             return $pointVente->setRendezvous($this->get('previsonal_client')
-          ->findNextRendevous($pointVente)
-          ->setUser($this->getUser()));
+          ->findNextRendevous($pointVente));
         }
 
         return  $form;
@@ -138,8 +136,7 @@ class PointVenteController extends Controller
     {
 
         return $pointVente->setRendezvous($this->get('previsonal_client')
-          ->findNextRendevous($pointVente)
-          ->setUser($this->getUser()));
+          ->findNextRendevous($pointVente));
     }
     /**
      * Displays a form to edit an existing pointVente entity.
@@ -175,7 +172,8 @@ class PointVenteController extends Controller
         $editForm->submit($request->request->all(),false);
         if ( $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $pointVente;
+            return $pointVente->setRendezvous($this->get('previsonal_client')
+          ->findNextRendevous($pointVente));
         }
         return array('error' => true );
     }
