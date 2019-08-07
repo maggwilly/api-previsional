@@ -55,16 +55,15 @@ $this->_em=$_em;
         }
         $totalMoyenne=0;
         $quantite=0;
-        $count=0;
-    for ($i=0; $i <count($lignes)-1 ; $i++) { 
-          $quantite+=$lignes[$i]->getQuantite();        
-         if($lignes[$i]->getCommende()->getDate()==$lignes[$i+1]->getCommende()->getDate())
+        $count=1;
+    for ($i=1; $i <count($lignes) ; $i++) { 
+          $quantite+=$lignes[$i-1]->getQuantite();        
+         if($lignes[$i-1]->getCommende()->getDate()==$lignes[$i]->getCommende()->getDate())
                continue;  
+            $quantite+=$lignes[$i]->getQuantite();   
             $interval=$lignes[$i]->getCommende()->getDate()->diff($lignes[$i+1]->getCommende()->getDate());
-            if(abs((int)$interval->format('%R%a'))>0){
-               $totalMoyenne+=$quantite/abs((int)$interval->format('%R%a'));
-               $count++; 
-            }
+            $totalMoyenne+=$quantite/abs((int)$interval->format('%R%a'));
+            $count++; 
             $quantite=0; 
           }
         if($count<2||$totalMoyenne==0)
