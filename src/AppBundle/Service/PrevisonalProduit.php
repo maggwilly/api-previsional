@@ -61,7 +61,7 @@ $this->_em=$_em;
          if($lignes[$i-1]->getCommende()->getDate()==$lignes[$i]->getCommende()->getDate())
                continue;  
             $quantite+=$lignes[$i]->getQuantite();   
-            $interval=$lignes[$i]->getCommende()->getDate()->diff($lignes[$i+1]->getCommende()->getDate());
+            $interval=$lignes[$i]->getCommende()->getDate()->diff($lignes[$i-1]->getCommende()->getDate());
             $totalMoyenne+=$quantite/abs((int)$interval->format('%R%a'));
             $count++; 
             $quantite=0; 
