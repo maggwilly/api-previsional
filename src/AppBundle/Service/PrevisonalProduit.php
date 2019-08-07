@@ -33,15 +33,11 @@ $this->_em=$_em;
         $count=0;
        for ($i=1; $i <count($lignes); $i++) {
           if($lignes[$i]->getCommende()->getDate()==$lignes[$i-1]->getCommende()->getDate())
-               continue; 
-             $int[]=$lignes[$i]->getCommende()->getDate();    
-              $int[]=$lignes[$i-1]->getCommende()->getDate();    
+               continue;     
             $interval=$lignes[$i]->getCommende()->getDate()->diff($lignes[$i-1]->getCommende()->getDate());
             $days+=abs((int)$interval->format('%R%a'));
             $count++; 
-        } 
-        if($count<2)
-            return -1;  
+        }  
       return  ceil($days/$count);
     }
 
@@ -66,7 +62,7 @@ $this->_em=$_em;
             $count++; 
             $quantite=0; 
           }
-        if($count<2||$totalMoyenne==0)
+        if($totalMoyenne==0)
             return $qte;
            $quantite=$totalMoyenne/$count;
            $qte=['quantite'=>$quantite,'target'=>1];
