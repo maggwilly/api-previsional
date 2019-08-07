@@ -95,7 +95,7 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
          return ;
           $pointVente=$rendezvous->getPointVente();
       if($canCreateNew)
-        return $this->findNextRendevous( $pointVente,null,$canCreateNew);
+        return $this->findNextRendevous($pointVente,$endDate);
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
         foreach ($produits as $produit) {
          $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);

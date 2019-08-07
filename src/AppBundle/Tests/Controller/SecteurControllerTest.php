@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecteurControllerTest extends WebTestCase
 {
-    /*
+   
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
@@ -51,5 +51,5 @@ class SecteurControllerTest extends WebTestCase
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
 
-    */
+    
 }

@@ -38,8 +38,10 @@ app_payement:
     resource: "@AppBundle/Resources/config/routing/commande.yml"
     prefix:   /payement  
 
+
+
 homepage:
-    path:     /home
+    path:     /
     defaults: { _controller: "AppBundle:App:index" }
     methods:  GET
 

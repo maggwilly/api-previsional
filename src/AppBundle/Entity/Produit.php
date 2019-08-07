@@ -53,7 +53,7 @@ class Produit
      */
     private $date;
     /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="produit",orphanRemoval=true ,cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="produit")
    */
    private $lignes;
 

@@ -60,8 +60,8 @@ class AuthTokenController extends Controller
         $authToken=AuthToken::create($user);
         $numero='+237'.$user->getUsername();
         $contacts=urlencode($numero);
-       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Provisional&msg='.$authToken->getValue();  
-        // $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
+       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Previsional&msg='.$authToken->getValue();  
+         $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
         return  $authToken;
     } 
 
