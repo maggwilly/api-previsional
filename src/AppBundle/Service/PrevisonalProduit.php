@@ -87,7 +87,7 @@ $this->_em=$_em;
         }
        $quantite=$lignes[0]->getQuantite();
        for ($i=1; $i <count($lignes) ; $i++) { 
-          if($lignes[$key-1]->getCommende()->getDate()==$lignes[$i]->getCommende()->getDate()){
+          if($lignes[$i-1]->getCommende()->getDate()==$lignes[$i]->getCommende()->getDate()){
                  $quantite+=$lignes[$i]->getQuantite();
                 continue;
             }
