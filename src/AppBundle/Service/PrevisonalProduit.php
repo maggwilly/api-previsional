@@ -85,17 +85,16 @@ $this->_em=$_em;
       if (empty($lignes)) {
             return null;
         }
-        $quantite=0;
-       foreach ($lignes as $key => $ligne) {
-            if($key>0)
-            if($lignes[$key-1]->getCommende()->getDate()==$lignes[$key]->getCommende()->getDate()){
-                 $quantite+=$ligne->getQuantite();
+       $quantite=$lignes[0]->getQuantite();
+       for ($i=1; $i <count($lignes) ; $i++) { 
+          if($lignes[$key-1]->getCommende()->getDate()==$lignes[$i]->getCommende()->getDate()){
+                 $quantite+=$lignes[$i]->getQuantite();
                 continue;
             }
             else
-              $quantite=$ligne->getQuantite();
-              
-            }         
+              $quantite=$lignes[$i]->getQuantite();
+       }
+        
       return (clone $lignes[count($lignes)-1])->setQuantite($quantite);
     }
 
@@ -132,7 +131,7 @@ $this->_em=$_em;
         if(is_null($lastLigne)){
               return $previsions;
         }
-        $quantite=$lastLigne->getQuantite();
+         $quantite=$lastLigne->getQuantite();
          $previsions['last_cmd_date']=$lastLigne->getCommende()->getDate();
          $previsions['last_cmd_quantity']=$quantite;
          if(empty($this->quanteteMoyenne($lignes)))
