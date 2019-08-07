@@ -138,7 +138,7 @@ $this->_em=$_em;
          if(empty($this->quanteteMoyenne($lignes)))
             return $previsions;
         if($quantite<=$this->quanteteMoyenne($lignes)['quantite']){
-            $nobreJourPrevisionnel=min($this->dureeMoyenneEntreDeuxCommendes($lignes),$this->quanteteMoyenne($lignes)['target']);
+            $nobreJourPrevisionnel=max($this->dureeMoyenneEntreDeuxCommendes($lignes),$this->quanteteMoyenne($lignes)['target']);
           }
          else
           $nobreJourPrevisionnel=ceil(($quantite/$this->quanteteMoyenne($lignes)['quantite'])*$this->quanteteMoyenne($lignes)['target']);
