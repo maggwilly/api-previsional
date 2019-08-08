@@ -126,7 +126,7 @@ class Rendezvous
     /** @ORM\PostLoad */
     public function doStuffOnPostLoad()
     {
-         $today=new \DateTime();  
+         $today=new \DateTime(date('Y-m-d'));  
          $interval=$today->diff($this->dateat); 
         $this->passdays=(int)$interval->format('%R%a'); 
         $this->previsions=[];
