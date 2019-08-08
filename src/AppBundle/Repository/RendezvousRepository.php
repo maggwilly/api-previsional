@@ -19,9 +19,9 @@ class RendezvousRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('r.pointVente=:pointVente')
              ->setParameter('pointVente', $pointVente);
             } 
-          if(array_key_exists('honoredBy',$alls)&&$alls['honoredBy']){
-             $user= $this->_em->getRepository('AppBundle:User')->find($alls['honoredBy']);
-              $qb->andWhere('r.user=:honoredBy')->setParameter('honoredBy', $user);
+          if(array_key_exists('doneBy',$alls)&&$alls['doneBy']){
+             $user= $this->_em->getRepository('AppBundle:User')->find($alls['doneBy']);
+              $qb->andWhere('r.user=:doneBy')->setParameter('doneBy', $user);
             }  
          if(array_key_exists('afterdate',$alls)){
              $qb->andWhere('r.dateat>=:afterdate')

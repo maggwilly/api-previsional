@@ -136,7 +136,9 @@ class ProduitController extends Controller
     {
        $user=$this->getUser();
         $form = $this->createForm('AppBundle\Form\ProduitType', $produit);
-        $form->submit($request->request->all());
+       $alls=$request->request->all();
+        unset($alls['id']);
+        $form->submit($alls,false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();

@@ -81,7 +81,7 @@ class SecteurController extends Controller
         $form->submit($request->request->all(),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if ($em->getRepository('AppBundle:Secteur')->find($secteur->getId()==null)) {
+            if ($em->getRepository('AppBundle:Secteur')->find($secteur->getId())==null) {
                  $em->persist($secteur);
             }            
 
@@ -116,7 +116,9 @@ class SecteurController extends Controller
     public function editJsonAction(Request $request, Secteur $secteur)
     {
         $editForm = $this->createForm('AppBundle\Form\SecteurType', $secteur);
-        $editForm->submit($request->request->all());
+        $alls=$request->request->all();
+        unset($alls['id']);
+        $editForm->submit($alls,false);
         if ( $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $secteur;

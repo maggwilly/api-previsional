@@ -169,7 +169,9 @@ class PointVenteController extends Controller
     {
         
         $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $editForm->submit($request->request->all(),false);
+        $alls=$request->request->all();
+        unset($alls['id']);
+        $editForm->submit($alls,false);
         if ( $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $pointVente->setRendezvous($this->get('previsonal_client')

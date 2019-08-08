@@ -27,9 +27,9 @@ class CommendeRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.pointVente=:pointVente')
              ->setParameter('pointVente', $pointVente);
             } 
-         if(array_key_exists('visitedBy',$alls)&&$alls['visitedBy']){
-             $user= $this->_em->getRepository('AppBundle:User')->find($alls['visitedBy']);
-              $qb->andWhere('c.user=:visitedBy')->setParameter('visitedBy', $user);
+         if(array_key_exists('doneBy',$alls)&&$alls['doneBy']){
+             $user= $this->_em->getRepository('AppBundle:User')->find($alls['doneBy']);
+              $qb->andWhere('c.user=:doneBy')->setParameter('doneBy', $user);
             }      
          if(array_key_exists('secteur',$alls)){
              $qb->andWhere('p.secteur=:secteur')
