@@ -123,7 +123,9 @@ class Rendezvous
         return $this;
     }
 
-    /** @ORM\PostLoad */
+    /** 
+    *@ORM\PostLoad()
+     */
     public function doStuffOnPostLoad()
     {
          $today=new \DateTime(date('Y-m-d'));  
@@ -142,7 +144,6 @@ class Rendezvous
       
     if(!$this->id)
          $this->id=md5(uniqid());    
-   // $this->doStuffOnUpdate();
   }
     /**
      * Set dateat

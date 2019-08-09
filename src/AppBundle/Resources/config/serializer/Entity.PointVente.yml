@@ -27,7 +27,6 @@ AppBundle\Entity\PointVente:
             groups: ['rendezvous','pointvente','full']
         visited:
             groups: ['map']
-
         long:
             groups: ['map','rendezvous','pointvente','commende','full'] 
         lat:

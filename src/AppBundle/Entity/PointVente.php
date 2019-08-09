@@ -189,12 +189,12 @@ class PointVente
 
 
     /** 
-    *@ORM\PostLoad 
+    *@ORM\PostLoad()
     */
     public function doStuffOnPostLoad()
     {
       if ($this->secteur==null) {
-         $this->secteur=new Secteur(null,$this->getQuartier());
+         $this->secteur=array("nom"=>$this->getQuartier());//new Secteur(null,$this->getQuartier());
       }
     }
     /**
