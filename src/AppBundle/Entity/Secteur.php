@@ -81,6 +81,7 @@ class Secteur
     public function __construct(User $user=null,$nom=null)
     {   $this->nom=$nom;
         $this->date =new \DateTime(); 
+        if($this->user)
          $this->user=$user->getParent();
         $this->pointVentes = new \Doctrine\Common\Collections\ArrayCollection();
     }
