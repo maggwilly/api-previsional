@@ -26,10 +26,10 @@ create_token:
     defaults: { _controller: "AppBundle:AuthToken:postAuthTokens" }
     methods:  POST
 
-create_credentials:
-    path:      /credential/new/json
-    defaults: { _controller: "AppBundle:AuthToken:postCredential" }
-    methods:  POST
+#create_credentials:
+#    path:      /credential/new/json
+#    defaults: { _controller: "AppBundle:AuthToken:postCredential" }
+#    methods:  POST
 
 check_token:
     path:      /token/check/json

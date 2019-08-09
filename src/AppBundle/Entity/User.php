@@ -228,10 +228,16 @@ class User extends BaseUser
     private $pointVentes;
 
 
-     /**
+    /**
    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Abonnement", mappedBy="user")
    */
     private $abonnement;
+
+    /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\AuthToken", mappedBy="user")
+   */
+    private $authToken;
+
 
    private $invited;
 
@@ -299,6 +305,17 @@ class User extends BaseUser
         return $this->id;
     }
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getAuthToken()
+    {
+      
+     return $this->authToken;
+    }
     /**
      * Set nom
      *
@@ -535,7 +552,7 @@ class User extends BaseUser
 
       public function getUsername()
     {
-        return $this->email;
+        return $this->username;
     }  
 
 

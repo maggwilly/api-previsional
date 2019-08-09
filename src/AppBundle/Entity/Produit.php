@@ -63,6 +63,14 @@ class Produit
      */
     private $enabled;
 
+        /**
+     * @var \boolean
+     *
+     * @ORM\Column(name="control", type="boolean", nullable=true)
+     */
+    private $control;
+
+
     private $stored=true;
 
    

@@ -39,29 +39,26 @@ class AuthTokenController extends Controller
              return  array('create' =>$credentials );
         }
         $authToken=$this->postAuthToken($user);
-        $em->persist($authToken);
-        $em->flush();
         return  $authToken;
     }
 
-      /**
-     * @Rest\View(serializerGroups={"user"})
-     * 
-     */
-    public function showJsonAction(User $user=null)
-    {
-
-        return $user;
-    }
 
 
    public function postAuthToken(User $user)
-    {
-        $authToken=AuthToken::create($user);
+    {   $em = $this->getDoctrine()->getManager();
+        $authToken=$user->getAuthToken();
+        if($authToken)
+            $authToken->setValue();
+         else{
+           $authToken=AuthToken::create($user);
+           $em->persist($authToken); 
+         }
+          $em->flush();
         $numero='+237'.$user->getUsername();
         $contacts=urlencode($numero);
-       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Previsional&msg='.$authToken->getValue();  
-         $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
+        $message=urlencode(`Utilisez le code `.$authToken->getValue().' Pour vous connecter');
+       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Previsional&msg='.$message;  
+           $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
         return  $authToken;
     } 
 
@@ -110,7 +107,7 @@ class AuthTokenController extends Controller
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"user"})
      * 
      */
-    public function postCredentialAction(Request $request)
+  /*  public function postCredentialAction(Request $request)
     {
         $credentials = new Credentials();
         $form = $this->createForm( CredentialsType::class, $credentials);
@@ -132,12 +129,27 @@ class AuthTokenController extends Controller
          if (!$isPasswordValid) { // Le mot de passe n'est pas correct
             return array('error_code' =>'invalid_credentials');
         }
-        $authToken=AuthToken::create($user);
-        $em->persist($authToken);
-        $em->flush();
-        return $authToken->getUser();
-    }
 
+        $authToken=$user->getAuthToken();
+        if($authToken)
+            $authToken->setValue();
+         else{
+        $authToken=AuthToken::create($user);
+        $em->persist($authToken); 
+         }
+          $em->flush();
+        return $authToken->getUser();
+    }*/
+
+      /**
+     * @Rest\View(serializerGroups={"user"})
+     * 
+     */
+    public function showJsonAction(User $user=null)
+    {
+
+        return $user;
+    }
 
 
     /**

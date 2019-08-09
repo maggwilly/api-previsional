@@ -35,14 +35,24 @@ class AuthToken
      */
     protected $enabled;
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @var User
+     * @ORM\OneToOne(targetEntity="User", inversedBy="authToken")
      */
     protected $user;
 
-   public function __construct()
+
+    static function create(User $user)
+    {   
+        $authToken = new AuthToken($user);
+        return $authToken->setValue();
+    }  
+
+
+   public function __construct(User $user)
     {
+        $this->user=$user;
     }
+
+
     public function getId()
     {
         return $this->id;
@@ -51,6 +61,7 @@ class AuthToken
     public function setId($id)
     {
         $this->id = $id;
+         return $this;
     }
 
     public function getValue()
@@ -58,9 +69,10 @@ class AuthToken
         return $this->value;
     }
 
-    public function setValue($value)
+    public function setValue()
     {
-        $this->value = $value;
+        $this->value = $this->generatePIN();
+       return $this->setCreatedAt(new \DateTime('now'));
     }
 
     public function getCreatedAt()
@@ -71,6 +83,7 @@ class AuthToken
     public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+         return $this;
     }
 
     public function getUser()
@@ -81,6 +94,7 @@ class AuthToken
     public function setUser(User $user)
     {
         $this->user = $user;
+         return $this;
     }
 
     public function setEnabled($enabled)
@@ -89,15 +103,6 @@ class AuthToken
          return $this;
     }
 
-    static function create(User $user)
-    {   
-        $authToken = new AuthToken();
-       
-        $authToken->setValue($authToken->generatePIN());
-        $authToken->setCreatedAt(new \DateTime('now'));
-        $authToken->setUser($user);
-        return  $authToken;
-    }  
 
 
    public function generatePIN($digits = 6){

@@ -57,12 +57,20 @@ class MobileUserController extends Controller
     }
 
    public function postAuthToken(User $user)
-    {
-        $authToken=AuthToken::create($user);
+    {   $em = $this->getDoctrine()->getManager();
+        $authToken=$user->getAuthToken();
+        if($authToken)
+            $authToken->setValue();
+         else{
+           $authToken=AuthToken::create($user);
+           $em->persist($authToken); 
+         }
+          $em->flush();
         $numero='+237'.$user->getUsername();
         $contacts=urlencode($numero);
-       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Provisional&msg='.$authToken->getValue();  
-        // $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
+        $message=urlencode(`Utilisez le code `.$authToken->getValue().' Pour vous connecter');
+       $url='https://api-public.mtarget.fr/api-sms.json?username=omegatelecombuilding&password=79sawbfF&msisdn='.$contacts.'&sender=Previsional&msg='.$message;  
+           $res = $this->get('http_request_maker')->sendOrGetData($url,null,'GET',false); 
         return  $authToken;
     }
 
