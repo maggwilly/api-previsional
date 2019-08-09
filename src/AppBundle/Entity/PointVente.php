@@ -187,6 +187,14 @@ class PointVente
     $this->week =$this->date->format("W");
   }
 
+
+    /** @ORM\PostLoad */
+    public function doStuffOnPostLoad()
+    {
+      if (!$this->secteur) {
+         $this->secteur=new Secteur(null,$this->getQuartier());
+      }
+    }
     /**
      * Get id
      *
