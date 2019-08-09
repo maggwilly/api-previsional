@@ -40,7 +40,7 @@ class AuthToken
     protected $user;
 
 
-    static function create(User $user)
+    static function create(User $user=null)
     {   
         $authToken = new AuthToken($user);
         return $authToken->setValue();
