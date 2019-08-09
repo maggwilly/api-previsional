@@ -17,6 +17,14 @@ AppBundle\Entity\Commende:
             groups: ['commende','full']                                               
         lignes:
             groups: ['full']
+        ca:
+            groups: ['commende','full','pointvente']
+            accessor:
+               getter: getCaSum
+        quantite:
+            groups: ['commende','full','pointvente']
+            accessor:
+               getter: getColisSum               
         date:
             groups: ['map','commende','full','pointvente','last']
             expose: true
