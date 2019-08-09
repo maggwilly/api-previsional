@@ -97,7 +97,9 @@ class Commende
 
     private $stored=true;
 
+    private $ca;
 
+     private $quantite;
     /**
      * Constructor
      */
@@ -178,7 +180,7 @@ class Commende
         foreach ($this->lignes as $key => $ligne) {
           $colisSum+=$ligne->getQuantite();
         }
-      return $colisSum;  
+      return $this->quantite=$colisSum;  
     }
 
     /**
@@ -191,7 +193,7 @@ class Commende
         foreach ($this->lignes as $key => $ligne) {
           $caSum+=$ligne->getQuantite()*$ligne->getPu();
         }
-      return $caSum;  
+      return $this->ca=$caSum;  
     }
     /**
      * Set week
