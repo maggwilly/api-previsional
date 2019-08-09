@@ -191,7 +191,7 @@ class PointVente
     /** @ORM\PostLoad */
     public function doStuffOnPostLoad()
     {
-      if (!$this->secteur) {
+      if ($this->secteur==null) {
          $this->secteur=new Secteur(null,$this->getQuartier());
       }
     }

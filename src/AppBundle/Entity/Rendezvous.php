@@ -135,7 +135,7 @@ class Rendezvous
         }
     }
 
-        /**
+/**
 * @ORM\PrePersist()
 */
  public function doStuffOnPersist(){
