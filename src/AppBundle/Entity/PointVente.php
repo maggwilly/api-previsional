@@ -180,7 +180,7 @@ class PointVente
         $this->addAgent($user);
     }
 
-    /**
+/**
 * @ORM\PrePersist()
 */
  public function doStuffOnPersist(){
@@ -188,7 +188,9 @@ class PointVente
   }
 
 
-    /** @ORM\PostLoad */
+    /** 
+    *@ORM\PostLoad 
+    */
     public function doStuffOnPostLoad()
     {
       if ($this->secteur==null) {
