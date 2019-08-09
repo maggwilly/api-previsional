@@ -646,7 +646,7 @@ class PointVente
     {
         if($this->secteur) 
             return $this->secteur;
-      return  array("nom"=>$this->getQuartier());
+      return new Secteur(null,$this->getQuartier());
     }
 
     /**
