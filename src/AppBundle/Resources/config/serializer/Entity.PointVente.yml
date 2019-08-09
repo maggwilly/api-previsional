@@ -18,6 +18,8 @@ AppBundle\Entity\PointVente:
         adresse:
             groups: ['map','rendezvous','commende','pointvente','full'] 
         secteur:
+            accessor:
+               getter: getSecteur
             groups: ['map','rendezvous','pointvente','full']
         lastCommende:
             groups: ['map','pointvente','full']

@@ -188,15 +188,6 @@ class PointVente
   }
 
 
-    /** 
-    *@ORM\PostLoad()
-    */
-    public function doStuffOnPostLoad()
-    {
-      if ($this->secteur==null) {
-         $this->secteur=array("nom"=>$this->getQuartier());//new Secteur(null,$this->getQuartier());
-      }
-    }
     /**
      * Get id
      *
@@ -653,7 +644,9 @@ class PointVente
      */
     public function getSecteur()
     {
-        return $this->secteur;
+        if($this->secteur) 
+            return $this->secteur;
+      return  array("nom"=>$this->getQuartier());
     }
 
     /**
