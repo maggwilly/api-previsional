@@ -82,7 +82,7 @@ class AuthTokenController extends Controller
              return  array(
                 'error_code' =>'invalid_verify_code',
                 'code' =>$code->getValue(),
-                'message' =>"Le code n'est pqs correct " 
+                'message' =>"Le code n'est pas correct " 
                           );
         }
         
@@ -90,7 +90,7 @@ class AuthTokenController extends Controller
              return  array(
                 'error_code' =>'inconsistant_verify_code',
                 'code' =>$code->getValue(),
-                'message' =>"Le code n'est pqs correct " 
+                'message' =>"Le code n'est pas correct " 
             );
         }
       /*  $requests=$request->request->all()['receiveRequests'];
