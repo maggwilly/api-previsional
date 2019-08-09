@@ -43,7 +43,7 @@ class AuthToken
     static function create(User $user=null)
     {   
         $authToken = new AuthToken($user);
-        return $authToken->setValue();
+        return $authToken->generateValue();
     }  
 
 
@@ -69,11 +69,18 @@ class AuthToken
         return $this->value;
     }
 
-    public function setValue()
+    public function setValue($value)
+    {
+        $this->value = $value;
+       return $this;
+    }
+
+    public function generateValue()
     {
         $this->value = $this->generatePIN();
        return $this->setCreatedAt(new \DateTime('now'));
     }
+    
 
     public function getCreatedAt()
     {

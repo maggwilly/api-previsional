@@ -60,7 +60,7 @@ class MobileUserController extends Controller
     {   $em = $this->getDoctrine()->getManager();
         $authToken=$user->getAuthToken();
         if($authToken)
-            $authToken->setValue();
+           $authToken->generateValue();
          else{
            $authToken=AuthToken::create($user);
            $em->persist($authToken); 
