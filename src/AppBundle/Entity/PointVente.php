@@ -122,6 +122,12 @@ class PointVente
     private $commendes;
 
     /**
+     * @var \boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable=true)
+     */
+    private $enabled;
+    /**
      * @var int
      *
      * @ORM\Column(name="week", type="integer", nullable=true)

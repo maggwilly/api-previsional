@@ -56,7 +56,12 @@ class Produit
    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ligne", mappedBy="produit")
    */
    private $lignes;
-
+    /**
+     * @var \boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable=true)
+     */
+    private $enabled;
 
     private $stored=true;
 

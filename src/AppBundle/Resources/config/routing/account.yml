@@ -1,5 +1,5 @@
 user_index_json:
-    path:     /user/json
+    path:     /vendeur/json
     defaults: { _controller: "AppBundle:MobileUser:indexJson" }
     methods:  [GET, POST]
 
@@ -62,6 +62,6 @@ refuse_request:
     methods:   DELETE
 
 delete_user:
-    path:      /user/{id}/delete/json
+    path:      /vendeur/{id}/delete/json
     defaults: { _controller: "AppBundle:MobileUser:deleteUserJson" }
     methods:  DELETE
