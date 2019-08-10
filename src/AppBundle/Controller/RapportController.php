@@ -226,7 +226,7 @@ class RapportController extends Controller
                                 $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
                                 $lesprevisions[$previsions['id']]['next_cmd_clients']=[
                                     ["pointVente"=>$pointVente,
-                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity']
+                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity'],
                                     'next_cmd_date'=>$previsions['next_cmd_date']
                                 ]
                               ];
@@ -239,7 +239,7 @@ class RapportController extends Controller
                                 $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
                                 $lesprevisions[$previsions['id']]['next_cmd_clients'][]=[
                                     "pointVente"=>$pointVente,
-                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity']
+                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity'],
                                     'next_cmd_date'=>$previsions['next_cmd_date']
                                 ];
                             }
