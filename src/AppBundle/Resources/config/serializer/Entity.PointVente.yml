@@ -8,7 +8,7 @@ AppBundle\Entity\PointVente:
         telephone:
             groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         rendezvous:
-            groups: ['map','pointvente','rendezvous']           
+            groups: ['map','pointvente','rendezvous','prevision']           
         ville:
             groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         type:
@@ -22,7 +22,7 @@ AppBundle\Entity\PointVente:
                getter: getSecteur
             groups: ['map','rendezvous','pointvente','full']
         lastCommende:
-            groups: ['map','pointvente','full']
+            groups: ['map','pointvente','full','prevision']
         firstCommende:
             groups: ['map','pointvente','full']            
         stored:
