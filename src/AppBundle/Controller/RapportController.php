@@ -213,23 +213,13 @@ class RapportController extends Controller
               if($rendezvous)
                 foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
                  if (!array_key_exists($previsions['id'], $lesprevisions)&&array_key_exists('next_cmd_quantity',$previsions)){ $lesprevisions[$previsions['id']]=$previsions;
-                      $lesprevisions[$previsions['id']]['next_cmd_clients']=[];
-                    }
-                           
-                      
-                       if(!$lesprevisions[$previsions['id']]['next_cmd_quantity']){
-                             if(array_key_exists('next_cmd_quantity', $previsions)){
-                                $lesprevisions[$previsions['id']]['next_cmd_quantity']=$previsions['next_cmd_quantity'];
-                                $lesprevisions[$previsions['id']]['next_cmd_cost']=$previsions['next_cmd_cost'];
-                                $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
-                                $lesprevisions[$previsions['id']]['next_cmd_clients']=[
+                      $lesprevisions[$previsions['id']]['next_cmd_clients']=[
                                     array("pointVente"=>$pointVente,
                                     'quantity'=>$previsions['next_cmd_quantity'],
                                     'dateat'=>$previsions['next_cmd_date']
                                 )
                               ];
-                            }
-                        }else
+                    }
                             if(array_key_exists('next_cmd_quantity', $previsions)){
                                $lesprevisions[$previsions['id']]['next_cmd_quantity']+=$previsions['next_cmd_quantity'];
                                $lesprevisions[$previsions['id']]['next_cmd_cost']+=$previsions['next_cmd_cost'];
