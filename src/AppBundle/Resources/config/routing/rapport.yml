@@ -1,7 +1,3 @@
-rapport_index:
-    path:     /rapport/
-    defaults: { _controller: "AppBundle:Rapport:index" }
-    methods:  GET
 
 rapport_index_json:
     path:     /rapport/json
@@ -21,12 +17,6 @@ map_index_json:
 prevision_index_json: 
     path:     /prevision/json
     defaults: { _controller: "AppBundle:Rapport:previsionsJson" }
-    methods:  GET
-
-
-rapport_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:Rapport:show" }
     methods:  GET
 
 rapport_show_json:

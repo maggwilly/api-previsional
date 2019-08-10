@@ -39,9 +39,9 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
 
 
 
-    public function findLastRendevous(PointVente $pointVente=null,$endDate=null,$alls=[""])
+    public function findLastRendevous(PointVente $pointVente=null,$alls=[""])
     {   
-        return  $this->_em->getRepository('AppBundle:Rendezvous')->findLast($pointVente,$endDate,$alls);
+        return  $this->_em->getRepository('AppBundle:Rendezvous')->findLast($pointVente,$alls);
     }
 
 
@@ -89,7 +89,7 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
 
 
 
-    public function addPrevisions(Rendezvous $rendezvous=null,$canCreateNew=true,$endDate=null)
+    public function addPrevisions(Rendezvous $rendezvous=null,$canCreateNew=true)
     {
        if($rendezvous==null)
          return ;
@@ -98,14 +98,14 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
         return $this->findNextRendevous($pointVente,$endDate);
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
         foreach ($produits as $produit) {
-         $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);
+         $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit);
          $rendezvous->addPrevisions($previsions);
       }
         return $rendezvous;
     }
 
 
-    public function getPrevisions(Rendezvous $rendezvous=null,$endDate=null)
+    public function getPrevisions(Rendezvous $rendezvous=null)
     {
        $lprevisions=[];
        if($rendezvous==null)
@@ -113,7 +113,7 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
        $pointVente=$rendezvous->getPointVente();
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
       foreach ($produits as $produit) {
-         $previsions[]= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);
+         $previsions[]= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$rendezvous->getDateat());
       }
         return $previsions;
     }

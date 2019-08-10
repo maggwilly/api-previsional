@@ -13,20 +13,6 @@ use FOS\RestBundle\View\View;
  */
 class SecteurController extends Controller
 {
-    /**
-     * Lists all secteur entities.
-     *
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $secteurs = $em->getRepository('AppBundle:Secteur')->findAll();
-
-        return $this->render('secteur/index.html.twig', array(
-            'secteurs' => $secteurs,
-        ));
-    }
 
 
     /**
@@ -45,29 +31,6 @@ class SecteurController extends Controller
         return $secteurs;
     }
 
-
-    /**
-     * Creates a new secteur entity.
-     *
-     */
-    public function newAction(Request $request)
-    {
-        $user=$this->getUser();
-        $secteur = new Secteur($user);
-        $form = $this->createForm('AppBundle\Form\SecteurType', $secteur);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($secteur);
-            $em->flush();
-            return $this->redirectToRoute('secteur_show', array('id' => $secteur->getId()));
-        }
-
-        return $this->render('secteur/new.html.twig', array(
-            'secteur' => $secteur,
-            'form' => $form->createView(),
-        ));
-    }
 
     /**
      * @Rest\View(serializerGroups={"secteur"})
@@ -95,21 +58,6 @@ class SecteurController extends Controller
     
 
     /**
-     * Finds and displays a secteur entity.
-     *
-     */
-    public function showAction(Secteur $secteur)
-    {
-        $deleteForm = $this->createDeleteForm($secteur);
-
-        return $this->render('secteur/show.html.twig', array(
-            'secteur' => $secteur,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-
-    /**
      * @Rest\View(serializerGroups={"secteur"})
      * 
      */
@@ -127,43 +75,7 @@ class SecteurController extends Controller
     }
     
 
-    /**
-     * Displays a form to edit an existing secteur entity.
-     *
-     */
-    public function editAction(Request $request, Secteur $secteur)
-    {
-        $deleteForm = $this->createDeleteForm($secteur);
-        $editForm = $this->createForm('AppBundle\Form\SecteurType', $secteur);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('secteur_edit', array('id' => $secteur->getId()));
-        }
-        return $this->render('secteur/edit.html.twig', array(
-            'secteur' => $secteur,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a secteur entity.
-     *
-     */
-    public function deleteAction(Request $request, Secteur $secteur)
-    {
-        $form = $this->createDeleteForm($secteur);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($secteur);
-            $em->flush();
-        }
-        return $this->redirectToRoute('secteur_index');
-    }
 
     /**
      * @Rest\View()
@@ -182,27 +94,5 @@ class SecteurController extends Controller
 
         return array('ok' => true,'deletedId' => $id );
     }
-
-    /**
-     * Creates a form to delete a secteur entity.
-     *
-     * @param Secteur $secteur The secteur entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Secteur $secteur)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('secteur_delete', array('id' => $secteur->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
-
-     public function getMobileUser(Request $request)
-    {
-         $em = $this->getDoctrine()->getManager();
-          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        return $user;
-    }  
+ 
 }

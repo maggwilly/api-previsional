@@ -22,28 +22,3 @@ secteur_delete_json:
     path:     /{id}/delete/json
     defaults: { _controller: "AppBundle:Secteur:deleteJson" }
     methods:  DELETE
-
-secteur_index:
-    path:     /
-    defaults: { _controller: "AppBundle:Secteur:index" }
-    methods:  GET
-
-secteur_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:Secteur:show" }
-    methods:  GET
-
-secteur_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:Secteur:new" }
-    methods:  [GET, POST]
-
-secteur_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "AppBundle:Secteur:edit" }
-    methods:  [GET, POST]
-
-secteur_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "AppBundle:Secteur:delete" }
-    methods:  DELETE

@@ -15,20 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class RapportController extends Controller
 {
-    /**
-     * Lists all rapport entities.
-     *
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $rapports = $em->getRepository('AppBundle:Rapport')->findAll();
-
-        return $this->render('rapport/index.html.twig', array(
-            'rapports' => $rapports,
-        ));
-    }
 
     /**
      * @Rest\View(serializerGroups={"rapport"})
@@ -209,17 +195,27 @@ class RapportController extends Controller
           $previsioner=$this->get('previsonal_client');
           $lesprevisions=[];    
          (new ArrayCollection($this->getDoctrine()->getManager()->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys,true)))->map(function($pointVente) use (&$lesprevisions,$previsioner,$alls){
-             $rendezvous=$previsioner->findLastRendevous($pointVente,null,$alls);
-              if($rendezvous)
+              $startDate=new \DateTime($alls['afterdate']);
+              $endDate=new \DateTime($alls['beforedate']);
+             $rendezvouss=$previsioner->getRendezvouss($entry,$alls);
+              foreach ($rendezvouss as $key => $rendezvous) {
                 foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
-                 if (!array_key_exists($previsions['id'], $lesprevisions)&&array_key_exists('next_cmd_quantity',$previsions)){ $lesprevisions[$previsions['id']]=$previsions;
+                    
+                    if(array_key_exists('next_cmd_date',$previsions)){
+                         $next_cmd_date=new \DateTime($previsions['next_cmd_date']);
+                         if($startDate<=$next_cmd_date&&$endDate>=$next_cmd_date)
+                            continue;
+                    }
+
+                 if (!array_key_exists($previsions['id'], $lesprevisions)&&array_key_exists('next_cmd_quantity',$previsions)){ 
+                      $lesprevisions[$previsions['id']]=$previsions;
                       $lesprevisions[$previsions['id']]['next_cmd_clients']=[
                                     array("pointVente"=>$pointVente,
                                     'quantity'=>$previsions['next_cmd_quantity'],
                                     'dateat'=>$previsions['next_cmd_date']
                                 )
                               ];
-                      return; 
+                      continue; 
                     }
                       if(array_key_exists('next_cmd_quantity', $previsions)){
                                $lesprevisions[$previsions['id']]['next_cmd_quantity']+=$previsions['next_cmd_quantity'];
@@ -232,25 +228,10 @@ class RapportController extends Controller
                                 );
                             }
                 }
+            }
             return;     
          });      
         return array_values($lesprevisions) ;
     }
-    /**
-     * Finds and displays a rapport entity.
-     */
-    public function showAction(Rapport $rapport)
-    {
-        return $this->render('rapport/show.html.twig', array(
-            'rapport' => $rapport,
-        ));
-    }
-
-
-     public function getMobileUser(Request $request)
-    {
-         $em = $this->getDoctrine()->getManager();
-          $user = $em->getRepository('AppBundle:User')->findOneById($request->headers->get('X-User-Id'));
-        return $user;
-    }     
+   
 }

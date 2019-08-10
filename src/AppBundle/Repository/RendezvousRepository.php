@@ -37,7 +37,7 @@ class RendezvousRepository extends \Doctrine\ORM\EntityRepository
 
       /*Dernier commende dans un point de vente*/
 
-   public function findLast(PointVente $pointVente,  $endDate=null,$alls=[""]){
+   public function findLast(PointVente $pointVente,$alls=[""]){
            $qb = $this->createQueryBuilder('c'); 
           if($pointVente!=null){
             $qb->andWhere('c.pointVente=:pointVente')
@@ -50,11 +50,7 @@ class RendezvousRepository extends \Doctrine\ORM\EntityRepository
          if(array_key_exists('beforedate',$alls)){
              $qb->andWhere('c.date<=:beforedate')
              ->setParameter('beforedate',new \DateTime($alls['beforedate']));
-            }
-          if($endDate!=null){
-             $qb->andWhere('c.dateat<=:endDate')
-             ->setParameter('endDate',new \DateTime($endDate));
-          }            
+            }           
             $qb->orderBy('c.date','desc');
             return $qb->getQuery()->setMaxResults(1)->getOneOrNullresult();  
       }

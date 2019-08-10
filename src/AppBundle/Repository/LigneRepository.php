@@ -23,7 +23,7 @@ class LigneRepository extends \Doctrine\ORM\EntityRepository
               $qb->andWhere('l.produit=:produit')->setParameter('produit', $produit);
           if($endDate!=null){
              $qb->andWhere('c.date<=:endDate')
-             ->setParameter('endDate',new \DateTime($endDate));
+             ->setParameter('endDate',$endDate);
           }
           $qb->orderBy('c.date', $order);
          return $qb->getQuery()->getResult();  

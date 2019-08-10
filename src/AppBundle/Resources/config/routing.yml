@@ -2,10 +2,6 @@ app_commende:
     resource: "@AppBundle/Resources/config/routing/commende.yml"
     prefix:   /commende
 
-app_ligne:
-    resource: "@AppBundle/Resources/config/routing/ligne.yml"
-    prefix:   /ligne
-
 app_produit:
     resource: "@AppBundle/Resources/config/routing/produit.yml"
     prefix:   /produit
@@ -37,8 +33,6 @@ app_account:
 app_payement:
     resource: "@AppBundle/Resources/config/routing/commande.yml"
     prefix:   /payement  
-
-
 
 homepage:
     path:     /

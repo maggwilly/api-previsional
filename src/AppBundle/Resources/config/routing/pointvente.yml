@@ -1,29 +1,3 @@
-pointvente_index:
-    path:     /
-    defaults: { _controller: "AppBundle:PointVente:index" ,"id":0}
-    methods:  GET
-
-pointvente_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:PointVente:show" }
-    methods:  GET
-
-pointvente_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:PointVente:new" }
-    methods:  [GET, POST]
-
-pointvente_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "AppBundle:PointVente:edit" }
-    methods:  [GET, POST]
-
-pointvente_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "AppBundle:PointVente:delete" }
-    methods:  DELETE
-
-
 point_vente_index_json:
     path:     /json
     defaults: { _controller: "AppBundle:PointVente:indexJson" }

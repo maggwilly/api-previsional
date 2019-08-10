@@ -15,18 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class PointVenteController extends Controller
 {
-    /**
-     * Lists all pointVente entities.
-     *
-     */
-    public function indexAction( )
-    {
-        $em = $this->getDoctrine()->getManager();
-        $pointVentes =$em->getRepository('AppBundle:PointVente')->findByUser($this->getUser());
-        return $this->render('pointvente/index.html.twig', array(
-            'pointVentes' => $pointVentes,
-        ));
-    }
 
     /**
      * @Rest\View(serializerGroups={"pointvente"})
@@ -71,27 +59,6 @@ class PointVenteController extends Controller
     }
 
 
-    /**
-     * Creates a new pointVente entity.
-     *
-     */
-    public function newAction(Request $request)
-    {
-        $user=$this->getUser();
-        $pointVente = new Pointvente($user);
-        $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($pointVente);
-            $em->flush();
-            return $this->redirectToRoute('pointvente_show', array('id' => $pointVente->getId()));
-        }
-        return $this->render('pointvente/new.html.twig', array(
-            'pointVente' => $pointVente,
-            'form' => $form->createView(),
-        ));
-    }
 
 
     /**
@@ -103,7 +70,7 @@ class PointVenteController extends Controller
          $user=$this->getUser();
         $pointVente = new PointVente($user);
         $form = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $form->submit($request->request->all(),false);
+        $form->submit($this->makeUp($request),false);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
              if ($em->getRepository('AppBundle:PointVente')->find($pointVente->getId())==null) {
@@ -116,18 +83,8 @@ class PointVenteController extends Controller
 
         return  $form;
     }
-    /**
-     * Finds and displays a pointVente entity.
-     *
-     */
-    public function showAction(PointVente $pointVente)
-    {
-        $deleteForm = $this->createDeleteForm($pointVente);
-        return $this->render('pointvente/show.html.twig', array(
-            'pointVente' => $pointVente,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+
+
     /**
      * @Rest\View(serializerGroups={"pointvente"})
      * 
@@ -138,30 +95,8 @@ class PointVenteController extends Controller
         return $pointVente->setRendezvous($this->get('previsonal_client')
           ->findNextRendevous($pointVente));
     }
-    /**
-     * Displays a form to edit an existing pointVente entity.
-     *
-     */
-    public function editAction(Request $request, PointVente $pointVente)
-    {
-        $deleteForm = $this->createDeleteForm($pointVente);
-        $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('pointvente_edit', array('id' => $pointVente->getId()));
-        }
-
-        return $this->render('pointvente/edit.html.twig', array(
-            'pointVente' => $pointVente,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-
-    /**
+        /**
      * @Rest\View(serializerGroups={"pointvente"})
      * 
      */
@@ -171,7 +106,7 @@ class PointVenteController extends Controller
         $editForm = $this->createForm('AppBundle\Form\PointVenteType', $pointVente);
         $alls=$request->request->all();
         unset($alls['id']);
-        $editForm->submit($alls,false);
+        $editForm->submit($this->makeUp($request,false),false);
         if ( $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $pointVente->setRendezvous($this->get('previsonal_client')
@@ -179,6 +114,18 @@ class PointVenteController extends Controller
         }
         return array('error' => true );
     }
+
+
+public function makeUp(Request $request,$setId=true){
+    $pointVente= $request->request->all();
+      if (!$setId) {
+         unset ($pointVente['id']);
+      }
+    return $pointVente;
+}
+
+
+
     
     /**
      * Deletes a pointVente entity.
@@ -215,17 +162,6 @@ class PointVenteController extends Controller
         return array('ok' => true,'deletedId' => $id );
     }
     
-    /**
-     * Creates a form to delete a pointVente entity.
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(PointVente $pointVente)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pointvente_delete', array('id' => $pointVente->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
+
  
 }
