@@ -219,7 +219,7 @@ class RapportController extends Controller
                                     'dateat'=>$previsions['next_cmd_date']
                                 )
                               ];
-                      return; 
+                      continue; 
                     }
                       if(array_key_exists('next_cmd_quantity', $previsions)){
                                $lesprevisions[$previsions['id']]['next_cmd_quantity']+=$previsions['next_cmd_quantity'];
