@@ -229,7 +229,7 @@ class RapportController extends Controller
                                     'next_cmd_quantity'=>$previsions['next_cmd_quantity']
                                     'next_cmd_date'=>$previsions['next_cmd_date']
                                 ]
-                              ]
+                              ];
                             }
                         }else
                             if(array_key_exists('next_cmd_quantity', $previsions)){
