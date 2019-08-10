@@ -212,8 +212,10 @@ class RapportController extends Controller
              $rendezvous=$previsioner->findLastRendevous($pointVente,null,$alls);
               if($rendezvous)
                 foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
-                 if (!array_key_exists($previsions['id'], $lesprevisions)&&array_key_exists('next_cmd_quantity',$previsions))
-                            $lesprevisions[$previsions['id']]=$previsions;
+                 if (!array_key_exists($previsions['id'], $lesprevisions)&&array_key_exists('next_cmd_quantity',$previsions)){ $lesprevisions[$previsions['id']]=$previsions;
+                      $lesprevisions[$previsions['id']]['next_cmd_clients']=[];
+                    }
+                           
                       
                        if(!$lesprevisions[$previsions['id']]['next_cmd_quantity']){
                              if(array_key_exists('next_cmd_quantity', $previsions)){
