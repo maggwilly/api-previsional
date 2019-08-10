@@ -203,6 +203,22 @@ class PointVente
         return $this;
     }
     /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+    
+    public function setEnabled($enabled)
+    {
+        $this->enabled=$enabled;
+        return $this;
+    }
+
+    /**
      * Set nom
      *
      * @param string $nom

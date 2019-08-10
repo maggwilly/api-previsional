@@ -2,21 +2,21 @@ AppBundle\Entity\PointVente:
     exclusion_policy: none
     properties:
         id:
-            groups: ['map','rendezvous','commende','pointvente','full','last']
+            groups: ['map','rendezvous','commende','pointvente','full','last','prevision']
         nom:
-            groups: ['map','rendezvous','commende','pointvente','full']
+            groups: ['map','rendezvous','commende','pointvente','full','prevision']
         telephone:
-            groups: ['map','rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         rendezvous:
             groups: ['map','pointvente','rendezvous']           
         ville:
-            groups: ['map','rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         type:
-            groups: ['map','rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         quartier:
-            groups: ['map','rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         adresse:
-            groups: ['map','rendezvous','commende','pointvente','full'] 
+            groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         secteur:
             accessor:
                getter: getSecteur
@@ -30,9 +30,9 @@ AppBundle\Entity\PointVente:
         visited:
             groups: ['map']
         long:
-            groups: ['map','rendezvous','pointvente','commende','full'] 
+            groups: ['map','rendezvous','pointvente','commende','full','prevision'] 
         lat:
-            groups: ['map','rendezvous','pointvente','commende','full'] 
+            groups: ['map','rendezvous','pointvente','commende','full','prevision'] 
         date:
             groups: ['commende','full','rendezvous','last','pointvente']
             expose: true

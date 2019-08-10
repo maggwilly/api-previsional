@@ -93,7 +93,10 @@ class RapportController extends Controller
                 $newClientCount++; 
           }
 
-      if($entry->getDate()&&( $entry->getDate()>=$startDate)&&($entry->getDate()<=$endDate)){
+      if($entry->getDate()&&( $entry->getDate()>=$startDate)
+        &&($entry->getDate()<=$endDate)
+        &&(!array_key_exists('doneBy',$alls)
+            ||array_key_exists('doneBy',$alls)&&$entry->getCreatedBy()&&$entry->getCreatedBy()->getId()==$alls['doneBy'])){
             if(!array_key_exists($entry->getWeek(),$week))
                  $week[$entry->getWeek()]=['created'=>0,'engaged'=>0,'visitedtarget'=>0,'visited'=>0,'colistarget'=>0,'catarget'=>0,'colis'=>0,'ca'=>0];
                  $week[$entry->getWeek()]['created']++;
@@ -194,7 +197,7 @@ class RapportController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"prevision"})
      */
     public function previsionsJsonAction(Request $request)
     {   
@@ -219,8 +222,14 @@ class RapportController extends Controller
                        if(!$lesprevisions[$previsions['id']]['next_cmd_quantity']){
                              if(array_key_exists('next_cmd_quantity', $previsions)){
                                 $lesprevisions[$previsions['id']]['next_cmd_quantity']=$previsions['next_cmd_quantity'];
-                                 $lesprevisions[$previsions['id']]['next_cmd_cost']=$previsions['next_cmd_cost'];
-                                 $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
+                                $lesprevisions[$previsions['id']]['next_cmd_cost']=$previsions['next_cmd_cost'];
+                                $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
+                                $lesprevisions[$previsions['id']]['next_cmd_clients']=[
+                                    ["pointVente"=>$pointVente,
+                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity']
+                                    'next_cmd_date'=>$previsions['next_cmd_date']
+                                ]
+                              ]
                             }
                         }else
                             if(array_key_exists('next_cmd_quantity', $previsions)){
@@ -228,6 +237,11 @@ class RapportController extends Controller
                                $lesprevisions[$previsions['id']]['next_cmd_cost']+=$previsions['next_cmd_cost'];
                                if($lesprevisions[$previsions['id']]['next_cmd_date']>$previsions['next_cmd_date'])
                                 $lesprevisions[$previsions['id']]['next_cmd_date']=$previsions['next_cmd_date'];
+                                $lesprevisions[$previsions['id']]['next_cmd_clients'][]=[
+                                    "pointVente"=>$pointVente,
+                                    'next_cmd_quantity'=>$previsions['next_cmd_quantity']
+                                    'next_cmd_date'=>$previsions['next_cmd_date']
+                                ];
                             }
                 }
             return;     

@@ -124,6 +124,7 @@ $this->_em=$_em;
           $previsions=[];
           $previsions['id']=$produit->getId();
           $previsions['nom']=$produit->getNom();
+          $previsions['unite']=$produit->getUnite();
           $previsions['description']=$produit->getDescription();
           $previsions['next_cmd_date']=null;
           $lignes=$this->getLignes($pointVente,$produit,  $endDate);

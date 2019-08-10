@@ -21,11 +21,11 @@ class PointVenteType extends AbstractType
         ->add('long')
         ->add('type')
         ->add('lat')
-         ->add('adresse')
+        ->add('enabled')
+        ->add('adresse')
         ->add('reference')
         ->add('pays')
         ->add('telephone')
-         //->add('rendezvous',RendezvousType::class)
         ->add('secteur', EntityType::class, array('class' => 'AppBundle:Secteur'))
         ;
     }/**

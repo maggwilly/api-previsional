@@ -5,6 +5,8 @@ AppBundle\Entity\Produit:
             groups: ['produit','ligne','commende','rendezvous','full','last']
         nom:
             groups: ['produit','ligne','commende','rendezvous','full','last']
+        unite:
+            groups: ['produit','ligne','commende','rendezvous','full','last']            
         description:
             groups: ['produit','ligne','commende','full','last'] 
         cout:

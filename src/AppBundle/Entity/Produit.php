@@ -27,6 +27,13 @@ class Produit
      */
     private $nom;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unite", type="string", length=80, options={"default":"Unité"})
+     */
+    private $unite;
     /**
      * @var string
      *
@@ -75,8 +82,7 @@ class Produit
 
    
 
-        public function __construct(User $user=null)
-    {
+   public function __construct(User $user=null){
          $this->date=new \DateTime();
         $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
@@ -150,7 +156,54 @@ class Produit
         return $this->nom;
     }
 
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+    
+    public function setEnabled($enabled)
+    {
+        $this->enabled=$enabled;
+        return $this;
+    }
 
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function geControl()
+    {
+        return $this->control;
+    }
+    
+    public function setControl($control)
+    {
+        $this->control=$control;
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getUnite()
+    {
+        return $this->unite;
+    }
+    
+    public function setUnite($unite)
+    {
+        $this->unite=$unite;
+        return $this;
+    }    
     /**
      * Set cout
      *
