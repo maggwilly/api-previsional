@@ -1,4 +1,4 @@
-  rendezvous_new_json:
+rendezvous_new_json:
     path:     /new/json
     defaults: { _controller: "AppBundle:Rendezvous:newJson" }
     methods:  [GET, POST]
