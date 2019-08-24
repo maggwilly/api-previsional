@@ -153,7 +153,7 @@ class Commende
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
-    $this->terminated=is_null($this->terminated)?true:false;
+    //$this->terminated=is_null($this->terminated)?true:false;
   }
     /**
   @ORM\PreFlush
