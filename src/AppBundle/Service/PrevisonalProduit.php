@@ -127,7 +127,7 @@ $this->_em=$_em;
           $previsions['unite']=$produit->getUnite();
           $previsions['description']=$produit->getDescription();
           $previsions['next_cmd_date']=null;
-          $lignes=$this->getLignes($pointVente,$produit,  $endDate);
+          $lignes=$this->getLignes($pointVente,$produit, $endDate);
           $lastLigne=$this->lastLigne($lignes);
         if(is_null($lastLigne)){
               return $previsions;
