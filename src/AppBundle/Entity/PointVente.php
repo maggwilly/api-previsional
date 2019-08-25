@@ -583,6 +583,16 @@ class PointVente
 
         return $this;
     }
+
+    /**
+     * Get secteur
+     *
+     * @return \AppBundle\Entity\Secteur
+     */
+    public function getSecteur()
+    {
+     return $this->secteur;
+    }
     /**
      * Set type
      *
@@ -653,15 +663,7 @@ class PointVente
     {
         return $this->type;
     }
-    /**
-     * Get secteur
-     *
-     * @return \AppBundle\Entity\Secteur
-     */
-    public function getSecteur()
-    {
-     return $this->secteur;
-    }
+
 
     /**
      * Set rendezvous
