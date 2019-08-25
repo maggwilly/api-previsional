@@ -174,7 +174,6 @@ class PointVente
         $this->rendezvouss = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
         $this->createdBy=$user;
-        $this->secteur=$user->getSecteur();
         $this->addAgent($user);
     }
 
@@ -184,16 +183,19 @@ class PointVente
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
+    if($this->secteur==null&&$user->getSecteur()!=null)
+        $this->secteur=$user->getSecteur();
+      elseif ($this->secteur==null) 
+         $this->secteur= new Secteur($user,$this->quartier);
   }
     
-
     /** 
     *@ORM\PostLoad()
      */
     public function doStuffOnPostLoad()
     {
-     if(!$this->secteur==null)
-        $this->secteur=new Secteur($this->quartier);
+     if ($this->secteur==null) 
+         $this->secteur= new Secteur($user,$this->quartier);
     }
     /**
      * Get id
