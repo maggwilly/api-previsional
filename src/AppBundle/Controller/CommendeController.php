@@ -102,6 +102,15 @@ public function makeUp(Request $request,$setId=true){
     
 
     /**
+     * @Rest\View(serializerGroups={"full"})
+     * 
+     */
+    public function showJsonAction(Request $request, Commende $commende)
+    {
+            return $commende;
+    }
+
+    /**
      * @Rest\View()
      * 
      */
