@@ -106,7 +106,7 @@ class PointVente
      **/
     protected $createdBy;
    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur" ,inversedBy="pointVentes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Secteur" ,inversedBy="pointVentes", cascade={"persist"})
      * @var User
      */
     protected $secteur;
