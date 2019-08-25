@@ -202,8 +202,7 @@ class RapportController extends Controller
                 foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
                     
                     if(array_key_exists('next_cmd_date',$previsions)){
-                         $next_cmd_date=new \DateTime($previsions['next_cmd_date']);
-                         if($startDate<=$next_cmd_date&&$endDate>=$next_cmd_date)
+                         if($startDate<=$previsions['next_cmd_date']&&$endDate>=$previsions['next_cmd_date'])
                             continue;
                     }
 
