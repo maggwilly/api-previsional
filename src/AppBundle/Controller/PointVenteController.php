@@ -74,7 +74,7 @@ class PointVenteController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
              if ($em->getRepository('AppBundle:PointVente')->find($pointVente->getId())==null) {
-               $em->persist($pointVente);
+                $em->persist($pointVente);
             }
             $em->flush();
             return $pointVente->setRendezvous($this->get('previsonal_client')

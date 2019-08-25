@@ -19,7 +19,7 @@ AppBundle\Entity\PointVente:
             groups: ['map','rendezvous','commende','pointvente','full','prevision'] 
         secteur:
             accessor:
-               getter: getSecteur
+               getter: getASecteur
             groups: ['map','rendezvous','pointvente','full']
         lastCommende:
             groups: ['map','pointvente','full','prevision']

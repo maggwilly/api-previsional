@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="point_vente")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PointVenteRepository")
+   *@ORM\HasLifecycleCallbacks()
  */
 class PointVente
 {
@@ -186,17 +187,9 @@ class PointVente
     if($this->secteur==null&&$user->getSecteur()!=null)
         $this->secteur=$user->getSecteur();
       elseif ($this->secteur==null) 
-         $this->secteur= new Secteur($user,$this->quartier);
+         $this->secteur= new Secteur($this->user,$this->quartier);
   }
     
-    /** 
-    *@ORM\PostLoad()
-     */
-    public function doStuffOnPostLoad()
-    {
-     if ($this->secteur==null) 
-         $this->secteur= new Secteur($user,$this->quartier);
-    }
 
     /**
      * Get id
@@ -600,8 +593,18 @@ class PointVente
      */
     public function getSecteur()
     {
+     return $this->secteur;
+    }
+
+    /**
+     * Get secteur
+     *
+     * @return \AppBundle\Entity\Secteur
+     */
+    public function getASecteur()
+    {
      if ($this->secteur==null) 
-         $this->secteur= new Secteur($user,$this->quartier);
+         $this->secteur= new Secteur($this->user,$this->quartier);
      return $this->secteur;
     }
     /**

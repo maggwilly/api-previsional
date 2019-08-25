@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="secteur")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SecteurRepository")
+   *@ORM\HasLifecycleCallbacks()
  */
 class Secteur
 {
@@ -94,6 +95,15 @@ class Secteur
     {
         return $this->id;
     }
+    
+    /**
+* @ORM\PrePersist()
+*/
+ public function doStuffOnPersist(){
+      
+    if(!$this->id)
+         $this->id=md5(uniqid());    
+  }
 
     /**
      * Set nom
