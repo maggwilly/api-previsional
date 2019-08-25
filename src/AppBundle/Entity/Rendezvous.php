@@ -27,7 +27,6 @@ class Rendezvous
      */
     private $dateat;
 
-    private $realdateat;
 
     /**
      * @var \DateTime
@@ -81,7 +80,9 @@ class Rendezvous
 
     private $previsions;
 
-     private $produitnonvendu;
+    private $produitnonvendu;
+    
+    private $realdateat;
 
 
     /**

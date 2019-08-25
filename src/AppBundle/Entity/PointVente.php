@@ -842,6 +842,7 @@ class PointVente
      */
     public function addRendezvouss(\AppBundle\Entity\Rendezvous $rendezvouss)
     {
+        $rendezvouss->setPointVente($this);
         $this->rendezvouss[] = $rendezvouss;
 
         return $this;
