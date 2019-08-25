@@ -197,7 +197,7 @@ class RapportController extends Controller
          (new ArrayCollection($this->getDoctrine()->getManager()->getRepository('AppBundle:PointVente')->findByUser($this->getUser(),$alls,$keys,true)))->map(function($pointVente) use (&$lesprevisions,$previsioner,$alls){
               $startDate=new \DateTime($alls['afterdate']);
               $endDate=new \DateTime($alls['beforedate']);
-             $rendezvouss=$previsioner->getRendezvouss($entry,$alls);
+             $rendezvouss=$previsioner->getRendezvouss($pointVente,$alls);
               foreach ($rendezvouss as $key => $rendezvous) {
                 foreach ($previsioner->getPrevisions($rendezvous) as $key => $previsions) {
                     
