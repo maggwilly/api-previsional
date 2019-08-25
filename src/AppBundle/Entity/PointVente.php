@@ -186,7 +186,7 @@ class PointVente
     if($this->secteur==null&&$user->getSecteur()!=null)
         $this->secteur=$user->getSecteur();
       elseif ($this->secteur==null) 
-         $this->secteur= new Secteur($user,$this->quartier);
+         $this->secteur= new Secteur($this->user,$this->quartier);
   }
     
     /** 
@@ -601,7 +601,7 @@ class PointVente
     public function getSecteur()
     {
      if ($this->secteur==null) 
-         $this->secteur= new Secteur($user,$this->quartier);
+         $this->secteur= new Secteur($this->user,$this->quartier);
      return $this->secteur;
     }
     /**
