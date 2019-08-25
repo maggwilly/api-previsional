@@ -197,6 +197,7 @@ class PointVente
      if ($this->secteur==null) 
          $this->secteur= new Secteur($user,$this->quartier);
     }
+
     /**
      * Get id
      * @return int
@@ -599,6 +600,8 @@ class PointVente
      */
     public function getSecteur()
     {
+     if ($this->secteur==null) 
+         $this->secteur= new Secteur($user,$this->quartier);
      return $this->secteur;
     }
     /**
