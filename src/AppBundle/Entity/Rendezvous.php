@@ -36,11 +36,6 @@ class Rendezvous
      */
     private $date;
 
-    private $passdays;
-
-    private $previsions;
-
-     private $produitnonvendu;
 
     /**
      * @var int
@@ -73,13 +68,21 @@ class Rendezvous
    */
     private $pointVente;
 
-    private $stored=true;
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="persist", type="boolean", nullable=true)
      */
     private $persist;
+
+    private $stored=true;
+
+    private $passdays;
+
+    private $previsions;
+
+     private $produitnonvendu;
+
 
     /**
      * Constructor

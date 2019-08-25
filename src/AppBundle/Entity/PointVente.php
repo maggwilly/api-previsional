@@ -142,9 +142,7 @@ class PointVente
     private $weekText;
 
  /**
-   *@ORM\OneToMany(
-   targetEntity="AppBundle\Entity\Rendezvous", 
-   mappedBy="pointVente")
+   *@ORM\OneToMany(targetEntity="AppBundle\Entity\Rendezvous",  mappedBy="pointVente" , cascade={"persist"})
    */
     private $rendezvouss;
     /**
