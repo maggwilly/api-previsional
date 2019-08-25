@@ -180,13 +180,13 @@ class PointVente
         $this->addAgent($user);
     }
 
+    
 /**
 * @ORM\PrePersist()
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
   }
-
 
     /**
      * Get id
@@ -660,9 +660,7 @@ class PointVente
      */
     public function getSecteur()
     {
-        if($this->secteur) 
-            return $this->secteur;
-      return new Secteur(null,$this->getQuartier());
+     return $this->secteur;
     }
 
     /**
