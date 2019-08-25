@@ -185,17 +185,18 @@ class PointVente
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
   }
+    
+
     /** 
     *@ORM\PostLoad()
      */
     public function doStuffOnPostLoad()
     {
-     if(!$this->secteur)
+     if(!$this->secteur==null)
         $this->secteur=new Secteur($this->quartier);
     }
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
