@@ -118,9 +118,15 @@ class PointVenteController extends Controller
 
 public function makeUp(Request $request,$setId=true){
     $pointVente= $request->request->all();
-      if (!$setId) {
+    unset ($pointVente['id']);
+      if (!$setId) 
          unset ($pointVente['id']);
-      }
+     if(array_key_exists('rendezvous', $pointVente))
+        unset ($pointVente['rendezvous']);
+     if(array_key_exists('lastCommende', $pointVente))
+        unset ($pointVente['lastCommende']);
+     if(array_key_exists('firstCommende', $pointVente))
+        unset ($pointVente['firstCommende']);      
     return $pointVente;
 }
 

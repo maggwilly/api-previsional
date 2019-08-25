@@ -141,7 +141,12 @@ class PointVente
      */
     private $weekText;
 
-
+ /**
+   *@ORM\OneToMany(
+   targetEntity="AppBundle\Entity\Rendezvous", 
+   mappedBy="pointVente")
+   */
+    private $rendezvouss;
     /**
      * @var int
      *
@@ -158,12 +163,7 @@ class PointVente
     private $stored;
     // 
     private $visited;
- /**
-   *@ORM\OneToMany(
-   targetEntity="AppBundle\Entity\Rendezvous", 
-   mappedBy="pointVente")
-   */
-    private $rendezvouss;
+
   // last redv
     private $rendezvous;
 
