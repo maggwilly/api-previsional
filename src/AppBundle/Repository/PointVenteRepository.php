@@ -22,40 +22,40 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
         }else
             $qb->where($qb->expr()->in('p.id', $this->getPointVenteIds($user))); 
         
-          if(array_key_exists('user',$alls)){
+          if($alls&&array_key_exists('user',$alls)){
              $qb->andWhere('p.createdBy=:user')->setParameter('user', $alls['user']);
             }
 
-         if(array_key_exists('secteur',$alls)){
+         if($alls&&array_key_exists('secteur',$alls)){
              $qb->andWhere('p.secteur=:secteur')
              ->setParameter('secteur',$alls['secteur']);
             } 
-         if(array_key_exists('type',$alls)){
+         if($alls&&array_key_exists('type',$alls)){
              $qb->andWhere('p.type=:type')
              ->setParameter('type',$alls['type']);
             } 
-         if(array_key_exists('ville',$alls)){
+         if($alls&&array_key_exists('ville',$alls)){
              $qb->andWhere('p.ville=:ville')
              ->setParameter('ville',$alls['ville']);
             }
-         if(array_key_exists('quartier',$alls)){
+         if($alls&&array_key_exists('quartier',$alls)){
              $qb->andWhere('p.quartier=:quartier')
              ->setParameter('quartier',$alls['quartier']);
             }
         if(!$ignoredate){
-         if(array_key_exists('afterdate',$alls)){
+         if($alls&&array_key_exists('afterdate',$alls)){
              $qb->andWhere('p.date>=:afterdate')
              ->setParameter('afterdate',new \DateTime($alls['afterdate']));
             }
-         if(array_key_exists('beforedate',$alls)){
+         if($alls&&array_key_exists('beforedate',$alls)){
              $qb->andWhere('p.date<=:beforedate')
              ->setParameter('beforedate',new \DateTime($alls['beforedate']));
             } 
-         if(array_key_exists('aftervisitedate',$alls)){
+         if($alls&&array_key_exists('aftervisitedate',$alls)){
              $qb->andWhere('c.date>=:aftervisitedate or c.date is null')
              ->setParameter('aftervisitedate',new \DateTime($alls['aftervisitedate']));
             }
-         if(array_key_exists('beforevisitedate',$alls)){
+         if($alls&&array_key_exists('beforevisitedate',$alls)){
              $qb->andWhere('c.date<=:beforevisitedate or c.date is null')
              ->setParameter('beforevisitedate',new \DateTime($alls['beforevisitedate']));
             } 

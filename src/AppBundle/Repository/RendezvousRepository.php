@@ -19,15 +19,15 @@ class RendezvousRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('r.pointVente=:pointVente')
              ->setParameter('pointVente', $pointVente);
             } 
-          if(array_key_exists('doneBy',$alls)&&$alls['doneBy']){
+          if($alls&&array_key_exists('doneBy',$alls)&&$alls['doneBy']){
              $user= $this->_em->getRepository('AppBundle:User')->find($alls['doneBy']);
               $qb->andWhere('r.user=:doneBy')->setParameter('doneBy', $user);
             }  
-         if(array_key_exists('afterdate',$alls)){
+         if($alls&&array_key_exists('afterdate',$alls)){
              $qb->andWhere('r.dateat>=:afterdate')
              ->setParameter('afterdate',new \DateTime($alls['afterdate']));
             }
-         if(array_key_exists('beforedate',$alls)){
+         if($alls&&array_key_exists('beforedate',$alls)){
              $qb->andWhere('r.dateat<=:beforedate')
              ->setParameter('beforedate',new \DateTime($alls['beforedate']));
             }                      
@@ -43,11 +43,11 @@ class RendezvousRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.pointVente=:pointVente')
              ->setParameter('pointVente', $pointVente);
             }
-         if(array_key_exists('afterdate',$alls)){
+         if($alls&&array_key_exists('afterdate',$alls)){
              $qb->andWhere('c.date>=:afterdate')
              ->setParameter('afterdate',new \DateTime($alls['afterdate']));
             }
-         if(array_key_exists('beforedate',$alls)){
+         if($alls&&array_key_exists('beforedate',$alls)){
              $qb->andWhere('c.date<=:beforedate')
              ->setParameter('beforedate',new \DateTime($alls['beforedate']));
             }           
