@@ -158,7 +158,7 @@ class PointVente
      //the first commende also called engagement
     private $firstCommende;
     //is it stored in db
-    private $stored;
+    private $stored=true;
     // 
     private $visited;
 

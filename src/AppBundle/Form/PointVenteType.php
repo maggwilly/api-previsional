@@ -35,7 +35,7 @@ class PointVenteType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\PointVente',
-           'csrf_protection' => false,
+             'csrf_protection' => false,
             'allow_extra_fields' => true
         ));
     }
