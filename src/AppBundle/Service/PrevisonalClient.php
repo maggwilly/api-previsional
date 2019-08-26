@@ -105,15 +105,14 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
     }
 
 
-    public function getPrevisions(Rendezvous $rendezvous=null)
+    public function getPrevisions(PointVente $pointVente,$endDate=null)
     {
        $lprevisions=[];
        if($rendezvous==null)
          return [] ;
-       $pointVente=$rendezvous->getPointVente();
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
       foreach ($produits as $produit) {
-         $previsions[]= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$rendezvous->getDateat());
+         $previsions[]= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);
       }
         return $previsions;
     }
