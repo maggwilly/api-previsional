@@ -184,10 +184,10 @@ class PointVente
 */
  public function doStuffOnPersist(){
     $this->week =$this->date->format("W");
-    if($this->secteur==null&&$user->getSecteur()!=null)
+  /*  if($this->secteur==null&&$user->getSecteur()!=null)
         $this->secteur=$user->getSecteur();
       elseif ($this->secteur==null) 
-         $this->secteur= new Secteur($this->user,$this->quartier);
+         $this->secteur= new Secteur($this->user,$this->quartier);*/
   }
     
 
