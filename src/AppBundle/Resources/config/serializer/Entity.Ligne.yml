@@ -9,5 +9,7 @@ AppBundle\Entity\Ligne:
             groups: ['ligne','rendezvous','full','last']
         stock:
             groups: ['ligne','rendezvous','full','last']
+        pu:
+            groups: ['ligne','rendezvous','full','last'            
         commende:
             groups: ['last']              
