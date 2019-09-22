@@ -1,6 +1,6 @@
 parameters:
     database_driver: pdo_pgsql 
-    database_host: ec2-174-129-27-3.compute-1.amazonaws.com
+    database_host: ec2-107-22-222-161.compute-1.amazonaws.com
     database_port: 5432
     database_name: dc8irji6c09j5n
     database_user: lkcjobjfvkqsco
