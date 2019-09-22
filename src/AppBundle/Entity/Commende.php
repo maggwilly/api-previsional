@@ -24,7 +24,7 @@ class Commende
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datesave", type="date")
+     * @ORM\Column(name="datesave", type="datetime")
      */
     private $date;
 
