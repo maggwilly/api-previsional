@@ -10,6 +10,6 @@ AppBundle\Entity\Ligne:
         stock:
             groups: ['ligne','rendezvous','full','last']
         pu:
-            groups: ['ligne','rendezvous','full','last'            
+          groups: ['ligne','rendezvous','full','last' ]           
         commende:
-            groups: ['last']              
+           groups:  ['last']              
