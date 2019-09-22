@@ -2,9 +2,9 @@ parameters:
     database_driver: pdo_pgsql 
     database_host: ec2-174-129-27-3.compute-1.amazonaws.com
     database_port: 5432
-    database_name: dc8irji6c09j5n
-    database_user: lkcjobjfvkqsco
-    database_password: b1977d9478ba81fb730391e34ab33430f07023f3d8b1a36e0c9d4ca577ce22f9
+    database_name: dc8irji6c09j5n  #db
+    database_user: lkcjobjfvkqsco  #user
+    database_password: b1977d9478ba81fb730391e34ab33430f07023f3d8b1a36e0c9d4ca577ce22f9 #pswd
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
