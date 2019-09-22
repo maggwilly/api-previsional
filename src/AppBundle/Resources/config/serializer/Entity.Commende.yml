@@ -28,5 +28,4 @@ AppBundle\Entity\Commende:
         date:
             groups: ['map','commende','full','pointvente','last']
             expose: true
-            type: DateTime<'Y-m-d'> 
               
