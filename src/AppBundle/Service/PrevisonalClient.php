@@ -62,21 +62,23 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
         $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
         foreach ($produits as $produit) {
         $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit,$endDate);
-         if((is_null($rendezvous)
-          ||($lastCommende!=null&&$lastCommende->getDate()>=$rendezvous->getDateat()))
-          ||!$rendezvous->getPersist()&&!is_null($previsions['next_cmd_date'])&&($previsions['next_cmd_date']<$rendezvous->getDateat()
-          ||!$rendezvous->getDateat())){
-
-          if((is_null($rendezvous)
-            ||($lastCommende!=null&&$lastCommende->getDate()>=$rendezvous->getDateat()))){
-               $rendezvous=new Rendezvous($previsions['next_cmd_date'],$pointVente,null,false);
-               }
-              if(!$rendezvous->getPersist()&&!is_null($previsions['next_cmd_date'])&&($previsions['next_cmd_date']<$rendezvous->getDateat()
-                ||!$rendezvous->getDateat())) 
-                  
-                  $rendezvous->setDateat($previsions['next_cmd_date']); 
-             }  
-              $rendezvous->addPrevisions($previsions);
+        if(
+           (is_null($rendezvous)
+           ||($lastCommende!=null
+               &&$lastCommende->getDate()>=$rendezvous->getDateat()
+               &&$rendezvous->getStored()))
+            )
+             $rendezvous=new Rendezvous($previsions['next_cmd_date'],$pointVente,null,false);
+        
+        if(
+          !$rendezvous->getPersist()
+          &&!is_null($previsions['next_cmd_date'])
+          &&($previsions['next_cmd_date']<$rendezvous->getDateat()
+          ||!$rendezvous->getDateat())
+          ) 
+             $rendezvous->setDateat($previsions['next_cmd_date']);
+  
+            $rendezvous->addPrevisions($previsions);
            }
            if($rendezvous&&$rendezvous->getDateat()!=null&&!$rendezvous->getStored()){
                 $rendezvous->setStored(true);
@@ -98,8 +100,8 @@ public function __construct(EntityManager $_em,PrevisonalProduit $_provisionalPr
         return $this->findNextRendevous($pointVente,$endDate);
        $produits=$this->_em->getRepository('AppBundle:Produit')->findByUser($pointVente->getUser()->getParent());
         foreach ($produits as $produit) {
-         $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit);
-         $rendezvous->addPrevisions($previsions);
+                 $previsions= $this->_provisionalProduit->findPrevisions($pointVente,$produit);
+          $rendezvous->addPrevisions($previsions);
       }
         return $rendezvous;
     }
