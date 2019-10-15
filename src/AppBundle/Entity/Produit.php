@@ -87,6 +87,22 @@ class Produit
         $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
     }
+
+
+
+    public function getControl()
+    {
+        return $this->control;
+    }
+    
+
+    public function setControl($control)
+    {
+        $this->control=$control;
+        return $this;
+    }
+
+
     /**
      * Get id
      *
@@ -169,21 +185,7 @@ class Produit
     }
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function geControl()
-    {
-        return $this->control;
-    }
-    
-    public function setControl($control)
-    {
-        $this->control=$control;
-        return $this;
-    }
+
 
     /**
      * Get id
