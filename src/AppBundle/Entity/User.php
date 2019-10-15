@@ -668,7 +668,7 @@ class User extends BaseUser
     {
         if($this->isMe())
             return $this;  
-        return $parent;
+        return $this->parent;
     }
 
 
