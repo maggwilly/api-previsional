@@ -124,18 +124,7 @@ class Produit
         return $this;
     }
 
-    public function setControl($control)
-    {
-        $this->control = $control;
 
-        return $this;
-    }
-
-        public function getControl()
-    {
-         
-        return $this->control;
-    }
 
     public function setDescription($description)
     {
