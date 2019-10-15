@@ -28,4 +28,4 @@ AppBundle\Entity\User:
         secteur:
             groups: ['user']
         parent:
-            groups: ['user','parent']
+            groups: ['parent']

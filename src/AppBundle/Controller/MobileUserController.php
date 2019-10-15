@@ -160,12 +160,7 @@ class MobileUserController extends Controller
     {
 
         $user=$this->getUser();
-        $prent=$user->getParent();
-        $prent->setParent(null);
-      return  array(
-        'id' =>$user->getId(),
-        'parent' => $prent,
-        'receiveRequests' =>$user->getReceiveRequests());;  
+      return  array('id' =>$user->getId(),'parent' =>$user->getParent() ,'receiveRequests' =>$user->getReceiveRequests());;  
     }
 
 
