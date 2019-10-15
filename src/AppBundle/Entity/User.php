@@ -663,16 +663,12 @@ class User extends BaseUser
         return $this;
     }
 
-    /**
-     * Get parent
-     *
-     * @return \AppBundle\Entity\User
-     */
+
     public function getParent()
     {
         if($this->isMe())
             return $this;  
-        return $this->getParent();
+        return $parent;
     }
 
 
@@ -680,7 +676,7 @@ class User extends BaseUser
      if (is_null($this->parent)) {
         return true;
      }
-    return ($this->parent->getId()== $this->id);
+    return ($this->parent->getId()==$this->id);
    }
     /**
      * Add pointVente
