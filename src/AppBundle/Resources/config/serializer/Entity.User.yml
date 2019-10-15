@@ -26,6 +26,6 @@ AppBundle\Entity\User:
         receiveRequests:
             groups: ['parent']
         secteur:
-            groups: ['user',]
+            groups: ['user']
         parent:
-            groups: ['parent']
+            groups: ['user','parent']
