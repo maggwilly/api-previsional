@@ -60,7 +60,7 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
              ->setParameter('beforevisitedate',new \DateTime($alls['beforevisitedate']));
             } 
         }   
-               //$qb->andWhere($qb->expr()->notIn('p.id', $keys));           
+               $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
           return   $qb->distinct()->getQuery()->getResult() ; 
   }
 
@@ -173,8 +173,8 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
 
     public function getPointVenteIds(User $user=null){
       if(is_null($user))
-        return [0];
-        $ids= array();
+        return [""];
+        $ids= [""];
      foreach ($user->getPointsPassages() as $pointVente) {
          $ids[]=$pointVente->getId();
        }
