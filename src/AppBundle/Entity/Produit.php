@@ -83,7 +83,7 @@ class Produit
    
 
    public function __construct(User $user=null){
-         $this->date=new \DateTime();
+        $this->date=new \DateTime();
         $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user=$user->getParent();
     }
@@ -123,13 +123,20 @@ class Produit
 
         return $this;
     }
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Rapport
-     */
+
+    public function setControl($control)
+    {
+        $this->control = $control;
+
+        return $this;
+    }
+
+        public function getControl()
+    {
+         
+        return $this->control;
+    }
+
     public function setDescription($description)
     {
         $this->description = $description;
