@@ -60,7 +60,7 @@ class PointVenteRepository extends \Doctrine\ORM\EntityRepository
              ->setParameter('beforevisitedate',new \DateTime($alls['beforevisitedate']));
             } 
         }   
-               $qb->andWhere($qb->expr()->notIn('p.id', $keys));           
+               //$qb->andWhere($qb->expr()->notIn('p.id', $keys));           
           return   $qb->distinct()->getQuery()->getResult() ; 
   }
 
